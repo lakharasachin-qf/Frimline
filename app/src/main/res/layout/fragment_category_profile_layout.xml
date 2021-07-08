@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorScreenBackground"
+        tools:context=".fragments.LeftFragment">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_screen_bottom_background"
+            />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/coverSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_200sdp"
+                    android:background="@color/orange">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/category_profile_cover" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:background="@drawable/shape_background_navigation_drawer"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/ic_drawer_menu" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/_72sdp"
+                    android:layout_height="@dimen/_220sdp"
+                    android:layout_below="@+id/coverSection"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/category_profile_right_cover" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_165sdp"
+                    android:layout_below="@+id/coverSection"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginTop="-70dp"
+                    android:layout_marginEnd="30pt"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_for_my_account_active"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_15sdp">
+
+                        <LinearLayout
+                            android:id="@+id/firstSection"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/proxima_nova_black"
+                                android:includeFontPadding="false"
+                                android:text="Skin "
+                                android:textColor="@color/colorGreen"
+                                android:textSize="@dimen/_30sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:fontFamily="@font/proxima_nova_regular"
+                                android:includeFontPadding="false"
+                                android:text="Care"
+                                android:textColor="@color/colorGreen"
+                                android:textSize="@dimen/_30sdp" />
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/underLineRight"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="3dp"
+                            android:layout_below="@+id/firstSection"
+                            android:layout_marginTop="@dimen/_3sdp"
+
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:background="@drawable/shape_underline"
+                            android:backgroundTint="@color/colorGreen" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/underLineRight"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:includeFontPadding="false"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,"
+                            android:textSize="@dimen/_11sdp" />
+
+                        <View
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginEnd="-30dp"
+                            android:layout_marginBottom="-10dp"
+                            android:alpha="0.3"
+                            android:background="@drawable/shape_shape_for_profile_fragment" />
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/header"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_for_my_account"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_15sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_15sdp">
+
+
+                        <TextView
+                            android:id="@+id/descriptionHeading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:text="Description"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_18sdp" />
+
+
+                        <View
+                            android:id="@+id/underLineRightDesc"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="3dp"
+                            android:layout_below="@+id/descriptionHeading"
+                            android:layout_marginTop="@dimen/_3sdp"
+
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:background="@drawable/shape_underline"
+                            android:backgroundTint="@color/colorGreen" />
+
+
+                        <TextView
+                            android:id="@+id/descTXt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/underLineRightDesc"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:includeFontPadding="false"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n\nEprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.\n\nSunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat. Duis aute irure dolor."
+                            android:textSize="@dimen/_11sdp" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/descTXt"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_gravity="end"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:background="@drawable/shape_button_second"
+                            android:padding="@dimen/_7sdp">
+
+                            <TextView
+                                android:id="@+id/textBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_5sdp"
+                                android:text="Go to Store"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_13sdp" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_7sdp"
+                                android:layout_toEndOf="@+id/textBtn"
+                                android:gravity="center_vertical"
+                                android:padding="@dimen/_2sdp"
+                                android:src="@drawable/ic_right_arrow"
+                                app:tint="@color/white" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

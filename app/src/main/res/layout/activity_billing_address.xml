@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/colorScreenBackground"
+    android:theme="@style/Theme.Frimline.GREENSHADE"
+    android:layout_height="match_parent"
+    tools:context=".screens.cart.BillingAddressActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_left_arrow_black" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:includeFontPadding="false"
+                android:textColor="@color/colorToolbarHeader"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/_20sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:text="Checkout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <ImageView
+        android:layout_alignParentEnd="true"
+        app:tint="@color/blue"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_screen_bottom_background"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    <ScrollView
+        android:layout_below="@+id/toolbar"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:includeFontPadding="false"
+                android:textColor="@color/colorToolbarHeader"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:text="Billing Address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_7sdp"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/_4sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="@dimen/_15sdp"
+                    android:background="@drawable/shape_billing_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:paddingEnd="@dimen/_7sdp"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                style="@style/EditTextTitle"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="First Name"/>
+
+                            <LinearLayout
+                                android:id="@+id/nameEdtLayout"
+                                style="@style/EditTextOverLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <EditText
+                                    android:id="@+id/nameEdt"
+                                    style="@style/EditBoxWithoutIcons"
+                                    android:background="@null"
+                                    android:hint="First Name"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:paddingStart="@dimen/_7sdp"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                style="@style/EditTextTitle"
+
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Last Name" />
+                            <LinearLayout
+                                android:id="@+id/lnameEdtLayout"
+                                style="@style/EditTextOverLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <EditText
+                                    style="@style/EditBoxWithoutIcons"
+                                    android:id="@+id/lnameEdt"
+                                    android:background="@null"
+                                    android:hint="Last Name"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/EditTextTitle"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Company Name (optional)"/>
+                    <RelativeLayout
+                        android:id="@+id/companyEdtLayout"
+                        style="@style/EditTextOverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/companyEdt"
+                            style="@style/EditBoxWithoutIcons"
+                            android:background="@null"
+                            android:hint="First Name"/>
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_dropdown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+
+                    <TextView
+                        style="@style/EditTextTitle"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Country / Region"/>
+                    <LinearLayout
+                        android:id="@+id/countryEdtLayout"
+                        style="@style/EditTextOverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/countryEdt"
+                            android:background="@null"
+                            style="@style/EditBoxWithoutIcons"
+                            android:hint="Country"/>
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/EditTextTitle"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Street Address" />
+                    <LinearLayout
+                        android:id="@+id/streetEdtLayout"
+                        style="@style/EditTextOverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/streetEdt"
+                            style="@style/EditBoxWithoutIcons"
+                            android:background="@null"
+                            android:hint="Street" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/EditTextTitle"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Town / City"/>
+                    <LinearLayout
+                        android:id="@+id/cityEdtLayout"
+                        style="@style/EditTextOverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/cityEdt"
+                            style="@style/EditBoxWithoutIcons"
+                            android:background="@null"
+                            android:hint="Town / City" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/EditTextTitle"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Postcode / ZIP"/>
+                    <LinearLayout
+                        android:id="@+id/postalCodeEdtLayout"
+                        style="@style/EditTextOverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/postalCodeEdt"
+                            style="@style/EditBoxWithoutIcons"
+                            android:background="@null"
+                            android:hint="Postcode / ZIP" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        style="@style/EditTextTitle"
+                        android:text="Phone No"  />
+                    <LinearLayout
+                        android:id="@+id/phoneNoEdtLayout"
+                        style="@style/EditTextOverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/phoneNoEdt"
+                            style="@style/EditBoxWithoutIcons"
+                            android:background="@null"
+                            android:hint="Phone no." />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/EditTextTitle"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Email Address"/>
+                    <LinearLayout
+                        android:id="@+id/emailEdtLayout"
+                        style="@style/EditTextOverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/emailEdt"
+                            style="@style/EditBoxWithoutIcons"
+                            android:textCursorDrawable="@drawable/shape_cursor_custom"
+                            android:background="@null"
+                            android:hint="Email Id" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_25sdp"
+                        android:background="@drawable/shape_button"
+                        android:backgroundTint="@color/colorGreen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textSize="@dimen/_15sdp"
+                            android:padding="@dimen/_11sdp"
+                            android:includeFontPadding="false"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/proxima_nova_extrabold"
+                            android:textColor="@color/white"
+                            android:text="Next"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
+</layout>
