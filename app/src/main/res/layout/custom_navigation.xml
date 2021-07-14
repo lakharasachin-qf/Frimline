@@ -54,6 +54,7 @@ android:background="@color/colorScreenBackground"
                     android:src="@drawable/ic_logo_green" />
 
                 <ImageView
+                    android:id="@+id/searchAction"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_alignParentEnd="true"
@@ -84,6 +85,7 @@ android:background="@color/colorScreenBackground"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:layout_above="@+id/payWithBanks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -91,10 +93,11 @@ android:background="@color/colorScreenBackground"
                 <include layout="@layout/nav_header_main" />
 
                 <LinearLayout
+                    android:background="#F9F9F9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_15sdp"
+                    android:paddingBottom="@dimen/_15sdp"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
@@ -181,6 +184,11 @@ android:background="@color/colorScreenBackground"
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#F1F1F1" />
+
                 <ExpandableListView
                     android:id="@+id/expandableListView"
                     android:layout_width="match_parent"
@@ -191,6 +199,15 @@ android:background="@color/colorScreenBackground"
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/payWithBanks"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:src="@drawable/paywith_banks" />
         </RelativeLayout>
     </com.google.android.material.navigation.NavigationView>
 

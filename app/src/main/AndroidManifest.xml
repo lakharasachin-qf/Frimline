@@ -4,7 +4,6 @@
     package="com.app.frimline">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".Common.FRIMLINE"
@@ -18,31 +17,39 @@
         android:theme="@style/Theme.Frimline"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".MyCartActivity"></activity>
-        <activity android:name=".ProductDetailActivity" />
-        <activity android:name=".screens.orders.OrderHistoryViewActivity" />
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Theme.Frimline.NoActionBar" />
-        <activity android:name=".AddressesActivity" />
-        <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".CategoryLandingActivityDemo" />
-        <activity android:name=".screens.cart.CheckoutAddressActivity" />
-        <activity android:name=".screens.cart.BillingAddressActivity" />
-        <activity android:name=".CategoryHomeActivity" />
-        <activity android:name=".CategoryRootActivity" />
-        <activity android:name=".CategoryLandingActivity" />
+
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name=".screens.OtpVerificationActivity" />
+        <activity android:name=".screens.MobileVerificationActivity" />
+        <activity android:name=".screens.BlogDetailsActivity" />
+        <activity android:name=".screens.SearchActivity" />
+        <activity android:name=".screens.MyCartActivity" />
+        <activity android:name=".screens.ProductDetailActivity" />
+        <activity android:name=".screens.OrderHistoryViewActivity" />
+        <activity
+            android:name=".screens.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.Design.NoActionBar" />
+        <activity android:name=".screens.AddressesActivity" />
+        <activity android:name=".screens.ChangePasswordActivity" />
+        <activity android:name=".screens.EditProfileActivity" />
+        <activity android:name=".screens.CategoryLandingActivityDemo" />
+        <activity android:name=".screens.CheckoutAddressActivity" />
+        <activity android:name=".screens.BillingAddressActivity" />
+        <activity android:name=".screens.CategoryHomeActivity" />
+        <activity android:name=".screens.CategoryRootActivity" />
+        <activity android:name=".screens.CategoryLandingActivity" />
+
     </application>
 
 </manifest>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
+    android:layout_marginStart="@dimen/_12sdp"
+    android:layout_marginEnd="@dimen/_12sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/_50sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_billing_border"
+            android:paddingEnd="@dimen/_60sdp"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_3sdp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxinova_semi_bold"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="Oral Health: An Investment In Your Overall Health"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="3dp"
+                android:layout_below="@+id/title"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/shape_underline"
+                android:backgroundTint="@color/colorGreen" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:includeFontPadding="false"
+                android:maxLines="3"
+                android:text="Your oral health is more important than
+you might realize! It impacts various
+aspects of your lives..."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/exploreMore"
+
+                style="@style/ChipStyle"
+                android:shadowColor="@color/colorGreen"
+                android:elevation="@dimen/_2sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_below="@id/description"
+                android:text="Explore More"
+                app:chipBackgroundColor="@color/colorGreen"
+                android:textColor="@color/white"
+                app:chipEndPadding="@dimen/_7sdp"
+                app:chipStrokeColor="@color/colorGreen"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:textAppearance="@style/ChipFontStyle"
+                android:layout_marginBottom="0dp"
+                android:textStyle="bold"
+                android:textSize="@dimen/_9sdp"
+                app:chipStartPadding="@dimen/_7sdp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="@dimen/_110sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_7sdp"
+        app:cardUseCompatPadding="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/product_place" />
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

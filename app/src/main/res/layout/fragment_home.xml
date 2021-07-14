@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <com.facebook.shimmer.ShimmerFrameLayout
-
+android:visibility="gone"
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +103,16 @@
 
             </RelativeLayout>
 
+            <include
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/include_product_section_layout"/>
+
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="2">
@@ -414,6 +423,8 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="@dimen/_7sdp"
@@ -477,6 +488,9 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
                 android:id="@+id/ourProductSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -492,8 +506,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
                     android:fontFamily="@font/proxima_nova_bold"
                     android:includeFontPadding="false"
                     android:text="Trending Stories"
@@ -503,7 +517,7 @@
                 <View
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="3dp"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/shape_underline"
@@ -512,6 +526,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/trendingSectionRecycler"
                     android:layout_width="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_10sdp" />
             </LinearLayout>
@@ -519,9 +536,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_7sdp"
-                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
                 android:layout_marginBottom="@dimen/_7sdp"
                 app:cardCornerRadius="@dimen/_7sdp"
                 app:cardElevation="@dimen/_2sdp"
@@ -606,7 +623,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/proxima_nova_bold"
                     android:includeFontPadding="false"
@@ -617,7 +634,7 @@
                 <View
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="3dp"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/shape_underline"
@@ -625,6 +642,9 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/topRattingProductRecycler"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_10sdp" />

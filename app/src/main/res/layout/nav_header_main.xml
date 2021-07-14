@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar_round_corner"
     android:gravity="bottom"
+    android:id="@+id/profileView"
     android:orientation="vertical"
 
     android:theme="@style/ThemeOverlay.AppCompat.Dark">

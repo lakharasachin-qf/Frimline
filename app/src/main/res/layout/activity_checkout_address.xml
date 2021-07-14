@@ -5,40 +5,42 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/colorScreenBackground"
         android:orientation="vertical"
         tools:context=".screens.cart.CheckoutAddressActivity">
-
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_Navigation"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:background="@color/white"
-            android:backgroundTint="@android:color/transparent">
+            android:layout_height="wrap_content"
+            android:background="@color/colorScreenBackground"
+            app:layout_collapseMode="pin">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_26sdp">
 
                 <ImageView
-                    android:layout_width="@dimen/_22sdp"
-                    android:layout_height="@dimen/_22sdp"
-                    android:layout_centerVertical="true"
+                    android:id="@+id/backPress"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:src="@drawable/ic_left_arrow_black" />
 
                 <TextView
+                    android:id="@+id/titleTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
                     android:fontFamily="@font/proxima_nova_bold"
-                    android:includeFontPadding="false"
                     android:text="Checkout"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_20sdp" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_17sdp" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
+
 
         <ImageView
             android:layout_width="wrap_content"
@@ -46,12 +48,12 @@
             android:layout_alignParentEnd="true"
             android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background"
-            app:tint="@color/blue" />
+            app:tint="@color/colorGreen" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/toolbar_Navigation"
             android:scrollbars="none">
 
             <LinearLayout
@@ -60,10 +62,11 @@
                 android:orientation="vertical">
 
                 <CheckBox
+                    android:id="@+id/shipToDiffCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_15sdp"
-                    android:buttonTint="@color/orange"
+                    android:buttonTint="@color/colorGreen"
                     android:fontFamily="@font/proxima_nova_bold"
                     android:includeFontPadding="false"
                     android:text="Ship to a different Address"
@@ -82,6 +85,7 @@
                     app:cardUseCompatPadding="true">
 
                     <LinearLayout
+                        android:animateLayoutChanges="true"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/shape_billing_border"
@@ -130,6 +134,8 @@
 
 
                         <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/otherInfo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
@@ -354,7 +360,7 @@
                             android:layout_marginTop="@dimen/_25sdp"
                             android:layout_marginBottom="@dimen/_20sdp"
                             android:background="@drawable/shape_button"
-                            android:backgroundTint="@color/blue">
+                            android:backgroundTint="@color/colorGreen">
 
                             <TextView
                                 android:layout_width="wrap_content"

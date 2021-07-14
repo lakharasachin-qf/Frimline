@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
-    tools:context=".HomeActivity">
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto" >
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_marginTop="@dimen/_21sdp"
@@ -96,16 +95,16 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/banner" />
 
-                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="@dimen/_5sdp"
-                            app:dotsColor="#B7FFFFFF"
-                            app:dotsSize="@dimen/_7sdp"
-                            app:dotsSpacing="@dimen/_2sdp"
-                            app:selectedDotColor="@color/colorGreen" />
+<!--                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_alignParentBottom="true"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                            app:dotsColor="#B7FFFFFF"-->
+<!--                            app:dotsSize="@dimen/_7sdp"-->
+<!--                            app:dotsSpacing="@dimen/_2sdp"-->
+<!--                            app:selectedDotColor="@color/colorGreen" />-->
 
                         <LinearLayout
                             android:layout_width="match_parent"

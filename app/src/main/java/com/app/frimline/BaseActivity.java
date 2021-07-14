@@ -3,7 +3,6 @@ package com.app.frimline;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -19,6 +18,7 @@ import com.app.frimline.Common.NetworkChangeReceiver;
 import com.app.frimline.Common.PREF;
 import com.google.gson.Gson;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -29,7 +29,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private static Dialog noconnectionAlertDialog;
     public Activity act;
     public PREF prefManager;
-    FRIMLINE frimline;
+    public FRIMLINE frimline;
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
 
@@ -38,7 +38,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
 
     private static void showNoConnectionDialog() {
         if (!noconnectionAlertDialog.isShowing()) {
-            noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
+          //  noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
             noconnectionAlertDialog.setCancelable(false);
             noconnectionAlertDialog.show();
         }
@@ -58,7 +58,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = this;
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

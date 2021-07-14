@@ -6,14 +6,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
 import androidx.core.content.ContextCompat;
-
 
 import com.app.frimline.R;
 

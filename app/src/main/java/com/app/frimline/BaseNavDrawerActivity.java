@@ -31,9 +31,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import carbon.widget.LinearLayout;
-
-public class BaseNavDrawerActivity extends AppCompatActivity implements Observer , NavigationView.OnNavigationItemSelectedListener{
+public class BaseNavDrawerActivity extends AppCompatActivity implements Observer, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = BaseNavDrawerActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
     public Activity act;
@@ -42,6 +40,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
     Toolbar toolbar;
+
     public BaseNavDrawerActivity() {
     }
 
@@ -114,7 +113,6 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
                 }
             }
         });
-
 
 
     }

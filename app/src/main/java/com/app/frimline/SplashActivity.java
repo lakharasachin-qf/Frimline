@@ -9,6 +9,8 @@ import android.os.Handler;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.databinding.ActivitySplashBinding;
+import com.app.frimline.fragments.CategoryRootFragment;
+import com.app.frimline.screens.CategoryRootActivity;
 
 public class SplashActivity extends BaseActivity {
     private AnimatorSet animatorSet1;

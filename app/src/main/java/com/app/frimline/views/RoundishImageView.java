@@ -8,7 +8,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-
 import com.app.frimline.R;
 
 public class RoundishImageView extends androidx.appcompat.widget.AppCompatImageView {

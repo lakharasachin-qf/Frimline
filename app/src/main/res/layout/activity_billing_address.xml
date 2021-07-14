@@ -8,47 +8,48 @@
     android:background="@color/colorScreenBackground"
     android:theme="@style/Theme.Frimline.GREENSHADE"
     android:layout_height="match_parent"
-    tools:context=".screens.cart.BillingAddressActivity">
-
+    tools:context=".screens.BillingAddressActivity">
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:backgroundTint="@android:color/transparent"
+        android:id="@+id/toolbar_Navigation"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:background="@color/white">
+        android:layout_height="wrap_content"
+        android:background="@color/colorScreenBackground"
+        app:layout_collapseMode="pin">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_26sdp">
 
             <ImageView
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_centerVertical="true"
+                android:id="@+id/backPress"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:src="@drawable/ic_left_arrow_black" />
 
             <TextView
-                android:layout_centerVertical="true"
-                android:includeFontPadding="false"
-                android:textColor="@color/colorToolbarHeader"
+                android:id="@+id/titleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textSize="@dimen/_20sdp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:text="Checkout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textColor="@color/black"
+                android:textSize="@dimen/_17sdp" />
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <ImageView
         android:layout_alignParentEnd="true"
-        app:tint="@color/blue"
+        app:tint="@color/colorGreen"
         android:scaleType="fitEnd"
         android:src="@drawable/ic_screen_bottom_background"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
     <ScrollView
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolbar_Navigation"
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

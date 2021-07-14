@@ -19,13 +19,16 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
+import com.app.frimline.fragments.BlogsFragment;
 import com.app.frimline.fragments.CategoryProfileFragment;
 import com.app.frimline.fragments.CategoryRootFragment;
-import com.app.frimline.screens.orders.OrderHistoryFragment;
-import com.app.frimline.screens.profile.MyAccountFragment;
-import com.app.frimline.ui.gallery.GalleryFragment;
-import com.app.frimline.ui.home.HomeFragment;
-import com.app.frimline.ui.slideshow.SlideshowFragment;
+import com.app.frimline.fragments.HomeFragment;
+import com.app.frimline.fragments.MyAccountFragment;
+import com.app.frimline.fragments.OrderHistoryFragment;
+import com.app.frimline.fragments.ShopFragment;
+import com.app.frimline.screens.MyCartActivity;
+import com.app.frimline.screens.SearchActivity;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,11 +97,15 @@ public class DrawerMenu {
     TextView titleTxt;
     LinearLayout orderHistoryTab;
     LinearLayout myAccountTab;
-
+    LinearLayout myCartTab;
+    ImageView searchAction;
+    RelativeLayout profileView;
     public void populateExpandableList() {
 
+        profileView = activity.findViewById(R.id.profileView);
         HomePageLayout = activity.findViewById(R.id.HomePageLayout);
-
+        searchAction =activity.findViewById(R.id.searchAction);
+        myCartTab = activity.findViewById(R.id.myCartTab);
         titleTxt = activity.findViewById(R.id.titleTxt);
         myAccountTab = activity.findViewById(R.id.myAccountTab);
         orderHistoryTab = activity.findViewById(R.id.orderHistoryTab);
@@ -120,27 +127,41 @@ public class DrawerMenu {
                                 titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Shop":
-                                fragmentSelected = galleryFragment;
+                                fragmentSelected = shopFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Checkout":
-                                fragmentSelected = slideshowFragment;
+                                fragmentSelected = blogsFragment;
                                 break;
                             case "About us":
-
+                                fragmentSelected = homeFragment;
+                                HomePageLayout.setVisibility(View.VISIBLE);
+                                titleTxt.setVisibility(View.GONE);
                                 break;
 
                             case "Contact us":
-
+                                fragmentSelected = homeFragment;
+                                HomePageLayout.setVisibility(View.VISIBLE);
+                                titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Privacy Policy":
-
+                                fragmentSelected = homeFragment;
+                                HomePageLayout.setVisibility(View.VISIBLE);
+                                titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Shipping Policy":
-
+                                fragmentSelected = homeFragment;
+                                HomePageLayout.setVisibility(View.VISIBLE);
+                                titleTxt.setVisibility(View.GONE);
                                 break;
-
+                            case "Blogs":
+                                fragmentSelected = blogsFragment;
+                                HomePageLayout.setVisibility(View.GONE);
+                                titleTxt.setVisibility(View.VISIBLE);
+                                titleTxt.setText("Blogs");
+                                currentMenuItem = "Blogs";
+                                break;
                         }
                     }
                     currentMenuItem = headerList.get(groupPosition).menuName;
@@ -176,6 +197,33 @@ public class DrawerMenu {
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
+        myCartTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
+                HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
+            }
+        });
+        searchAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
+                HELPER.SIMPLE_ROUTE(activity, SearchActivity.class);
+            }
+        });
+        profileView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                HomePageLayout.setVisibility(View.GONE);
+                titleTxt.setVisibility(View.VISIBLE);
+                titleTxt.setText("My Account");
+                currentMenuItem = "Account";
+                Fragment fragmentSelected = myAccountFragment;
+                replaceFragment(fragmentSelected);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
 
     }
 
@@ -183,8 +231,8 @@ public class DrawerMenu {
     private AppBarConfiguration mAppBarConfiguration;
     private Fragment fragmentCurrent;
     private HomeFragment homeFragment = new HomeFragment();
-    private GalleryFragment galleryFragment = new GalleryFragment();
-    private SlideshowFragment slideshowFragment = new SlideshowFragment();
+    private ShopFragment shopFragment = new ShopFragment();
+    private BlogsFragment blogsFragment = new BlogsFragment();
     private OrderHistoryFragment orderHistoryFragment = new OrderHistoryFragment();
     private MyAccountFragment myAccountFragment = new MyAccountFragment();
     private CategoryProfileFragment profileFragment = new CategoryProfileFragment();

@@ -11,6 +11,8 @@
 
 
         <ScrollView
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_200sdp"
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -82,91 +84,91 @@
                         </LinearLayout>
                     </RelativeLayout>
 
+
                 </androidx.cardview.widget.CardView>
 
-                <carbon.widget.RelativeLayout
-                    android:id="@+id/slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+<!--                <carbon.widget.RelativeLayout-->
+<!--                    android:id="@+id/slider"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/_10sdp"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:visibility="gone">-->
 
-                    <carbon.widget.LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_6sdp"
-                        android:background="@color/white"
-                        android:elevation="0dp" />
+<!--                    <carbon.widget.LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/_6sdp"-->
+<!--                        android:background="@color/white"-->
+<!--                        android:elevation="0dp" />-->
 
-                    <carbon.widget.RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_125sdp"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:layout_marginBottom="@dimen/_105sdp"
-                        android:background="#FFFFFF"
-                        android:gravity="center_vertical"
-                        app:carbon_elevation="15dp"
-                        app:carbon_elevationShadowColor="#E8000000"
-                        app:carbon_elevationSpotShadowColor="#E8000000">
+<!--                    <carbon.widget.RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/_125sdp"-->
+<!--                        android:layout_marginTop="@dimen/_3sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_105sdp"-->
+<!--                        android:background="#FFFFFF"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        app:carbon_elevation="15dp"-->
+<!--                        app:carbon_elevationShadowColor="#E8000000"-->
+<!--                        app:carbon_elevationSpotShadowColor="#E8000000">-->
 
-                        <carbon.widget.ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:layout_marginBottom="@dimen/_3sdp"
-                            android:layout_weight="1"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/banner" />
+<!--                        <carbon.widget.ImageView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_marginTop="@dimen/_3sdp"-->
+<!--                            android:layout_marginBottom="@dimen/_3sdp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:scaleType="centerCrop"-->
+<!--                            android:src="@drawable/banner" />-->
 
-                        <carbon.widget.LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="vertical">
+<!--                        <carbon.widget.LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:orientation="vertical">-->
 
-                            <carbon.widget.TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Yor are about to alive to dive in the world of"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_10sdp"
-                                app:carbon_fontFamily="@font/proxima_nova_bold" />
+<!--                            <carbon.widget.TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Yor are about to alive to dive in the world of"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/_10sdp"-->
+<!--                                app:carbon_fontFamily="@font/proxima_nova_bold" />-->
 
-                            <carbon.widget.TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_extrabold"
-                                android:text="BEHAVIORAL"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_22sdp"
-                                app:carbon_fontFamily="@font/proxima_nova_black" />
+<!--                            <carbon.widget.TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/proxima_nova_extrabold"-->
+<!--                                android:text="BEHAVIORAL"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/_22sdp"-->
+<!--                                app:carbon_fontFamily="@font/proxima_nova_black" />-->
 
-                            <carbon.widget.TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="EVOLUTION"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_12sdp"
-                                app:carbon_fontFamily="@font/proxima_nova_bold" />
-                        </carbon.widget.LinearLayout>
+<!--                            <carbon.widget.TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="EVOLUTION"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/_12sdp"-->
+<!--                                app:carbon_fontFamily="@font/proxima_nova_bold" />-->
+<!--                        </carbon.widget.LinearLayout>-->
 
-                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_10sdp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="@dimen/_8sdp"
-                            app:dotsColor="#FDE3DBD4"
-                            app:dotsSize="@dimen/_6sdp"
-                            app:dotsSpacing="@dimen/_2sdp"
-                            app:selectedDotColor="@color/orange" />
-                    </carbon.widget.RelativeLayout>
+<!--&lt;!&ndash;                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="@dimen/_10sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_alignParentBottom="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_centerHorizontal="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_marginBottom="@dimen/_8sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            app:dotsColor="#FDE3DBD4"&ndash;&gt;-->
+<!--&lt;!&ndash;                            app:dotsSize="@dimen/_6sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            app:dotsSpacing="@dimen/_2sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            app:selectedDotColor="@color/orange" />&ndash;&gt;-->
+<!--                    </carbon.widget.RelativeLayout>-->
 
-                </carbon.widget.RelativeLayout>
-
+<!--                </carbon.widget.RelativeLayout>-->
 
                 <TextView
                     android:id="@+id/headingTxt"
@@ -186,6 +188,7 @@
                     android:layout_below="@+id/headingTxt"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_2sdp"
+                    android:backgroundTint="@color/colorGreen"
                     android:background="@drawable/shape_headline_round_underline" />
 
                 <LinearLayout
@@ -315,115 +318,115 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout4"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_100sdp"
-                    android:background="#F8F1EB"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_10sdp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="3">
-
-
-                        <LinearLayout
-                            android:id="@+id/cat1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_5sdp">
-
-                            <ImageView
-                                android:layout_width="@dimen/_80sdp"
-                                android:layout_height="@dimen/_80sdp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/_5sdp"
-                                android:background="@drawable/shape_layout_image_round_background"
-                                android:elevation="@dimen/_2sdp"
-                                android:padding="@dimen/_3sdp"
-                                android:src="@drawable/category_one" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Loram ipsum"
-                                android:textAlignment="center"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_12sdp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/cat2"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_5sdp">
-
-                            <ImageView
-                                android:layout_width="@dimen/_80sdp"
-                                android:layout_height="@dimen/_80sdp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/_5sdp"
-                                android:background="@drawable/shape_layout_image_round_background"
-                                android:elevation="@dimen/_2sdp"
-                                android:padding="@dimen/_3sdp"
-                                android:src="@drawable/category_one" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Loram ipsum"
-                                android:textAlignment="center"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_12sdp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/cat3"
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_5sdp">
-
-
-                            <ImageView
-                                android:layout_width="@dimen/_80sdp"
-                                android:layout_height="@dimen/_80sdp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/_5sdp"
-                                android:background="@drawable/shape_layout_image_round_background"
-                                android:elevation="@dimen/_2sdp"
-                                android:padding="@dimen/_3sdp"
-                                android:src="@drawable/category_one" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Loram ipsum"
-                                android:textAlignment="center"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_12sdp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </LinearLayout>
-
             </RelativeLayout>
 
 
         </ScrollView>
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="#F2F5ED"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3">
+
+
+                <LinearLayout
+                    android:id="@+id/cat1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/shape_layout_image_round_background"
+                        android:elevation="@dimen/_2sdp"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/category_one" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="Loram ipsum"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cat2"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/shape_layout_image_round_background"
+                        android:elevation="@dimen/_2sdp"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/category_one" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="Loram ipsum"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cat3"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/shape_layout_image_round_background"
+                        android:elevation="@dimen/_2sdp"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/category_one" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="Loram ipsum"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
     </RelativeLayout>
 </layout>
