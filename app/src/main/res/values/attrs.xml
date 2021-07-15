@@ -20,4 +20,18 @@
             <flag name="all" value="15" />
         </attr>
     </declare-styleable>
+
+
+    <declare-styleable name="LOGO">
+        <attr name="border" format="color" />
+        <attr name="inner" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ShadowRelativeLayout">
+        <attr format="color" name="shadow_color"/>
+        <attr format="dimension" name="shadow_radius"/>
+        <attr format="dimension" name="shadow_blur"/>
+        <attr format="dimension" name="shadow_dx"/>
+        <attr format="dimension" name="shadow_dy"/>
+    </declare-styleable>
 </resources>

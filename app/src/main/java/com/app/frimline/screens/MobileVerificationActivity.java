@@ -1,8 +1,12 @@
 package com.app.frimline.screens;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.HELPER;
@@ -23,5 +27,6 @@ public class MobileVerificationActivity extends BaseActivity {
 
             }
         });
+
     }
 }

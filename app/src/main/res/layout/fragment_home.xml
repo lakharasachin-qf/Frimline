@@ -3,12 +3,12 @@
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:shimmer="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:scrollbars="none"
-        xmlns:shimmer="http://schemas.android.com/apk/res-auto"
 
         tools:context=".ui.home.HomeFragment">
 
@@ -16,21 +16,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <com.facebook.shimmer.ShimmerFrameLayout
-android:visibility="gone"
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="vertical"
+                android:visibility="gone"
                 shimmer:shimmer_duration="800">
 
-                <include layout="@layout/shimmer_home_fragment"/>
+                <include layout="@layout/shimmer_home_fragment" />
             </com.facebook.shimmer.ShimmerFrameLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
 
                 <androidx.cardview.widget.CardView
@@ -102,19 +103,19 @@ android:visibility="gone"
                 </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
-
-            <include
-                android:layout_marginTop="@dimen/_7sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoryProductRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/include_product_section_layout"/>
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp" />
+
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:weightSum="2">
 
                 <LinearLayout
@@ -423,10 +424,10 @@ android:visibility="gone"
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 app:cardCornerRadius="@dimen/_7sdp"
                 app:cardElevation="@dimen/_3sdp"
                 app:cardUseCompatPadding="true">
@@ -488,12 +489,12 @@ android:visibility="gone"
             </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:clipToPadding="false"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
                 android:id="@+id/ourProductSection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -526,11 +527,11 @@ android:visibility="gone"
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/trendingSectionRecycler"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:clipToPadding="false"
                     android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp" />
+                    android:paddingEnd="@dimen/_10sdp" />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -642,12 +643,12 @@ android:visibility="gone"
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/topRattingProductRecycler"
-                    android:clipToPadding="false"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp" />
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

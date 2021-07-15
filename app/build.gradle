@@ -100,4 +100,9 @@ dependencies {
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 
     implementation 'com.github.hanihashemi:SlidingPaneLayout:1.0'
+
+
+    //dependencies for vector control
+    implementation 'com.github.devsideal:VectorChildFinder:1.0.0'
+
 }

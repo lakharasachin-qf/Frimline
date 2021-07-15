@@ -30,7 +30,22 @@ public class PREF {
     public String getEMAIL_Id() {
         return pref.getString("email_id", null);
     }
+
     public void setEMAIL_Id(String parameters) {
         pref.edit().putString("email_id", parameters).apply();
+    }
+
+
+    public void setConfiguration(String themeColor,String categoryColor) {
+        pref.edit().putString("themeColor", themeColor).apply();
+        pref.edit().putString("categoryColor", categoryColor).apply();
+    }
+
+    public String getThemeColor() {
+        return pref.getString("themeColor", "#81B533");
+    }
+
+    public String getCategoryColor() {
+        return pref.getString("categoryColor", "#81B533");
     }
 }

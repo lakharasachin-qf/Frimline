@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.app.frimline">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -17,7 +18,7 @@
         android:theme="@style/Theme.Frimline"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-
+        <activity android:name=".screens.LoginActivity"></activity>
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="fullSensor">
@@ -27,8 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".screens.OtpVerificationActivity" />
         <activity android:name=".screens.MobileVerificationActivity" />
         <activity android:name=".screens.BlogDetailsActivity" />
@@ -49,7 +48,6 @@
         <activity android:name=".screens.CategoryHomeActivity" />
         <activity android:name=".screens.CategoryRootActivity" />
         <activity android:name=".screens.CategoryLandingActivity" />
-
     </application>
 
 </manifest>

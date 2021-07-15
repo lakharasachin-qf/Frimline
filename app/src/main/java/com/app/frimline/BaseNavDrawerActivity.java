@@ -35,7 +35,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
     private static final String TAG = BaseNavDrawerActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
     public Activity act;
-    public PREF prefManager;
+    public PREF pref;
     FRIMLINE frimline;
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
@@ -74,7 +74,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
 //            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //            window.setStatusBarColor(this.getResources().getColor(R.color.colorGreen));
 //        }
-        prefManager = new PREF(this);
+        pref = new PREF(this);
         gson = new Gson();
         frimline = (FRIMLINE) this.getApplication();
         frimline.getObserver().addObserver(this);

@@ -21,4 +21,5 @@
 
     <color name="colorGreen">#81B533</color>
     <color name="colorShimmer">#F6F6F6</color>
+    <color name="colorForIntroSlideTitle">#202268</color>
 </resources>

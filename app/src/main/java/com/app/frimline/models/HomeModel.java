@@ -1,8 +1,19 @@
 package com.app.frimline.models;
 
-public class OutCategoryModel {
+import java.util.ArrayList;
+
+public class HomeModel {
     private int layoutType;
     private String name;
+    private ArrayList<ProductModel> productModels;
+
+    public ArrayList<ProductModel> getProductModels() {
+        return productModels;
+    }
+
+    public void setProductModels(ArrayList<ProductModel> productModels) {
+        this.productModels = productModels;
+    }
 
     public int getLayoutType() {
         return layoutType;
@@ -19,4 +30,5 @@ public class OutCategoryModel {
     public void setName(String name) {
         this.name = name;
     }
+
 }

@@ -4,6 +4,7 @@
     android:viewportWidth="197.939"
     android:viewportHeight="55.839">
   <path
+      android:name="background"
       android:pathData="M0,0L197.939,0v55.839L0,55.839Z"
       android:fillColor="@color/colorGreen"
       android:fillType="evenOdd"/>

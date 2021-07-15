@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.app.frimline.BaseNavDrawerActivity;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
 import com.google.android.material.navigation.NavigationView;
@@ -22,8 +24,11 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref.setConfiguration("#EF7F1A","#81B533");
         setUpToolbar();
         setStatusBarTransparent();
+
+
 
     }
 
@@ -64,6 +69,9 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         drawerLayout.setVisibility(View.VISIBLE);
         Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
         toolbar_Navigation.setVisibility(View.VISIBLE);
+
+        ImageView logo=findViewById(R.id.logo);
+        HELPER.changeTheme(act,pref.getCategoryColor());
     }
 
 }

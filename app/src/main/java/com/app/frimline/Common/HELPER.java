@@ -2,13 +2,23 @@ package com.app.frimline.Common;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.VectorDrawable;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.core.content.ContextCompat;
 
 import com.app.frimline.R;
+import com.app.frimline.databinding.FragmentCategoryRootBinding;
+import com.app.frimline.databinding.FragmentHomeBinding;
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 
 public class HELPER {
 
@@ -50,5 +60,25 @@ public class HELPER {
                 }
             }
         });
+    }
+
+
+    //CategoryRoot
+    public static void changeTheme(Activity act,String primaryColor){
+        ImageView logo=act.findViewById(R.id.logo);
+        VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_logo_green, logo);
+        VectorDrawableCompat.VFullPath path1 = vector.findPathByName("background");
+        path1.setFillColor(Color.parseColor(primaryColor));
+        logo.invalidate();
+    }
+    //Category Root Fragment
+    public static void changeThemeCategoryRootFragment(FragmentCategoryRootBinding binding, String primaryColor){
+        binding.headingUnderlineView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(primaryColor)));
+    }
+
+
+    //Home Fragment
+    public static void changeThemeHomeFragment(FragmentHomeBinding binding, String primaryColor){
+       // binding.headingUnderlineView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(primaryColor)));
     }
 }
