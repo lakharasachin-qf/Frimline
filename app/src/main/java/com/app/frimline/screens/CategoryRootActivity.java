@@ -14,6 +14,7 @@ import com.app.frimline.BaseNavDrawerActivity;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
+import com.app.frimline.views.navigationDrawer.DrawerMenuForRoot;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
@@ -27,12 +28,9 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         pref.setConfiguration("#EF7F1A","#81B533");
         setUpToolbar();
         setStatusBarTransparent();
-
-
-
     }
 
-    DrawerMenu drawerMenu;
+    DrawerMenuForRoot drawerMenu;
 
 
     @Override
@@ -48,7 +46,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         frameLayout.addView(activityView);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(CategoryRootActivity.this);
-        drawerMenu = new DrawerMenu(act, DrawerMenu.CATEGORY_ROOT_FRAGMENT);
+        drawerMenu = new DrawerMenuForRoot(act, DrawerMenu.CATEGORY_ROOT_FRAGMENT);
         drawerMenu.setDefaultFragment(DrawerMenu.CATEGORY_ROOT_FRAGMENT);
         drawerMenu.prepareMenuData();
         drawerMenu.populateExpandableList();

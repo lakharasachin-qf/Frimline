@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemProductSectionOneLayoutBinding;
 import com.app.frimline.databinding.ItemProductSectionThreeLayoutBinding;
@@ -19,6 +20,7 @@ import com.app.frimline.databinding.ItemProductSectionTwoLayoutBinding;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.models.OutCategoryModel;
+import com.app.frimline.screens.ProductDetailActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -107,7 +109,24 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
     public void loadDataForLayoutThree(RecyclerView.ViewHolder holder, int position){
         //first product
-
+        ((ThreeProductViewHolder)holder).binding.productLayout1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.SIMPLE_ROUTE(activity, ProductDetailActivity.class);
+            }
+        });
+        ((ThreeProductViewHolder)holder).binding.productLayout2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.SIMPLE_ROUTE(activity, ProductDetailActivity.class);
+            }
+        });
+        ((ThreeProductViewHolder)holder).binding.productLayout3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.SIMPLE_ROUTE(activity, ProductDetailActivity.class);
+            }
+        });
     }
 
 

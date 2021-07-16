@@ -6,4 +6,14 @@ public class LAYOUT_TYPE {
     public static final int LAYOUT_THREE_PRODUCT=2;
 
 
+    public static final int BANNER=0;
+    public static final int CATEGORY_PRODUCT=1;
+    public static final int ALERT_COVID=2;
+    public static final int CATEGORY=3;
+    public static final int TOP_RATTED=4;
+    public static final int OFFERS=5;
+    public static final int PROMO_CODES=6;
+
+
+
 }

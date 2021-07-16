@@ -90,7 +90,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_ovel"
                         android:backgroundTint="@color/colorGreen"
-                        android:text="12" />
+                        android:text="12"
+                        tools:ignore="RtlCompat" />
 
                 </RelativeLayout>
 

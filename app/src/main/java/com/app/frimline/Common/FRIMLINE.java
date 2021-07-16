@@ -4,14 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.app.frimline.adapters.ApplicationController;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -22,7 +25,6 @@ import java.security.NoSuchAlgorithmException;
 public class FRIMLINE extends MultiDexApplication {
     private static FRIMLINE sInstance;
     private AppObserver observer;
-    private RequestQueue mRequestQueue;
 
 
     public static FRIMLINE getsInstance() {
@@ -47,7 +49,7 @@ public class FRIMLINE extends MultiDexApplication {
         ApplicationLifeCycle.init(sInstance);
 
         observer = new AppObserver(getApplicationContext());
-        mRequestQueue = Volley.newRequestQueue(sInstance);
+
 
         printHashKey();
     }
@@ -71,5 +73,8 @@ public class FRIMLINE extends MultiDexApplication {
     public AppObserver getObserver() {
         return observer;
     }
+
+
+
 
 }

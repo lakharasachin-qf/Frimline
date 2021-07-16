@@ -18,7 +18,8 @@
         android:theme="@style/Theme.Frimline"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".screens.LoginActivity"></activity>
+        <activity android:name=".screens.SignupActivity"></activity>
+        <activity android:name=".screens.LoginActivity" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="fullSensor">
@@ -40,7 +41,6 @@
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.Design.NoActionBar" />
         <activity android:name=".screens.AddressesActivity" />
-        <activity android:name=".screens.ChangePasswordActivity" />
         <activity android:name=".screens.EditProfileActivity" />
         <activity android:name=".screens.CategoryLandingActivityDemo" />
         <activity android:name=".screens.CheckoutAddressActivity" />

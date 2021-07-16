@@ -60,6 +60,14 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             }
         });
 
+        if (getIntent().hasExtra("targetCategory")){
+            shimmer_view_container = findViewById(R.id.shimmer_view_container);
+            drawerLayout.setVisibility(View.VISIBLE);
+            customViewPager.setVisibility(View.GONE);
+            Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
+            toolbar_Navigation.setVisibility(View.VISIBLE);
+
+        }
 
     }
 
@@ -80,9 +88,27 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         frameLayout.addView(activityView);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(CategoryLandingActivity.this);
-        drawerMenu = new DrawerMenu(act,DrawerMenu.HOME_FRAGMENT);
+
+        int defaultLoad=DrawerMenu.HOME_FRAGMENT;
+        if (getIntent().hasExtra("fragment")) {
+            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("Home")) {
+                defaultLoad = DrawerMenu.HOME_FRAGMENT;
+            }
+            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("Shop")) {
+                defaultLoad = DrawerMenu.SHOP_FRAGMENT;
+            }
+            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("Checkout")) {
+                defaultLoad = DrawerMenu.HOME_FRAGMENT;
+            }
+        }
+
+
+        drawerMenu = new DrawerMenu(act,defaultLoad);
         drawerMenu.prepareMenuData();
         drawerMenu.populateExpandableList();
+
+
+
         Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
         toolbar_Navigation.setVisibility(View.GONE);
 

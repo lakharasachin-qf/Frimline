@@ -18,18 +18,18 @@
             android:scrollbars="none">
 
             <LinearLayout
-                android:background="@color/colorGreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorGreen"
                 android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/_25sdp"
                     android:background="@color/colorScreenBackground"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/_25sdp">
 
                     <ImageView
                         android:id="@+id/main_shoe_picture"
@@ -40,30 +40,7 @@
                         android:cropToPadding="false"
                         android:padding="@dimen/_20sdp"
                         android:src="@drawable/product_third" />
-<!--                    -->
-<!--                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator-->
-<!--                        android:id="@+id/dots_indicator"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        app:dotsColor="@color/material_white"-->
-<!--                        app:dotsCornerRadius="8dp"-->
-<!--                        app:dotsSize="16dp"-->
-<!--                        app:dotsSpacing="4dp"-->
-<!--                        app:dotsWidthFactor="2.5"-->
-<!--                        app:selectedDotColor="@color/md_blue_200"-->
-<!--                        app:progressMode="true"-->
-<!--                        />-->
-<!--                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator-->
 
-<!--                        android:layout_width="@dimen/_70sdp"-->
-<!--                        android:layout_height="@dimen/_10sdp"-->
-
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        android:layout_marginBottom="@dimen/_20sdp"-->
-<!--                        app:dotsColor="#C6CACACA"-->
-<!--                        app:dotsSize="@dimen/_7sdp"-->
-<!--                        app:dotsSpacing="@dimen/_2sdp"-->
-<!--                        app:selectedDotColor="@color/colorGreen" />-->
                 </LinearLayout>
 
 
@@ -103,7 +80,6 @@
                             android:isIndicator="true"
                             android:progressTint="#FFDF3E"
                             android:rating="3" />
-
 
 
                         <TextView
@@ -247,6 +223,55 @@
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:id="@+id/tabContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_25sdp"
+                            android:elevation="@dimen/_7sdp"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            app:cardElevation="@dimen/_3sdp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical">
+
+
+                                <com.google.android.material.tabs.TabLayout
+                                    android:id="@+id/tab"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:background="@null"
+
+                                    app:tabGravity="fill"
+                                    app:tabIndicator="@drawable/ic_cart"
+                                    app:tabIconTint="@color/colorToolbarHeader"
+                                    app:tabIndicatorColor="@null"
+                                    app:tabInlineLabel="true"
+                                    app:tabMode="scrollable"
+                                    app:tabRippleColor="@null"
+                                    app:tabSelectedTextColor="@color/white"
+                                    app:tabTextAppearance="@style/TabTextAppearance"
+                                    app:tabTextColor="@color/colorToolbarHeader" />
+
+                            </FrameLayout>
+                        </RelativeLayout>
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_200sdp" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -270,10 +295,10 @@
             app:layout_collapseMode="pin">
 
             <RelativeLayout
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_26sdp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_26sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
 
                 <ImageView
                     android:id="@+id/backPress"
@@ -316,13 +341,13 @@
                 android:textSize="@dimen/_14sdp" />
 
             <RelativeLayout
-                android:elevation="@dimen/_1sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:background="@drawable/shape_add_to_cart"
+                android:elevation="@dimen/_1sdp"
                 android:paddingStart="@dimen/_15sdp"
                 android:paddingTop="@dimen/_7sdp"
                 android:paddingEnd="@dimen/_15sdp"

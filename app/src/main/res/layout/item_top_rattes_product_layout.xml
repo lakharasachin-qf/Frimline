@@ -26,7 +26,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/product_top_ratted" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/product_place" />
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout

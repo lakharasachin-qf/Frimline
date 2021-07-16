@@ -2,6 +2,7 @@ package com.app.frimline.views.navigationDrawer;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,15 +30,17 @@ import com.app.frimline.fragments.HomeFragment;
 import com.app.frimline.fragments.MyAccountFragment;
 import com.app.frimline.fragments.OrderHistoryFragment;
 import com.app.frimline.fragments.ShopFragment;
+import com.app.frimline.screens.CategoryLandingActivity;
+import com.app.frimline.screens.HomeActivity;
 import com.app.frimline.screens.MyCartActivity;
 import com.app.frimline.screens.SearchActivity;
-
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DrawerMenu {
+public class DrawerMenuForRoot {
     private Activity activity;
     private ExpandableListAdapter expandableListAdapter;
     private ExpandableListView expandableListView;
@@ -45,11 +51,10 @@ public class DrawerMenu {
     DrawerLayout drawer;
 
     public static int CATEGORY_ROOT_FRAGMENT = 0;
-    public static int SHOP_FRAGMENT = 2;
     public static int HOME_FRAGMENT = 1;
     private int defaultFragmentFlag = HOME_FRAGMENT;
 
-    public DrawerMenu(Activity activity, int flag) {
+    public DrawerMenuForRoot(Activity activity, int flag) {
         this.activity = activity;
         drawer = activity.findViewById(R.id.drawer_layout);
         expandableListView = activity.findViewById(R.id.expandableListView);
@@ -64,23 +69,66 @@ public class DrawerMenu {
     public void loadDefaultFragment() {
         if (defaultFragmentFlag == HOME_FRAGMENT)
             addFragment(homeFragment);
-        else if (defaultFragmentFlag == SHOP_FRAGMENT) {
-            addFragment(shopFragment);
-            currentMenuItem = "Shop";
+        else if (defaultFragmentFlag == CATEGORY_ROOT_FRAGMENT) {
+            addFragment(categoryRootFragment);
+            Toolbar toolbar = activity.findViewById(R.id.toolbar_Navigation);
+            toolbar.setBackgroundColor(ContextCompat.getColor(activity, android.R.color.transparent));
+
+            currentMenuItem = "Category Root";
         }
     }
 
-
+//    private void collapseAppBar() {
+//        // Collapse the AppBarLayout with animation
+//        mAppBarLayout.setExpanded(false, true);
+//    }
+//
+//    private void lockAppBar() {
+//    /* Disable the nestedScrolling to disable expanding the
+//     appBar with dragging the nestedScrollView below it */
+//        ViewCompat.setNestedScrollingEnabled(nestedScrollView, false);
+//
+//    /* But still appBar is expandable with dragging the appBar itself
+//    and below code disables that too
+//     */
+//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
+//        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+//        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+//            @Override
+//            public boolean canDrag(AppBarLayout appBarLayout) {
+//                return false;
+//            }
+//        });
+//    }
+//
+//    private void unLockAppBar() {
+//        ViewCompat.setNestedScrollingEnabled(nestedScrollView, true);
+//
+//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
+//        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+//        if (behavior != null) {
+//            behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+//                @Override
+//                public boolean canDrag(AppBarLayout appBarLayout) {
+//                    return true;
+//                }
+//            });
+//        }
+//    }
     public void prepareMenuData() {
         //first menu
-        MenuModel menuModel = new MenuModel("Home", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
+        MenuModel menuModel = new MenuModel("Dashboard", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
+        menuModel = new MenuModel("Home", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
         menuModel = new MenuModel("Shop", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_shop)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
 
         menuModel = new MenuModel("Checkout", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        menuModel = new MenuModel("Blogs", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
 
@@ -101,23 +149,12 @@ public class DrawerMenu {
     LinearLayout myCartTab;
     ImageView searchAction;
     RelativeLayout profileView;
+
     public void populateExpandableList() {
-        CategoryProfileFragment.OnNavClick onNavClick =new CategoryProfileFragment.OnNavClick() {
-            @Override
-            public void onNavigationDrawerClick() {
-                drawer.openDrawer(GravityCompat.START);
-            }
 
-            @Override
-            public void GoToStore() {
-                onBackPressed();
-            }
-
-        };
-        profileFragment.setOnNavClick(onNavClick);
         profileView = activity.findViewById(R.id.profileView);
         HomePageLayout = activity.findViewById(R.id.HomePageLayout);
-        searchAction =activity.findViewById(R.id.searchAction);
+        searchAction = activity.findViewById(R.id.searchAction);
         myCartTab = activity.findViewById(R.id.myCartTab);
         titleTxt = activity.findViewById(R.id.titleTxt);
         myAccountTab = activity.findViewById(R.id.myAccountTab);
@@ -131,22 +168,14 @@ public class DrawerMenu {
                 //parent.smoothScrollToPosition(groupPosition);
                 Fragment fragmentSelected = null;
                 if (headerList.get(groupPosition).isGroup) {
-
+                    Intent i = new Intent(activity, CategoryLandingActivity.class);
+                    i.putExtra("targetCategory","YES");
                     if (!headerList.get(groupPosition).hasChildren) {
                         switch (headerList.get(groupPosition).menuName) {
-                            case "Home":
-                                fragmentSelected = homeFragment;
-                                HomePageLayout.setVisibility(View.VISIBLE);
-                                titleTxt.setVisibility(View.GONE);
+                            case "Dashboard":
+
                                 break;
-                            case "Shop":
-                                fragmentSelected = shopFragment;
-                                HomePageLayout.setVisibility(View.VISIBLE);
-                                titleTxt.setVisibility(View.GONE);
-                                break;
-                            case "Checkout":
-                                fragmentSelected = blogsFragment;
-                                break;
+
                             case "About us":
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
@@ -175,10 +204,30 @@ public class DrawerMenu {
                                 titleTxt.setText("Blogs");
                                 currentMenuItem = "Blogs";
                                 break;
+
+
+                            case "Home":
+                                i.putExtra("fragment","Home");
+                                activity.startActivity(i);
+                                activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                                break;
+                            case "Shop":
+                                i.putExtra("fragment","Shop");
+                                activity.startActivity(i);
+                                activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                                break;
+                            case "Checkout":
+                                i.putExtra("fragment","Checkout");
+                                activity.startActivity(i);
+                                activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                                break;
+
                         }
                     }
-                    currentMenuItem = headerList.get(groupPosition).menuName;
-                    replaceFragment(fragmentSelected);
+                    if (fragmentSelected!=null) {
+                        currentMenuItem = headerList.get(groupPosition).menuName;
+                        replaceFragment(fragmentSelected);
+                    }
                     drawer.closeDrawer(GravityCompat.START);
                 }
                 return true;
@@ -293,6 +342,10 @@ public class DrawerMenu {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            if (fragmentCurrent.equals(categoryRootFragment)) {
+                ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                HELPER.ON_BACK_PRESS(activity);
+            } else {
 
                 ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 replaceFragment(categoryRootFragment);
@@ -305,7 +358,7 @@ public class DrawerMenu {
                 HomePageLayout.setVisibility(View.VISIBLE);
                 titleTxt.setVisibility(View.GONE);
 
-
+            }
         }
     }
 

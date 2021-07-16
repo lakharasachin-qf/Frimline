@@ -28,6 +28,7 @@ import com.app.frimline.fragments.CategoryRootFragment;
 import com.app.frimline.models.UserListModel;
 import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.LoginActivity;
+import com.app.frimline.screens.OtpVerificationActivity;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -55,7 +56,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(act, LoginActivity.class);
+                Intent intent = new Intent(act, CategoryRootActivity.class);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
