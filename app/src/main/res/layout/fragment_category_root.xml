@@ -215,7 +215,7 @@
                             android:maxLines="3"
                             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
                             android:textColor="#04102D"
-                            android:textSize="@dimen/_12sdp"
+                            android:textSize="@dimen/_11sdp"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
@@ -247,7 +247,7 @@
                             android:maxLines="2"
                             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
                             android:textColor="#04102D"
-                            android:textSize="@dimen/_12sdp"
+                            android:textSize="@dimen/_11sdp"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
@@ -276,9 +276,9 @@
                             android:layout_height="match_parent"
                             android:fontFamily="@font/proxima_nova_light"
                             android:maxLines="3"
-                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                            android:text="The word FRIMLINE is yield from confluence of two languages and principally has been derived from two words ‘Fri’ and ‘Imline’."
                             android:textColor="#04102D"
-                            android:textSize="@dimen/_12sdp"
+                            android:textSize="@dimen/_11sdp"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
@@ -310,7 +310,7 @@
                             android:maxLines="3"
                             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
                             android:textColor="#04102D"
-                            android:textSize="@dimen/_12sdp"
+                            android:textSize="@dimen/_11sdp"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
@@ -343,8 +343,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_5sdp">
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:layout_width="@dimen/_80sdp"
@@ -359,11 +358,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Loram ipsum"
+                        android:fontFamily="@font/proxinova_semi_bold"
+                        android:text="Oral Hygine"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="14dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -372,8 +371,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_5sdp">
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:layout_width="@dimen/_80sdp"
@@ -388,11 +386,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Loram ipsum"
+                        android:fontFamily="@font/proxinova_semi_bold"
+                        android:text="Skin Care"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="14dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -401,8 +399,7 @@
 
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_5sdp">
+                    android:orientation="vertical" >
 
 
                     <ImageView
@@ -416,13 +413,15 @@
                         android:src="@drawable/category_one" />
 
                     <TextView
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Loram ipsum"
+                        android:fontFamily="@font/proxinova_semi_bold"
+                        android:text="Health Supplements"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="14dp" />
                 </LinearLayout>
 
             </LinearLayout>

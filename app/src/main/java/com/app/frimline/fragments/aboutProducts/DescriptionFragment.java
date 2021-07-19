@@ -18,7 +18,7 @@ public class DescriptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_center,container,false);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_description,container,false);
 
         return binding.getRoot();
     }

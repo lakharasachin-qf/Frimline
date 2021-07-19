@@ -25,11 +25,12 @@ public class CategoryNavViewPager extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new LeftFragment();
+                return new RightFragment();
             case 1:
                 return new CenterFragment();
             case 2:
-                return new RightFragment();
+                return new LeftFragment();
+
             default:
                 return null;
         }

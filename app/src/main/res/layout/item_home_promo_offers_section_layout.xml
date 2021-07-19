@@ -16,10 +16,11 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
             android:layout_height="match_parent"
             android:background="@drawable/shape_layout_covid"
-            android:padding="@dimen/_2sdp">
-
+            >
+<!--            android:padding="@dimen/_2sdp"-->
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

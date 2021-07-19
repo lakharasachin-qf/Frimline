@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.NetworkChangeReceiver;
@@ -76,6 +77,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         mNetworkReceiver = new NetworkChangeReceiver();
         registerNetworkBroadcastForNougat();
 
+        getWindow().setNavigationBarColor(ContextCompat.getColor(act,R.color.white));
 
 
     }

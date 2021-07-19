@@ -4,17 +4,17 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
 
-        android:background="@color/colorScreenBackground"
         android:layout_height="match_parent"
+        android:background="@color/colorScreenBackground"
         android:fitsSystemWindows="true">
 
         <ImageView
             android:layout_width="wrap_content"
-
+            android:id="@+id/backgroundLayar"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:scaleType="fitEnd"
             android:layout_gravity="bottom|end"
+            android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background" />
 
         <com.google.android.material.appbar.AppBarLayout
@@ -47,8 +47,8 @@
                     android:id="@+id/main_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_70sdp"
-                    app:layout_collapseMode="pin"
                     android:paddingTop="@dimen/_30sdp"
+                    app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
                     <ImageView
@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_24sdp"
                         android:fontFamily="@font/proxinova_semi_bold"
-                        android:text="Oral Health"
+                        android:text="Skin Care"
                         android:textColor="@color/colorToolbarHeader"
                         android:textSize="@dimen/_17sdp"
                         android:visibility="visible" />
@@ -76,8 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            app:behavior_overlapTop="110dp"
             android:paddingBottom="@dimen/_200sdp"
+            app:behavior_overlapTop="110dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
@@ -90,11 +90,11 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:visibility="gone"
                         android:id="@+id/coverSection"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_200sdp"
-                        android:background="@color/orange">
+                        android:background="@color/orange"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -115,10 +115,10 @@
 
                     <ImageView
                         android:layout_width="@dimen/_72sdp"
-                        android:layout_marginTop="@dimen/_60sdp"
                         android:layout_height="@dimen/_220sdp"
                         android:layout_below="@+id/coverSection"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/_85sdp"
                         android:src="@drawable/category_profile_right_cover" />
 
                     <androidx.cardview.widget.CardView
@@ -127,13 +127,14 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/coverSection"
                         android:layout_marginStart="@dimen/_6sdp"
-                        android:layout_marginEnd="30pt"
                         android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_marginEnd="30pt"
                         app:cardCornerRadius="@dimen/_10sdp"
                         app:cardElevation="@dimen/_3sdp"
                         app:cardUseCompatPadding="true">
 
                         <RelativeLayout
+                            android:id="@+id/sectuib"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/shape_for_my_account_active"
@@ -147,11 +148,23 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/text1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/proxima_nova_black"
                                     android:includeFontPadding="false"
-                                    android:text="Skin Care"
+                                    android:text="Skin"
+                                    android:textColor="@color/colorGreen"
+                                    android:textSize="@dimen/_30sdp" />
+
+                                <TextView
+                                    android:id="@+id/text2"
+                                    android:layout_marginStart="@dimen/_7sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/proxinova_semi_bold"
+                                    android:includeFontPadding="false"
+                                    android:text="Care"
                                     android:textColor="@color/colorGreen"
                                     android:textSize="@dimen/_30sdp" />
 
@@ -184,11 +197,12 @@
                             <View
                                 android:layout_width="@dimen/_90sdp"
                                 android:layout_height="@dimen/_18sdp"
-                                android:layout_marginTop="@dimen/_40sdp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
+                                android:layout_marginTop="@dimen/_40sdp"
                                 android:layout_marginEnd="-30dp"
                                 android:alpha="0.3"
+                                android:id="@+id/viewBottom"
                                 android:background="@drawable/shape_for_category_profile" />
                         </RelativeLayout>
 
@@ -255,42 +269,43 @@
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/button"
                                 android:layout_width="wrap_content"
-                                android:text="Go to store"
-                                android:paddingStart="@dimen/_15sdp"
-                                android:paddingEnd="@dimen/_15sdp"
-                                android:textColor="@color/white"
-                                android:drawablePadding="@dimen/_10sdp"
-                                android:fontFamily="@font/proxinova_semi_bold"
-                                android:background="@drawable/shape_button_second"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@+id/descTXt"
                                 android:layout_alignParentEnd="true"
-                                android:layout_marginBottom="@dimen/_5sdp"
                                 android:layout_marginEnd="@dimen/_3sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+
+                                android:background="@drawable/shape_button_second"
                                 android:drawableEnd="@drawable/ic_right_arrow_white"
-                                android:layout_height="wrap_content">
+                                android:drawablePadding="@dimen/_10sdp"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:paddingStart="@dimen/_15sdp"
+                                android:paddingEnd="@dimen/_15sdp"
+                                android:text="Go to store"
+                                android:textColor="@color/white">
 
                             </androidx.appcompat.widget.AppCompatButton>
 
                             <RelativeLayout
-                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/descTXt"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-
                                 android:layout_gravity="end"
+
                                 android:layout_marginBottom="@dimen/_15sdp"
                                 android:background="@drawable/shape_button_second"
-                                android:padding="@dimen/_7sdp">
+                                android:padding="@dimen/_7sdp"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/textBtn"
                                     android:layout_width="wrap_content"
-                                    android:background="?android:attr/selectableItemBackground"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
                                     android:layout_marginStart="@dimen/_10sdp"
+                                    android:background="?android:attr/selectableItemBackground"
                                     android:fontFamily="@font/proxinova_semi_bold"
                                     android:gravity="center_vertical"
                                     android:paddingTop="@dimen/_5sdp"

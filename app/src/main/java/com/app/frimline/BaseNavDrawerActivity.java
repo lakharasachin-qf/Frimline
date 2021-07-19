@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -99,7 +100,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         toggle.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toggle.setDrawerIndicatorEnabled(false);
         toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu);
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
@@ -113,7 +114,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
                 }
             }
         });
-
+        getWindow().setNavigationBarColor(ContextCompat.getColor(act,R.color.white));
 
     }
 

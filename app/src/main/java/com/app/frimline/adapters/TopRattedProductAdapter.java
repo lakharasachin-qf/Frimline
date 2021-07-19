@@ -1,13 +1,17 @@
 package com.app.frimline.adapters;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.models.OutCategoryModel;
 
@@ -42,6 +46,10 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            View view=itemView.findViewById(R.id.underLine);
+            view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getCategoryColor())));
+            TextView ExploreMoreTxt =itemView.findViewById(R.id.ExploreMoreTxt);
+            ExploreMoreTxt.setTextColor(Color.parseColor(new PREF(activity).getCategoryColor()));
         }
     }
 

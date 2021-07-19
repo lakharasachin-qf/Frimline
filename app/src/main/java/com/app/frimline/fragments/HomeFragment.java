@@ -50,26 +50,17 @@ public class HomeFragment extends BaseFragment {
     public View provideFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         HELPER.changeThemeHomeFragment(binding, pref.getCategoryColor());
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            binding.titleTxt.setText(Html.fromHtml("<b>Due to <font color='#FF0707'>COVID-19,</font></b>", Html.FROM_HTML_MODE_COMPACT));
-//        } else {
-//            binding.titleTxt.setText(Html.fromHtml("<b>Due to <font color='#FF0707'>COVID-19,</font></b>"));
-//        }
-
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-//        setAdapterForProduct();
-//        setAdapterForOurProduct();
-//        setAdapterForTrendingProduct();
-//        setAdapterForTopRattedProduct();
         launch();
         parentHomeAdapter = new ParentHomeAdapter(homeArray, getActivity());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
         binding.containerRecycler.setHasFixedSize(true);
+        binding.containerRecycler.setNestedScrollingEnabled(false);
         binding.containerRecycler.setLayoutManager(mLayoutManager);
         binding.containerRecycler.setAdapter(parentHomeAdapter);
-        loadIndexedApi();
+        if (homeArray==null || homeArray.size()==0)
+            loadIndexedApi();
         return binding.getRoot();
     }
 
@@ -191,79 +182,129 @@ public class HomeFragment extends BaseFragment {
     ArrayList<HomeModel> homeArray = new ArrayList<>();
 
 
-    public void loadBanner() {
+    public void loadBanner(int position) {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.BANNER);
+        homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
+        Collections.sort(homeArray, new Comparator<HomeModel>() {
+            @Override
+            public int compare(HomeModel lhs, HomeModel rhs) {
+                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
+            }
+        });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
+        parentHomeAdapter.notifyDataSetChanged();
         //parentHomeAdapter.notifyDataSetChanged();
-        Log.e("loadBanner", String.valueOf(homeArray.size()));
+        Log.e("loadBanner", new Gson().toJson(homeArray));
 
     }
 
-    public void loadProducts() {
+    public void loadProducts(int position) {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.CATEGORY_PRODUCT);
         homeModel.setCategoryProduct(setAdapterForProduct());
+        homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
+        Collections.sort(homeArray, new Comparator<HomeModel>() {
+            @Override
+            public int compare(HomeModel lhs, HomeModel rhs) {
+                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
+            }
+        });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
-        Log.e("loadProducts", String.valueOf(homeArray.size()));
+        Log.e("loadProducts", new Gson().toJson(homeArray));
     }
 
-    public void loadAlertCovid() {
+    public void loadAlertCovid(int position) {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.ALERT_COVID);
+        homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
+        Collections.sort(homeArray, new Comparator<HomeModel>() {
+            @Override
+            public int compare(HomeModel lhs, HomeModel rhs) {
+                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
+            }
+        });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
-        Log.e("loadAlertCovid", String.valueOf(homeArray.size()));
+        Log.e("loadAlertCovid", new Gson().toJson(homeArray));
     }
 
-    public void loadCategory() {
+    public void loadCategory(int position) {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.CATEGORY);
+        homeModel.setLayoutIndex(position);
         homeModel.setProductList(setAdapterForTrendingProduct());
         homeArray.add(homeModel);
+        Collections.sort(homeArray, new Comparator<HomeModel>() {
+            @Override
+            public int compare(HomeModel lhs, HomeModel rhs) {
+                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
+            }
+        });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
-        Log.e("loadCategory", String.valueOf(homeArray.size()));
+        Log.e("loadCategory", new Gson().toJson(homeArray));
     }
 
-    public void loadOffers() {
+    public void loadOffers(int position) {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.OFFERS);
+        homeModel.setLayoutIndex(position);
         homeModel.setProductList(setAdapterForTrendingProduct());
         homeArray.add(homeModel);
+        Collections.sort(homeArray, new Comparator<HomeModel>() {
+            @Override
+            public int compare(HomeModel lhs, HomeModel rhs) {
+                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
+            }
+        });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
-        Log.e("loadOffers", String.valueOf(homeArray.size()));
+        Log.e("loadOffers", new Gson().toJson(homeArray));
     }
 
-    public void loadPromoCodes() {
+    public void loadPromoCodes(int position) {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.PROMO_CODES);
+        homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
+        Collections.sort(homeArray, new Comparator<HomeModel>() {
+            @Override
+            public int compare(HomeModel lhs, HomeModel rhs) {
+                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
+            }
+        });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
-        Log.e("loadPromoCodes", String.valueOf(homeArray.size()));
+        Log.e("loadPromoCodes", new Gson().toJson(homeArray));
     }
 
-    public void loadTopRatted() {
+    public void loadTopRatted(int position) {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.TOP_RATTED);
+        homeModel.setLayoutIndex(position);
         homeModel.setProductList(setAdapterForTopRattedProduct());
         homeArray.add(homeModel);
+        Collections.sort(homeArray, new Comparator<HomeModel>() {
+            @Override
+            public int compare(HomeModel lhs, HomeModel rhs) {
+                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
+            }
+        });
         //parentHomeAdapter.notifyDataSetChanged();
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
-        Log.e("loadTopRatted", String.valueOf(homeArray.size()));
+        Log.e("loadTopRatted", new Gson().toJson(homeArray));
     }
 
     private void getUpdate(HomeModel homeModel) {
@@ -273,26 +314,27 @@ public class HomeFragment extends BaseFragment {
             public void onResponse(String response) {
                 //  Log.e("homeModel", homeModel.getLayoutIndex() + " " + homeModel.getLayoutName());
                 if (homeModel.getLayoutName().equalsIgnoreCase(BANNER)) {
-                    loadBanner();
+                    loadBanner(homeModel.getLayoutIndex());
                 }
                 if (homeModel.getLayoutName().equalsIgnoreCase(PROMO_CODES)) {
-                    loadPromoCodes();
+                    loadPromoCodes(homeModel.getLayoutIndex());
                 }
                 if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY_PRODUCT)) {
-                    loadProducts();
+                    loadProducts(homeModel.getLayoutIndex());
                 }
                 if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY)) {
-                    loadCategory();
+                    loadCategory(homeModel.getLayoutIndex());
                 }
                 if (homeModel.getLayoutName().equalsIgnoreCase(TOP_RATTED)) {
-                    loadTopRatted();
+                    loadTopRatted(homeModel.getLayoutIndex());
                 }
                 if (homeModel.getLayoutName().equalsIgnoreCase(ALERT_COVID)) {
-                    loadAlertCovid();
+                    loadAlertCovid(homeModel.getLayoutIndex());
                 }
                 if (homeModel.getLayoutName().equalsIgnoreCase(OFFERS)) {
-                    loadOffers();
+                    loadOffers(homeModel.getLayoutIndex());
                 }
+
             }
         },
                 new Response.ErrorListener() {
@@ -300,26 +342,27 @@ public class HomeFragment extends BaseFragment {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         if (homeModel.getLayoutName().equalsIgnoreCase(BANNER)) {
-                            loadBanner();
+                            loadBanner(homeModel.getLayoutIndex());
                         }
                         if (homeModel.getLayoutName().equalsIgnoreCase(PROMO_CODES)) {
-                            loadPromoCodes();
+                            loadPromoCodes(homeModel.getLayoutIndex());
                         }
                         if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY_PRODUCT)) {
-                            loadProducts();
+                            loadProducts(homeModel.getLayoutIndex());
                         }
                         if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY)) {
-                            loadCategory();
+                            loadCategory(homeModel.getLayoutIndex());
                         }
                         if (homeModel.getLayoutName().equalsIgnoreCase(TOP_RATTED)) {
-                            loadTopRatted();
+                            loadTopRatted(homeModel.getLayoutIndex());
                         }
                         if (homeModel.getLayoutName().equalsIgnoreCase(ALERT_COVID)) {
-                            loadAlertCovid();
+                            loadAlertCovid(homeModel.getLayoutIndex());
                         }
                         if (homeModel.getLayoutName().equalsIgnoreCase(OFFERS)) {
-                            loadOffers();
+                            loadOffers(homeModel.getLayoutIndex());
                         }
+
                     }
                 }
         ) {

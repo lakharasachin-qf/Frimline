@@ -26,5 +26,13 @@ public class MyCartActivity extends BaseActivity {
                 HELPER.SIMPLE_ROUTE(act, CheckoutAddressActivity.class);
             }
         });
+        binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.ON_BACK_PRESS_ANIM(act);
+            }
+        });
+
+        binding.toolbarNavigation.title.setText("Cart");
     }
 }

@@ -1,6 +1,9 @@
 package com.app.frimline.screens;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -9,6 +12,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -18,6 +23,8 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.CategoryNavViewPager;
 import com.app.frimline.views.CustomViewPager;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
@@ -111,7 +118,8 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
 
         Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
         toolbar_Navigation.setVisibility(View.GONE);
-
+        toolbar_Navigation.setTitle("");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         navigationView.setElevation(30);
         float radius = getResources().getDimension(R.dimen.roundcorner);
          MaterialShapeDrawable navViewBackground = (MaterialShapeDrawable) navigationView.getBackground();
@@ -121,6 +129,20 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                         .setTopRightCorner(CornerFamily.ROUNDED,radius)
                         .setBottomRightCorner(CornerFamily.ROUNDED,radius)
                         .build());
+        hangeTheme(act,pref.getCategoryColor());
+    }
+
+    public void hangeTheme(Activity act, String primaryColor){
+        ImageView logo=act.findViewById(R.id.logo);
+        VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_logo_green, logo);
+        VectorDrawableCompat.VFullPath path1 = vector.findPathByName("background");
+        path1.setFillColor(Color.parseColor(primaryColor));
+        logo.invalidate();
+
+        TextView cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
+        TextView cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
+        cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+        cartBackgroundLayar2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
     }
 
     public void setStatusBarTransparent() {
@@ -142,17 +164,18 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             public void run() {
 
                 if (CurrentPosition == 2) {
+
+                    drawerMenu.performCategoryProfile();
+                    drawerLayout.setVisibility(View.VISIBLE);
+                    customViewPager.setVisibility(View.GONE);
+                    setStatusBarTransparent();
+                } else if (CurrentPosition == 0) {
                     customViewPager.setPagingEnabled(false);
                     drawerLayout.setVisibility(View.VISIBLE);
                     customViewPager.setVisibility(View.GONE);
                     Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
                     toolbar_Navigation.setVisibility(View.VISIBLE);
                     startAnimation();
-                } else if (CurrentPosition == 0) {
-                    drawerMenu.performCategoryProfile();
-                    drawerLayout.setVisibility(View.VISIBLE);
-                    customViewPager.setVisibility(View.GONE);
-                    setStatusBarTransparent();
                 }
             }
         };
@@ -172,14 +195,14 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             r = new Runnable() {
                 public void run() {
 
-                    if (CurrentPosition == 2) {
+                    if (CurrentPosition == 0) {
                         customViewPager.setPagingEnabled(false);
                         drawerLayout.setVisibility(View.VISIBLE);
                         shimmer_view_container.setVisibility(View.GONE);
                         Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
                         toolbar_Navigation.setVisibility(View.VISIBLE);
                         startAnimation();
-                    } else if (CurrentPosition == 0) {
+                    } else if (CurrentPosition == 2) {
 
                     }
                 }

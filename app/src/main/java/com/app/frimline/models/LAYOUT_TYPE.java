@@ -14,6 +14,7 @@ public class LAYOUT_TYPE {
     public static final int OFFERS=5;
     public static final int PROMO_CODES=6;
 
-
+    public static final int LAYOUT_LEFT_BLOG=0;
+    public static final int LAYOUT_RIGHT_BLOG=1;
 
 }

@@ -9,37 +9,10 @@
         android:theme="@style/Theme.Frimline.GREENSHADE"
         android:layout_height="match_parent"
         tools:context=".AddressesActivity">
+       <include
+           android:id="@+id/toolbar"
+           layout="@layout/include_activity_toolbar_layout"/>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:backgroundTint="@android:color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:background="@color/white">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="@dimen/_22sdp"
-                    android:layout_height="@dimen/_22sdp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_left_arrow_black" />
-
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="@dimen/_20sdp"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:text="Addresses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
         <ImageView
             android:layout_alignParentEnd="true"
             android:scaleType="fitEnd"

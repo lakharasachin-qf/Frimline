@@ -47,7 +47,10 @@ public class HELPER {
         //   act.overridePendingTransition(R.anim.act_left_out, R.anim.act_right_enter);
     }
 
-
+    public static void ON_BACK_PRESS_ANIM(Activity act) {
+        act.finish();
+        act.overridePendingTransition(R.anim.act_left_out, R.anim.act_right_enter);
+    }
     //for Edittext Color Effect
     public static void SET_STYLE(Activity act,EditText editText, LinearLayout view) {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -11,6 +11,7 @@
 
 
         <ImageView
+            android:id="@+id/backgroundLayar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -141,7 +142,7 @@
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
-
+                            android:id="@+id/orders"
                             android:layout_height="match_parent"
                             app:cardCornerRadius="@dimen/_10sdp"
                             app:cardElevation="@dimen/_2sdp"
@@ -155,6 +156,7 @@
                                 android:padding="@dimen/_7sdp">
 
                                 <ImageView
+                                    android:id="@+id/orderIcon"
                                     android:layout_width="@dimen/_26sdp"
                                     android:layout_height="@dimen/_26sdp"
                                     android:layout_gravity="center_horizontal"
@@ -197,6 +199,7 @@
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
+                                android:id="@+id/container"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/shape_for_my_account_active"
@@ -204,6 +207,7 @@
                                 android:padding="@dimen/_7sdp">
 
                                 <ImageView
+                                    android:id="@+id/addressIcon"
                                     android:layout_width="@dimen/_26sdp"
                                     android:layout_height="@dimen/_26sdp"
                                     android:layout_gravity="center_horizontal"
@@ -253,6 +257,7 @@
                                 android:padding="@dimen/_7sdp">
 
                                 <ImageView
+                                    android:id="@+id/accountIcon"
                                     android:layout_width="@dimen/_26sdp"
                                     android:layout_height="@dimen/_26sdp"
                                     android:layout_gravity="center_horizontal"
@@ -287,6 +292,7 @@
         </ScrollView>
 
         <RelativeLayout
+            android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

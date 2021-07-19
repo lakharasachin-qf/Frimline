@@ -15,10 +15,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <include
+            android:layout_marginTop="@dimen/_12sdp"
+            android:visibility="gone"
+            android:id="@+id/toolbar2"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/include_activity_drawer_toolbar_layout"/>
         <androidx.appcompat.widget.Toolbar
+
             android:id="@+id/toolbar_Navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:title=""
+            app:titleTextColor="@color/colorBackground"
+            app:subtitle=""
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@color/colorBackground"
             android:minHeight="?attr/actionBarSize"
@@ -27,14 +39,15 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <TextView
+                android:layout_gravity="center"
+
                 android:id="@+id/titleTxt"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_80sdp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:text="Orders"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_17sdp"
+                android:textSize="@dimen/_16sdp"
                 android:visibility="gone" />
 
             <RelativeLayout
@@ -78,7 +91,9 @@
                         android:src="@drawable/ic_cart"
                         app:tint="#FF000000" />
 
+
                     <TextView
+                        android:id="@+id/cartBackgroundLayar"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:textAlignment="center"
                         android:gravity="top"
@@ -212,6 +227,8 @@
                                 android:src="@drawable/ic_cart"
                                 app:tint="#B3B4B8" />
                             <TextView
+                                android:id="@+id/cartBackgroundLayar2"
+
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:textAlignment="center"
                                 android:gravity="top"

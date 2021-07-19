@@ -10,37 +10,9 @@
         android:orientation="vertical"
         android:theme="@style/Theme.Frimline.GREENSHADE" >
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_Navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorScreenBackground"
-            app:layout_collapseMode="pin">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_26sdp"
-                android:layout_marginBottom="@dimen/_10sdp">
-
-                <ImageView
-                    android:id="@+id/backPress"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:src="@drawable/ic_left_arrow_black" />
-
-                <TextView
-                    android:id="@+id/titleTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:text="Blog"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_17sdp" />
-
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
+      <include
+          android:id="@+id/toolbar"
+          layout="@layout/include_activity_toolbar_layout"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -55,7 +27,7 @@
             android:paddingBottom="@dimen/_70sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_Navigation"
+            android:layout_below="@+id/toolbar"
             android:scrollbars="none">
 
             <LinearLayout

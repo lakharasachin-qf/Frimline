@@ -2,6 +2,8 @@ package com.app.frimline.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemProductSectionOneLayoutBinding;
 import com.app.frimline.databinding.ItemProductSectionThreeLayoutBinding;
@@ -136,6 +139,12 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         public OneProductViewHolder(ItemProductSectionOneLayoutBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+            changeColor();
+        }
+        public void changeColor(){
+            PREF pref=new PREF(activity);
+            binding.underLine.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.addToCartAction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         }
     }
 
@@ -155,7 +164,19 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         public ThreeProductViewHolder(ItemProductSectionThreeLayoutBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+            changeColor();
+        }
+        public void changeColor(){
+            PREF pref=new PREF(activity);
+            binding.underLineRight1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.underLineRight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.underLine1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         }
     }
+
+
 }
 

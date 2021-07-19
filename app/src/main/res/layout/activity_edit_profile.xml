@@ -11,38 +11,9 @@
         android:theme="@style/Theme.Frimline.GREENSHADE"
         tools:context=".EditProfileActivity">
 
-        <androidx.appcompat.widget.Toolbar
+        <include
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:backgroundTint="@android:color/transparent">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_26sdp"
-                android:layout_marginBottom="@dimen/_10sdp">
-
-                <ImageView
-                    android:layout_width="@dimen/_22sdp"
-                    android:layout_height="@dimen/_22sdp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_left_arrow_black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:includeFontPadding="false"
-                    android:text="Edit Profile"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_20sdp" />
-
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
+            layout="@layout/include_activity_toolbar_layout"/>
 
         <ImageView
             android:layout_width="wrap_content"

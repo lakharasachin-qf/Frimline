@@ -55,6 +55,7 @@
                     android:layout_marginStart="@dimen/_11sdp"
                     android:orientation="horizontal">
 
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="@dimen/_130sdp"
                         android:layout_height="wrap_content"

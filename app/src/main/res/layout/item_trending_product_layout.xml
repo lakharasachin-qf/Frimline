@@ -8,8 +8,8 @@
 
 
     <ImageView
-        android:layout_width="@dimen/_160sdp"
-        android:layout_height="@dimen/_220sdp"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="@dimen/_250sdp"
         android:scaleType="centerCrop"
         android:src="@drawable/trending_second" />
 

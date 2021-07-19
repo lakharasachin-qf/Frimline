@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.LeftFragment">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:background="@color/blue"
+            android:id="@+id/layout1"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/oralHealthCareImage1"
+                app:tint="@color/blue"
+                android:tintMode="multiply"
+                android:scaleType="fitEnd"
+                android:src="@drawable/mint_center__one_health_care"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/orange"
+            android:layout_toEndOf="@+id/layout1"
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/healthCareImage2"
+                android:tintMode="multiply"
+                android:scaleType="fitEnd"
+                android:src="@drawable/mint_center_two_health_care"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:tint="@color/orange" />
+        </RelativeLayout>
+<!--        <ImageView-->
+<!--            android:id="@+id/healthCareImage1"-->
+<!--            app:tint="@color/blue"-->
+<!--            android:tintMode="multiply"-->
+<!--            android:rotation="-90"-->
+<!--            android:scaleX="1"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:src="@drawable/source_iamge"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:scrollY="480dp"-->
+
+<!--            android:scaleType="center"-->
+<!--            android:layout_height="@dimen/_250sdp"/>-->
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/image"
+            app:tint="@color/orange"
+
+            android:tintMode="multiply"
+            android:scaleType="fitEnd"
+            android:src="@drawable/mint_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:gravity="bottom"
+            android:paddingBottom="@dimen/_100sdp"
+            android:layout_below="@+id/goToStore"
+            android:layout_above="@id/moreInfo"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:orientation="vertical"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Skin"
+                android:textSize="@dimen/_35sdp"
+                android:textColor="@color/white"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/proxima_nova_extrabold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="Care"
+                android:textSize="@dimen/_18sdp"
+                android:includeFontPadding="false"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/shape_layout_image_round_background"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="4dp"/>
+
+            <TextView
+                android:includeFontPadding="false"
+
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/moreInfo"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_70sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_60sdp"
+            android:backgroundTint="@color/white"
+            android:background="@drawable/shape_layout_image_round_background"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_left_arrow"
+                android:padding="@dimen/_1sdp"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"/>
+            <TextView
+                android:layout_toEndOf="@+id/icon"
+                android:textColor="@color/blue"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/_12sdp"
+                android:text="More Info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/goToStore"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_70sdp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:backgroundTint="@color/white"
+            android:background="@drawable/shape_layout_image_round_background"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text1"
+                android:textColor="@color/orange"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/_12sdp"
+                android:text="Go to Store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_toEndOf="@+id/text1"
+                android:id="@+id/icon2"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_right_arrow"
+                android:padding="@dimen/_2sdp"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+</layout>

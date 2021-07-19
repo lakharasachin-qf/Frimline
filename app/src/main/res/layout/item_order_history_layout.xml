@@ -49,12 +49,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/delivaryIcon"
                     android:layout_width="@dimen/_13sdp"
                     android:layout_height="@dimen/_13sdp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_delivery_icon" />
 
+
                 <TextView
+
+                    android:id="@+id/deliveredTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -118,6 +122,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
                 <RelativeLayout
+                    android:id="@+id/viewDetailsBtn"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="end"

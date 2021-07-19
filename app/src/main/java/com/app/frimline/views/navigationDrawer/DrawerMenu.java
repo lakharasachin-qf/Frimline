@@ -2,6 +2,7 @@ package com.app.frimline.views.navigationDrawer;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -73,7 +74,10 @@ public class DrawerMenu {
 
     public void prepareMenuData() {
         //first menu
-        MenuModel menuModel = new MenuModel("Home", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
+        MenuModel menuModel = new MenuModel("Dashboard", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+
+        menuModel = new MenuModel("Home", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
         menuModel = new MenuModel("Shop", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_shop)); //Menu of Android Tutorial. No sub menus
@@ -83,7 +87,8 @@ public class DrawerMenu {
         menuModel = new MenuModel("Checkout", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
-
+        menuModel = new MenuModel("Blogs", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
         menuModel = new MenuModel("About us", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_about_us)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
         menuModel = new MenuModel("Contact us", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_call)); //Menu of Android Tutorial. No sub menus
@@ -101,8 +106,10 @@ public class DrawerMenu {
     LinearLayout myCartTab;
     ImageView searchAction;
     RelativeLayout profileView;
+    RelativeLayout cartActionLayout;
+
     public void populateExpandableList() {
-        CategoryProfileFragment.OnNavClick onNavClick =new CategoryProfileFragment.OnNavClick() {
+        CategoryProfileFragment.OnNavClick onNavClick = new CategoryProfileFragment.OnNavClick() {
             @Override
             public void onNavigationDrawerClick() {
                 drawer.openDrawer(GravityCompat.START);
@@ -114,10 +121,24 @@ public class DrawerMenu {
             }
 
         };
+        MyAccountFragment.OnDrawerAction onDrawerAction =new MyAccountFragment.OnDrawerAction() {
+            @Override
+            public void changeFragment() {
+                HomePageLayout.setVisibility(View.GONE);
+                titleTxt.setText("Orders");
+                titleTxt.setVisibility(View.VISIBLE);
+                currentMenuItem = "Order History";
+                Fragment fragmentSelected = orderHistoryFragment;
+                replaceFragment(fragmentSelected);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        };
+        myAccountFragment.setDrawerAction(onDrawerAction);
         profileFragment.setOnNavClick(onNavClick);
+        cartActionLayout = activity.findViewById(R.id.cartActionLayout);
         profileView = activity.findViewById(R.id.profileView);
         HomePageLayout = activity.findViewById(R.id.HomePageLayout);
-        searchAction =activity.findViewById(R.id.searchAction);
+        searchAction = activity.findViewById(R.id.searchAction);
         myCartTab = activity.findViewById(R.id.myCartTab);
         titleTxt = activity.findViewById(R.id.titleTxt);
         myAccountTab = activity.findViewById(R.id.myAccountTab);
@@ -130,10 +151,16 @@ public class DrawerMenu {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 //parent.smoothScrollToPosition(groupPosition);
                 Fragment fragmentSelected = null;
+                Intent intent;
                 if (headerList.get(groupPosition).isGroup) {
 
                     if (!headerList.get(groupPosition).hasChildren) {
                         switch (headerList.get(groupPosition).menuName) {
+                            case "Dashboard":
+                                drawer.closeDrawer(GravityCompat.START);
+                                ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                HELPER.ON_BACK_PRESS(activity);
+                                break;
                             case "Home":
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
@@ -177,9 +204,11 @@ public class DrawerMenu {
                                 break;
                         }
                     }
-                    currentMenuItem = headerList.get(groupPosition).menuName;
-                    replaceFragment(fragmentSelected);
-                    drawer.closeDrawer(GravityCompat.START);
+                    if (fragmentSelected!=null) {
+                        currentMenuItem = headerList.get(groupPosition).menuName;
+                        replaceFragment(fragmentSelected);
+                        drawer.closeDrawer(GravityCompat.START);
+                    }
                 }
                 return true;
             }
@@ -191,6 +220,8 @@ public class DrawerMenu {
             public void onClick(View v) {
                 HomePageLayout.setVisibility(View.GONE);
                 titleTxt.setVisibility(View.VISIBLE);
+
+                titleTxt.setText("Orders");
                 currentMenuItem = "Order History";
                 Fragment fragmentSelected = orderHistoryFragment;
                 replaceFragment(fragmentSelected);
@@ -214,6 +245,12 @@ public class DrawerMenu {
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
+                HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
+            }
+        });
+        cartActionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
             }
         });
@@ -294,16 +331,16 @@ public class DrawerMenu {
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
-                ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                replaceFragment(categoryRootFragment);
-                HomePageLayout.setVisibility(View.GONE);
-                currentMenuItem = "Home";
-                titleTxt.setVisibility(View.VISIBLE);
+            ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            replaceFragment(categoryRootFragment);
+            HomePageLayout.setVisibility(View.GONE);
+            currentMenuItem = "Home";
+            titleTxt.setVisibility(View.VISIBLE);
 
-                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
-                toolbar_Navigation.setVisibility(View.VISIBLE);
-                HomePageLayout.setVisibility(View.VISIBLE);
-                titleTxt.setVisibility(View.GONE);
+            Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+            toolbar_Navigation.setVisibility(View.VISIBLE);
+            HomePageLayout.setVisibility(View.VISIBLE);
+            titleTxt.setVisibility(View.GONE);
 
 
         }

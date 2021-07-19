@@ -25,6 +25,23 @@ public class CategoryRootFragment extends BaseFragment {
         binding.cat1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pref.setConfiguration("#EF7F1A","#12C0DD");
+                Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.cat2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pref.setConfiguration("#EF7F1A","#81B533");
+                Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.cat3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pref.setConfiguration("#EF7F1A","#E8AE21");
                 Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
                 startActivity(intent);
             }

@@ -18,7 +18,7 @@ public class HowToUseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_center,container,false);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_how_to_use,container,false);
 
         return binding.getRoot();
     }

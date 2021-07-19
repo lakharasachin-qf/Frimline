@@ -20,6 +20,7 @@
             android:textSize="@dimen/_16sdp" />
 
         <View
+            android:id="@+id/topRaatedviewUnderline"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="3dp"
             android:layout_marginStart="@dimen/_15sdp"

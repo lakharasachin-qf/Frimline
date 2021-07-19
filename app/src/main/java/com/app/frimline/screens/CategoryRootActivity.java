@@ -1,11 +1,14 @@
 package com.app.frimline.screens;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,7 +28,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref.setConfiguration("#EF7F1A","#81B533");
+        pref.setConfiguration("#EF7F1A","#EF7F1A");
         setUpToolbar();
         setStatusBarTransparent();
     }
@@ -70,6 +73,10 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
 
         ImageView logo=findViewById(R.id.logo);
         HELPER.changeTheme(act,pref.getCategoryColor());
+        TextView cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
+        TextView cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
+        cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+        cartBackgroundLayar2.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
     }
 
 }

@@ -223,55 +223,72 @@
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+<!--                    <LinearLayout-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
 
-                        <RelativeLayout
-                            android:id="@+id/tabContainer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_25sdp"
-                            android:elevation="@dimen/_7sdp"
-                            app:cardCornerRadius="@dimen/_20sdp"
-                            app:cardElevation="@dimen/_3sdp"
-                            app:cardPreventCornerOverlap="false"
-                            app:cardUseCompatPadding="true">
-
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical">
+<!--                        <HorizontalScrollView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/_5sdp"-->
+<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                            android:scrollbars="none">-->
 
 
-                                <com.google.android.material.tabs.TabLayout
-                                    android:id="@+id/tab"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:background="@null"
+<!--                            <com.google.android.material.chip.ChipGroup-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="@dimen/_55sdp"-->
+<!--                                android:clipToPadding="false"-->
+<!--                                android:paddingStart="@dimen/_15sdp"-->
+<!--                                android:paddingEnd="@dimen/_15sdp">-->
 
-                                    app:tabGravity="fill"
-                                    app:tabIndicator="@drawable/ic_cart"
-                                    app:tabIconTint="@color/colorToolbarHeader"
-                                    app:tabIndicatorColor="@null"
-                                    app:tabInlineLabel="true"
-                                    app:tabMode="scrollable"
-                                    app:tabRippleColor="@null"
-                                    app:tabSelectedTextColor="@color/white"
-                                    app:tabTextAppearance="@style/TabTextAppearance"
-                                    app:tabTextColor="@color/colorToolbarHeader" />
+<!--                                <com.google.android.material.chip.Chip-->
+<!--                                    style="@style/ChipStyle"-->
+<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                                    android:text="Description" />-->
 
-                            </FrameLayout>
-                        </RelativeLayout>
+<!--                                <com.google.android.material.chip.Chip-->
+<!--                                    style="@style/ChipStyle"-->
+<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                                    android:text="How To Use" />-->
 
-                        <androidx.viewpager.widget.ViewPager
-                            android:id="@+id/viewPager"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_200sdp" />
+<!--                                <com.google.android.material.chip.Chip-->
+<!--                                    style="@style/ChipStyle"-->
+<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                                    android:text="Ingredients" />-->
 
-                    </LinearLayout>
+<!--                                <com.google.android.material.chip.Chip-->
+<!--                                    style="@style/ChipStyle"-->
+<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                                    android:text="Additional Information" />-->
+
+<!--                                <com.google.android.material.chip.Chip-->
+<!--                                    style="@style/ChipStyle"-->
+<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                                    android:text="Reviews" />-->
+
+<!--                                <com.google.android.material.chip.Chip-->
+<!--                                    style="@style/ChipStyle"-->
+<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                                    android:text="Q&amp;A" />-->
+
+
+
+<!--                            </com.google.android.material.chip.ChipGroup>-->
+
+<!--                        </HorizontalScrollView>-->
+
+<!--                        <androidx.viewpager.widget.ViewPager-->
+<!--                            android:id="@+id/viewPager"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/_200sdp" />-->
+
+<!--                    </LinearLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"

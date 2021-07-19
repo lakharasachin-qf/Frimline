@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.adapters.LoginTabAdapter;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
@@ -58,9 +59,20 @@ public class ProductDetailActivity extends BaseActivity {
                 //
             }
         });
-        setupTabIcons();
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.ON_BACK_PRESS_ANIM(act);
+            }
+        });
+        //setupTabIcons();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        HELPER.ON_BACK_PRESS_ANIM(act);
+    }
 
     private DescriptionFragment descriptionFragment=new DescriptionFragment();
     private HowToUseFragment howToUseFragment=new HowToUseFragment();
@@ -78,6 +90,9 @@ public class ProductDetailActivity extends BaseActivity {
         adapter.addFragment(additionalInfoFragment, "Additional Information");
         adapter.addFragment(reviewsFragment, "Reviews");
         adapter.addFragment(qnAFragment, "Q&A");
+//
+//        binding.viewPager.setAdapter(adapter);
+//        binding.viewPager.setOffscreenPageLimit(3);
 
 
 
@@ -85,14 +100,10 @@ public class ProductDetailActivity extends BaseActivity {
 
 
 
+//        binding.viewPager.setAdapter(adapter);
+//    //    binding.tab.setupWithViewPager(binding.viewPager);
+//        binding.viewPager.setOffscreenPageLimit(3);
 
-
-
-        binding.viewPager.setAdapter(adapter);
-        binding.tab.setupWithViewPager(binding.viewPager);
-        binding.viewPager.setOffscreenPageLimit(3);
-
-        //Determine indicator width at runtime
 //        binding.tab.post(new Runnable() {
 //            @Override
 //            public void run() {
@@ -104,7 +115,7 @@ public class ProductDetailActivity extends BaseActivity {
 //                FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) binding.indicator.getLayoutParams();
 //                indicatorParams.width = indicatorWidth;
 //                binding.indicator.setLayoutParams(indicatorParams);
-//                // binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
+//                //binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
 //            }
 //        });
 //

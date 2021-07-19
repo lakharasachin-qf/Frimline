@@ -149,9 +149,22 @@ public class DrawerMenuForRoot {
     LinearLayout myCartTab;
     ImageView searchAction;
     RelativeLayout profileView;
+    RelativeLayout cartActionLayout;
 
     public void populateExpandableList() {
-
+        MyAccountFragment.OnDrawerAction onDrawerAction =new MyAccountFragment.OnDrawerAction() {
+            @Override
+            public void changeFragment() {
+                HomePageLayout.setVisibility(View.GONE);
+                titleTxt.setVisibility(View.VISIBLE);
+                titleTxt.setText("Orders");
+                currentMenuItem = "Order History";
+                Fragment fragmentSelected = orderHistoryFragment;
+                replaceFragment(fragmentSelected);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        };
+        myAccountFragment.setDrawerAction(onDrawerAction);
         profileView = activity.findViewById(R.id.profileView);
         HomePageLayout = activity.findViewById(R.id.HomePageLayout);
         searchAction = activity.findViewById(R.id.searchAction);
@@ -159,6 +172,7 @@ public class DrawerMenuForRoot {
         titleTxt = activity.findViewById(R.id.titleTxt);
         myAccountTab = activity.findViewById(R.id.myAccountTab);
         orderHistoryTab = activity.findViewById(R.id.orderHistoryTab);
+        cartActionLayout = activity.findViewById(R.id.cartActionLayout);
 
         expandableListAdapter = new ExpandableListAdapter(activity, headerList, childList);
         expandableListView.setAdapter(expandableListAdapter);
@@ -173,26 +187,33 @@ public class DrawerMenuForRoot {
                     if (!headerList.get(groupPosition).hasChildren) {
                         switch (headerList.get(groupPosition).menuName) {
                             case "Dashboard":
-
+                                currentMenuItem = "Dashboard";
+                                fragmentSelected = categoryRootFragment;
+                                HomePageLayout.setVisibility(View.VISIBLE);
+                                titleTxt.setVisibility(View.GONE);
                                 break;
 
                             case "About us":
+                                currentMenuItem = "About us";
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
 
                             case "Contact us":
+                                currentMenuItem = "Contact us";
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Privacy Policy":
+                                currentMenuItem = "Privacy Policy";
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Shipping Policy":
+                                currentMenuItem = "Shipping Policy";
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
@@ -240,6 +261,7 @@ public class DrawerMenuForRoot {
             public void onClick(View v) {
                 HomePageLayout.setVisibility(View.GONE);
                 titleTxt.setVisibility(View.VISIBLE);
+                titleTxt.setText("Orders");
                 currentMenuItem = "Order History";
                 Fragment fragmentSelected = orderHistoryFragment;
                 replaceFragment(fragmentSelected);
@@ -263,6 +285,12 @@ public class DrawerMenuForRoot {
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
+                HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
+            }
+        });
+        cartActionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
             }
         });

@@ -58,12 +58,12 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="2dp"
                 android:layout_below="@+id/productName"
-
+                android:alpha="0.2"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_marginBottom="@dimen/_3sdp"
                 android:background="@drawable/shape_underline"
-                android:backgroundTint="#E6F0D6" />
+                android:backgroundTint="@color/colorGreen" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -88,6 +88,7 @@
 
 
                 <ImageView
+                    android:id="@+id/addToCartAction"
                     android:layout_width="@dimen/_22sdp"
                     android:layout_height="@dimen/_22sdp"
                     android:layout_alignParentEnd="true"
