@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,7 +58,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView itemLayout;
-        RelativeLayout viewDetails;
+        AppCompatButton viewDetails;
         TextView deliveryTxt;
         ImageView deliveryIcon;
         public ViewHolder(@NonNull View itemView) {
@@ -69,8 +70,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
             PREF pref=new PREF(activity);
             viewDetails.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-            deliveryIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-            deliveryTxt.setTextColor(Color.parseColor(pref.getCategoryColor()));
+          //  deliveryIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+           // deliveryTxt.setTextColor(Color.parseColor(pref.getCategoryColor()));
         }
     }
 

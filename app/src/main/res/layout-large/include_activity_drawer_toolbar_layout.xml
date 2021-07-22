@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorBackground"
+        android:backgroundTint="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/backPress"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_drawer_menu" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:includeFontPadding="false"
+                android:text="Orders"
+                android:textColor="@color/colorToolbarHeader"
+                android:textSize="@dimen/_16sdp" />
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+</layout>

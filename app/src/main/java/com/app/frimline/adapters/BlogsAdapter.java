@@ -136,6 +136,8 @@ public class BlogsAdapter extends RecyclerView.Adapter {
             PREF pref=new PREF(activity);
             binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
             binding.exploreMore.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.exploreMore.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+
         }
     }
 

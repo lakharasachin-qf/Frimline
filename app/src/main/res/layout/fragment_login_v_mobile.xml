@@ -52,7 +52,7 @@
                             android:text="Mobile Number" />
 
                         <LinearLayout
-                            android:id="@+id/emailEdtLayout"
+                            android:id="@+id/mobileNoEdtLayout"
                             style="@style/EditTextOverLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -64,9 +64,10 @@
                                 android:src="@drawable/ic_phone_iphone" />
 
                             <EditText
-                                android:id="@+id/emailEdt"
+                                android:id="@+id/mobileNoEdt"
                                 style="@style/EditBoxWithoutIcons"
                                 android:layout_gravity="center_vertical"
+                                android:inputType="number"
                                 android:background="@null"
                                 android:hint="+91 XXXXXXXXXX" />
                         </LinearLayout>
@@ -81,7 +82,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
-                                android:buttonTint="@color/colorGreen"
+                                android:buttonTint="@color/orange"
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:layout_marginStart="-10dp"
                                 android:includeFontPadding="false"
@@ -100,28 +101,9 @@
                                 android:textSize="@dimen/_10sdp" />
                         </RelativeLayout>
 
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginBottom="@dimen/_20sdp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:background="@drawable/shape_button"
-                            android:backgroundTint="@color/colorGreen"
-                            android:elevation="@dimen/_2sdp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/proxima_nova_extrabold"
-                                android:includeFontPadding="false"
-                                android:padding="@dimen/_11sdp"
-                                android:text="Sign In"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_14sdp" />
-
-                        </RelativeLayout>
+                        <include
+                            android:id="@+id/includeBtn"
+                            layout="@layout/common_button_match_width_layout"/>
                     </LinearLayout>
                 </LinearLayout>
 

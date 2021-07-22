@@ -8,26 +8,27 @@
         android:layout_height="match_parent"
         android:background="@color/colorScreenBackground"
         android:orientation="vertical"
-        android:theme="@style/Theme.Frimline.GREENSHADE" >
+        android:theme="@style/Theme.Frimline.GREENSHADE">
 
-      <include
-          android:id="@+id/toolbar"
-          layout="@layout/include_activity_toolbar_layout"/>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/include_activity_toolbar_layout" />
 
         <ImageView
+            android:id="@+id/backgroundLayar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background"
-            app:tint="@color/colorGreen" />
+            app:tint="@color/orange" />
 
         <ScrollView
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/_70sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_70sdp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -44,9 +45,9 @@
 
 
                     <androidx.cardview.widget.CardView
-                        android:layout_marginTop="@dimen/_140sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_140sdp"
                         app:cardCornerRadius="@dimen/_7sdp"
                         app:cardElevation="@dimen/_3sdp"
                         app:cardUseCompatPadding="true">
@@ -58,8 +59,8 @@
                             android:orientation="vertical"
                             android:paddingStart="@dimen/_15sdp"
                             android:paddingTop="@dimen/_50sdp"
-                            android:paddingBottom="@dimen/_15sdp"
-                            android:paddingEnd="@dimen/_15sdp">
+                            android:paddingEnd="@dimen/_15sdp"
+                            android:paddingBottom="@dimen/_15sdp">
 
 
                             <TextView
@@ -72,12 +73,13 @@ Overall Health"
                                 android:textSize="@dimen/_14sdp" />
 
                             <View
+                                android:id="@+id/view1"
                                 android:layout_width="@dimen/_30sdp"
                                 android:layout_height="3dp"
                                 android:layout_marginTop="@dimen/_7sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:background="@drawable/shape_underline"
-                                android:backgroundTint="@color/colorGreen" />
+                                android:backgroundTint="@color/orange" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -115,14 +117,14 @@ Overall Health"
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_marginTop="@dimen/_20sdp"
-                        app:cardCornerRadius="@dimen/_7sdp"
-                        android:layout_marginStart="@dimen/_25sdp"
-                        android:layout_marginEnd="@dimen/_25sdp"
-                        app:cardUseCompatPadding="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardElevation="@dimen/_5sdp">
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        app:cardCornerRadius="@dimen/_7sdp"
+                        app:cardElevation="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -147,21 +149,41 @@ Overall Health"
                     android:textSize="@dimen/_16sdp" />
 
                 <View
+                    android:id="@+id/view2"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="3dp"
                     android:layout_marginStart="@dimen/_15sdp"
-
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_marginBottom="@dimen/_7sdp"
                     android:background="@drawable/shape_underline"
-                    android:backgroundTint="@color/colorGreen" />
+                    android:backgroundTint="@color/orange" />
 
-
+                <androidx.viewpager.widget.ViewPager
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_300sdp" />
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dots_indicator"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dotsColor="#DDDDDD"
+                    app:dotsCornerRadius="8dp"
+                    app:dotsSize="8dp"
+                    app:dotsSpacing="3dp"
+                    app:dotsWidthFactor="2.5"
+                    app:selectedDotColor="@color/orange"
+                    app:progressMode="true"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_11sdp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -217,14 +239,14 @@ Overall Health"
                                     android:textSize="@dimen/_11sdp" />
 
                                 <View
+                                    android:id="@+id/view3"
                                     android:layout_width="@dimen/_30sdp"
                                     android:layout_height="3dp"
                                     android:layout_marginStart="@dimen/_10sdp"
-
                                     android:layout_marginTop="@dimen/_7sdp"
                                     android:layout_marginBottom="@dimen/_7sdp"
                                     android:background="@drawable/shape_underline"
-                                    android:backgroundTint="@color/colorGreen" />
+                                    android:backgroundTint="@color/orange" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -245,7 +267,8 @@ various aspects of your lives..."
                         </androidx.cardview.widget.CardView>
 
                         <com.google.android.material.chip.Chip
-                            style="@style/ChipStyle"
+                            android:id="@+id/chip1"
+                            style="@style/ChipStyleForTab"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/blog1"
                             android:layout_centerHorizontal="true"
@@ -253,16 +276,16 @@ various aspects of your lives..."
                             android:layout_marginBottom="0dp"
                             android:elevation="@dimen/_3sdp"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:shadowColor="@color/colorGreen"
+                            android:shadowColor="@color/orange"
                             android:text="Explore More"
                             android:textAppearance="@style/ChipFontStyle"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_11sdp"
                             android:textStyle="bold"
-                            app:chipBackgroundColor="@color/colorGreen"
+                            app:chipBackgroundColor="@color/orange"
                             app:chipEndPadding="@dimen/_10sdp"
                             app:chipStartPadding="@dimen/_10sdp"
-                            app:chipStrokeColor="@color/colorGreen" />
+                            app:chipStrokeColor="@color/orange" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -319,14 +342,14 @@ various aspects of your lives..."
                                     android:textSize="@dimen/_11sdp" />
 
                                 <View
+                                    android:id="@+id/view4"
                                     android:layout_width="@dimen/_30sdp"
                                     android:layout_height="3dp"
                                     android:layout_marginStart="@dimen/_10sdp"
-
                                     android:layout_marginTop="@dimen/_7sdp"
                                     android:layout_marginBottom="@dimen/_7sdp"
                                     android:background="@drawable/shape_underline"
-                                    android:backgroundTint="@color/colorGreen" />
+                                    android:backgroundTint="@color/orange" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -347,6 +370,7 @@ various aspects of your lives..."
                         </androidx.cardview.widget.CardView>
 
                         <com.google.android.material.chip.Chip
+                            android:id="@id/chipC"
                             style="@style/ChipStyle"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/blog2"
@@ -355,16 +379,16 @@ various aspects of your lives..."
                             android:layout_marginBottom="0dp"
                             android:elevation="@dimen/_3sdp"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:shadowColor="@color/colorGreen"
+                            android:shadowColor="@color/orange"
                             android:text="Explore More"
                             android:textAppearance="@style/ChipFontStyle"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_11sdp"
                             android:textStyle="bold"
-                            app:chipBackgroundColor="@color/colorGreen"
+                            app:chipBackgroundColor="@color/orange"
                             app:chipEndPadding="@dimen/_10sdp"
                             app:chipStartPadding="@dimen/_10sdp"
-                            app:chipStrokeColor="@color/colorGreen" />
+                            app:chipStrokeColor="@color/orange" />
                     </RelativeLayout>
 
 

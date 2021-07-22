@@ -1,23 +1,43 @@
 package com.app.frimline.screens;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.LoginTabAdapter;
 import com.app.frimline.databinding.ActivityLoginBinding;
 import com.app.frimline.fragments.LoginVMobileFragment;
 import com.app.frimline.fragments.LoginVEmailFragment;
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.google.android.material.tabs.TabLayout;
 
 public class LoginActivity extends BaseActivity {
@@ -30,10 +50,20 @@ public class LoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_login);
-        setStatusBarTransparent();
-
+        changeTheme();
         setupTabIcons();
+        if (Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT < 30) {
+             setStatusBarTransparent();
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+        if (Build.VERSION.SDK_INT >= 30) {
+            Log.e("Android ", "11");
+            getWindow().getDecorView().getWindowInsetsController().hide(android.view.WindowInsets.Type.statusBars());
+
+        }
     }
+
+
 
 
     private void setupTabIcons() {
@@ -60,7 +90,7 @@ public class LoginActivity extends BaseActivity {
                 FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) binding.indicator.getLayoutParams();
                 indicatorParams.width = indicatorWidth;
                 binding.indicator.setLayoutParams(indicatorParams);
-               // binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
+                // binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
             }
         });
 
@@ -124,6 +154,18 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public void changeTheme() {
+        binding.indicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
+        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
+        binding.backgroundLayar2.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
+        binding.signupTxtTXT.setTextColor((Color.parseColor(new PREF(act).getCategoryColor())));
+        ImageView logo = act.findViewById(R.id.logo);
+        VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_logo_green, logo);
+        VectorDrawableCompat.VFullPath path1 = vector.findPathByName("background");
+        path1.setFillColor(Color.parseColor(new PREF(act).getCategoryColor()));
+        logo.invalidate();
     }
 
 }

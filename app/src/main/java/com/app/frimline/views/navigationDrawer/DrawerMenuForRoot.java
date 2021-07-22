@@ -181,6 +181,8 @@ public class DrawerMenuForRoot {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 //parent.smoothScrollToPosition(groupPosition);
                 Fragment fragmentSelected = null;
+                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+                toolbar_Navigation.setVisibility(View.VISIBLE);
                 if (headerList.get(groupPosition).isGroup) {
                     Intent i = new Intent(activity, CategoryLandingActivity.class);
                     i.putExtra("targetCategory","YES");

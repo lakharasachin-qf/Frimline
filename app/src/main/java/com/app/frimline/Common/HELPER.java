@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.VectorDrawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -52,12 +54,14 @@ public class HELPER {
         act.overridePendingTransition(R.anim.act_left_out, R.anim.act_right_enter);
     }
     //for Edittext Color Effect
-    public static void SET_STYLE(Activity act,EditText editText, LinearLayout view) {
+    public static void SET_STYLE(Activity act,EditText editText, View view) {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     view.setBackground(ContextCompat.getDrawable(act, R.drawable.shape_editext_background_active));
+                    GradientDrawable drawable = (GradientDrawable)view.getBackground();
+                    drawable.setStroke(2, Color.parseColor(new PREF(act).getCategoryColor()));
                 } else {
                     view.setBackground(ContextCompat.getDrawable(act, R.drawable.shape_editext_background));
                 }
@@ -83,5 +87,42 @@ public class HELPER {
     //Home Fragment
     public static void changeThemeHomeFragment(FragmentHomeBinding binding, String primaryColor){
        // binding.headingUnderlineView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(primaryColor)));
+    }
+
+
+    //hide status bar in android 11 or API 30
+    public static void hideStatusBarAPI30(Activity act){
+        if (Build.VERSION.SDK_INT >= 30) {
+            Log.e("Android ", "11");
+            act.getWindow().getDecorView().getWindowInsetsController().hide(android.view.WindowInsets.Type.statusBars());
+            // getWindow().setDecorFitsSystemWindows(false);
+//            ViewCompat.setOnApplyWindowInsetsListener(binding.rootBackgroun, new OnApplyWindowInsetsListener() {
+//                @Override
+//                public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+//                    layoutParams.topMargin =   insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+//                    layoutParams.bottomMargin =   insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+//                    v.setLayoutParams(layoutParams);
+//                    return null;
+//                }
+//            });
+        }
+    }
+    public static void showStatusBarAPI30(Activity act){
+        if (Build.VERSION.SDK_INT >= 30) {
+            Log.e("Android ", "11");
+            act.getWindow().getDecorView().getWindowInsetsController().hide(android.view.WindowInsets.Type.statusBars());
+            // getWindow().setDecorFitsSystemWindows(false);
+//            ViewCompat.setOnApplyWindowInsetsListener(binding.rootBackgroun, new OnApplyWindowInsetsListener() {
+//                @Override
+//                public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+//                    layoutParams.topMargin =   insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+//                    layoutParams.bottomMargin =   insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+//                    v.setLayoutParams(layoutParams);
+//                    return null;
+//                }
+//            });
+        }
     }
 }

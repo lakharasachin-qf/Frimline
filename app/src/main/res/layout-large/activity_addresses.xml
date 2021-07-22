@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorScreenBackground"
+        android:orientation="vertical"
+        android:theme="@style/Theme.Frimline.GREENSHADE"
+        tools:context=".AddressesActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/include_activity_toolbar_layout" />
+
+        <ImageView
+            android:id="@+id/backgroundLayar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_screen_bottom_background" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_for_my_account">
+
+                        <ImageView
+                            android:id="@+id/actionEdit"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:background="@drawable/shape_ovel"
+                            android:backgroundTint="@color/colorGreen"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_edit_black_24dp" />
+
+
+                        <TextView
+                            android:id="@+id/titleTxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:text="Billing Address"
+                            android:textColor="@color/colorEditText"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/titleTxt"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:text="A-1 ,11, Ground Floor, Green Feild, Jogeshwari Vikroli Link
+Rd, Opp Fantasi Land, Andheri (west)"
+                            android:textSize="@dimen/_9sdp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_for_my_account">
+
+                        <ImageView
+                            android:id="@+id/actionAdd"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:background="@drawable/shape_ovel"
+                            android:backgroundTint="@color/colorGreen"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_add_black_24dp" />
+
+
+                        <TextView
+                            android:id="@+id/title2Txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:text="Shipping Address"
+                            android:textColor="@color/colorEditText"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title2Txt"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:text="A-1 ,11, Ground Floor, Green Feild, Jogeshwari Vikroli Link
+Rd, Opp Fantasi Land, Andheri (west)"
+                            android:textSize="@dimen/_9sdp"
+                            android:visibility="gone" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+</layout>

@@ -3,6 +3,7 @@ package com.app.frimline.Common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 
 public class PREF {
     private static final String PREF_NAME = "frimline";
@@ -46,6 +47,6 @@ public class PREF {
     }
 
     public String getCategoryColor() {
-        return pref.getString("categoryColor", "#81B533");
+        return pref.getString("categoryColor", "#EF7F1B");
     }
 }

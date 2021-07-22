@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -152,6 +153,8 @@ public class DrawerMenu {
                 //parent.smoothScrollToPosition(groupPosition);
                 Fragment fragmentSelected = null;
                 Intent intent;
+                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+                toolbar_Navigation.setVisibility(View.VISIBLE);
                 if (headerList.get(groupPosition).isGroup) {
 
                     if (!headerList.get(groupPosition).hasChildren) {
@@ -232,6 +235,9 @@ public class DrawerMenu {
         myAccountTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+                toolbar_Navigation.setVisibility(View.VISIBLE);
                 HomePageLayout.setVisibility(View.GONE);
                 titleTxt.setVisibility(View.VISIBLE);
                 titleTxt.setText("My Account");
@@ -265,6 +271,8 @@ public class DrawerMenu {
             @Override
             public void onClick(View v) {
 
+                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+                toolbar_Navigation.setVisibility(View.VISIBLE);
                 HomePageLayout.setVisibility(View.GONE);
                 titleTxt.setVisibility(View.VISIBLE);
                 titleTxt.setText("My Account");

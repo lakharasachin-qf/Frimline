@@ -69,12 +69,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         act = this;
         setContentView(R.layout.custom_navigation);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            Window window = this.getWindow();
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            window.setStatusBarColor(this.getResources().getColor(R.color.colorGreen));
-//        }
+
         pref = new PREF(this);
         gson = new Gson();
         frimline = (FRIMLINE) this.getApplication();
@@ -114,7 +109,8 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
                 }
             }
         });
-        getWindow().setNavigationBarColor(ContextCompat.getColor(act,R.color.white));
+
+
 
     }
 
@@ -167,9 +163,23 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         return false;
     }
 
+    public void changeBottomNavigationColor(){
+        getWindow().setNavigationBarColor(ContextCompat.getColor(act,R.color.bottomNavbar));
+    }
+
+
     public void setStatusBarTransparent() {
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
     }
+    public void changeStatusBarColor(int color){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(color);
+        }
+    }
+
 }

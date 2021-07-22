@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_80sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/side_nav_bar_round_corner"
+    android:gravity="bottom"
+    android:id="@+id/profileView"
+    android:orientation="vertical"
+
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    <com.app.frimline.views.RoundishImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/profile_cover"
+        app:cornerRadius="32dp"
+        app:roundedCorners="topRight" />
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/profile_cover" />-->
+
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/proxima_nova_bold"
+        android:includeFontPadding="false"
+        android:text="Mike Alene"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp" />
+
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_right_white_drop_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:tint="@color/orange"
             android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background"
           />
@@ -77,7 +78,7 @@
                                 android:layout_marginTop="@dimen/_4sdp"
                                 android:layout_marginEnd="@dimen/_4sdp"
                                 android:background="@drawable/shape_ovel"
-                                android:backgroundTint="@color/colorGreen"
+                                android:backgroundTint="@color/orange"
                                 android:padding="@dimen/_3sdp"
                                 android:src="@drawable/ic_edit_black_24dp" />
 
@@ -149,6 +150,7 @@
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
+                                android:id="@+id/orderContainer"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/shape_for_my_account"
@@ -162,7 +164,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="@dimen/_4sdp"
                                     android:background="@drawable/shape_ovel"
-                                    android:backgroundTint="@color/colorGreen"
+                                    android:backgroundTint="@color/orange"
                                     android:padding="@dimen/_5sdp"
                                     android:src="@drawable/ic_cart_my_account" />
 
@@ -191,6 +193,7 @@
                         android:layout_weight="1">
 
                         <androidx.cardview.widget.CardView
+
                             android:layout_width="match_parent"
                             android:id="@+id/addressLayout"
                             android:layout_height="match_parent"
@@ -202,7 +205,7 @@
                                 android:id="@+id/container"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/shape_for_my_account_active"
+                                android:background="@drawable/shape_for_my_account"
                                 android:orientation="vertical"
                                 android:padding="@dimen/_7sdp">
 
@@ -213,7 +216,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="@dimen/_4sdp"
                                     android:background="@drawable/shape_ovel"
-                                    android:backgroundTint="@color/colorGreen"
+                                    android:backgroundTint="@color/orange"
                                     android:padding="@dimen/_5sdp"
                                     android:src="@drawable/ic_homeicon" />
 
@@ -250,6 +253,7 @@
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
+                                android:id="@+id/accountDetailsContainer"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/shape_for_my_account"
@@ -263,7 +267,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="@dimen/_4sdp"
                                     android:background="@drawable/shape_ovel"
-                                    android:backgroundTint="@color/colorGreen"
+                                    android:backgroundTint="@color/orange"
                                     android:padding="@dimen/_5sdp"
                                     android:src="@drawable/ic_person_icon" />
 
@@ -291,7 +295,36 @@
 
         </ScrollView>
 
-        <RelativeLayout
+        <LinearLayout
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:padding="@dimen/_15sdp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <include
+                    android:id="@+id/includeLoginBtn"
+                    layout="@layout/common_button_match_width_layout"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:padding="@dimen/_15sdp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <include
+                    android:id="@+id/includeSignupBtn"
+                    layout="@layout/common_button_match_width_layout"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -300,21 +333,19 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/shape_button"
-            android:backgroundTint="@color/colorGreen"
-            android:elevation="@dimen/_15sdp">
+            android:background="@drawable/shape_button_second"
+            android:fontFamily="@font/proxima_nova_extrabold"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:backgroundTint="@color/orange"
+            android:paddingBottom="@dimen/_10sdp"
+            android:text="Logout"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/proxima_nova_extrabold"
-                android:includeFontPadding="false"
-                android:padding="@dimen/_11sdp"
-                android:text="Logout"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15sdp" />
+        </androidx.appcompat.widget.AppCompatButton>
 
-        </RelativeLayout>
     </RelativeLayout>
 </layout>

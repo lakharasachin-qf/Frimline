@@ -45,6 +45,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/detailContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="-40dp"
@@ -304,37 +305,9 @@
             </LinearLayout>
         </ScrollView>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_Navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorScreenBackground"
-            app:layout_collapseMode="pin">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_26sdp"
-                android:layout_marginBottom="@dimen/_10sdp">
-
-                <ImageView
-                    android:id="@+id/backPress"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:src="@drawable/ic_left_arrow_black" />
-
-                <TextView
-                    android:id="@+id/titleTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:text="Mouthwash"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_17sdp" />
-
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
+    <include
+        android:id="@+id/toolbar_Navigation"
+        layout="@layout/include_activity_toolbar_layout"/>
 
         <RelativeLayout
             android:id="@+id/boottomFooter"
@@ -346,7 +319,7 @@
             android:elevation="@dimen/_10sdp">
 
             <TextView
-
+                android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -358,6 +331,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <RelativeLayout
+                android:id="@+id/addCartContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

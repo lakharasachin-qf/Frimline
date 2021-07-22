@@ -55,7 +55,7 @@
                             android:text="Username or Email Address" />
 
                         <LinearLayout
-                            android:id="@+id/countryEdtLayout"
+                            android:id="@+id/emailEdtLayout"
                             style="@style/EditTextOverLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -67,7 +67,7 @@
                                 android:src="@drawable/ic_person_outline_black_24dp" />
 
                             <EditText
-                                android:id="@+id/countryEdt"
+                                android:id="@+id/emailEdt"
                                 style="@style/EditBoxWithoutIcons"
                                 android:layout_gravity="center_vertical"
                                 android:background="@null"
@@ -81,24 +81,43 @@
                             android:text="Password" />
 
                         <LinearLayout
-                            android:id="@+id/emailEdtLayout"
+                            android:id="@+id/confirmPasswordLayout"
                             style="@style/EditTextOverLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/_7sdp"
+                            android:paddingBottom="@dimen/_7sdp">
 
                             <ImageView
                                 android:layout_width="@dimen/_15sdp"
                                 android:layout_height="@dimen/_15sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_gravity="center_vertical"
                                 android:src="@drawable/ic_lock_black_24dp" />
 
-                            <EditText
-                                android:id="@+id/emailEdt"
-                                style="@style/EditBoxWithoutIcons"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
                                 android:layout_gravity="center_vertical"
+                                android:layout_margin="0dp"
                                 android:background="@null"
-                                android:hint="Password" />
+                                android:padding="0dp"
+                                app:boxBackgroundColor="@color/white"
+                                app:boxStrokeWidth="0dp"
+                                app:boxStrokeWidthFocused="0dp"
+                                app:passwordToggleEnabled="true">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/confirmPassword"
+                                    style="@style/EditBoxWithoutIcons"
+                                    android:layout_width="match_parent"
+                                    android:layout_margin="0dp"
+                                    android:inputType="textPassword"
+                                    android:padding="0dp"
+                                    android:singleLine="true" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
                         </LinearLayout>
+
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -128,27 +147,9 @@
                                 android:text="Forgot Password?"
                                 android:textSize="@dimen/_10sdp" />
                         </RelativeLayout>
-                        <RelativeLayout
-                            android:layout_marginBottom="@dimen/_7sdp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:background="@drawable/shape_button"
-                            android:backgroundTint="@color/colorGreen"
-                            android:elevation="@dimen/_2sdp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/proxima_nova_extrabold"
-                                android:includeFontPadding="false"
-                                android:padding="@dimen/_11sdp"
-                                android:text="Sign In"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_14sdp" />
-
-                        </RelativeLayout>
+                        <include
+                            android:id="@+id/includeBtn"
+                            layout="@layout/common_button_match_width_layout" />
                     </LinearLayout>
                 </LinearLayout>
 

@@ -31,6 +31,7 @@ public class BlogsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blogs, container, false);
+
         ArrayList<HomeModel> arrayList = new ArrayList<>();
         HomeModel homeModel =new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
@@ -57,6 +58,7 @@ public class BlogsFragment extends Fragment {
         BlogsAdapter adaptertop = new BlogsAdapter(arrayList, getActivity());
         binding.blogsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.blogsRecycler.setAdapter(adaptertop);
+
         return binding.getRoot();
     }
 }

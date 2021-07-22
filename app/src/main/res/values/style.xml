@@ -12,7 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <item name="android:windowTranslucentStatus">true</item>
-
+        <!--  <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--         <item name="android:windowTranslucentNavigation">true</item>-->
         <!-- Customize your theme here. -->
     </style>
     <!-- Base application theme. -->
@@ -20,8 +21,12 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/orange</item>
+        <!--        <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+
         <item name="colorAccent">@color/colorGreen</item>
     </style>
+
+
     <style name="Theme.Frimline.GREENSHADE" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorGreen</item>
@@ -33,9 +38,27 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!--   <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <!-- Customize your theme here. -->
     </style>
+
+
+    <style name="Theme.Frimline.LOGIN" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryVariant">@color/orange</item>
+        <item name="colorOnPrimary">@color/orange</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue</item>
+        <item name="colorSecondaryVariant">@color/orange</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+
+    </style>
+
 
     <style name="myTextInputLabel" parent="TextAppearance.AppCompat">
         <!-- Customize your theme here. -->
@@ -51,6 +74,17 @@
         <item name="android:background">@drawable/shape_editext_background</item>
 
     </style>
+
+    <!--FOR LARGE SCREEN-->
+    <style name="EditTextOverLayoutForLargeScreen">
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingTop">@dimen/_12sdp</item>
+        <item name="android:paddingBottom">@dimen/_12sdp</item>
+        <item name="android:background">@drawable/shape_editext_background</item>
+
+    </style>
+
     <style name="EditTextTitle">
         <item name="android:textColor">#6A6B74</item>
         <item name="android:textSize">@dimen/_11sdp</item>
@@ -58,12 +92,37 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <!--FOR LARGE SCREEN-->
+    <style name="EditTextTitleForLargeScreen">
+        <item name="android:textColor">#6A6B74</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:fontFamily">@font/proxima_nova_regular</item>
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
     <style name="EditBoxWithoutIcons">
         <item name="android:textSize">@dimen/_12sdp</item>
         <item name="android:textColor">@color/colorEditText</item>
         <item name="android:includeFontPadding">false</item>
         <item name="fontFamily">@font/proxinova_semi_bold</item>
         <item name="background">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="singleLine">true</item>
+    </style>
+    <!--FOR LARGE SCREEN-->
+    <style name="EditBoxWithoutIconsForLargeScreen">
+        <item name="android:textSize">@dimen/_11sdp</item>
+        <item name="android:textColor">@color/colorEditText</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="fontFamily">@font/proxinova_semi_bold</item>
+        <item name="background">@null</item>
+        <item name="android:textCursorDrawable">@null</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="singleLine">true</item>
@@ -81,13 +140,27 @@
         <item name="chipEndPadding">@dimen/_15sdp</item>
         <item name="chipStrokeColor">#E2E9EF</item>
         <item name="chipStrokeWidth">1dp</item>
-
     </style>
+
+    <!-- FOR LARGE SCREEN-->
+
+    <style name="ChipStyleForTab">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/_40sdp</item>
+        <item name="android:fontFamily">@font/proxima_nova_regular</item>
+        <item name="android:textColor">@color/colorToolbarHeader</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStartPadding">@dimen/_15sdp</item>
+        <item name="chipEndPadding">@dimen/_15sdp</item>
+        <item name="chipStrokeColor">#E2E9EF</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
+
 
     <style name="ChipFontStyle" parent="TextAppearance.MaterialComponents.Chip">
         <item name="fontFamily">@font/proxima_nova_bold</item>
     </style>
-
 
 
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
@@ -97,5 +170,12 @@
         <item name="android:textAlignment">center</item>
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">@font/proxima_nova_bold</item>
+    </style>
+
+    <style name="otpViewStyleForLarge">
+
+        <item name="otp_box_background_active">@drawable/shape_otp_focued</item>
+
+
     </style>
 </resources>

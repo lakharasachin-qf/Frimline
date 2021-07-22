@@ -104,6 +104,8 @@
                                 android:textSize="@dimen/_11sdp" />
 
                             <RelativeLayout
+                                android:id="@+id/applyCode"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_40sdp"
                                 android:layout_alignParentEnd="true"
@@ -135,6 +137,8 @@
 
 
                 <LinearLayout
+                    android:id="@+id/bottomSlider"
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="-40dp"
@@ -312,6 +316,7 @@
             android:elevation="@dimen/_10sdp">
 
             <TextView
+                android:id="@+id/boottomText"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

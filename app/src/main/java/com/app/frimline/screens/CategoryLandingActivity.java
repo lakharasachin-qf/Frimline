@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.app.frimline.BaseNavDrawerActivity;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CategoryNavViewPager;
 import com.app.frimline.views.CustomViewPager;
@@ -39,7 +42,14 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setUpToolbar();
-        setStatusBarTransparent();
+        if (Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT < 30) {
+            setStatusBarTransparent();
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+        if (Build.VERSION.SDK_INT >= 30) {
+            HELPER.hideStatusBarAPI30(act);
+            findViewById(R.id.drawer_layout).setFitsSystemWindows(false);
+        }
 
         CategoryNavViewPager adapter = new CategoryNavViewPager(this, getSupportFragmentManager(), 3);
 
@@ -67,20 +77,20 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             }
         });
 
-        if (getIntent().hasExtra("targetCategory")){
+        if (getIntent().hasExtra("targetCategory")) {
             shimmer_view_container = findViewById(R.id.shimmer_view_container);
             drawerLayout.setVisibility(View.VISIBLE);
             customViewPager.setVisibility(View.GONE);
             Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
             toolbar_Navigation.setVisibility(View.VISIBLE);
-
+            changeStatusBarColor(this.getResources().getColor(R.color.colorScreenBackground));
         }
 
     }
 
     @Override
     public void onBackPressed() {
-        if (shimmer_view_container!=null)
+        if (shimmer_view_container != null)
             shimmer_view_container.stopShimmer();
 
         drawerMenu.onBackPressed();
@@ -96,7 +106,7 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(CategoryLandingActivity.this);
 
-        int defaultLoad=DrawerMenu.HOME_FRAGMENT;
+        int defaultLoad = DrawerMenu.HOME_FRAGMENT;
         if (getIntent().hasExtra("fragment")) {
             if (getIntent().getStringExtra("fragment").equalsIgnoreCase("Home")) {
                 defaultLoad = DrawerMenu.HOME_FRAGMENT;
@@ -110,10 +120,9 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         }
 
 
-        drawerMenu = new DrawerMenu(act,defaultLoad);
+        drawerMenu = new DrawerMenu(act, defaultLoad);
         drawerMenu.prepareMenuData();
         drawerMenu.populateExpandableList();
-
 
 
         Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
@@ -122,18 +131,18 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         navigationView.setElevation(30);
         float radius = getResources().getDimension(R.dimen.roundcorner);
-         MaterialShapeDrawable navViewBackground = (MaterialShapeDrawable) navigationView.getBackground();
+        MaterialShapeDrawable navViewBackground = (MaterialShapeDrawable) navigationView.getBackground();
         navViewBackground.setShapeAppearanceModel(
                 navViewBackground.getShapeAppearanceModel()
                         .toBuilder()
-                        .setTopRightCorner(CornerFamily.ROUNDED,radius)
-                        .setBottomRightCorner(CornerFamily.ROUNDED,radius)
+                        .setTopRightCorner(CornerFamily.ROUNDED, radius)
+                        .setBottomRightCorner(CornerFamily.ROUNDED, radius)
                         .build());
-        hangeTheme(act,pref.getCategoryColor());
+        hangeTheme(act, pref.getCategoryColor());
     }
 
-    public void hangeTheme(Activity act, String primaryColor){
-        ImageView logo=act.findViewById(R.id.logo);
+    public void hangeTheme(Activity act, String primaryColor) {
+        ImageView logo = act.findViewById(R.id.logo);
         VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_logo_green, logo);
         VectorDrawableCompat.VFullPath path1 = vector.findPathByName("background");
         path1.setFillColor(Color.parseColor(primaryColor));
@@ -172,17 +181,22 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                 } else if (CurrentPosition == 0) {
                     customViewPager.setPagingEnabled(false);
                     drawerLayout.setVisibility(View.VISIBLE);
+                    changeStatusBarColor(ContextCompat.getColor(act, R.color.colorScreenBackground));
                     customViewPager.setVisibility(View.GONE);
                     Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
                     toolbar_Navigation.setVisibility(View.VISIBLE);
                     startAnimation();
+                    HELPER.hideStatusBarAPI30(act);
+                    changeStatusBarColor(ContextCompat.getColor(act, R.color.transparent));
                 }
             }
         };
 
         handler.postDelayed(r, 200);
     }
+
     ShimmerFrameLayout shimmer_view_container;
+
     private void startAnimation() {
         if (!isDestroyed()) {
             shimmer_view_container = findViewById(R.id.shimmer_view_container);

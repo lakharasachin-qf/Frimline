@@ -14,6 +14,7 @@
            layout="@layout/include_activity_toolbar_layout"/>
 
         <ImageView
+            android:id="@+id/backgroundLayar"
             android:layout_alignParentEnd="true"
             android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background"
@@ -45,6 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <ImageView
+                            android:id="@+id/actionEdit"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_alignParentEnd="true"
@@ -68,7 +70,7 @@
                             android:fontFamily="@font/proxima_nova_bold"
                             android:textColor="@color/colorEditText"
                             android:text="Billing Address"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                         <TextView
@@ -102,6 +104,7 @@ Rd, Opp Fantasi Land, Andheri (west)"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <ImageView
+                            android:id="@+id/actionAdd"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_alignParentEnd="true"

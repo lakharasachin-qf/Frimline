@@ -77,7 +77,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         mNetworkReceiver = new NetworkChangeReceiver();
         registerNetworkBroadcastForNougat();
 
-        getWindow().setNavigationBarColor(ContextCompat.getColor(act,R.color.white));
+
 
 
     }
@@ -130,5 +130,17 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+    }
+    public void changeBottomNavigationColor(int color){
+        getWindow().setNavigationBarColor(color);
+    }
+
+    public void changeStatusBarColor(int color){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(color);
+        }
     }
 }

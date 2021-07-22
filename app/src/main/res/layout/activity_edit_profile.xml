@@ -13,9 +13,10 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/include_activity_toolbar_layout"/>
+            layout="@layout/include_activity_toolbar_layout" />
 
         <ImageView
+            android:id="@+id/backgroundLayar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -139,7 +140,7 @@
                             android:text="Display Name" />
 
                         <LinearLayout
-                            android:id="@+id/countryEdtLayout"
+                            android:id="@+id/displayNameEdtLayout"
                             style="@style/EditTextOverLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -151,7 +152,7 @@
                                 android:src="@drawable/ic_person_outline_black_24dp" />
 
                             <EditText
-                                android:id="@+id/countryEdt"
+                                android:id="@+id/displayNameEdt"
                                 style="@style/EditBoxWithoutIcons"
                                 android:layout_gravity="center_vertical"
                                 android:background="@null"
@@ -218,6 +219,7 @@
                             android:text="New Password" />
 
                         <LinearLayout
+                            android:id="@+id/newPasswordLayout"
                             style="@style/EditTextOverLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -243,6 +245,7 @@
                                 app:passwordToggleEnabled="true">
 
                                 <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/newPasswordEdt"
                                     style="@style/EditBoxWithoutIcons"
                                     android:layout_width="match_parent"
                                     android:layout_margin="0dp"
@@ -260,6 +263,7 @@
                             android:text="Cofirm Password" />
 
                         <LinearLayout
+                            android:id="@+id/confirmPasswordLayout"
                             style="@style/EditTextOverLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -285,7 +289,7 @@
                                 app:passwordToggleEnabled="true">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etPassword"
+                                    android:id="@+id/confirmPassword"
                                     style="@style/EditBoxWithoutIcons"
                                     android:layout_width="match_parent"
                                     android:layout_margin="0dp"
@@ -296,27 +300,9 @@
 
                         </LinearLayout>
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_25sdp"
-                            android:layout_marginBottom="@dimen/_20sdp"
-                            android:background="@drawable/shape_button"
-                            android:backgroundTint="@color/colorGreen"
-                            android:elevation="@dimen/_2sdp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/proxima_nova_extrabold"
-                                android:includeFontPadding="false"
-                                android:padding="@dimen/_11sdp"
-                                android:text="Save Profile"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_15sdp" />
-
-                        </RelativeLayout>
+                        <include
+                            android:id="@+id/includeBtn"
+                            layout="@layout/common_button_match_width_layout" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

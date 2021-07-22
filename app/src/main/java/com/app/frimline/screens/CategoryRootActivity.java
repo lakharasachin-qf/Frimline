@@ -3,9 +3,13 @@ package com.app.frimline.screens;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +35,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         pref.setConfiguration("#EF7F1A","#EF7F1A");
         setUpToolbar();
         setStatusBarTransparent();
+        changeStatusBarColor(this.getResources().getColor(R.color.colorScreenBackground));
     }
 
     DrawerMenuForRoot drawerMenu;
