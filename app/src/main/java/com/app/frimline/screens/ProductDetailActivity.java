@@ -42,6 +42,9 @@ import com.app.frimline.fragments.aboutProducts.HowToUseFragment;
 import com.app.frimline.fragments.aboutProducts.IngredientsFragment;
 import com.app.frimline.fragments.aboutProducts.QnAFragment;
 import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
+import com.app.frimline.views.WrapContentHeightViewPager;
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.google.android.material.tabs.TabLayout;
 
 public class ProductDetailActivity extends BaseActivity {
@@ -78,7 +81,7 @@ public class ProductDetailActivity extends BaseActivity {
         });
         binding.toolbarNavigation.title.setText("Mouthwash");
 
-        //setupTabIcons();
+         setupTabIcons();
         changeTheme();
     }
 
@@ -88,6 +91,13 @@ public class ProductDetailActivity extends BaseActivity {
         binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
         GradientDrawable drawable = (GradientDrawable) binding.addCartContainer.getBackground();
         drawable.setStroke(2, Color.parseColor(new PREF(act).getCategoryColor()));
+
+
+        VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_not_returnable, binding.nonReturnIcon);
+        VectorDrawableCompat.VFullPath path1 = vector.findPathByName("colorGreen");
+        path1.setFillColor(Color.parseColor(prefManager.getCategoryColor()));
+        binding.nonReturnIcon.invalidate();
+
     }
 
     @Override
@@ -102,10 +112,9 @@ public class ProductDetailActivity extends BaseActivity {
     private AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
     private ReviewsFragment reviewsFragment = new ReviewsFragment();
     private QnAFragment qnAFragment = new QnAFragment();
-
     private int indicatorWidth;
-
     private void setupTabIcons() {
+        WrapContentHeightViewPager  wrapContentHeightViewPager =findViewById(R.id.viewPager);
         ProductDetailsTabAdapter adapter = new ProductDetailsTabAdapter(getSupportFragmentManager());
         adapter.addFragment(descriptionFragment, "Description");
         adapter.addFragment(howToUseFragment, "How To Use");
@@ -113,52 +122,10 @@ public class ProductDetailActivity extends BaseActivity {
         adapter.addFragment(additionalInfoFragment, "Additional Information");
         adapter.addFragment(reviewsFragment, "Reviews");
         adapter.addFragment(qnAFragment, "Q&A");
-//
-//        binding.viewPager.setAdapter(adapter);
-//        binding.viewPager.setOffscreenPageLimit(3);
-
-
-//        binding.viewPager.setAdapter(adapter);
-//    //    binding.tab.setupWithViewPager(binding.viewPager);
-//        binding.viewPager.setOffscreenPageLimit(3);
-
-//        binding.tab.post(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//
-//                indicatorWidth = binding.tab.getWidth() / binding.tab.getTabCount();
-//
-//                //Assign new width
-//                FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) binding.indicator.getLayoutParams();
-//                indicatorParams.width = indicatorWidth;
-//                binding.indicator.setLayoutParams(indicatorParams);
-//                //binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
-//            }
-//        });
-//
-//        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//
-//            @Override
-//            public void onPageScrolled(int i, float positionOffset, int positionOffsetPx) {
-//                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) binding.indicator.getLayoutParams();
-//                float translationOffset = (positionOffset + i) * indicatorWidth;
-//                params.leftMargin = (int) translationOffset;
-//                binding.indicator.setLayoutParams(params);
-//            }
-//
-//            @Override
-//            public void onPageSelected(int i) {
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int i) {
-//                // Log.e("PAge", i + "d");
-//            }
-//        });
-
-
+        wrapContentHeightViewPager.measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        wrapContentHeightViewPager.setAdapter(adapter);
+        wrapContentHeightViewPager.setOffscreenPageLimit(10);
+        binding.tabLayout.setupWithViewPager(wrapContentHeightViewPager);
     }
 
 }

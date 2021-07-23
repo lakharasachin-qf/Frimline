@@ -171,6 +171,7 @@
                             android:gravity="end">
 
                             <ImageView
+                                android:id="@+id/nonReturnIcon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -189,10 +190,7 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.1dp"
-                        android:background="@android:color/darker_gray" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -225,6 +223,36 @@
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
+                    <com.google.android.material.tabs.TabLayout
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:id="@+id/tabLayout"
+                        android:clipToPadding="false"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        app:tabMode="auto"
+                        app:tabInlineLabel="true"
+                        app:tabGravity="center"
+                        app:tabIndicatorGravity="stretch"
+                        android:background="@null"
+                        app:tabUnboundedRipple="false"
+                        app:tabSelectedTextColor="@color/orange"
+                        app:tabBackground="@android:color/transparent"
+                        app:tabRippleColor="@null"
+                        app:tabTextAppearance="@style/tabTextStyle"
+                        app:tabTextColor="@color/white"
+                        app:tabIndicatorAnimationMode="elastic"
+                        app:tabIndicatorColor="@color/white"
+                        app:tabIndicator="@drawable/shape_product_tab_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.app.frimline.views.WrapContentHeightViewPager
+                        android:background="@color/orange"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:animateLayoutChanges="true"
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false" />
 <!--                    <LinearLayout-->
 <!--                        android:orientation="vertical"-->
 <!--                        android:layout_width="match_parent"-->

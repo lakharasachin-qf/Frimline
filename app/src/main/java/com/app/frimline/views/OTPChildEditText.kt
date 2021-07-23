@@ -2,6 +2,7 @@ package com.app.frimline.views
 import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import com.app.frimline.R
 
 internal class OTPChildEditText : androidx.appcompat.widget.AppCompatEditText {
@@ -20,7 +21,7 @@ internal class OTPChildEditText : androidx.appcompat.widget.AppCompatEditText {
 
     private fun init(context: Context) {
         isCursorVisible = false
-        setTextColor(context.resources.getColor(R.color.transparent))
+        setTextColor(ContextCompat.getColor(context,R.color.transparent))
         setBackgroundDrawable(null)
         inputType = InputType.TYPE_CLASS_NUMBER
         setSelectAllOnFocus(false)
