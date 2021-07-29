@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseNavDrawerActivity;
+import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.MySingleton;
 import com.app.frimline.R;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
 import com.app.frimline.views.navigationDrawer.DrawerMenuForRoot;
@@ -24,16 +32,22 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class CategoryRootActivity extends BaseNavDrawerActivity {
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       // getThemeColor();
         pref.setConfiguration("#EF7F1A", "#EF7F1A");
         setUpToolbar();
         makeStatusBarSemiTranspenret();
-
     }
 
 
@@ -116,4 +130,54 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         drawerIcon.setVisibility(View.GONE);
     }
 
+    private void getThemeColor() {
+        HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.THEME_COLOR, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Response", response);
+                try {
+                    JSONObject object = new JSONObject(response);
+                    object.put("theme_color","EF7F1A");
+                    pref.setConfiguration(object.getString("theme_color"), "#EF7F1A");
+                    nextFlow();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+//                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
+
+    public void nextFlow() {
+        setUpToolbar();
+        makeStatusBarSemiTranspenret();
+    }
 }

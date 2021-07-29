@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import static com.app.frimline.BaseActivity.InternetError;
+import static com.app.frimline.BaseNavDrawerActivity.InternetError;
 
 
-public class NetworkChangeReceiver extends BroadcastReceiver {
+public class NetworkChangeReceiver2 extends BroadcastReceiver {
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {

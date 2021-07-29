@@ -8,10 +8,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.app.frimline.Common.CONSTANT;
@@ -29,6 +31,7 @@ import java.util.Observer;
 public class BaseActivity extends AppCompatActivity implements Observer {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
+    private static View view;
     public Activity act;
     public PREF prefManager;
     public FRIMLINE frimline;
@@ -41,7 +44,8 @@ public class BaseActivity extends AppCompatActivity implements Observer {
 
     private static void showNoConnectionDialog() {
         if (!noconnectionAlertDialog.isShowing()) {
-            //noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
+
+            noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
             noconnectionAlertDialog.setCancelable(false);
             noconnectionAlertDialog.show();
         }
@@ -73,8 +77,16 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         gson = new Gson();
         frimline = (FRIMLINE) this.getApplication();
         frimline.getObserver().addObserver(this);
-
-        noconnectionAlertDialog = new Dialog(this);
+        view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
+        AppCompatButton appCompatButton = view.findViewById(R.id.button);
+        appCompatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                finish();
+//                startActivity(getIntent());
+            }
+        });
+        noconnectionAlertDialog = new Dialog(this, R.style.MyAlertDialogStyle_extend);
         noconnectionAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         mNetworkReceiver = new NetworkChangeReceiver();

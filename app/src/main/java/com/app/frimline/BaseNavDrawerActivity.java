@@ -13,11 +13,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -25,7 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.NetworkChangeReceiver;
+import com.app.frimline.Common.NetworkChangeReceiver2;
 import com.app.frimline.Common.PREF;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -38,6 +38,7 @@ import java.util.Observer;
 public class BaseNavDrawerActivity extends AppCompatActivity implements Observer, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = BaseNavDrawerActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
+    private static View view;
     public Activity act;
     public PREF pref;
     FRIMLINE frimline;
@@ -50,7 +51,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
 
     private static void showNoConnectionDialog() {
         if (!noconnectionAlertDialog.isShowing()) {
-            noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
+            noconnectionAlertDialog.setContentView(view);
             noconnectionAlertDialog.setCancelable(false);
             noconnectionAlertDialog.show();
         }
@@ -79,10 +80,20 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         frimline.getObserver().addObserver(this);
 
 
-        noconnectionAlertDialog = new Dialog(this);
+        noconnectionAlertDialog = new Dialog(this, R.style.MyAlertDialogStyle_extend);
+        view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
+        AppCompatButton appCompatButton = view.findViewById(R.id.button);
+        appCompatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (noconnectionAlertDialog.isShowing()) {
+//                    noconnectionAlertDialog.dismiss();
+//                }
+            }
+        });
         noconnectionAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        mNetworkReceiver = new NetworkChangeReceiver();
+        mNetworkReceiver = new NetworkChangeReceiver2();
         registerNetworkBroadcastForNougat();
 
 
@@ -93,12 +104,12 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(act, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-       // toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu); //set your own
+        // toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu); //set your own
 
         //toggle.syncState();
 
-      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //  getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        toggle.setDrawerIndicatorEnabled(false);
 //        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu);
 //        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
@@ -114,8 +125,8 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
 //        });
 
 
-        ImageView drawerIcon =act.findViewById(R.id.drawerIcon);
-        ImageView drawerIcon2 =act.findViewById(R.id.drawerIcon2);
+        ImageView drawerIcon = act.findViewById(R.id.drawerIcon);
+        ImageView drawerIcon2 = act.findViewById(R.id.drawerIcon2);
         drawerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,8 +202,8 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         return false;
     }
 
-    public void changeBottomNavigationColor(){
-        getWindow().setNavigationBarColor(ContextCompat.getColor(act,R.color.bottomNavbar));
+    public void changeBottomNavigationColor() {
+        getWindow().setNavigationBarColor(ContextCompat.getColor(act, R.color.bottomNavbar));
     }
 
 
@@ -201,7 +212,8 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
     }
-    public void changeStatusBarColor(int color){
+
+    public void changeStatusBarColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
