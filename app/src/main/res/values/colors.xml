@@ -36,5 +36,6 @@
     <color name="deliveryPending">#e1ad01</color>
 
     <color name="colorProgressBackground">#00000000</color>
+    <color name="fragment_transparent">#B4000000</color>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.app.frimline.screens;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // getThemeColor();
+        //getThemeColor();
         pref.setConfiguration("#EF7F1A", "#EF7F1A");
         setUpToolbar();
         makeStatusBarSemiTranspenret();
@@ -63,7 +64,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     private void setUpToolbar() {
         FrameLayout frameLayout = findViewById(R.id.content_frame);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_category_root, null, false);
+        @SuppressLint("InflateParams") View activityView = layoutInflater.inflate(R.layout.activity_category_root, null, false);
         frameLayout.addView(activityView);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(CategoryRootActivity.this);
@@ -71,7 +72,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         drawerMenu.setDefaultFragment(DrawerMenu.CATEGORY_ROOT_FRAGMENT);
         drawerMenu.prepareMenuData();
         drawerMenu.populateExpandableList();
-
 
         navigationView.setElevation(30);
         float radius = getResources().getDimension(R.dimen.roundcorner);
@@ -138,7 +138,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                 Log.e("Response", response);
                 try {
                     JSONObject object = new JSONObject(response);
-                    object.put("theme_color","EF7F1A");
+                    object.put("theme_color", "EF7F1A");
                     pref.setConfiguration(object.getString("theme_color"), "#EF7F1A");
                     nextFlow();
                 } catch (JSONException e) {

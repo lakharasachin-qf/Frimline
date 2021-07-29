@@ -60,7 +60,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
         listModels.add(countryModel);
 
         countryModel = new CountryModel();
-        countryModel.setName("USA");
+        countryModel.setName("Iran");
         listModels.add(countryModel);
         ;
         binding.titleText.setText("Choose Country");

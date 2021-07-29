@@ -7,6 +7,7 @@ import java.util.Observable;
 public class AppObserver extends Observable {
     private final Context context;
     private String userName;
+    private String data;
     private int nStatusType;
 
     public AppObserver(Context context) {
@@ -16,6 +17,9 @@ public class AppObserver extends Observable {
     public int getValue() {
         return nStatusType;
     }
+    public String getData() {
+        return data;
+    }
 
     public void setValue(int nStatusTyp) {
         this.nStatusType = nStatusTyp;
@@ -23,5 +27,11 @@ public class AppObserver extends Observable {
         notifyObservers(userName);
     }
 
+    public void setValue(int nStatusTyp,String data) {
+        this.nStatusType = nStatusTyp;
+        this.data = data;
+        setChanged();
+        notifyObservers(userName);
+    }
 
 }

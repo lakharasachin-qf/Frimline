@@ -38,9 +38,8 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         return new SelecBrandLIstHolder(view);
     }
 
-
     @Override
-    public void onBindViewHolder(final SelecBrandLIstHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelecBrandLIstHolder holder, int position) {
         CountryModel listModel = arrayList.get(position);
 
         holder.radioButton.setText(convertFirstUpper(listModel.getName()));
@@ -64,6 +63,8 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
             }
         });
     }
+
+
 
     @Override
     public int getItemCount() {
