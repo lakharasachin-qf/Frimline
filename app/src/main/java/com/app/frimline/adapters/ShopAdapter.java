@@ -136,7 +136,7 @@ public class ShopAdapter extends RecyclerView.Adapter {
         }
         public void changeColor(){
             PREF pref=new PREF(activity);
-            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
         }
     }
@@ -161,7 +161,7 @@ public class ShopAdapter extends RecyclerView.Adapter {
         }
         public void changeColor(){
             PREF pref=new PREF(activity);
-            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
         }
     }

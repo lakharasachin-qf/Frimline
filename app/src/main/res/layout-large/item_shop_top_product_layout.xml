@@ -4,6 +4,9 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/product"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
         android:layout_width="@dimen/_140sdp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/white"

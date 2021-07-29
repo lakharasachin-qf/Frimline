@@ -12,13 +12,15 @@
 
         <ScrollView
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/_200sdp"
+            android:paddingBottom="@dimen/_130sdp"
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
 
             <RelativeLayout
+                android:id="@+id/containerLinear"
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -42,46 +44,58 @@
                         android:background="@color/white"
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp">
-
-                        <ImageView
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewPager"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_120sdp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/banner" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_120sdp"/>
+                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                            android:layout_width="wrap_content"
+                            android:id="@+id/dot"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="vertical">
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            app:dotsColor="#B7FFFFFF"
+                            app:dotsSize="@dimen/_7sdp"
+                            android:paddingBottom="@dimen/_10sdp"
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Yor are about to alive to dive in the world of"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_10sdp" />
+                            app:dotsSpacing="@dimen/_2sdp"
+                            app:selectedDotColor="@color/colorGreen" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_extrabold"
-                                android:text="BEHAVIORAL"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_22sdp" />
+                        <!--                        -->
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:orientation="vertical">-->
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="EVOLUTION"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_12sdp" />
-                        </LinearLayout>
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/proxima_nova_bold"-->
+<!--                                android:text="Yor are about to alive to dive in the world of"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/_10sdp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/proxima_nova_extrabold"-->
+<!--                                android:text="BEHAVIORAL"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/_22sdp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/proxima_nova_bold"-->
+<!--                                android:text="EVOLUTION"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/_12sdp" />-->
+<!--                        </LinearLayout>-->
                     </RelativeLayout>
 
 
@@ -359,7 +373,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/proxinova_semi_bold"
-                        android:text="Oral Hygine"
+                        android:text="Oral Hygiene"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="14dp" />

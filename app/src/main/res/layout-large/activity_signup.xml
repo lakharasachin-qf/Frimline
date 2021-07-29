@@ -5,6 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/colorScreenBackground"
         android:orientation="vertical">
 
@@ -26,13 +27,17 @@
 
 
         <androidx.core.widget.NestedScrollView
-            android:paddingBottom="@dimen/_14sdp"
-            android:clipToPadding="false"
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            android:clipToPadding="false"
+            android:fitsSystemWindows="true"
+            android:paddingBottom="@dimen/_14sdp">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical"
                 android:paddingTop="80sp">
@@ -47,16 +52,14 @@
                 <RelativeLayout
                     android:id="@+id/tabContainer"
                     android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_below="@+id/logo"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:elevation="@dimen/_2sdp"
-
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/tab_indicator"
-                    >
 
+                    android:background="@drawable/tab_indicator"
+                    android:elevation="@dimen/_2sdp">
 
 
                     <TextView
@@ -68,7 +71,7 @@
                         android:gravity="center_horizontal"
                         android:text="Sign Up"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_14sdp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -77,181 +80,148 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tabContainer"
                     android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
                     android:layout_marginTop="-35dp"
+                    android:layout_marginEnd="@dimen/_15sdp"
                     android:layout_marginBottom="@dimen/_15sdp"
                     android:background="@drawable/ic_fragment_backgroun">
 
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
 
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/_25sdp"
+                        android:paddingEnd="@dimen/_25sdp">
 
                         <LinearLayout
-                            android:layout_marginTop="@dimen/_30sdp"
-
+                            android:id="@+id/containerLinear"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingStart="@dimen/_25sdp"
-                            android:paddingEnd="@dimen/_25sdp">
+                            android:layout_height="match_parent"
+                            android:animateLayoutChanges="true"
+                            android:orientation="vertical">
 
-                            <LinearLayout
+                            <TextView
+                                style="@style/EditTextTitleForLargeScreen"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Please Sign in with email to continue using\nour app"
+                                android:textAlignment="center" />
+
+
+                            <TextView
+                                style="@style/EditTextTitleForLargeScreen"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Username" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/nameTxtLayout"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
 
-                                android:orientation="vertical">
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/nameTxt"
+                                    style="@style/textInputEditTextForTablet"
+                                    android:drawableStart="@drawable/edt_person_icon"
+                                    android:hint="Username"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                                <TextView
-                                    style="@style/EditTextTitleForLargeScreen"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="@dimen/_7sdp"
-                                    android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="Please Sign in with email to continue using\nour app"
-                                    android:textAlignment="center" />
+                            <TextView
 
-                                <TextView
-                                    style="@style/EditTextTitleForLargeScreen"
-                                    android:layout_marginTop="@dimen/_10sdp"
-                                    android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="Username" />
+                                style="@style/EditTextTitleForLargeScreen"
+                                android:layout_marginTop="@dimen/_12sdp"
 
-                                <LinearLayout
-                                    android:id="@+id/usernameLayout"
-                                    style="@style/EditTextOverLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Email" />
 
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:src="@drawable/ic_person_outline_black_24dp" />
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/emailEdtLayout"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
 
-                                    <EditText
-                                        android:id="@+id/usernameEdt"
-                                        style="@style/EditBoxWithoutIconsForLargeScreen"
-                                        android:layout_gravity="center_vertical"
-                                        android:background="@null"
-                                        android:hint="Enter here" />
-                                </LinearLayout>
-
-                                <TextView
-                                    style="@style/EditTextTitleForLargeScreen"
-                                    android:layout_marginTop="@dimen/_12sdp"
-                                    android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="Email" />
-
-                                <LinearLayout
-                                    android:id="@+id/emailEdtLayout"
-                                    style="@style/EditTextOverLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:src="@drawable/ic_email_black_24dp" />
-
-                                    <EditText
-                                        android:id="@+id/emailEdt"
-                                        style="@style/EditBoxWithoutIconsForLargeScreen"
-                                        android:layout_gravity="center_vertical"
-                                        android:background="@null"
-                                        android:hint="Password" />
-                                </LinearLayout>
-
-                                <TextView
-                                    style="@style/EditTextTitleForLargeScreen"
-                                    android:layout_marginTop="@dimen/_12sdp"
-                                    android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="Phone Number" />
-
-                                <LinearLayout
-                                    android:id="@+id/mobileNoEdtLayout"
-                                    style="@style/EditTextOverLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:src="@drawable/ic_phone_iphone" />
-
-                                    <EditText
-                                        android:id="@+id/mobileNoEdt"
-                                        style="@style/EditBoxWithoutIconsForLargeScreen"
-                                        android:layout_gravity="center_vertical"
-                                        android:background="@null"
-                                        android:hint="Password" />
-                                </LinearLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/emailEdt"
+                                    style="@style/textInputEditTextForTablet"
+                                    android:drawableStart="@drawable/edt_email_icon"
+                                    android:hint="Email Id"
+                                    android:inputType="textEmailAddress" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
 
-                                <TextView
-                                    style="@style/EditTextTitleForLargeScreen"
-                                    android:layout_marginTop="@dimen/_10sdp"
-                                    android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="Password" />
+                            <TextView
+                                style="@style/EditTextTitleForLargeScreen"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Phone Number" />
 
-                                <LinearLayout
-                                    android:id="@+id/confirmPasswordLayout"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/phoneNoEdtLayout"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
 
-                                    style="@style/EditTextOverLayoutForLargeScreen"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingTop="@dimen/_7sdp"
-                                    android:paddingBottom="@dimen/_5sdp">
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/phoneNoEdt"
+                                    style="@style/textInputEditTextForTablet"
+                                    android:drawableStart="@drawable/edt_signup_icon"
+                                    android:hint="Phone No."
+                                    android:inputType="number"
 
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_gravity="center_vertical"
-                                        android:src="@drawable/ic_lock_black_24dp" />
+                                    android:maxLength="14" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                                    <com.google.android.material.textfield.TextInputLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/_28sdp"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_margin="0dp"
-                                        android:background="@null"
-                                        android:padding="0dp"
-                                        app:boxBackgroundColor="@color/white"
-                                        app:boxStrokeWidth="0dp"
-                                        app:boxStrokeWidthFocused="0dp"
-                                        app:passwordToggleEnabled="true">
+                            <TextView
+                                style="@style/EditTextTitleForLargeScreen"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Password" />
 
-                                        <com.google.android.material.textfield.TextInputEditText
-                                            android:id="@+id/confirmPassword"
-                                            style="@style/EditBoxWithoutIconsForLargeScreen"
-                                            android:layout_width="match_parent"
-                                            android:layout_margin="0dp"
-                                            android:layout_gravity="center_vertical"
-                                            android:inputType="textPassword"
-                                            android:padding="0dp"
-                                            android:singleLine="true" />
-                                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/newPasswordLayout"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false"
+                                app:errorIconDrawable="@null"
+                                app:passwordToggleEnabled="true">
 
-                                </LinearLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/newPasswordEdt"
+                                    style="@style/textInputEditTextForTablet"
+                                    android:drawableStart="@drawable/edt_lock_icon"
+                                    android:hint="New Password"
+                                    android:inputType="textPassword"
+                                    app:passwordToggleEnabled="true" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
 
-                                <include
-                                    android:id="@+id/includeBtn"
-                                    layout="@layout/common_button_match_width_layout"/>
+                            <include
+                                android:id="@+id/includeBtn"
+                                layout="@layout/common_button_match_width_layout" />
 
-                            </LinearLayout>
                         </LinearLayout>
+                    </LinearLayout>
 
 
                 </RelativeLayout>
 
 
                 <LinearLayout
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:id="@+id/signupTxt"
-                    android:layout_below="@+id/section"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/section"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:orientation="horizontal">
 
@@ -278,7 +248,13 @@
         </androidx.core.widget.NestedScrollView>
 
 
-
+        <ImageView
+            android:id="@+id/backPress"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/ic_left_arrow_black" />
     </RelativeLayout>
 
 </layout>

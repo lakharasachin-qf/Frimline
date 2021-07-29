@@ -1,7 +1,5 @@
 package com.app.frimline.fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -11,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -22,7 +19,6 @@ import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentMyAccountBinding;
 import com.app.frimline.screens.AddressesActivity;
-import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.EditProfileActivity;
 import com.app.frimline.screens.LoginActivity;
 import com.app.frimline.screens.SignupActivity;
@@ -69,6 +65,12 @@ public class MyAccountFragment extends Fragment {
                 HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
             }
         });
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
+            }
+        });
 
         binding.includeSignupBtn.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,22 +89,22 @@ public class MyAccountFragment extends Fragment {
 
     public void changeColor() {
         PREF pref = new PREF(getActivity());
-        binding.orderIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.accountIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.addressIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.editIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+        binding.orderIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.accountIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.addressIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.editIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
 
-        binding.logoutBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.includeSignupBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.includeLoginBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+        binding.logoutBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.includeSignupBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.includeLoginBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
         binding.addressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GradientDrawable drawable = (GradientDrawable) binding.container.getBackground();
-                drawable.setStroke(2, Color.parseColor(pref.getCategoryColor()));
+                drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -116,7 +118,7 @@ public class MyAccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 GradientDrawable drawable = (GradientDrawable) binding.orderContainer.getBackground();
-                drawable.setStroke(2, Color.parseColor(pref.getCategoryColor()));
+                drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -130,11 +132,12 @@ public class MyAccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 GradientDrawable drawable = (GradientDrawable) binding.accountDetailsContainer.getBackground();
-                drawable.setStroke(2, Color.parseColor(pref.getCategoryColor()));
+                drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         //drawerAction.changeFragment();
+                        HELPER.SIMPLE_ROUTE(getActivity(), EditProfileActivity.class);
                         drawable.setStroke(2, ContextCompat.getColor(getActivity(), R.color.cardViewBorder));
                     }
                 }, 40);

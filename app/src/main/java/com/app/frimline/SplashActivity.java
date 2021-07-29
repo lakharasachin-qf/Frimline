@@ -12,7 +12,9 @@ import android.view.WindowManager;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.databinding.ActivitySplashBinding;
+import com.app.frimline.screens.BillingAddressActivity;
 import com.app.frimline.screens.CategoryRootActivity;
+import com.app.frimline.screens.CheckoutAddressActivity;
 import com.app.frimline.screens.ProductDetailActivity;
 
 public class SplashActivity extends BaseActivity {

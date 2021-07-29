@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.PREF;
 import com.google.gson.Gson;
@@ -20,20 +21,17 @@ import java.util.Observer;
 public abstract class BaseFragment extends Fragment implements Observer {
 
     public FRIMLINE frimline;
-
     public PREF pref;
     public Activity act;
-
     public Gson gson;
-
-
+    public boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = getActivity();
         gson = new Gson();
 
-         frimline = (FRIMLINE) act.getApplication();
+        frimline = (FRIMLINE) act.getApplication();
         frimline.getObserver().addObserver(this);
         pref = new PREF(act);
 

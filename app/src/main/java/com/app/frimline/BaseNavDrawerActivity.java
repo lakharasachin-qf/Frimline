@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,6 +24,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.app.frimline.Common.FRIMLINE;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.NetworkChangeReceiver;
 import com.app.frimline.Common.PREF;
 import com.google.android.material.navigation.NavigationView;
@@ -90,17 +93,32 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(act, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu); //set your own
+       // toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu); //set your own
 
-        toggle.syncState();
+        //toggle.syncState();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toggle.setDrawerIndicatorEnabled(false);
-        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu);
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        toggle.setDrawerIndicatorEnabled(false);
+//        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu);
+//        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//                if (drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
+
+
+        ImageView drawerIcon =act.findViewById(R.id.drawerIcon);
+        ImageView drawerIcon2 =act.findViewById(R.id.drawerIcon2);
+        drawerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
@@ -109,7 +127,17 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
                 }
             }
         });
-
+        drawerIcon2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
 
 
     }
@@ -182,4 +210,11 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         }
     }
 
+    protected void makeStatusBarSemiTranspenret() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            Toolbar toolbar = act.findViewById(R.id.toolbar_Navigation);
+            toolbar.setPadding(0, HELPER.getStatusBarHeight(act), 0, 0);
+        }
+    }
 }

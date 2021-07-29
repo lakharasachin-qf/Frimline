@@ -1,18 +1,13 @@
 package com.app.frimline.screens;
 
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
+import android.os.Handler;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.BaseActivity;
@@ -24,7 +19,6 @@ import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 
 
-
 public class OtpVerificationActivity extends BaseActivity {
     private ActivityOtpVerificationBinding binding;
 
@@ -32,52 +26,91 @@ public class OtpVerificationActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_otp_verification);
-
-        if (Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT < 30) {
-            setStatusBarTransparent();
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-        if (Build.VERSION.SDK_INT >= 30) {
-            HELPER.hideStatusBarAPI30(act);
-        }
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         changeTheme();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.backPress.getLayoutParams();
+        layoutParams.topMargin = HELPER.getStatusBarHeight(act);
+        binding.backPress.setLayoutParams(layoutParams);
 
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void changeTheme() {
         PREF pref = new PREF(act);
 
-
-
+        binding.otpLayout.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.GONE);
+        binding.containerVerified.setVisibility(View.GONE);
         binding.includeBtn.button.setText("Verify & Proceed");
-        binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-
-        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.backgroundLayar2.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.otpIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        binding.otpTitle.setTextColor((Color.parseColor(pref.getCategoryColor())));
+        binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.includeBtn1.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.includeBtn1.button.setText("Done");
+        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.backgroundLayar2.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.otpIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.otpVerfiedIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        binding.otpTitle.setTextColor((Color.parseColor(pref.getThemeColor())));
+        binding.verifiedTxt.setTextColor((Color.parseColor(pref.getThemeColor())));
 
         VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_mobile_password, binding.otpIcon);
         VectorDrawableCompat.VFullPath path1 = vector.findPathByName("colorGreen");
-        path1.setFillColor(Color.parseColor(new PREF(act).getCategoryColor()));
+        path1.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
         path1 = vector.findPathByName("colorGreen1");
-        path1.setFillColor(Color.parseColor(new PREF(act).getCategoryColor()));
+        path1.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
 
-        changeStyle();
+        VectorChildFinder vector2 = new VectorChildFinder(act, R.drawable.ic_mobile_password, binding.otpVerfiedIcon);
+        VectorDrawableCompat.VFullPath path21 = vector2.findPathByName("colorGreen");
+        path21.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
+        path21 = vector2.findPathByName("colorGreen1");
+        path21.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
+
+
+        binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.container.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.containerVerified.setVisibility(View.GONE);
+                launch();
+
+            }
+        });
+
+        binding.includeBtn1.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
-    public void changeStyle() {
-        // The attributes you want retrieved
-        int[] attrs = {R.attr.otp_box_background_active};
-        TypedArray ta = obtainStyledAttributes(R.style.otpViewStyleForLarge, attrs);
-        String text = ta.getString(0);
+    Handler handler;
+    Runnable r;
 
-        // Fetching the colors defined in your style
-        Drawable textColor = ta.getDrawable(0);
-        textColor.setTint(Color.RED);
-        textColor = ContextCompat.getDrawable(act, R.drawable.shape_otp_focued);
-        ta.recycle();
+    public void launch() {
+        handler = new Handler();
+        if (r != null)
+            handler.removeCallbacks(r);
+
+        r = new Runnable() {
+            public void run() {
+                binding.container.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
+                binding.containerVerified.setVisibility(View.VISIBLE);
+
+
+            }
+        };
+
+        handler.postDelayed(r, 1000);
+
 
     }
+
 }

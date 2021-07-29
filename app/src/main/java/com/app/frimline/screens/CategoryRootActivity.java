@@ -2,18 +2,16 @@ package com.app.frimline.screens;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -32,11 +30,12 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref.setConfiguration("#EF7F1A","#EF7F1A");
+        pref.setConfiguration("#EF7F1A", "#EF7F1A");
         setUpToolbar();
-        setStatusBarTransparent();
-        changeStatusBarColor(this.getResources().getColor(R.color.colorScreenBackground));
+        makeStatusBarSemiTranspenret();
+
     }
+
 
     DrawerMenuForRoot drawerMenu;
 
@@ -76,12 +75,45 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
         toolbar_Navigation.setVisibility(View.VISIBLE);
 
-        ImageView logo=findViewById(R.id.logo);
-        HELPER.changeTheme(act,pref.getCategoryColor());
-        TextView cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
-        TextView cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
+        ImageView logo = findViewById(R.id.logo);
+        HELPER.changeTheme(act, pref.getCategoryColor());
+        RelativeLayout cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
+        RelativeLayout cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
         cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
         cartBackgroundLayar2.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) logo.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        layoutParams.leftMargin = 0;
+        layoutParams.topMargin = 0;
+        logo.setLayoutParams(layoutParams);
+
+
+        //code apply only in tablet mode
+        TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        if (telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
+            RelativeLayout relativeLayout = findViewById(R.id.HomePageLayout);
+            relativeLayout.setGravity(Gravity.NO_GRAVITY);
+        }
+
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(act, drawerLayout, toolbar_Navigation, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu_white);
+
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(null);
+
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu_white); //set your own
+        toolbar_Navigation.setNavigationIcon(null);
+        ImageView drawerIcon = act.findViewById(R.id.drawerIcon);
+        drawerIcon.setVisibility(View.GONE);
     }
 
 }

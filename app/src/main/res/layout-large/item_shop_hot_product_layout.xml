@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/product"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_140sdp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_7sdp"
         app:cardElevation="@dimen/_3sdp"
@@ -104,7 +107,7 @@
                             android:layout_centerVertical="true"
                             android:layout_gravity="end"
                             android:background="@drawable/shape_ovel"
-                            android:backgroundTint="@color/colorGreen"
+                            android:backgroundTint="#ACACAC"
                             android:padding="@dimen/_4sdp"
                             android:src="@drawable/ic_cart"
                             app:tint="@color/white" />

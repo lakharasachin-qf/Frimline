@@ -22,9 +22,11 @@
             android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background"
             app:tint="@color/orange" />
-
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            android:clipToPadding="false"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_Navigation"
             android:scrollbars="none">
@@ -44,7 +46,7 @@
                     android:includeFontPadding="false"
                     android:text="Ship to a different Address"
                     android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_10sdp" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -54,10 +56,11 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_20sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_4sdp"
+                    app:cardElevation="3dp"
                     app:cardUseCompatPadding="true">
 
                     <LinearLayout
+                        android:id="@+id/containerLinear"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:animateLayoutChanges="true"
@@ -110,21 +113,19 @@
                         <LinearLayout
                             android:id="@+id/otherInfo"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:animateLayoutChanges="true"
                             android:orientation="vertical"
                             android:visibility="gone">
 
-
                             <LinearLayout
                                 android:layout_width="match_parent"
-
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_17sdp"
                                 android:orientation="horizontal"
                                 android:weightSum="2">
 
                                 <LinearLayout
-
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -136,18 +137,19 @@
                                         android:layout_marginBottom="@dimen/_7sdp"
                                         android:text="First Name" />
 
-                                    <LinearLayout
+                                    <com.google.android.material.textfield.TextInputLayout
                                         android:id="@+id/nameEdtLayout"
-                                        style="@style/EditTextOverLayoutForLargeScreen"
+                                        style="@style/TextInputLayoutStyleForTabletScreen"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        app:errorEnabled="true">
 
-                                        <EditText
+                                        <com.google.android.material.textfield.TextInputEditText
                                             android:id="@+id/nameEdt"
-                                            style="@style/EditBoxWithoutIconsForLargeScreen"
-                                            android:background="@null"
-                                            android:hint="First Name" />
-                                    </LinearLayout>
+                                            style="@style/textInputEditTextForTablet"
+                                            android:hint="First Name"
+                                            android:inputType="text" />
+                                    </com.google.android.material.textfield.TextInputLayout>
 
                                 </LinearLayout>
 
@@ -163,20 +165,19 @@
                                         android:layout_marginBottom="@dimen/_7sdp"
                                         android:text="Last Name" />
 
-
-                                    <LinearLayout
+                                    <com.google.android.material.textfield.TextInputLayout
                                         android:id="@+id/lnameEdtLayout"
-                                        style="@style/EditTextOverLayoutForLargeScreen"
+                                        style="@style/TextInputLayoutStyleForTabletScreen"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        app:errorEnabled="true">
 
-                                        <EditText
+                                        <com.google.android.material.textfield.TextInputEditText
                                             android:id="@+id/lnameEdt"
-                                            style="@style/EditBoxWithoutIconsForLargeScreen"
-                                            android:background="@null"
-                                            android:hint="Last Name" />
-                                    </LinearLayout>
-
+                                            style="@style/textInputEditTextForTablet"
+                                            android:hint="Last Name"
+                                            android:inputType="text" />
+                                    </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -186,28 +187,19 @@
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:text="Company Name (optional)" />
 
-                            <RelativeLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/companyEdtLayout"
-                                style="@style/EditTextOverLayoutForLargeScreen"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/companyEdt"
-
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-
-                                    android:background="@null"
-                                    android:hint="First Name" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerVertical="true"
-                                    android:src="@drawable/ic_dropdown" />
-                            </RelativeLayout>
-
+                                    style="@style/textInputEditTextForTablet"
+                                    android:hint="Company Name"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
                                 style="@style/EditTextTitleForLargeScreen"
@@ -215,18 +207,24 @@
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:text="Country / Region" />
 
-                            <LinearLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/countryEdtLayout"
-                                style="@style/EditTextOverLayoutForLargeScreen"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/countryEdt"
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:background="@null"
-                                    android:hint="Country" />
-                            </LinearLayout>
+                                    style="@style/textInputEditTextForTablet"
+                                    android:clickable="true"
+                                    android:drawableEnd="@drawable/ic_dropdown"
+                                    android:focusable="false"
+                                    android:hint="Country / Region"
+                                    android:inputType="text" />
+                                <!--                                android:clickable="true"-->
+                                <!--                                android:focusable="false"-->
+                            </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
                                 style="@style/EditTextTitleForLargeScreen"
@@ -234,39 +232,41 @@
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:text="Street Address" />
 
-                            <LinearLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/streetEdtLayout"
-                                style="@style/EditTextOverLayoutForLargeScreen"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/streetEdt"
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:background="@null"
+                                    style="@style/textInputEditTextForTablet"
+                                    android:hint="Street Address"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                                    android:hint="Street" />
-                            </LinearLayout>
 
                             <TextView
                                 style="@style/EditTextTitleForLargeScreen"
                                 android:layout_marginTop="@dimen/_12sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
-
                                 android:text="Town / City" />
 
-                            <LinearLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/cityEdtLayout"
-                                style="@style/EditTextOverLayoutForLargeScreen"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/cityEdt"
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:background="@null"
-                                    android:hint="Town / City" />
-                            </LinearLayout>
+                                    style="@style/textInputEditTextForTablet"
+                                    android:hint="Town / City"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
 
                             <TextView
                                 style="@style/EditTextTitleForLargeScreen"
@@ -274,19 +274,20 @@
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:text="Postcode / ZIP" />
 
-                            <LinearLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/postalCodeEdtLayout"
-                                style="@style/EditTextOverLayoutForLargeScreen"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/postalCodeEdt"
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:background="@null"
-
-                                    android:hint="Postcode / ZIP" />
-                            </LinearLayout>
+                                    style="@style/textInputEditTextForTablet"
+                                    android:hint="Postcode / ZIP"
+                                    android:inputType="number"
+                                    android:maxLength="6" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
 
                             <TextView
@@ -295,18 +296,20 @@
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:text="Phone No" />
 
-                            <LinearLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/phoneNoEdtLayout"
-                                style="@style/EditTextOverLayoutForLargeScreen"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/phoneNoEdt"
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:background="@null"
-                                    android:hint="Phone no." />
-                            </LinearLayout>
+                                    style="@style/textInputEditTextForTablet"
+                                    android:hint="Phone no."
+                                    android:inputType="number"
+                                    android:maxLength="10" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
                                 style="@style/EditTextTitleForLargeScreen"
@@ -314,24 +317,27 @@
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:text="Email Address" />
 
-                            <LinearLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/emailEdtLayout"
-                                style="@style/EditTextOverLayoutForLargeScreen"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/emailEdt"
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:background="@null"
-                                    android:hint="Email Id" />
-                            </LinearLayout>
+                                    style="@style/textInputEditTextForTablet"
+                                    android:hint="Email Id"
+                                    android:inputType="textEmailAddress" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
                         </LinearLayout>
 
 
                         <include
                             android:id="@+id/includeBtn"
-                            layout="@layout/common_button_match_width_layout"/>
+                            layout="@layout/common_button_match_width_layout" />
 
 
                     </LinearLayout>

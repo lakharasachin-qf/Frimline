@@ -4,8 +4,10 @@
     <com.google.android.material.chip.Chip
         android:id="@+id/chip"
         style="@style/ChipStyle"
-        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:elevation="@dimen/_2sdp"
+
         android:text="Skin care" />
 
 </layout>

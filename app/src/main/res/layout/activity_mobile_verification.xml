@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     tools:context=".screens.MobileVerificationActivity">
 
     <View
@@ -15,11 +15,13 @@
         android:layout_marginBottom="@dimen/_40sdp" />
 
     <ImageView
+        android:id="@+id/backgroundLayar2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
         android:src="@drawable/ic_screen_header" />
 
     <ImageView
+        android:id="@+id/backgroundLayar"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
@@ -30,9 +32,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/signupTxt"
-        android:layout_below="@+id/view"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/_22sdp"
         app:cardCornerRadius="@dimen/_7sdp"
@@ -44,18 +45,22 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_centerVertical="true"
+                android:id="@+id/containerLinear"
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/_15sdp"
-                android:paddingEnd="@dimen/_15sdp">
+                android:paddingTop="30dp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="30dp">
 
 
                 <ImageView
-
-                    android:layout_width="@dimen/_90sdp"
-                    android:layout_height="@dimen/_90sdp"
+                    android:id="@+id/otpIcon"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/shape_ovel_green"
@@ -65,6 +70,7 @@
 
 
                 <TextView
+                    android:id="@+id/otpTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -92,55 +98,34 @@
                     android:text="Mobile Number"
                     android:textSize="@dimen/_10sdp" />
 
-                <LinearLayout
-                    android:id="@+id/countryEdtLayout"
-                    style="@style/EditTextOverLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_phone_iphone" />
-
-                    <EditText
-                        android:id="@+id/countryEdt"
-                        style="@style/EditBoxWithoutIcons"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:background="@null"
-                        android:hint="Enter Here..." />
-
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/getOtpBtn"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phoneNoEdtLayout"
+                    style="@style/TextInputLayoutStyleForMediumScreen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_25sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:background="@drawable/shape_button"
-                    android:backgroundTint="@color/colorGreen">
+                    app:errorEnabled="false">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/proxima_nova_extrabold"
-                        android:includeFontPadding="false"
-                        android:padding="@dimen/_11sdp"
-                        android:text="Get OTP"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_15sdp" />
-
-                </RelativeLayout>
-
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneNoEdt"
+                        style="@style/textInputEditTextForMediumScreen"
+                        android:drawableStart="@drawable/edt_signup_icon"
+                        android:hint="Phone No."
+                        android:maxLength="10"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <include
+                    android:id="@+id/includeBtn"
+                    layout="@layout/common_button_match_width_layout" />
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
+    <ImageView
+        android:id="@+id/backPress"
+        android:layout_width="@dimen/_22sdp"
+        android:layout_height="@dimen/_22sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:src="@drawable/ic_left_arrow_black" />
 
     <TextView
         android:id="@+id/signupTxt"
@@ -152,5 +137,7 @@
         android:layout_marginBottom="@dimen/_20sdp"
         android:fontFamily="@font/proxima_nova_bold"
         android:text="Don't have an account? Sign up"
-        android:textSize="@dimen/_14sdp" />
+        android:textSize="@dimen/_14sdp"
+        android:visibility="gone" />
 </RelativeLayout>
+</layout>

@@ -26,12 +26,15 @@ import com.app.frimline.R;
 import com.app.frimline.fragments.BlogsFragment;
 import com.app.frimline.fragments.CategoryProfileFragment;
 import com.app.frimline.fragments.CategoryRootFragment;
+import com.app.frimline.fragments.CommonFragment;
 import com.app.frimline.fragments.HomeFragment;
 import com.app.frimline.fragments.MyAccountFragment;
 import com.app.frimline.fragments.OrderHistoryFragment;
 import com.app.frimline.fragments.ShopFragment;
 import com.app.frimline.screens.CategoryLandingActivity;
+import com.app.frimline.screens.CheckoutAddressActivity;
 import com.app.frimline.screens.HomeActivity;
+import com.app.frimline.screens.LoginActivity;
 import com.app.frimline.screens.MyCartActivity;
 import com.app.frimline.screens.SearchActivity;
 import com.google.android.material.appbar.AppBarLayout;
@@ -117,28 +120,28 @@ public class DrawerMenuForRoot {
 //    }
     public void prepareMenuData() {
         //first menu
-        MenuModel menuModel = new MenuModel("Dashboard", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
+        MenuModel menuModel = new MenuModel("Dashboard", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_dashboard_icon)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
-        menuModel = new MenuModel("Home", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
+        menuModel = new MenuModel("Home", true, false, "",ContextCompat.getDrawable(activity,R.drawable.ic_menu_home)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
-        menuModel = new MenuModel("Shop", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_shop)); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-
-
-        menuModel = new MenuModel("Checkout", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        menuModel = new MenuModel("Blogs", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
+        menuModel = new MenuModel("Shop", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_menu_shop)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
 
-        menuModel = new MenuModel("About us", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_about_us)); //Menu of Android Tutorial. No sub menus
+        menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
-        menuModel = new MenuModel("Contact us", true, false, "", activity.getResources().getDrawable(R.drawable.ic_menu_call)); //Menu of Android Tutorial. No sub menus
+        menuModel = new MenuModel("Blogs", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
-        menuModel = new MenuModel("Privacy Policy", true, false, "", activity.getResources().getDrawable(R.drawable.ic_privacy_policy)); //Menu of Android Tutorial. No sub menus
+
+
+        menuModel = new MenuModel("About us", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_menu_about_us)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
-        menuModel = new MenuModel("Shipping Policy", true, false, "", activity.getResources().getDrawable(R.drawable.ic_ic_menu_shipping_policy)); //Menu of Android Tutorial. No sub menus
+        menuModel = new MenuModel("Contact us", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_menu_call)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        menuModel = new MenuModel("Privacy Policy", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_privacy_policy)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        menuModel = new MenuModel("Shipping Policy", true, false, "", ContextCompat.getDrawable(activity,R.drawable.ic_ic_menu_shipping_policy)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
     }
 
@@ -197,26 +200,26 @@ public class DrawerMenuForRoot {
 
                             case "About us":
                                 currentMenuItem = "About us";
-                                fragmentSelected = homeFragment;
+                                fragmentSelected = commonFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
 
                             case "Contact us":
                                 currentMenuItem = "Contact us";
-                                fragmentSelected = homeFragment;
+                                fragmentSelected = commonFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Privacy Policy":
                                 currentMenuItem = "Privacy Policy";
-                                fragmentSelected = homeFragment;
+                                fragmentSelected = commonFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
                             case "Shipping Policy":
                                 currentMenuItem = "Shipping Policy";
-                                fragmentSelected = homeFragment;
+                                fragmentSelected = commonFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setVisibility(View.GONE);
                                 break;
@@ -240,9 +243,8 @@ public class DrawerMenuForRoot {
                                 activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                                 break;
                             case "Checkout":
-                                i.putExtra("fragment","Checkout");
-                                activity.startActivity(i);
-                                activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                                drawer.closeDrawer(GravityCompat.START);
+                                HELPER.SIMPLE_ROUTE(activity, CheckoutAddressActivity.class);
                                 break;
 
                         }
@@ -303,17 +305,23 @@ public class DrawerMenuForRoot {
                 HELPER.SIMPLE_ROUTE(activity, SearchActivity.class);
             }
         });
+
+
+        TextView userNameTxt=activity.findViewById(R.id.userNameTxt);
+        userNameTxt.setText("Sign In");
+
         profileView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                HomePageLayout.setVisibility(View.GONE);
-                titleTxt.setVisibility(View.VISIBLE);
-                titleTxt.setText("My Account");
-                currentMenuItem = "Account";
-                Fragment fragmentSelected = myAccountFragment;
-                replaceFragment(fragmentSelected);
                 drawer.closeDrawer(GravityCompat.START);
+                HELPER.SIMPLE_ROUTE(activity, LoginActivity.class);
+//                HomePageLayout.setVisibility(View.GONE);
+//                titleTxt.setVisibility(View.VISIBLE);
+//                titleTxt.setText("My Account");
+//                currentMenuItem = "Account";
+//                Fragment fragmentSelected = myAccountFragment;
+//                replaceFragment(fragmentSelected);
+//                drawer.closeDrawer(GravityCompat.START);
             }
         });
 
@@ -329,6 +337,7 @@ public class DrawerMenuForRoot {
     private MyAccountFragment myAccountFragment = new MyAccountFragment();
     private CategoryProfileFragment profileFragment = new CategoryProfileFragment();
     private CategoryRootFragment categoryRootFragment = new CategoryRootFragment();
+    private CommonFragment commonFragment = new CommonFragment();
     public String currentMenuItem;
 
     private void addFragment(Fragment fragment) {

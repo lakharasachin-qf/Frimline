@@ -18,13 +18,15 @@
             android:background="@drawable/ic_fragment_backgroun">
 
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_35sdp"
-                android:scrollbars="none">
+<!--            <ScrollView-->
+<!--                android:id="@+id/scrollView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:scrollbars="none">-->
 
                 <LinearLayout
+                    android:paddingTop="@dimen/_35sdp"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -34,16 +36,18 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
+                        android:id="@+id/containerLinear"
+                        android:animateLayoutChanges="true"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/hint"
                             style="@style/EditTextTitleForLargeScreen"
                             android:layout_gravity="center_horizontal"
 
                             android:layout_marginTop="@dimen/_7sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Please Sign in with email to continue using\nour app"
+                            android:text="Please Sign in with Mobile to continue using\nour app"
                             android:textAlignment="center" />
 
                         <TextView
@@ -52,27 +56,25 @@
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="Mobile Number" />
 
-                        <LinearLayout
-                            android:id="@+id/mobileNoEdtLayout"
-                            style="@style/EditTextOverLayoutForLargeScreen"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/nameEdtLayout"
+                            style="@style/TextInputLayoutStyleForTabletScreen"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="false"
+                            app:errorIconDrawable="@null">
 
-                            <ImageView
-                                android:layout_width="@dimen/_12sdp"
-                                android:layout_height="@dimen/_12sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
-                                android:src="@drawable/ic_phone_iphone" />
-
-                            <EditText
-                                android:id="@+id/mobileNoEdt"
-                                style="@style/EditBoxWithoutIconsForLargeScreen"
-                                android:layout_gravity="center_vertical"
-                                android:background="@null"
-                                android:hint="+91 XXXXXXXXXX" />
-                        </LinearLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/nameEdt"
+                                style="@style/textInputEditTextForTablet"
+                                android:drawableStart="@drawable/edt_login_phone_icon"
+                                android:hint="XXXXXXXXXX"
+                                android:inputType="number"
+                                android:maxLength="10" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <RelativeLayout
+                            android:layout_marginTop="@dimen/_7sdp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -82,37 +84,38 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
+                                android:layout_marginStart="-10dp"
                                 android:buttonTint="@color/colorGreen"
                                 android:fontFamily="@font/proxima_nova_regular"
-                                android:layout_marginStart="-10dp"
                                 android:includeFontPadding="false"
-                                android:scaleX="0.80"
-                                android:scaleY="0.80"
+                                android:scaleX="0.90"
+                                android:scaleY="0.90"
                                 android:text="Remember me"
                                 android:textSize="@dimen/_10sdp" />
 
                             <TextView
+                                android:id="@+id/forgetPassword"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:text="Forgot Password?"
-                                android:textSize="@dimen/_9sdp" />
+                                android:textSize="@dimen/_8sdp" />
                         </RelativeLayout>
 
                         <include
                             android:id="@+id/includeBtn"
-                            android:layout_height="wrap_content"
+                            layout="@layout/common_button_match_width_layout"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_15sdp"
-                            layout="@layout/common_button_match_width_layout"/>
+                            android:layout_marginBottom="@dimen/_15sdp" />
 
                     </LinearLayout>
                 </LinearLayout>
 
-            </ScrollView>
+<!--            </ScrollView>-->
 
 
         </RelativeLayout>

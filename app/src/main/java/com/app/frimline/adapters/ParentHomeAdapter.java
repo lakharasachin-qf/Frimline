@@ -32,11 +32,13 @@ import com.app.frimline.databinding.ItemProductSectionThreeLayoutBinding;
 import com.app.frimline.databinding.ItemProductSectionTwoLayoutBinding;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
+import com.app.frimline.models.OutCategoryModel;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.app.frimline.views.SnappingRecyclerView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ParentHomeAdapter extends RecyclerView.Adapter {
     private ArrayList<HomeModel> dashBoardItemList = new ArrayList<>();
@@ -137,7 +139,15 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.BANNER:
-
+                    List<OutCategoryModel> outCategoryModels = new ArrayList<>();
+                    outCategoryModels.add(new OutCategoryModel());
+                    outCategoryModels.add(new OutCategoryModel());
+                    outCategoryModels.add(new OutCategoryModel());
+                    outCategoryModels.add(new OutCategoryModel());
+                    HomeBannerAdapter sliderAdapter = new HomeBannerAdapter(outCategoryModels, activity);
+                    ((Banner) holder).binding.viewPager.setAdapter(sliderAdapter);
+                    ((Banner) holder).binding.dot.setViewPager(((Banner) holder).binding.viewPager);
+                    ((Banner) holder).binding.dot.setSelectedDotColor(Color.parseColor(new PREF(activity).getCategoryColor()));
                     break;
                 case LAYOUT_TYPE.CATEGORY_PRODUCT:
 

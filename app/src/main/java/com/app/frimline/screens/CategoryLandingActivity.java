@@ -4,24 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.app.frimline.BaseNavDrawerActivity;
-import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CategoryNavViewPager;
 import com.app.frimline.views.CustomViewPager;
@@ -42,14 +42,7 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setUpToolbar();
-        if (Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT < 30) {
-            setStatusBarTransparent();
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-        if (Build.VERSION.SDK_INT >= 30) {
-            HELPER.hideStatusBarAPI30(act);
-            findViewById(R.id.drawer_layout).setFitsSystemWindows(false);
-        }
+        makeStatusBarSemiTranspenret();
 
         CategoryNavViewPager adapter = new CategoryNavViewPager(this, getSupportFragmentManager(), 3);
 
@@ -83,10 +76,23 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             customViewPager.setVisibility(View.GONE);
             Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
             toolbar_Navigation.setVisibility(View.VISIBLE);
-            changeStatusBarColor(this.getResources().getColor(R.color.colorScreenBackground));
+            //    changeStatusBarColor(this.getResources().getColor(R.color.colorScreenBackground));
         }
 
+//
+//        if (Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT < 30) {
+//            setStatusBarTransparent();
+//            getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        }
+//        if (Build.VERSION.SDK_INT >= 30) {
+//            HELPER.hideStatusBarAPI30(act);
+//            findViewById(R.id.drawer_layout).setFitsSystemWindows(false);
+//        }
+
+
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -138,7 +144,18 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                         .setTopRightCorner(CornerFamily.ROUNDED, radius)
                         .setBottomRightCorner(CornerFamily.ROUNDED, radius)
                         .build());
-        hangeTheme(act, pref.getCategoryColor());
+        hangeTheme(act, pref.getThemeColor());
+        ImageView logo = findViewById(R.id.logo);
+
+
+//        //code apply only in tablet mode
+//        TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+//        if (telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
+//            RelativeLayout relativeLayout = findViewById(R.id.HomePageLayout);
+//            relativeLayout.setGravity(Gravity.NO_GRAVITY);
+//        }
+
+
     }
 
     public void hangeTheme(Activity act, String primaryColor) {
@@ -148,10 +165,10 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         path1.setFillColor(Color.parseColor(primaryColor));
         logo.invalidate();
 
-        TextView cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
-        TextView cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
-        cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        cartBackgroundLayar2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+        RelativeLayout cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
+        RelativeLayout cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
+        cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        cartBackgroundLayar2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
     }
 
     public void setStatusBarTransparent() {
@@ -177,17 +194,19 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                     drawerMenu.performCategoryProfile();
                     drawerLayout.setVisibility(View.VISIBLE);
                     customViewPager.setVisibility(View.GONE);
-                    setStatusBarTransparent();
+
+
                 } else if (CurrentPosition == 0) {
                     customViewPager.setPagingEnabled(false);
                     drawerLayout.setVisibility(View.VISIBLE);
-                    changeStatusBarColor(ContextCompat.getColor(act, R.color.colorScreenBackground));
+                    // changeStatusBarColor(ContextCompat.getColor(act, R.color.colorScreenBackground));
                     customViewPager.setVisibility(View.GONE);
                     Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
                     toolbar_Navigation.setVisibility(View.VISIBLE);
                     startAnimation();
-                    HELPER.hideStatusBarAPI30(act);
-                    changeStatusBarColor(ContextCompat.getColor(act, R.color.transparent));
+
+
+                    //  changeStatusBarColor(ContextCompat.getColor(act, R.color.transparent));
                 }
             }
         };
@@ -216,6 +235,8 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                         Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
                         toolbar_Navigation.setVisibility(View.VISIBLE);
                         startAnimation();
+                        makeStatusBarSemiTranspenret();
+
                     } else if (CurrentPosition == 2) {
 
                     }

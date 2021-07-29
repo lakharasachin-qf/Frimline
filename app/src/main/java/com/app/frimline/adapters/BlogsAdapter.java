@@ -15,8 +15,6 @@ import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemLeftBlogLayoutBinding;
-import com.app.frimline.databinding.ItemProductSectionOneLayoutBinding;
-import com.app.frimline.databinding.ItemProductSectionTwoLayoutBinding;
 import com.app.frimline.databinding.ItemRightBlogLayoutBinding;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
@@ -42,12 +40,10 @@ public class BlogsAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
-            case LAYOUT_TYPE
-                    .LAYOUT_LEFT_BLOG:
+            case LAYOUT_TYPE.LAYOUT_LEFT_BLOG:
                 ItemLeftBlogLayoutBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_left_blog_layout, viewGroup, false);
                 return new LeftBlog(layoutBinding);
-            case LAYOUT_TYPE
-                    .LAYOUT_RIGHT_BLOG:
+            case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
                 ItemRightBlogLayoutBinding twoLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_right_blog_layout, viewGroup, false);
                 return new RightBlog(twoLayoutBinding);
         }
@@ -59,11 +55,9 @@ public class BlogsAdapter extends RecyclerView.Adapter {
 
         switch (dashBoardItemList.get(position).getLayoutType()) {
             case 0:
-                return LAYOUT_TYPE
-                        .LAYOUT_LEFT_BLOG;
+                return LAYOUT_TYPE.LAYOUT_LEFT_BLOG;
             case 1:
-                return LAYOUT_TYPE
-                        .LAYOUT_RIGHT_BLOG;
+                return LAYOUT_TYPE.LAYOUT_RIGHT_BLOG;
 
             default:
                 return -1;
@@ -88,6 +82,12 @@ public class BlogsAdapter extends RecyclerView.Adapter {
                             HELPER.SIMPLE_ROUTE(activity, BlogDetailsActivity.class);
                         }
                     });
+                    ((LeftBlog) holder).binding.exploreMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((LeftBlog) holder).binding.layout.performClick();
+                        }
+                    });
                     break;
                 case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
                     ((RightBlog) holder).binding.layout.setOnClickListener(new View.OnClickListener() {
@@ -96,13 +96,18 @@ public class BlogsAdapter extends RecyclerView.Adapter {
                             HELPER.SIMPLE_ROUTE(activity, BlogDetailsActivity.class);
                         }
                     });
+                    ((RightBlog) holder).binding.exploreMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((RightBlog) holder).binding.layout.performClick();
+                        }
+                    });
+
                     break;
 
             }
         }
     }
-
-
 
 
     public class LeftBlog extends RecyclerView.ViewHolder {
@@ -115,10 +120,10 @@ public class BlogsAdapter extends RecyclerView.Adapter {
         }
 
         public void changeColor() {
-            PREF pref=new PREF(activity);
-            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-            binding.exploreMore.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-            binding.exploreMore.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            PREF pref = new PREF(activity);
+            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+            binding.exploreMore.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+            binding.exploreMore.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
         }
     }
 
@@ -133,10 +138,10 @@ public class BlogsAdapter extends RecyclerView.Adapter {
         }
 
         public void changeColor() {
-            PREF pref=new PREF(activity);
-            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-            binding.exploreMore.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-            binding.exploreMore.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
+            PREF pref = new PREF(activity);
+            binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+            binding.exploreMore.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+            binding.exploreMore.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
         }
     }

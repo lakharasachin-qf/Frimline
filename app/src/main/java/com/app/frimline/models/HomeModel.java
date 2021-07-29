@@ -9,7 +9,15 @@ public class HomeModel {
     private String name;
     private String apiUrl;
     private ArrayList<ProductModel> productModels;
+    private boolean isAddedToCart=false;
 
+    public boolean isAddedToCart() {
+        return isAddedToCart;
+    }
+
+    public void setAddedToCart(boolean addedToCart) {
+        isAddedToCart = addedToCart;
+    }
 
     public String getApiUrl() {
         return apiUrl;

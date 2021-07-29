@@ -29,4 +29,12 @@
     <color name="grey">#a9a9a9</color>
     <color name="transparent">#00000000</color>
 
+
+
+    <color name="deliveryFaild">#f44336</color>
+    <color name="deliverySuccess">#81B533</color>
+    <color name="deliveryPending">#e1ad01</color>
+
+    <color name="colorProgressBackground">#00000000</color>
+
 </resources>

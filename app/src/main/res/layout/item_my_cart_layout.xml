@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <androidx.cardview.widget.CardView android:id="@+id/itemLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_100sdp"
@@ -92,7 +93,7 @@
 
                 <TextView
                     android:layout_below="@+id/price"
-                    android:id="@+id/productNameTxt"
+                    android:id="@+id/dateDelivery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -104,6 +105,7 @@
             </RelativeLayout>
 
             <ImageView
+                android:id="@+id/actionDelete"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_width="@dimen/_20sdp"
@@ -119,3 +121,4 @@
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
+</layout>

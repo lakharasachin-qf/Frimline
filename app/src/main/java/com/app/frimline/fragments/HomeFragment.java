@@ -1,5 +1,6 @@
 package com.app.frimline.fragments;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,16 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.R;
-import com.app.frimline.adapters.ApplicationController;
 import com.app.frimline.adapters.ParentHomeAdapter;
 import com.app.frimline.databinding.FragmentHomeBinding;
 import com.app.frimline.models.HomeModel;
@@ -49,6 +46,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        ((ViewGroup) binding.getRoot().findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         HELPER.changeThemeHomeFragment(binding, pref.getCategoryColor());
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
@@ -59,7 +57,7 @@ public class HomeFragment extends BaseFragment {
         binding.containerRecycler.setNestedScrollingEnabled(false);
         binding.containerRecycler.setLayoutManager(mLayoutManager);
         binding.containerRecycler.setAdapter(parentHomeAdapter);
-        if (homeArray==null || homeArray.size()==0)
+        if (homeArray == null || homeArray.size() == 0)
             loadIndexedApi();
         return binding.getRoot();
     }
@@ -143,10 +141,6 @@ public class HomeFragment extends BaseFragment {
             jsonArray.put(subObj);
 
 
-
-
-
-
             jsonObject.put("data", jsonArray);
 
 
@@ -184,10 +178,13 @@ public class HomeFragment extends BaseFragment {
 
     public void loadBanner(int position) {
         int lastPos = homeArray.size();
+
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.BANNER);
         homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
+
+
         Collections.sort(homeArray, new Comparator<HomeModel>() {
             @Override
             public int compare(HomeModel lhs, HomeModel rhs) {
@@ -241,7 +238,7 @@ public class HomeFragment extends BaseFragment {
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.CATEGORY);
         homeModel.setLayoutIndex(position);
-        homeModel.setProductList(setAdapterForTrendingProduct());
+        homeModel.setProductList(setAdapterForOurProduct());
         homeArray.add(homeModel);
         Collections.sort(homeArray, new Comparator<HomeModel>() {
             @Override
@@ -387,37 +384,6 @@ public class HomeFragment extends BaseFragment {
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
-    private void triggerApiCall() {
-
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, "url", new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        }) {
-//
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                return super.getHeaders();
-//            }
-//
-//            @Nullable
-//            @org.jetbrains.annotations.Nullable
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                return super.getParams();
-//            }
-//        };
-//        ApplicationController.getInstance().addToRequestQueue(stringRequest);
-
-    }
-
-
     //
 //
     public ArrayList<OutCategoryModel> setAdapterForOurProduct() {
@@ -425,8 +391,7 @@ public class HomeFragment extends BaseFragment {
         modelArrayList.add(new OutCategoryModel());
         modelArrayList.add(new OutCategoryModel());
         modelArrayList.add(new OutCategoryModel());
-        modelArrayList.add(new OutCategoryModel());
-        modelArrayList.add(new OutCategoryModel());
+
 //        OurProductAdapter productAdapter = new OurProductAdapter(modelArrayList, getActivity());
 //        binding.ourProductSection.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 //        binding.ourProductSection.setAdapter(productAdapter);
@@ -461,9 +426,9 @@ public class HomeFragment extends BaseFragment {
     }
 //
 
-//
+    //
     public ArrayList<HomeModel> setAdapterForProduct() {
-        ArrayList<HomeModel> productArray3= new ArrayList<>();
+        ArrayList<HomeModel> productArray3 = new ArrayList<>();
         ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
         ProductModel productModel = new ProductModel();
         productModelArrayList.add(productModel);
@@ -471,6 +436,19 @@ public class HomeFragment extends BaseFragment {
         productModelArrayList.add(productModel);
 
         HomeModel homeModel = new HomeModel();
+
+        ArrayList<OutCategoryModel> innerDataList = new ArrayList<>();
+        OutCategoryModel outCategoryModel = new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        outCategoryModel = new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        outCategoryModel = new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        homeModel.setProductList(innerDataList);
+
         homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
         homeModel.setProductModels(productModelArrayList);
 
@@ -487,6 +465,6 @@ public class HomeFragment extends BaseFragment {
 //        startSnapHelper.attachToRecyclerView(binding.categoryProductRecycler);
 //        binding.categoryProductRecycler.setAdapter(productAdapter);
 
-        return  productArray3;
+        return productArray3;
     }
 }

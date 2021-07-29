@@ -143,7 +143,7 @@ class ItemView : FrameLayout {
                         .oval()
                         .solidColor(Color.WHITE)
                         .strokeWidth(3)
-                        .strokeColor(Color.parseColor(pref.categoryColor))
+                        .strokeColor(Color.parseColor(pref.themeColor))
                         .build()
                 this.background = drawable
 

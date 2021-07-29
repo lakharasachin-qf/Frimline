@@ -125,5 +125,9 @@ dependencies {
     //dependencies for programmetically drawable
     implementation "com.github.duanhong169:drawabletoolbox:1.0.7"
 
+    //dependencies for recyclerview item animator
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
+
+
 
 }

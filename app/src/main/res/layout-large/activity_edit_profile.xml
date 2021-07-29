@@ -6,8 +6,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/colorScreenBackground"
         android:orientation="vertical"
+
         android:theme="@style/Theme.Frimline.GREENSHADE"
         tools:context=".EditProfileActivity">
 
@@ -24,6 +26,7 @@
             android:src="@drawable/ic_screen_bottom_background" />
 
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
@@ -40,13 +43,17 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_7sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_4sdp"
+                    app:cardElevation="3dp"
+                    app:cardPreventCornerOverlap="true"
                     app:cardUseCompatPadding="true">
 
                     <LinearLayout
+                        android:id="@+id/containerLinear"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:animateLayoutChanges="true"
                         android:background="@drawable/shape_billing_border"
                         android:orientation="vertical"
                         android:padding="@dimen/_15sdp">
@@ -70,27 +77,22 @@
                                     android:layout_marginBottom="@dimen/_7sdp"
                                     android:text="First Name" />
 
-                                <LinearLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/nameEdtLayout"
-                                    style="@style/EditTextOverLayoutForLargeScreen"
+                                    style="@style/TextInputLayoutStyleForTabletScreen"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingStart="@dimen/_12sdp"
-                                    android:paddingEnd="@dimen/_12sdp">
+                                    app:errorEnabled="false"
+                                    app:errorIconDrawable="@null">
 
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:src="@drawable/ic_person_outline_black_24dp" />
-
-                                    <EditText
+                                    <com.google.android.material.textfield.TextInputEditText
                                         android:id="@+id/nameEdt"
-                                        style="@style/EditBoxWithoutIconsForLargeScreen"
-                                        android:layout_gravity="center_vertical"
-                                        android:background="@null"
-                                        android:hint="First Name" />
-                                </LinearLayout>
+                                        style="@style/textInputEditTextForTablet"
+                                        android:drawableStart="@drawable/edt_person_icon"
+                                        android:hint="First Name"
+                                        android:inputType="text" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
 
                             </LinearLayout>
 
@@ -107,29 +109,22 @@
                                     android:layout_marginBottom="@dimen/_7sdp"
                                     android:text="Last Name" />
 
-                                <LinearLayout
+
+                                <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/lnameEdtLayout"
-                                    style="@style/EditTextOverLayoutForLargeScreen"
+                                    style="@style/TextInputLayoutStyleForTabletScreen"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingStart="@dimen/_12sdp"
-                                    android:paddingEnd="@dimen/_12sdp">
+                                    app:errorEnabled="false"
+                                    app:errorIconDrawable="@null">
 
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:src="@drawable/ic_person_outline_black_24dp" />
-
-                                    <EditText
+                                    <com.google.android.material.textfield.TextInputEditText
                                         android:id="@+id/lnameEdt"
-                                        style="@style/EditBoxWithoutIconsForLargeScreen"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:background="@null"
-                                        android:hint="Last Name" />
-                                </LinearLayout>
-
+                                        style="@style/textInputEditTextForTablet"
+                                        android:drawableStart="@drawable/edt_person_icon"
+                                        android:hint="Last Name"
+                                        android:inputType="text" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
                         </LinearLayout>
 
@@ -139,25 +134,22 @@
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="Display Name" />
 
-                        <LinearLayout
+
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/displayNameEdtLayout"
-                            style="@style/EditTextOverLayoutForLargeScreen"
+                            style="@style/TextInputLayoutStyleForTabletScreen"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="false"
+                            app:errorIconDrawable="@null">
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
-                                android:src="@drawable/ic_person_outline_black_24dp" />
-
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/displayNameEdt"
-                                style="@style/EditBoxWithoutIconsForLargeScreen"
-                                android:layout_gravity="center_vertical"
-                                android:background="@null"
-                                android:hint="Display Name" />
-                        </LinearLayout>
+                                style="@style/textInputEditTextForTablet"
+                                android:drawableStart="@drawable/edt_person_icon"
+                                android:hint="Display Name"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <TextView
                             style="@style/EditTextTitleForLargeScreen"
@@ -165,25 +157,21 @@
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="Email" />
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/emailEdtLayout"
-                            style="@style/EditTextOverLayoutForLargeScreen"
+                            style="@style/TextInputLayoutStyleForTabletScreen"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="false"
+                            app:errorIconDrawable="@null">
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
-                                android:src="@drawable/ic_email_black_24dp" />
-
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/emailEdt"
-                                style="@style/EditBoxWithoutIconsForLargeScreen"
-                                android:layout_gravity="center_vertical"
-                                android:background="@null"
-                                android:hint="Email" />
-                        </LinearLayout>
+                                style="@style/textInputEditTextForTablet"
+                                android:drawableStart="@drawable/edt_email_icon"
+                                android:hint="Email Id"
+                                android:inputType="textEmailAddress" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <TextView
                             style="@style/EditTextTitleForLargeScreen"
@@ -191,25 +179,22 @@
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="Phone No" />
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/phoneNoEdtLayout"
-                            style="@style/EditTextOverLayoutForLargeScreen"
+                            style="@style/TextInputLayoutStyleForTabletScreen"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="false"
+                            app:errorIconDrawable="@null">
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
-                                android:src="@drawable/ic_phone" />
-
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/phoneNoEdt"
-                                style="@style/EditBoxWithoutIconsForLargeScreen"
-                                android:layout_gravity="center_vertical"
-                                android:background="@null"
-                                android:hint="Phone no." />
-                        </LinearLayout>
+                                style="@style/textInputEditTextForTablet"
+                                android:drawableStart="@drawable/edt_login_phone_icon"
+                                android:hint="XXXXXXXXXX"
+                                android:inputType="number"
+                                android:maxLength="10" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                         <TextView
@@ -218,44 +203,24 @@
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="New Password" />
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/newPasswordLayout"
-                            style="@style/EditTextOverLayoutForLargeScreen"
+                            style="@style/TextInputLayoutStyleForTabletScreen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/_7sdp"
-                            android:paddingBottom="@dimen/_7sdp">
+                            app:errorEnabled="false"
+                            app:errorIconDrawable="@null"
+                            app:passwordToggleEnabled="true">
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_lock_black_24dp" />
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/newPasswordEdt"
+                                style="@style/textInputEditTextForTablet"
+                                android:drawableStart="@drawable/edt_lock_icon"
+                                android:hint="New Password"
+                                android:inputType="textPassword"
+                                app:passwordToggleEnabled="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_margin="0dp"
-                                android:background="@null"
-                                android:padding="0dp"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:passwordToggleEnabled="true">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:id="@+id/newPasswordEdt"
-
-                                    android:layout_width="match_parent"
-                                    android:layout_margin="0dp"
-                                    android:inputType="textPassword"
-                                    android:padding="0dp"
-                                    android:singleLine="true" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                        </LinearLayout>
 
                         <TextView
                             style="@style/EditTextTitleForLargeScreen"
@@ -263,48 +228,29 @@
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="Cofirm Password" />
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/confirmPasswordLayout"
-
-                            style="@style/EditTextOverLayoutForLargeScreen"
+                            style="@style/TextInputLayoutStyleForTabletScreen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/_7sdp"
-                            android:paddingBottom="@dimen/_7sdp">
+                            app:errorEnabled="false"
+                            app:errorIconDrawable="@null"
+                            app:passwordToggleEnabled="true">
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_lock_black_24dp" />
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/confirmPassword"
+                                style="@style/textInputEditTextForTablet"
+                                android:drawableStart="@drawable/edt_lock_icon"
+                                android:hint="Confirm Password"
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_margin="0dp"
-                                android:background="@null"
-                                android:padding="0dp"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:passwordToggleEnabled="true">
+                                android:inputType="textPassword"
+                                app:passwordToggleEnabled="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/confirmPassword"
-                                    style="@style/EditBoxWithoutIconsForLargeScreen"
-                                    android:layout_width="match_parent"
-                                    android:layout_margin="0dp"
-                                    android:inputType="textPassword"
-                                    android:padding="0dp"
-                                    android:singleLine="true" />
-                            </com.google.android.material.textfield.TextInputLayout>
 
-                        </LinearLayout>
-
-                     <include
-                         android:id="@+id/includeBtn"
-                         layout="@layout/common_button_match_width_layout"/>
+                        <include
+                            android:id="@+id/includeBtn"
+                            layout="@layout/common_button_match_width_layout" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

@@ -11,9 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.models.OutCategoryModel;
+import com.app.frimline.screens.ProductDetailActivity;
 
 import java.util.ArrayList;
 
@@ -50,6 +52,14 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
             view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getCategoryColor())));
             TextView ExploreMoreTxt =itemView.findViewById(R.id.ExploreMoreTxt);
             ExploreMoreTxt.setTextColor(Color.parseColor(new PREF(activity).getCategoryColor()));
+
+            ExploreMoreTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.SIMPLE_ROUTE(activity, ProductDetailActivity.class);
+                }
+            });
+
         }
     }
 

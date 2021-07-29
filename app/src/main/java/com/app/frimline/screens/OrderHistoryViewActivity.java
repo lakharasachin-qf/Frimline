@@ -2,11 +2,11 @@ package com.app.frimline.screens;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,13 +16,21 @@ import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.BaseActivity;
-
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
-
+import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.databinding.ActivityOrderHistoryViewBinding;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
+import com.app.frimline.fragments.aboutProducts.AdditionalInfoFragment;
+import com.app.frimline.fragments.aboutProducts.DescriptionFragment;
+import com.app.frimline.fragments.aboutProducts.HowToUseFragment;
+import com.app.frimline.fragments.aboutProducts.IngredientsFragment;
+import com.app.frimline.fragments.aboutProducts.QnAFragment;
+import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
+import com.app.frimline.views.WrapContentHeightViewPager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.tabs.TabLayout;
 
 public class OrderHistoryViewActivity extends BaseActivity {
     BottomSheetBehavior sheetBehavior;
@@ -33,13 +41,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_order_history_view);
-        //  setTheme(R.style.Theme_Frimline_GREENSHADE);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.colorScreenBackground));
-        }
+        makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
         binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,17 +90,58 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 toggleBottomSheet();
             }
         });
+        setupTabIcons();
 
         changeTheme();
     }
 
     public void changeTheme() {
         CardView deliveredCardview = findViewById(R.id.deliveredCardview);
-        deliveredCardview.setCardBackgroundColor(Color.parseColor(new PREF(act).getCategoryColor()));
+        deliveredCardview.setCardBackgroundColor(Color.parseColor(new PREF(act).getThemeColor()));
         LinearLayout priceSection = findViewById(R.id.priceSection);
-        priceSection.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
+        priceSection.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        ImageView deliveryCheckIcon = findViewById(R.id.deliveryCheckIcon);
+        deliveryCheckIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(prefManager.getThemeColor())));
+        deliveryCheckIcon.setBackgroundTintList(ColorStateList.valueOf((Color.WHITE)));
+        binding.toolbarNavigation.downloadPDf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmationDialog();
+            }
+        });
     }
 
+    DialogDiscardImageBinding discardImageBinding;
+
+    public void confirmationDialog() {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.titleTxt.setText("Report Download");
+        discardImageBinding.subTitle.setText("Order report downloaded.");
+
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
 
     public void toggleBottomSheet() {
         if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
@@ -107,4 +150,35 @@ public class OrderHistoryViewActivity extends BaseActivity {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
     }
+
+
+    private DescriptionFragment descriptionFragment = new DescriptionFragment();
+    private HowToUseFragment howToUseFragment = new HowToUseFragment();
+    private IngredientsFragment ingredientsFragment = new IngredientsFragment();
+    private AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
+    private ReviewsFragment reviewsFragment = new ReviewsFragment();
+    private QnAFragment qnAFragment = new QnAFragment();
+    private int indicatorWidth;
+
+    private void setupTabIcons() {
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        WrapContentHeightViewPager wrapContentHeightViewPager = findViewById(R.id.viewPager);
+        ProductDetailsTabAdapter adapter = new ProductDetailsTabAdapter(getSupportFragmentManager());
+        qnAFragment.setThemColor(true);
+        adapter.addFragment(descriptionFragment, "Description");
+        adapter.addFragment(howToUseFragment, "How To Use");
+        adapter.addFragment(ingredientsFragment, "Ingredients");
+        adapter.addFragment(additionalInfoFragment, "Additional Information");
+        adapter.addFragment(reviewsFragment, "Reviews");
+        adapter.addFragment(qnAFragment, "Q&A");
+        wrapContentHeightViewPager.measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        wrapContentHeightViewPager.setAdapter(adapter);
+        wrapContentHeightViewPager.setOffscreenPageLimit(10);
+        tabLayout.setupWithViewPager(wrapContentHeightViewPager);
+
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor(prefManager.getThemeColor()));
+        tabLayout.setTabTextColors((Color.parseColor(prefManager.getThemeColor())),(Color.WHITE));
+    }
+
+
 }

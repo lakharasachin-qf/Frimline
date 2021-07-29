@@ -91,6 +91,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
 
                     MultiViewAdapterForHomeFragment productAdapte3r = new MultiViewAdapterForHomeFragment(setAdapterForProduct(), activity);
+                    productAdapte3r.setApplyThemeColor(true);
                     SnapHelper startSnapHelper = new PagerSnapHelper();
                     ((TopProductContainer) holder).binding.productRecycler.setOnFlingListener(null);
                     startSnapHelper.attachToRecyclerView(((TopProductContainer) holder).binding.productRecycler);
@@ -134,6 +135,21 @@ public class SearchAdapter extends RecyclerView.Adapter {
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
         homeModel.setProductModels(productModelArrayList);
+        ArrayList<OutCategoryModel> innerDataList=new ArrayList<>();
+        OutCategoryModel outCategoryModel =new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        outCategoryModel =new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        outCategoryModel =new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        homeModel.setProductList(innerDataList);
+
+        homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
+        homeModel.setProductModels(productModelArrayList);
+
 
         productArray3.add(homeModel);
         productArray3.add(homeModel);

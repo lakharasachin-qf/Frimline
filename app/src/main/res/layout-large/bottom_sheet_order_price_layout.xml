@@ -18,7 +18,7 @@
         android:background="@drawable/shape_order_history_bottom_background"
         android:orientation="vertical"
         android:paddingStart="@dimen/_15sdp"
-        android:paddingTop="@dimen/_12sdp"
+        android:paddingTop="@dimen/_10sdp"
         android:paddingEnd="@dimen/_15sdp"
         android:paddingBottom="@dimen/_15sdp">
         <RelativeLayout
@@ -34,7 +34,7 @@
                 android:includeFontPadding="false"
                 android:text="Price Details (2 Item) "
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
             <TextView
                 android:id="@+id/finalAmoutPrice1"
                 android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                 android:includeFontPadding="false"
                 android:text="₹380.00"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
 
         <TextView
@@ -57,7 +57,7 @@
             android:includeFontPadding="false"
             android:text="Price Details (2 Item) "
             android:textColor="@color/white"
-            android:textSize="@dimen/_13sdp" />
+            android:textSize="@dimen/_12sdp" />
 
         <View
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                 android:text="Total MRP"
                 android:textColor="@color/white"
 
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
 
             <TextView
                 android:id="@+id/totalPrice"
@@ -91,7 +91,7 @@
                 android:includeFontPadding="false"
                 android:text="₹398.00"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -108,7 +108,7 @@
                 android:includeFontPadding="false"
                 android:text="Total MRP"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
 
             <TextView
                 android:id="@+id/couponAmoutTxt"
@@ -119,7 +119,7 @@
                 android:includeFontPadding="false"
                 android:text="₹18.00"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -136,7 +136,7 @@
                 android:includeFontPadding="false"
                 android:text="Shipping Charge"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
 
             <TextView
                 android:id="@+id/shippingChargePrice"
@@ -147,7 +147,7 @@
                 android:includeFontPadding="false"
                 android:text="Free"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
         </RelativeLayout>
 
         <View
@@ -172,7 +172,7 @@
                 android:includeFontPadding="false"
                 android:text="Total Amount"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
                 android:id="@+id/finalAmoutPrice"
@@ -184,7 +184,7 @@
                 android:includeFontPadding="false"
                 android:text="₹380.00"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

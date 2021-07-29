@@ -8,17 +8,14 @@
         android:layout_height="match_parent"
         android:background="@color/colorScreenBackground">
 
-        <include
-            android:id="@+id/toolbar_Navigation"
-            layout="@layout/include_activity_toolbar_layout"/>
-
-
-        <include
-            layout="@layout/content_order_details" />
+        <include layout="@layout/content_order_details" />
 
         <!-- Adding bottom sheet after main content -->
+        <include layout="@layout/bottom_sheet_order_price_layout" />
+
         <include
-            layout="@layout/bottom_sheet_order_price_layout" />
+            android:id="@+id/toolbar_Navigation"
+            layout="@layout/include_activity_toolbar_both_side_icon_layout" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -32,10 +32,94 @@
             android:src="@drawable/ic_screen_bottom_background"
             app:tint="@color/colorGreen" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:progressTint="@color/orange"
+            android:visibility="gone" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/containerVerified"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:visibility="gone"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:cardElevation="@dimen/_3sdp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="100dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:visibility="visible">
+
+
+                    <ImageView
+                        android:id="@+id/otpVerfiedIcon"
+
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:background="@drawable/shape_ovel_green"
+                        android:backgroundTint="@color/colorGreen"
+                        android:padding="@dimen/_26sdp"
+                        android:src="@drawable/ic_mobile_password" />
+
+
+                    <TextView
+                        android:id="@+id/verifiedTxt"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="Verify Account"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="@dimen/_16sdp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="Mobile verification has\nsuccessfully done"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_8sdp" />
+
+                    <include
+                        android:id="@+id/includeBtn1"
+                        layout="@layout/common_button_match_width_layout" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@id/signupTxt"
             android:layout_below="@+id/view"
             android:layout_centerVertical="true"
@@ -44,111 +128,117 @@
             app:cardElevation="@dimen/_3sdp"
             app:cardUseCompatPadding="true">
 
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/_15sdp"
-                android:paddingEnd="@dimen/_15sdp">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/otpLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp">
 
 
-                <ImageView
-                    android:id="@+id/otpIcon"
-                    android:layout_width="150sp"
-                    android:layout_height="150sp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/shape_ovel_green"
-                    android:backgroundTint="@color/colorGreen"
-                    android:padding="45sp"
-                    android:src="@drawable/ic_mobile_password" />
+                    <ImageView
+                        android:id="@+id/otpIcon"
+                        android:layout_width="150sp"
+                        android:layout_height="150sp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:background="@drawable/shape_ovel_green"
+                        android:backgroundTint="@color/colorGreen"
+                        android:padding="45sp"
+                        android:src="@drawable/ic_mobile_password" />
 
 
-                <TextView
-                    android:id="@+id/otpTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:text="OTP Verification"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/_15sdp" />
+                    <TextView
+                        android:id="@+id/otpTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="OTP Verification"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="@dimen/_16sdp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="Enter the OTP sent to +91-8805678943"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_8sdp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="Enter the OTP sent to +91-8805678943"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_8sdp" />
 
-                <com.app.frimline.views.OtpTextView
-                    android:id="@+id/otpView"
-                    style="@style/otpViewStyleForLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginBottom="@dimen/_2sdp"
-                    android:elevation="@dimen/_2sdp"
-                    android:textColor="@color/colorToolbarHeader"
-                    app:box_margin="@dimen/_4sdp"
-                    app:box_margin_bottom="@dimen/_2sdp"
-                    app:height="70sp"
-                    app:length="4"
-                    app:otp="1234"
-                    app:otp_box_background="@drawable/shape_otp"
-                    app:otp_text_size="@dimen/_14sdp"
-                    app:text_typeface="bold"
-                    app:width="70sp" />
+                    <com.app.frimline.views.OtpTextView
+                        android:id="@+id/otpView"
+                        style="@style/otpViewStyleForLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:elevation="@dimen/_2sdp"
+                        android:textColor="@color/colorToolbarHeader"
+                        app:box_margin="@dimen/_4sdp"
+                        app:box_margin_bottom="@dimen/_2sdp"
+                        app:height="70sp"
+                        app:length="4"
+                        app:otp="1234"
+                        app:otp_box_background="@drawable/shape_otp"
+                        app:otp_text_size="@dimen/_14sdp"
+                        app:text_typeface="bold"
+                        app:width="70sp" />
 
-<!--                <in.aabhasjindal.otptextview.OtpTextView-->
-<!--                    android:id="@+id/otp_view"-->
-<!--                    style="@style/otpViewStyleForLarge"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:layout_marginStart="@dimen/_2sdp"-->
-<!--                    android:layout_marginEnd="@dimen/_2sdp"-->
-<!--                    android:layout_marginBottom="@dimen/_2sdp"-->
-<!--                    android:elevation="@dimen/_2sdp"-->
-<!--                    android:textColor="@color/colorToolbarHeader"-->
-<!--                    android:visibility="gone"-->
-<!--                    app:box_margin="@dimen/_4sdp"-->
-<!--                    app:box_margin_bottom="@dimen/_2sdp"-->
-<!--                    app:height="70sp"-->
-<!--                    app:length="4"-->
-<!--                    app:otp="1234"-->
-<!--                    app:otp_box_background="@drawable/shape_otp"-->
-<!--                    app:otp_text_size="@dimen/_14sdp"-->
-<!--                    app:text_typeface="bold"-->
-<!--                    app:width="70sp" />-->
+                    <!--                <in.aabhasjindal.otptextview.OtpTextView-->
+                    <!--                    android:id="@+id/otp_view"-->
+                    <!--                    style="@style/otpViewStyleForLarge"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_gravity="center_horizontal"-->
+                    <!--                    android:layout_marginStart="@dimen/_2sdp"-->
+                    <!--                    android:layout_marginEnd="@dimen/_2sdp"-->
+                    <!--                    android:layout_marginBottom="@dimen/_2sdp"-->
+                    <!--                    android:elevation="@dimen/_2sdp"-->
+                    <!--                    android:textColor="@color/colorToolbarHeader"-->
+                    <!--                    android:visibility="gone"-->
+                    <!--                    app:box_margin="@dimen/_4sdp"-->
+                    <!--                    app:box_margin_bottom="@dimen/_2sdp"-->
+                    <!--                    app:height="70sp"-->
+                    <!--                    app:length="4"-->
+                    <!--                    app:otp="1234"-->
+                    <!--                    app:otp_box_background="@drawable/shape_otp"-->
+                    <!--                    app:otp_text_size="@dimen/_14sdp"-->
+                    <!--                    app:text_typeface="bold"-->
+                    <!--                    app:width="70sp" />-->
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="Don't receive the OTP? Resend OTP"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_8sdp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="Don't receive the OTP? Resend OTP"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_8sdp" />
 
-                <include
+                    <include
 
-                    android:id="@+id/includeBtn"
-                    layout="@layout/common_button_match_width_layout" />
+                        android:id="@+id/includeBtn"
+                        layout="@layout/common_button_match_width_layout" />
 
-            </LinearLayout>
+                </LinearLayout>
 
+
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
 
@@ -163,5 +253,13 @@
             android:text="Don't have an account? Sign up"
             android:textSize="@dimen/_10sdp"
             android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/backPress"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:src="@drawable/ic_left_arrow_black" />
     </RelativeLayout>
 </layout>

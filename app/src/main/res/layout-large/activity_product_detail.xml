@@ -31,6 +31,30 @@
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/_25sdp">
 
+                    <androidx.viewpager.widget.ViewPager
+                        android:layout_marginTop="70dp"
+
+                        android:id="@+id/productImagesSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:clipToPadding="false"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:paddingEnd="@dimen/_12sdp" />
+
+                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                        android:id="@+id/dots_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="-10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        app:dotsColor="#DDDDDD"
+                        app:dotsCornerRadius="8dp"
+                        app:dotsSize="8dp"
+                        app:dotsSpacing="3dp"
+                        app:dotsWidthFactor="2.5"
+                        app:progressMode="true"
+                        app:selectedDotColor="@color/orange" />
+
                     <ImageView
                         android:id="@+id/main_shoe_picture"
                         android:layout_width="match_parent"
@@ -39,7 +63,8 @@
                         android:adjustViewBounds="true"
                         android:cropToPadding="false"
                         android:padding="@dimen/_20sdp"
-                        android:src="@drawable/product_third" />
+                        android:src="@drawable/product_third"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -118,6 +143,8 @@
 
 
                             <TextView
+                                android:id="@+id/decrementAction"
+
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_25sdp"
                                 android:layout_gravity="center_vertical"
@@ -132,6 +159,7 @@
                                 tools:ignore="RtlCompat" />
 
                             <TextView
+                                android:id="@+id/counter"
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_30sdp"
                                 android:layout_gravity="center_vertical"
@@ -147,12 +175,13 @@
                                 tools:ignore="RtlCompat" />
 
                             <TextView
+
+                                android:id="@+id/incrementAction"
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_25sdp"
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/shape_cart_backgorund_secondary"
                                 android:includeFontPadding="false"
-
                                 android:paddingTop="@dimen/_5sdp"
                                 android:text="+"
                                 android:textAlignment="center"
@@ -174,6 +203,7 @@
                                 android:id="@+id/nonReturnIcon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/ic_not_returnable" />
 
@@ -185,11 +215,10 @@
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:text="Non Returnable"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_12sdp" />
+                                android:textSize="@dimen/_10sdp" />
                         </LinearLayout>
 
                     </LinearLayout>
-
 
 
                     <LinearLayout
@@ -224,101 +253,100 @@
                     </LinearLayout>
 
                     <com.google.android.material.tabs.TabLayout
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:id="@+id/tabLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@null"
                         android:clipToPadding="false"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingEnd="@dimen/_15sdp"
-                        app:tabMode="auto"
-                        app:tabInlineLabel="true"
-                        app:tabGravity="center"
-                        app:tabIndicatorGravity="stretch"
-                        android:background="@null"
-                        app:tabUnboundedRipple="false"
-                        app:tabSelectedTextColor="@color/orange"
                         app:tabBackground="@android:color/transparent"
-                        app:tabRippleColor="@null"
-                        app:tabTextAppearance="@style/tabTextStyle"
-                        app:tabTextColor="@color/white"
+                        app:tabGravity="center"
+                        app:tabIndicator="@drawable/shape_product_tab_indicator"
                         app:tabIndicatorAnimationMode="elastic"
                         app:tabIndicatorColor="@color/white"
-                        app:tabIndicator="@drawable/shape_product_tab_indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        app:tabIndicatorGravity="stretch"
+                        app:tabInlineLabel="true"
+                        app:tabMode="auto"
+                        app:tabRippleColor="@null"
+                        app:tabSelectedTextColor="@color/orange"
+                        app:tabTextAppearance="@style/tabTextStyle"
+                        app:tabTextColor="@color/white"
+                        app:tabUnboundedRipple="false" />
+
                     <com.app.frimline.views.WrapContentHeightViewPager
-                        android:background="@color/orange"
-                        android:layout_marginTop="@dimen/_7sdp"
-                        android:animateLayoutChanges="true"
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:animateLayoutChanges="true"
                         android:nestedScrollingEnabled="false" />
-<!--                    <LinearLayout-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content">-->
+                    <!--                    <LinearLayout-->
+                    <!--                        android:orientation="vertical"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content">-->
 
-<!--                        <HorizontalScrollView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="@dimen/_5sdp"-->
-<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                            android:scrollbars="none">-->
-
-
-<!--                            <com.google.android.material.chip.ChipGroup-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="@dimen/_55sdp"-->
-<!--                                android:clipToPadding="false"-->
-<!--                                android:paddingStart="@dimen/_15sdp"-->
-<!--                                android:paddingEnd="@dimen/_15sdp">-->
-
-<!--                                <com.google.android.material.chip.Chip-->
-<!--                                    style="@style/ChipStyle"-->
-<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                                    android:text="Description" />-->
-
-<!--                                <com.google.android.material.chip.Chip-->
-<!--                                    style="@style/ChipStyle"-->
-<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
-<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                                    android:text="How To Use" />-->
-
-<!--                                <com.google.android.material.chip.Chip-->
-<!--                                    style="@style/ChipStyle"-->
-<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
-<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                                    android:text="Ingredients" />-->
-
-<!--                                <com.google.android.material.chip.Chip-->
-<!--                                    style="@style/ChipStyle"-->
-<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                                    android:text="Additional Information" />-->
-
-<!--                                <com.google.android.material.chip.Chip-->
-<!--                                    style="@style/ChipStyle"-->
-<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
-<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                                    android:text="Reviews" />-->
-
-<!--                                <com.google.android.material.chip.Chip-->
-<!--                                    style="@style/ChipStyle"-->
-<!--                                    android:layout_marginStart="@dimen/_7sdp"-->
-<!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                                    android:text="Q&amp;A" />-->
+                    <!--                        <HorizontalScrollView-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_marginTop="@dimen/_5sdp"-->
+                    <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+                    <!--                            android:scrollbars="none">-->
 
 
+                    <!--                            <com.google.android.material.chip.ChipGroup-->
+                    <!--                                android:layout_width="wrap_content"-->
+                    <!--                                android:layout_height="@dimen/_55sdp"-->
+                    <!--                                android:clipToPadding="false"-->
+                    <!--                                android:paddingStart="@dimen/_15sdp"-->
+                    <!--                                android:paddingEnd="@dimen/_15sdp">-->
 
-<!--                            </com.google.android.material.chip.ChipGroup>-->
+                    <!--                                <com.google.android.material.chip.Chip-->
+                    <!--                                    style="@style/ChipStyle"-->
+                    <!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+                    <!--                                    android:text="Description" />-->
 
-<!--                        </HorizontalScrollView>-->
+                    <!--                                <com.google.android.material.chip.Chip-->
+                    <!--                                    style="@style/ChipStyle"-->
+                    <!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+                    <!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+                    <!--                                    android:text="How To Use" />-->
 
-<!--                        <androidx.viewpager.widget.ViewPager-->
-<!--                            android:id="@+id/viewPager"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="@dimen/_200sdp" />-->
+                    <!--                                <com.google.android.material.chip.Chip-->
+                    <!--                                    style="@style/ChipStyle"-->
+                    <!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+                    <!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+                    <!--                                    android:text="Ingredients" />-->
 
-<!--                    </LinearLayout>-->
+                    <!--                                <com.google.android.material.chip.Chip-->
+                    <!--                                    style="@style/ChipStyle"-->
+                    <!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+                    <!--                                    android:text="Additional Information" />-->
+
+                    <!--                                <com.google.android.material.chip.Chip-->
+                    <!--                                    style="@style/ChipStyle"-->
+                    <!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+                    <!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+                    <!--                                    android:text="Reviews" />-->
+
+                    <!--                                <com.google.android.material.chip.Chip-->
+                    <!--                                    style="@style/ChipStyle"-->
+                    <!--                                    android:layout_marginStart="@dimen/_7sdp"-->
+                    <!--                                    android:layout_marginBottom="@dimen/_10sdp"-->
+                    <!--                                    android:text="Q&amp;A" />-->
+
+
+                    <!--                            </com.google.android.material.chip.ChipGroup>-->
+
+                    <!--                        </HorizontalScrollView>-->
+
+                    <!--                        <androidx.viewpager.widget.ViewPager-->
+                    <!--                            android:id="@+id/viewPager"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="@dimen/_200sdp" />-->
+
+                    <!--                    </LinearLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -337,7 +365,7 @@
 
         <include
             android:id="@+id/toolbar_Navigation"
-            layout="@layout/include_activity_toolbar_layout"/>
+            layout="@layout/include_activity_toolbar_layout" />
 
         <RelativeLayout
             android:id="@+id/boottomFooter"
@@ -362,6 +390,7 @@
                 android:textSize="@dimen/_13sdp" />
 
             <RelativeLayout
+
                 android:id="@+id/addCartContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -384,6 +413,7 @@
                     app:tint="@color/colorGreen" />
 
                 <TextView
+                    android:id="@+id/addTextTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

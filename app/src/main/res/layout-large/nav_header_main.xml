@@ -25,6 +25,7 @@
 
 
     <TextView
+        android:id="@+id/userNameTxt"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_width="match_parent"

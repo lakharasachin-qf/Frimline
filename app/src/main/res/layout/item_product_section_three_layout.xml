@@ -102,7 +102,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="end"
                         android:background="@drawable/shape_ovel"
-                        android:backgroundTint="@color/colorGreen"
+                        android:backgroundTint="#ACACAC"
                         android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_cart"
                         app:tint="@color/white" />
@@ -135,8 +135,7 @@
                 android:layout_height="match_parent">
 
                 <androidx.cardview.widget.CardView
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
+
                     android:id="@+id/productSection"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
@@ -216,7 +215,7 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/shape_ovel"
-                    android:backgroundTint="@color/colorGreen"
+                    android:backgroundTint="#ACACAC"
                     android:padding="@dimen/_4sdp"
                     android:src="@drawable/ic_cart"
                     app:tint="@color/white" />
@@ -319,7 +318,7 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/shape_ovel"
-                    android:backgroundTint="@color/colorGreen"
+                    android:backgroundTint="#ACACAC"
                     android:padding="@dimen/_4sdp"
                     android:src="@drawable/ic_cart"
                     app:tint="@color/white" />

@@ -296,6 +296,7 @@
         </ScrollView>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
@@ -324,7 +325,7 @@
 
         </LinearLayout>
         <androidx.appcompat.widget.AppCompatButton
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

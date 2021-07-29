@@ -3,10 +3,10 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-
+        app:statusBarBackground="@color/colorScreenBackground"
         android:layout_height="match_parent"
         android:background="@color/colorScreenBackground"
-        android:fitsSystemWindows="true">
+         >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -28,6 +28,7 @@
                 android:id="@+id/main_collapsing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:statusBarScrim="@color/colorScreenBackground"
                 android:fitsSystemWindows="true"
                 app:contentScrim="@color/white"
                 app:expandedTitleMarginEnd="64dp"
@@ -46,27 +47,30 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/main_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_70sdp"
-                    android:paddingTop="@dimen/_30sdp"
+                    android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-                    <ImageView
-                        android:id="@+id/icon2"
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:src="@drawable/ic_drawer_menu" />
-
-                    <TextView
-                        android:id="@+id/titleTxt"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_24sdp"
-                        android:fontFamily="@font/proxinova_semi_bold"
-                        android:text="Skin Care"
-                        android:textColor="@color/colorToolbarHeader"
-                        android:textSize="@dimen/_17sdp"
-                        android:visibility="visible" />
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/icon2"
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:src="@drawable/ic_drawer_menu" />
+                        <TextView
+                            android:id="@+id/titleTxt"
+                            android:layout_width="match_parent"
+                            android:textAlignment="center"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxinova_semi_bold"
+                            android:text="Oral Hygiene"
+                            android:textColor="@color/colorToolbarHeader"
+                            android:textSize="@dimen/_17sdp"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -76,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/_200sdp"
+            android:paddingBottom="@dimen/_70sdp"
             app:behavior_overlapTop="110dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -153,7 +157,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/proxima_nova_black"
                                     android:includeFontPadding="false"
-                                    android:text="Skin"
+                                    android:text="Oral"
                                     android:textColor="@color/colorGreen"
                                     android:textSize="@dimen/_30sdp" />
 
@@ -164,7 +168,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/proxinova_semi_bold"
                                     android:includeFontPadding="false"
-                                    android:text="Care"
+                                    android:text="Hygiene"
                                     android:textColor="@color/colorGreen"
                                     android:textSize="@dimen/_30sdp" />
 
@@ -266,25 +270,7 @@
                                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n\nEprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.\n\nSunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat. Duis aute irure dolor."
                                 android:textSize="@dimen/_11sdp" />
 
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/descTXt"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="@dimen/_3sdp"
-                                android:layout_marginBottom="@dimen/_5sdp"
 
-                                android:background="@drawable/shape_button_second"
-                                android:drawableEnd="@drawable/ic_right_arrow_white"
-                                android:drawablePadding="@dimen/_10sdp"
-                                android:fontFamily="@font/proxinova_semi_bold"
-                                android:paddingStart="@dimen/_15sdp"
-                                android:paddingEnd="@dimen/_15sdp"
-                                android:text="Go to store"
-                                android:textColor="@color/white">
-
-                            </androidx.appcompat.widget.AppCompatButton>
 
                             <RelativeLayout
                                 android:layout_width="wrap_content"
@@ -293,7 +279,6 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
                                 android:layout_gravity="end"
-
                                 android:layout_marginBottom="@dimen/_15sdp"
                                 android:background="@drawable/shape_button_second"
                                 android:padding="@dimen/_7sdp"
@@ -335,7 +320,26 @@
 
 
         </androidx.core.widget.NestedScrollView>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_gravity="bottom|end"
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/descTXt"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
 
+            android:background="@drawable/shape_button_second"
+            android:drawableEnd="@drawable/ic_right_arrow_white"
+            android:drawablePadding="@dimen/_10sdp"
+            android:fontFamily="@font/proxinova_semi_bold"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:text="Go to store"
+            android:textColor="@color/white">
+
+        </androidx.appcompat.widget.AppCompatButton>
         <ImageView
             android:id="@+id/icon"
             android:layout_width="@dimen/_28sdp"

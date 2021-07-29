@@ -81,7 +81,7 @@ public class CategoryProfileFragment extends Fragment {
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeStatusBarColor(ContextCompat.getColor(getActivity(),R.color.colorScreenBackground));
+                //changeStatusBarColor(ContextCompat.getColor(getActivity(),R.color.colorScreenBackground));
                 onNavClick.GoToStore();
             }
         });

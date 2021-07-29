@@ -8,19 +8,19 @@
         android:background="@color/colorScreenBackground"
         tools:context=".fragments.LeftFragment">
 
-
-
         <ScrollView
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/_200sdp"
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_130sdp"
             android:scrollbars="none">
 
             <RelativeLayout
+                android:id="@+id/containerLinear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -43,45 +43,61 @@
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp">
 
-                        <ImageView
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="@dimen/_110sdp"-->
+                        <!--                            android:scaleType="centerCrop"-->
+                        <!--                            android:src="@drawable/banner" />-->
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewPager"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_110sdp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/banner" />
+                            android:layout_height="@dimen/_100sdp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                            android:id="@+id/dot"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="vertical">
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:paddingBottom="@dimen/_10sdp"
+                            app:dotsColor="#B7FFFFFF"
+                            app:dotsSize="@dimen/_5sdp"
+                            app:dotsSpacing="@dimen/_2sdp"
+                            app:selectedDotColor="@color/colorGreen" />
+                        <!--                        -->
+                        <!--                        <LinearLayout-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_centerVertical="true"-->
+                        <!--                            android:orientation="vertical">-->
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Yor are about to alive to dive in the world of"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_10sdp" />
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:fontFamily="@font/proxima_nova_bold"-->
+                        <!--                                android:text="Yor are about to alive to dive in the world of"-->
+                        <!--                                android:textAlignment="center"-->
+                        <!--                                android:textColor="@color/white"-->
+                        <!--                                android:textSize="@dimen/_10sdp" />-->
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_extrabold"
-                                android:text="BEHAVIORAL"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_22sdp" />
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:fontFamily="@font/proxima_nova_extrabold"-->
+                        <!--                                android:text="BEHAVIORAL"-->
+                        <!--                                android:textAlignment="center"-->
+                        <!--                                android:textColor="@color/white"-->
+                        <!--                                android:textSize="@dimen/_22sdp" />-->
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="EVOLUTION"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_12sdp" />
-                        </LinearLayout>
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:fontFamily="@font/proxima_nova_bold"-->
+                        <!--                                android:text="EVOLUTION"-->
+                        <!--                                android:textAlignment="center"-->
+                        <!--                                android:textColor="@color/white"-->
+                        <!--                                android:textSize="@dimen/_12sdp" />-->
+                        <!--                        </LinearLayout>-->
                     </RelativeLayout>
 
 
@@ -93,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_145sdp"
+                    android:layout_marginTop="@dimen/_140sdp"
                     android:fontFamily="@font/proxima_nova_bold"
                     android:text="Today's Tomorrow"
                     android:textColor="@color/black"
@@ -106,8 +122,8 @@
                     android:layout_below="@+id/headingTxt"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_2sdp"
-                    android:backgroundTint="@color/colorGreen"
-                    android:background="@drawable/shape_headline_round_underline" />
+                    android:background="@drawable/shape_headline_round_underline"
+                    android:backgroundTint="@color/colorGreen" />
 
                 <LinearLayout
                     android:id="@+id/layout1"
@@ -242,9 +258,9 @@
         </ScrollView>
 
         <LinearLayout
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="#F2F5ED"
             android:paddingTop="@dimen/_10sdp"
@@ -261,7 +277,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="@dimen/_70sdp"
@@ -289,7 +305,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="@dimen/_70sdp"
@@ -317,7 +333,7 @@
 
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
 
                     <ImageView
@@ -331,11 +347,11 @@
                         android:src="@drawable/category_one" />
 
                     <TextView
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
                         android:fontFamily="@font/proxinova_semi_bold"
+                        android:singleLine="true"
                         android:text="Health Supplements"
                         android:textAlignment="center"
                         android:textColor="@color/black"

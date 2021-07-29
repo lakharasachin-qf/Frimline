@@ -6,29 +6,30 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:splitMotionEvents="true"
+        android:animateLayoutChanges="true"
         tools:context=".fragments.LeftFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_345sdp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
 
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:background="@drawable/ic_fragment_backgroun" >
+            android:background="@drawable/ic_fragment_backgroun">
 
 
-            <ScrollView
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/_20sdp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:scrollbars="none">
+<!--            <ScrollView-->
+<!--                android:id="@+id/scrollView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:clipToPadding="false"-->
+<!--                android:paddingBottom="@dimen/_20sdp"-->
+<!--                android:scrollbars="none">-->
 
                 <LinearLayout
+                    android:layout_marginTop="@dimen/_35sdp"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -38,85 +39,65 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
+                        android:id="@+id/containerLinear"
+                        android:animateLayoutChanges="true"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/hint"
                             style="@style/EditTextTitle"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/_7sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:textAlignment="center"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Please Sign in with email to continue using\nour app" />
+                            android:text="Please Sign in with email to continue using\nour app"
+                            android:textAlignment="center" />
+
                         <TextView
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="Username or Email Address" />
 
-                        <LinearLayout
-                            android:id="@+id/emailEdtLayout"
-                            style="@style/EditTextOverLayout"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/userNameEdtLayout"
+                            style="@style/TextInputLayoutStyleForMediumScreen"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="false"
+                            app:errorIconDrawable="@null">
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
-                                android:src="@drawable/ic_person_outline_black_24dp" />
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/userNameEdt"
+                                style="@style/textInputEditTextForMediumScreen"
+                                android:drawableStart="@drawable/edt_person_icon"
+                                android:hint="Username"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                            <EditText
-                                android:id="@+id/emailEdt"
-                                style="@style/EditBoxWithoutIcons"
-                                android:layout_gravity="center_vertical"
-                                android:background="@null"
-                                android:hint="Enter here" />
-                        </LinearLayout>
 
                         <TextView
                             style="@style/EditTextTitle"
-                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
                             android:text="Password" />
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/confirmPasswordLayout"
-                            style="@style/EditTextOverLayout"
+                            style="@style/TextInputLayoutStyleForMediumScreen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/_7sdp"
-                            android:paddingBottom="@dimen/_7sdp">
+                            app:errorIconDrawable="@null"
+                            app:errorEnabled="false"
+                            app:passwordToggleEnabled="true">
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_lock_black_24dp" />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_margin="0dp"
-                                android:background="@null"
-                                android:padding="0dp"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:passwordToggleEnabled="true">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/confirmPassword"
-                                    style="@style/EditBoxWithoutIcons"
-                                    android:layout_width="match_parent"
-                                    android:layout_margin="0dp"
-                                    android:inputType="textPassword"
-                                    android:padding="0dp"
-                                    android:singleLine="true" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                        </LinearLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/confirmPassword"
+                                style="@style/textInputEditTextForMediumScreen"
+                                android:drawableStart="@drawable/edt_lock_icon"
+                                android:hint="Password"
+                                android:inputType="textPassword"
+                                app:passwordToggleEnabled="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                         <RelativeLayout
@@ -129,9 +110,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
+                                android:layout_marginStart="-10dp"
                                 android:buttonTint="@color/colorGreen"
                                 android:fontFamily="@font/proxima_nova_regular"
-                                android:layout_marginStart="-10dp"
                                 android:includeFontPadding="false"
                                 android:scaleX="0.80"
                                 android:scaleY="0.80"
@@ -139,6 +120,7 @@
                                 android:textSize="@dimen/_12sdp" />
 
                             <TextView
+                                android:id="@+id/forgetPassword"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -147,13 +129,18 @@
                                 android:text="Forgot Password?"
                                 android:textSize="@dimen/_10sdp" />
                         </RelativeLayout>
+
                         <include
                             android:id="@+id/includeBtn"
-                            layout="@layout/common_button_match_width_layout" />
+                            layout="@layout/common_button_match_width_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_5sdp" />
                     </LinearLayout>
                 </LinearLayout>
 
-            </ScrollView>
+<!--            </ScrollView>-->
 
 
         </RelativeLayout>

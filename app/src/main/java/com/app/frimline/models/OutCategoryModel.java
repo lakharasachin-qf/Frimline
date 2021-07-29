@@ -3,6 +3,15 @@ package com.app.frimline.models;
 public class OutCategoryModel {
     private int layoutType;
     private String name;
+    private boolean isAddedToCart=false;
+
+    public boolean isAddedToCart() {
+        return isAddedToCart;
+    }
+
+    public void setAddedToCart(boolean addedToCart) {
+        isAddedToCart = addedToCart;
+    }
 
     public int getLayoutType() {
         return layoutType;
