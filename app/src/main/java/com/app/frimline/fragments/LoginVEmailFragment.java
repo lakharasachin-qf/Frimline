@@ -57,6 +57,9 @@ public class LoginVEmailFragment extends BaseFragment {
         HELPER.ERROR_HELPER(binding.userNameEdt, binding.userNameEdtLayout);
         HELPER.ERROR_HELPER(binding.confirmPassword, binding.confirmPasswordLayout);
 
+        binding.userNameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.confirmPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+
 
         binding.forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

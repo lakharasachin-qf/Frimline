@@ -1,9 +1,13 @@
 package com.app.frimline.screens;
 
+import static java.security.AccessController.getContext;
+
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -52,17 +56,22 @@ public class LoginActivity extends BaseActivity {
                 (RelativeLayout.LayoutParams) binding.backPress.getLayoutParams();
         layoutParams.topMargin = HELPER.getStatusBarHeight(act);
         binding.backPress.setLayoutParams(layoutParams);
-
-//
-//        if (Build.VERSION.SDK_INT >= 30) {
-//            Log.e("Android ", "11");
-//            getWindow().getDecorView().getWindowInsetsController().hide(android.view.WindowInsets.Type.statusBars());
-//
-//        }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
+        loginWidth();
     }
 
+    public void loginWidth(){
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int fragmentWidth = (width / 6)+20;
+
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) binding.logo.getLayoutParams();
+        layoutParams.topMargin = fragmentWidth;
+        binding.logo.setLayoutParams(layoutParams);
+    }
 
     private void setupTabIcons() {
         loginFragment = new LoginVMobileFragment();
@@ -84,7 +93,7 @@ public class LoginActivity extends BaseActivity {
                 FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) binding.indicator.getLayoutParams();
                 indicatorParams.width = indicatorWidth;
                 binding.indicator.setLayoutParams(indicatorParams);
-                // binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
+                //binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
             }
         });
 
@@ -105,7 +114,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int i) {
-                // Log.e("PAge", i + "d");
+                //Log.e("PAge", i + "d");
             }
         });
 

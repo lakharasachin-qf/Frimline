@@ -44,6 +44,7 @@ public class BlogDetailsActivity extends BaseActivity {
         binding.viewPager.setAdapter(sliderAdapter);
         binding.dotsIndicator.setViewPager(binding.viewPager);
 
+
         changeTheme();
     }
 

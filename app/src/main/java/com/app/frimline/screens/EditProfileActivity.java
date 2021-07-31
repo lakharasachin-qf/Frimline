@@ -54,16 +54,20 @@ public class EditProfileActivity extends BaseActivity {
         HELPER.ERROR_HELPER(binding.confirmPassword, binding.confirmPasswordLayout);
 
 
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.nameEdt, binding.nameEdtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.lnameEdt, binding.lnameEdtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.displayNameEdt, binding.displayNameEdtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.emailEdt, binding.emailEdtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.phoneNoEdt, binding.phoneNoEdtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.newPasswordEdt, binding.newPasswordLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.confirmPassword, binding.confirmPasswordLayout);
-
-
-
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.nameEdt, binding.nameEdtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.lnameEdt, binding.lnameEdtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.displayNameEdt, binding.displayNameEdtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.emailEdt, binding.emailEdtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.phoneNoEdt, binding.phoneNoEdtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.newPasswordEdt, binding.newPasswordLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.confirmPassword, binding.confirmPasswordLayout);
+        binding.nameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.lnameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.displayNameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.emailEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.phoneNoEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.newPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.confirmPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
         binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
@@ -134,7 +138,7 @@ public class EditProfileActivity extends BaseActivity {
                 binding.phoneNoEdt.requestFocus();
             }
         }
-        if (binding.phoneNoEdt.getText().toString().trim().length() < 14) {
+        if (binding.phoneNoEdt.getText().toString().trim().length() < 10) {
             isError = true;
             binding.phoneNoEdtLayout.setError("Enter Valid Phone No.");
             if (!isFocus) {
@@ -167,13 +171,14 @@ public class EditProfileActivity extends BaseActivity {
                 isFocus = true;
                 binding.confirmPassword.requestFocus();
             }
-        }
-        if (!binding.newPasswordEdt.getText().toString().equalsIgnoreCase(binding.confirmPassword.getText().toString())) {
-            isError = true;
-            binding.confirmPasswordLayout.setError("Password doest not match.");
-            if (!isFocus) {
-                isFocus = true;
-                binding.confirmPassword.requestFocus();
+        } else {
+            if (!binding.newPasswordEdt.getText().toString().equals(binding.confirmPassword.getText().toString())) {
+                isError = true;
+                binding.confirmPasswordLayout.setError("Password doest not match.");
+                if (!isFocus) {
+                    isFocus = true;
+                    binding.confirmPassword.requestFocus();
+                }
             }
         }
 

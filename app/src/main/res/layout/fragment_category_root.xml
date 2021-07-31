@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorScreenBackground"
-        tools:context=".fragments.LeftFragment">
-
+        android:background="@color/colorScreenBackground">
 
 
         <ScrollView
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/_130sdp"
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_130sdp"
             android:scrollbars="none">
 
             <RelativeLayout
                 android:id="@+id/containerLinear"
-                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -44,145 +43,32 @@
                         android:background="@color/white"
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp">
+
                         <androidx.viewpager.widget.ViewPager
                             android:id="@+id/viewPager"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_120sdp"/>
+                            android:layout_height="@dimen/_120sdp" />
+
                         <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                            android:layout_width="wrap_content"
                             android:id="@+id/dot"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/_7sdp"
+                            android:paddingBottom="@dimen/_10sdp"
                             app:dotsColor="#B7FFFFFF"
                             app:dotsSize="@dimen/_7sdp"
-                            android:paddingBottom="@dimen/_10sdp"
 
                             app:dotsSpacing="@dimen/_2sdp"
                             app:selectedDotColor="@color/colorGreen" />
 
-                        <!--                        -->
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_centerVertical="true"-->
-<!--                            android:orientation="vertical">-->
 
-<!--                            <TextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:fontFamily="@font/proxima_nova_bold"-->
-<!--                                android:text="Yor are about to alive to dive in the world of"-->
-<!--                                android:textAlignment="center"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:textSize="@dimen/_10sdp" />-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:fontFamily="@font/proxima_nova_extrabold"-->
-<!--                                android:text="BEHAVIORAL"-->
-<!--                                android:textAlignment="center"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:textSize="@dimen/_22sdp" />-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:fontFamily="@font/proxima_nova_bold"-->
-<!--                                android:text="EVOLUTION"-->
-<!--                                android:textAlignment="center"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:textSize="@dimen/_12sdp" />-->
-<!--                        </LinearLayout>-->
                     </RelativeLayout>
 
 
                 </androidx.cardview.widget.CardView>
 
-<!--                <carbon.widget.RelativeLayout-->
-<!--                    android:id="@+id/slider"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/_10sdp"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:visibility="gone">-->
-
-<!--                    <carbon.widget.LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/_6sdp"-->
-<!--                        android:background="@color/white"-->
-<!--                        android:elevation="0dp" />-->
-
-<!--                    <carbon.widget.RelativeLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/_125sdp"-->
-<!--                        android:layout_marginTop="@dimen/_3sdp"-->
-<!--                        android:layout_marginBottom="@dimen/_105sdp"-->
-<!--                        android:background="#FFFFFF"-->
-<!--                        android:gravity="center_vertical"-->
-<!--                        app:carbon_elevation="15dp"-->
-<!--                        app:carbon_elevationShadowColor="#E8000000"-->
-<!--                        app:carbon_elevationSpotShadowColor="#E8000000">-->
-
-<!--                        <carbon.widget.ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_marginTop="@dimen/_3sdp"-->
-<!--                            android:layout_marginBottom="@dimen/_3sdp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:scaleType="centerCrop"-->
-<!--                            android:src="@drawable/banner" />-->
-
-<!--                        <carbon.widget.LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_centerVertical="true"-->
-<!--                            android:orientation="vertical">-->
-
-<!--                            <carbon.widget.TextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Yor are about to alive to dive in the world of"-->
-<!--                                android:textAlignment="center"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:textSize="@dimen/_10sdp"-->
-<!--                                app:carbon_fontFamily="@font/proxima_nova_bold" />-->
-
-<!--                            <carbon.widget.TextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:fontFamily="@font/proxima_nova_extrabold"-->
-<!--                                android:text="BEHAVIORAL"-->
-<!--                                android:textAlignment="center"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:textSize="@dimen/_22sdp"-->
-<!--                                app:carbon_fontFamily="@font/proxima_nova_black" />-->
-
-<!--                            <carbon.widget.TextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="EVOLUTION"-->
-<!--                                android:textAlignment="center"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:textSize="@dimen/_12sdp"-->
-<!--                                app:carbon_fontFamily="@font/proxima_nova_bold" />-->
-<!--                        </carbon.widget.LinearLayout>-->
-
-<!--&lt;!&ndash;                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_height="@dimen/_10sdp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_alignParentBottom="true"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_centerHorizontal="true"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_marginBottom="@dimen/_8sdp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            app:dotsColor="#FDE3DBD4"&ndash;&gt;-->
-<!--&lt;!&ndash;                            app:dotsSize="@dimen/_6sdp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            app:dotsSpacing="@dimen/_2sdp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            app:selectedDotColor="@color/orange" />&ndash;&gt;-->
-<!--                    </carbon.widget.RelativeLayout>-->
-
-<!--                </carbon.widget.RelativeLayout>-->
 
                 <TextView
                     android:id="@+id/headingTxt"
@@ -202,8 +88,15 @@
                     android:layout_below="@+id/headingTxt"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_2sdp"
-                    android:backgroundTint="@color/colorGreen"
-                    android:background="@drawable/shape_headline_round_underline" />
+                    android:background="@drawable/shape_headline_round_underline"
+                    android:backgroundTint="@color/colorGreen" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/todaysRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/headingUnderlineView"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/layout1"
@@ -338,15 +231,27 @@
         </ScrollView>
 
         <LinearLayout
-            android:layout_alignParentBottom="true"
+            android:id="@+id/categoryProductRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="#F2F5ED"
+            android:orientation="vertical"
             android:paddingTop="@dimen/_10sdp"
             android:paddingBottom="@dimen/_10sdp">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/categoryRecycler"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <LinearLayout
+                android:id="@+id/dummyContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="3">
@@ -357,7 +262,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="@dimen/_80sdp"
@@ -385,7 +290,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="@dimen/_80sdp"
@@ -413,7 +318,7 @@
 
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
 
                     <ImageView
@@ -427,11 +332,11 @@
                         android:src="@drawable/category_one" />
 
                     <TextView
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
                         android:fontFamily="@font/proxinova_semi_bold"
+                        android:singleLine="true"
                         android:text="Health Supplements"
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -441,5 +346,16 @@
             </LinearLayout>
         </LinearLayout>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            shimmer:shimmer_duration="800">
+
+            <include layout="@layout/shimmer_fragment_category_root" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </RelativeLayout>
 </layout>

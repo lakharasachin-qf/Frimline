@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/scrollView"
     android:layout_marginTop="@dimen/_30sdp"
     android:clipToPadding="false"
     android:fillViewport="true"
@@ -239,12 +240,12 @@ Rd, Opp Fantasi Land, Andheri (west)"
         <com.app.frimline.views.WrapContentHeightViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="-20dp"
             android:clipToPadding="false"
             android:fitsSystemWindows="true"
             android:nestedScrollingEnabled="false"
-            android:layout_marginBottom="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
             android:paddingBottom="@dimen/_100sdp" />
     </LinearLayout>
 

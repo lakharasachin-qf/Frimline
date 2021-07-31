@@ -11,7 +11,6 @@
 
         <ImageView
             android:id="@+id/backgroundLayar2"
-
             android:layout_width="match_parent"
             android:layout_height="@dimen/_100sdp"
             android:src="@drawable/ic_screen_header" />

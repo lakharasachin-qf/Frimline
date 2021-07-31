@@ -164,7 +164,28 @@ public class HomeFragment extends BaseFragment {
             Log.e("NEW ARRAY", new Gson().toJson(dataFromApi));
 
             for (int i = 0; i < dataFromApi.size(); i++) {
-                getUpdate(dataFromApi.get(i));
+                //getUpdate(dataFromApi.get(i));
+                if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(BANNER)) {
+                    loadBanner(dataFromApi.get(i).getLayoutIndex());
+                }
+                if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(PROMO_CODES)) {
+                    loadPromoCodes(dataFromApi.get(i).getLayoutIndex());
+                }
+                if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(CATEGORY_PRODUCT)) {
+                    loadProducts(dataFromApi.get(i).getLayoutIndex());
+                }
+                if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(CATEGORY)) {
+                    loadCategory(dataFromApi.get(i).getLayoutIndex());
+                }
+                if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(TOP_RATTED)) {
+                    loadTopRatted(dataFromApi.get(i).getLayoutIndex());
+                }
+                if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(ALERT_COVID)) {
+                    loadAlertCovid(dataFromApi.get(i).getLayoutIndex());
+                }
+                if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(OFFERS)) {
+                    loadOffers(dataFromApi.get(i).getLayoutIndex());
+                }
             }
 
         } catch (JSONException e) {

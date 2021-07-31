@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.NetworkChangeReceiver2;
@@ -30,6 +31,7 @@ import com.app.frimline.Common.PREF;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -41,10 +43,12 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
     private static View view;
     public Activity act;
     public PREF pref;
-    FRIMLINE frimline;
+    public FRIMLINE frimline;
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
     Toolbar toolbar;
+    public static final boolean PROTOTYPE= CONSTANT.PROTOTYPING_MODE;
+    public static final boolean API_MODE= CONSTANT.API_MODE;
 
     public BaseNavDrawerActivity() {
     }

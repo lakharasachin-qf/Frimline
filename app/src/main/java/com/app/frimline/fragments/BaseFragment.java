@@ -25,6 +25,7 @@ public abstract class BaseFragment extends Fragment implements Observer {
     public Activity act;
     public Gson gson;
     public boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
+    public boolean API_MODE = CONSTANT.API_MODE;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

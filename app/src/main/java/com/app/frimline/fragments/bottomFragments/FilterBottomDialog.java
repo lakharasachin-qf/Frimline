@@ -66,7 +66,7 @@ public class FilterBottomDialog extends BaseFragment {
         countryModel.setName("Sort by price : High to Low");
         listModels.add(countryModel);
 
-        binding.titleText.setText("Choose Country");
+        binding.titleText.setText("Filter");
         if (listModels != null) {
             Log.e("SSSS", String.valueOf(listModels.size()));
             adpt = new SortingAdapter(listModels, act, calledFlag);

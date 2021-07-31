@@ -160,21 +160,34 @@
                                 android:textStyle="bold"
                                 tools:ignore="RtlCompat" />
 
-                            <TextView
+                            <com.app.cartcounter.RollingTextView
                                 android:id="@+id/counter"
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_30sdp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_5sdp"
                                 android:layout_marginEnd="@dimen/_5sdp"
+                                android:gravity="center"
                                 android:background="@drawable/shape_cart_backgorund"
                                 android:includeFontPadding="false"
-                                android:paddingTop="@dimen/_7sdp"
-                                android:text="1"
-                                android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_13sdp"
-                                tools:ignore="RtlCompat" />
+                                />
+<!--                            <TextView-->
+<!--                                android:id="@+id/counter"-->
+<!--                                android:layout_width="@dimen/_40sdp"-->
+<!--                                android:layout_height="@dimen/_30sdp"-->
+<!--                                android:layout_gravity="center_vertical"-->
+<!--                                android:layout_marginStart="@dimen/_5sdp"-->
+<!--                                android:layout_marginEnd="@dimen/_5sdp"-->
+<!--                                android:background="@drawable/shape_cart_backgorund"-->
+<!--                                android:includeFontPadding="false"-->
+<!--                                android:paddingTop="@dimen/_7sdp"-->
+<!--                                android:text="1"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/_13sdp"-->
+<!--                                tools:ignore="RtlCompat" />-->
 
                             <TextView
                                 android:id="@+id/incrementAction"
@@ -278,7 +291,7 @@
                     <com.app.frimline.views.WrapContentHeightViewPager
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_7sdp"
                         android:animateLayoutChanges="true"
                         android:nestedScrollingEnabled="false" />
@@ -287,7 +300,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:padding="55dp">
+                        android:padding="@dimen/_10sdp">
 
                     </LinearLayout>
 

@@ -3,17 +3,81 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/ic_blog.xml" value="0.3651041666666667" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/ic_coronavirus.xml" value="0.3651041666666667" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/ic_dashboard_icon.xml" value="0.3651041666666667" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/ic_fragment_backgroun.xml" value="0.2305921052631579" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_billing_address.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_category_root.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_login.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_mobile_verification.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_order_history_view.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_otp_verification.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_product_detail.xml" value="0.33489583333333334" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_reset_password.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/activity_signup.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/bottom_sheet_order_price_layout.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/content_order_details.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/custom_navigation.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_additional_info.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_category_profile_layout.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_category_root.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_center.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_description.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_filter_dialog.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_home.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_how_to_use.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_ingredients.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_left.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_list_bottom_list.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_login_v_mobile.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_q_n_a.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_reviews.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_right.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_shop.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/fragment_sorting_dialog.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_cat_root_category_layout.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_cat_root_todays_left_layout.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_cat_root_todays_right_layout.xml" value="0.5234375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_radion_button_layout.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_string_filter_price_layout.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/shimmer_fragment_category_root.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_billing_address.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_blog_details.xml" value="0.26171875" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_category_root.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_edit_profile.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_login.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_mobile_verification.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_order_history_view.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_otp_verification.xml" value="0.3491401771756123" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_product_detail.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_reset_password.xml" value="0.25" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_signup.xml" value="0.26171875" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/bottom_sheet_order_price_layout.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/content_order_details.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/custom_navigation.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_category_profile_layout.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_category_root.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_center.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_description.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_filter_dialog.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_home.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_ingredients.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_left.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_list_bottom_list.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_login_v_email.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_login_v_mobile.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_right.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_shop.xml" value="0.25" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_sorting_dialog.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_cat_root_category_layout.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_cat_root_todays_left_layout.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_cat_root_todays_right_layout.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_list_layout.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_radion_button_layout.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_string_filter_price_layout.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/shimmer_fragment_category_root.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/shimmer_home_fragment.xml" value="0.22039473684210525" />
       </map>
     </option>
   </component>

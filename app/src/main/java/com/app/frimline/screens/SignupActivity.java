@@ -93,6 +93,10 @@ public class SignupActivity extends BaseActivity {
         HELPER.FOCUS_HELPER(binding.scrollView,binding.newPasswordEdt, binding.newPasswordLayout);
 
 
+        binding.nameTxtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.emailEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.phoneNoEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.newPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
 
         binding.phoneNoEdt.addTextChangedListener(new TextWatcher() {
@@ -177,7 +181,6 @@ public class SignupActivity extends BaseActivity {
             binding.newPasswordLayout.setError("Enter password");
             binding.newPasswordLayout.setErrorEnabled(true);
         }
-        Log.e("ERROR", "df" + String.valueOf(Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())));
         if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
             isError = true;
             if (!isFocus) {
@@ -189,6 +192,9 @@ public class SignupActivity extends BaseActivity {
             //  binding.newPasswordLayout.setError("Enter valid password");
             binding.newPasswordLayout.setErrorEnabled(true);
         }
+
+
+
         return isError;
 
     }

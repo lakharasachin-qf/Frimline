@@ -1,20 +1,25 @@
 package com.app.frimline.fragments;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +28,7 @@ import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
+import com.app.frimline.adapters.ListAdapter;
 import com.app.frimline.adapters.ShopAdapter;
 import com.app.frimline.adapters.SortingAdapter;
 import com.app.frimline.databinding.FragmentShopBinding;
@@ -35,6 +41,7 @@ import com.app.frimline.models.ListModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 
@@ -123,10 +130,10 @@ public class ShopFragment extends BaseFragment {
                 slideToLeft(binding.frameLayout);
             }
         });
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        filterBottomDialog = new FilterBottomDialog();
-        fragmentTransaction.replace(R.id.frameLayout, filterBottomDialog);
-        fragmentTransaction.commit();
+//        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+//        filterBottomDialog = new FilterBottomDialog();
+//        fragmentTransaction.replace(R.id.frameLayout, filterBottomDialog);
+//        fragmentTransaction.commit();
 
 
 //        sortingBottomDialog = new SortingBottomDialog();
@@ -190,7 +197,7 @@ public class ShopFragment extends BaseFragment {
         super.update(observable, data);
         if (frimline.getObserver().getValue() == ObserverActionID.APPLY_SORT_SELECTION) {
             if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-                Toast.makeText(act, "Sorting Applied", Toast.LENGTH_SHORT).show();
+
             }
             if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
                 slideTorightFilter(binding.filterFrameLayout);
@@ -198,7 +205,7 @@ public class ShopFragment extends BaseFragment {
             if (binding.frameLayout.getVisibility() == View.VISIBLE) {
                 slideToright(binding.frameLayout);
             }
-        }else if (frimline.getObserver().getValue() == ObserverActionID.CLOSE_SORT_FILTER_VIEW) {
+        } else if (frimline.getObserver().getValue() == ObserverActionID.CLOSE_SORT_FILTER_VIEW) {
             act.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -215,7 +222,9 @@ public class ShopFragment extends BaseFragment {
 
     ArrayList<ListModel> listModels;
     private SortingAdapter adpt;
+
     public void fillSortingData() {
+
         listModels = new ArrayList<>();
 
         ListModel countryModel = new ListModel();
@@ -235,6 +244,7 @@ public class ShopFragment extends BaseFragment {
         listModels.add(countryModel);
 
         binding.titleText.setText("Sort By");
+        binding.titleFilterText.setText("Filter");
         if (listModels != null) {
             adpt = new SortingAdapter(listModels, act, 1);
             SortingAdapter.setOnCheckedRadioListener radioListener = new SortingAdapter.setOnCheckedRadioListener() {
@@ -248,6 +258,8 @@ public class ShopFragment extends BaseFragment {
             binding.recyclerList.setLayoutManager(mLayoutManager);
             binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
             binding.recyclerList.setAdapter(adpt);
+
+
         }
 
         binding.closeView.setOnClickListener(new View.OnClickListener() {
@@ -256,7 +268,101 @@ public class ShopFragment extends BaseFragment {
                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CLOSE_SORT_FILTER_VIEW);
             }
         });
+        binding.closeFilterView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CLOSE_SORT_FILTER_VIEW);
+            }
+        });
+
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int fragmentWidth = (width / 2);
+
+
+        binding.frameLayout.getLayoutParams().width = fragmentWidth;
+        binding.filterFrameLayout.getLayoutParams().width = fragmentWidth;
+
+
+        setAdapaters();
+
 
     }
+
+    List<String> rootPriceList = new ArrayList<>();
+    List<String> minPriceList = new ArrayList<>();
+    List<String> maxPriceList = new ArrayList<>();
+    ListAdapter adapter2;
+    ListAdapter adapter;
+    @SuppressLint("ClickableViewAccessibility")
+    private void setAdapaters() {
+        binding.minPrice.clearListSelection();
+        binding.maxPrice.clearListSelection();
+        binding.maxPrice.setText("");
+        binding.minPrice.setText("");
+        rootPriceList.clear();
+        rootPriceList.add("100");
+        rootPriceList.add("500");
+        rootPriceList.add("1000");
+        rootPriceList.add("1500");
+        rootPriceList.add("2000");
+        rootPriceList.add("2500");
+        rootPriceList.add("3000");
+        minPriceList = rootPriceList;
+        maxPriceList = rootPriceList;
+
+        adapter = new ListAdapter(getActivity(), R.layout.item_string_filter_price_layout, minPriceList);
+
+        binding.minPrice.setThreshold(0);
+        binding.minPrice.setAdapter(adapter);
+
+        adapter2 = new ListAdapter(getActivity(), R.layout.item_string_filter_price_layout, maxPriceList);
+        binding.maxPrice.setThreshold(0);
+        binding.maxPrice.setAdapter(adapter2);
+//        binding.minPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                maxPriceList = (List<String>) rootPriceList.subList(position + 1, rootPriceList.size());
+//                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(), R.layout.item_string_filter_price_layout, maxPriceList);
+//                binding.maxPrice.setThreshold(0);
+//                binding.maxPrice.setAdapter(adapter2);
+//                adapter2.setNotifyOnChange(true);
+//            }
+//        });
+//        binding.minPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                maxPriceList = (List<String>) rootPriceList.subList(position + 1, rootPriceList.size());
+//                binding.maxPrice.clearListSelection();
+//                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(), R.layout.item_string_filter_price_layout, maxPriceList);
+//                binding.maxPrice.setThreshold(0);
+//                binding.maxPrice.setAdapter(adapter2);
+//                adapter2.setNotifyOnChange(true);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+
+        binding.filterFrameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        binding.frameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+    }
+
 
 }

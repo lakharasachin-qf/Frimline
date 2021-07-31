@@ -38,7 +38,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
     public boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
-
+    public static final boolean API_MODE= CONSTANT.API_MODE;
     public BaseActivity() {
     }
 

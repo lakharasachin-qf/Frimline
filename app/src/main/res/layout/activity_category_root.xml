@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/screenLoader"
+        android:layout_width="match_parent"
+        style="?android:attr/progressBarStyleLargeInverse"
+
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:elevation="@dimen/_20sdp"
+        android:progressTint="@color/orange"
+        android:padding="@dimen/_135sdp" />
 
     <FrameLayout
         android:id="@+id/nav_host_fragment"

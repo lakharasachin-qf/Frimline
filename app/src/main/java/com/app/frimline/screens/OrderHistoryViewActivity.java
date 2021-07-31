@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
+import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.HELPER;
@@ -175,9 +177,27 @@ public class OrderHistoryViewActivity extends BaseActivity {
         wrapContentHeightViewPager.setAdapter(adapter);
         wrapContentHeightViewPager.setOffscreenPageLimit(10);
         tabLayout.setupWithViewPager(wrapContentHeightViewPager);
+        ScrollView scrollView = findViewById(R.id.scrollView);
+        wrapContentHeightViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                scrollView.smoothScrollTo(tabLayout.getLeft(), tabLayout.getTop()-40);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor(prefManager.getThemeColor()));
-        tabLayout.setTabTextColors((Color.parseColor(prefManager.getThemeColor())),(Color.WHITE));
+        tabLayout.setTabTextColors((Color.parseColor(prefManager.getThemeColor())), (Color.WHITE));
     }
 
 

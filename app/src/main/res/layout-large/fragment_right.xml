@@ -1,63 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
 
-    android:layout_height="match_parent"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_marginTop="@dimen/_21sdp"
-
-        app:elevation="0dp"
-        android:background="@color/colorBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:background="@color/colorBackground"
+        app:elevation="0dp">
+
 
         <RelativeLayout
-            android:paddingStart="@dimen/_15sdp"
-            android:paddingEnd="@dimen/_15sdp"
+            android:id="@+id/HomePageLayout"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize">
+            android:layout_height="?actionBarSize"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/drawerIcon"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_centerVertical="true"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_alignParentStart="true"
                 android:src="@drawable/ic_drawer_menu" />
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_27sdp"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_logo_green" />
+                android:padding="0dp"
+                android:src="@drawable/ic_logo" />
 
             <ImageView
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:id="@+id/searchAction"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_toStartOf="@+id/cartActionLayout"
                 android:src="@drawable/ic_search" />
+
+            <RelativeLayout
+                android:id="@+id/cartActionLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:id="@+id/cartAction"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/ic_cart"
+                    app:tint="#FF000000" />
+
+                <RelativeLayout
+                    android:id="@+id/cartBackgroundLayar"
+                    android:layout_width="@dimen/_11sdp"
+                    android:layout_height="@dimen/_11sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+
+                    android:background="@drawable/shape_ovel"
+                    android:backgroundTint="@color/orange"
+                    android:padding="2dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:includeFontPadding="false"
+                        android:text="12"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorToolbarHeader"
+                        android:textSize="@dimen/_6sdp"
+                        tools:ignore="RtlCompat" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".ui.home.HomeFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <com.facebook.shimmer.ShimmerFrameLayout
 
                 android:id="@+id/shimmer_view_container"
@@ -67,7 +114,7 @@
                 android:orientation="vertical"
                 shimmer:shimmer_duration="800">
 
-            <include layout="@layout/shimmer_home_fragment"/>
+                <include layout="@layout/shimmer_home_fragment" />
             </com.facebook.shimmer.ShimmerFrameLayout>
 
             <RelativeLayout
@@ -95,16 +142,16 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/banner" />
 
-<!--                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_alignParentBottom="true"-->
-<!--                            android:layout_centerHorizontal="true"-->
-<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                            app:dotsColor="#B7FFFFFF"-->
-<!--                            app:dotsSize="@dimen/_7sdp"-->
-<!--                            app:dotsSpacing="@dimen/_2sdp"-->
-<!--                            app:selectedDotColor="@color/colorGreen" />-->
+                        <!--                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_alignParentBottom="true"-->
+                        <!--                            android:layout_centerHorizontal="true"-->
+                        <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+                        <!--                            app:dotsColor="#B7FFFFFF"-->
+                        <!--                            app:dotsSize="@dimen/_7sdp"-->
+                        <!--                            app:dotsSpacing="@dimen/_2sdp"-->
+                        <!--                            app:selectedDotColor="@color/colorGreen" />-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -675,43 +722,42 @@
     </ScrollView>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="@color/orange"-->
-<!--    tools:context=".fragments.LeftFragment">-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout><!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:background="@color/orange"-->
+    <!--    tools:context=".fragments.LeftFragment">-->
 
-<!--    <ProgressBar-->
-<!--        android:indeterminate="true"-->
-<!--        android:indeterminateDrawable="@drawable/progress_bg"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:layout_height="wrap_content"/>-->
-<!--    <ImageView-->
+    <!--    <ProgressBar-->
+    <!--        android:indeterminate="true"-->
+    <!--        android:indeterminateDrawable="@drawable/progress_bg"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_height="wrap_content"/>-->
+    <!--    <ImageView-->
 
-<!--        android:id="@+id/skinCareUIImage"-->
-<!--        android:tintMode="multiply"-->
-<!--        android:scaleType="fitStart"-->
-<!--        android:visibility="gone"-->
-<!--        android:alpha="0.6"-->
-<!--        android:src="@drawable/mint_right"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:tint="@color/orange" />-->
+    <!--        android:id="@+id/skinCareUIImage"-->
+    <!--        android:tintMode="multiply"-->
+    <!--        android:scaleType="fitStart"-->
+    <!--        android:visibility="gone"-->
+    <!--        android:alpha="0.6"-->
+    <!--        android:src="@drawable/mint_right"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:tint="@color/orange" />-->
 
-<!--    <ImageView-->
-<!--        android:id="@+id/healthCareImage"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        android:tintMode="multiply"-->
-<!--        android:scaleType="matrix"-->
-<!--        android:alpha="0.6"-->
-<!--        android:src="@drawable/mint_right_health_care"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:tint="@color/orange" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/healthCareImage"-->
+    <!--        android:layout_gravity="bottom"-->
+    <!--        android:tintMode="multiply"-->
+    <!--        android:scaleType="matrix"-->
+    <!--        android:alpha="0.6"-->
+    <!--        android:src="@drawable/mint_right_health_care"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:tint="@color/orange" />-->
 
-<!--</FrameLayout>-->
+    <!--</FrameLayout>-->

@@ -1,29 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Frimline" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryVariant">@color/orange</item>
+        <item name="colorAccent">@color/colorToolbarHeader</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/orange</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!--  <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
-        <!--         <item name="android:windowTranslucentNavigation">true</item>-->
-        <!-- Customize your theme here. -->
+
+
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryDark">@color/orange</item>
-        <!--        <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
-
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorAccent">@color/colorToolbarHeader</item>
     </style>
 
     <style name="Theme.FrimlineTRy" parent="Theme.AppCompat.Light.NoActionBar">
@@ -31,7 +26,7 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
-
+        <item name="colorAccent">@color/colorToolbarHeader</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -42,31 +37,26 @@
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        <item name="colorAccent">@color/colorToolbarHeader</item>
         <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/orange</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!--   <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!-- Customize your theme here. -->
     </style>
 
 
     <style name="Theme.Frimline.LOGIN" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/orange</item>
-        <!-- Secondary brand color. -->
+        <item name="colorAccent">@color/colorToolbarHeader</item>
         <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/orange</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="colorPrimary">@android:color/darker_gray</item>
-
     </style>
 
 
@@ -133,10 +123,11 @@
         <item name="android:textSize">@dimen/_12sdp</item>
         <item name="android:fontFamily">@font/proxinova_semi_bold</item>
         <item name="colorPrimary">@color/orange</item>
-
+        <item name="android:textCursorDrawable">@null</item>
     </style>
     <style name="textInputEditTextForMediumScreen">
         <item name="colorPrimary">@color/orange</item>
+        <item name="android:textCursorDrawable">@null</item>
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -152,7 +143,7 @@
 
     <style name="textInputEditTextForTablet">
         <item name="colorPrimary">@color/orange</item>
-
+        <item name="android:textCursorDrawable">@null</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
 
@@ -165,7 +156,7 @@
     </style>
     <style name="textInputEditTextForTabletWithoutIcon">
         <item name="colorPrimary">@color/orange</item>
-
+        <item name="android:textCursorDrawable">@null</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingStart">@dimen/_15sdp</item>
@@ -209,6 +200,7 @@
     <style name="EditTextOverLayoutForLargeScreen">
         <item name="android:paddingStart">@dimen/_20sdp</item>
         <item name="android:paddingEnd">@dimen/_20sdp</item>
+
         <item name="android:background">@drawable/shape_editext_background</item>
 
     </style>

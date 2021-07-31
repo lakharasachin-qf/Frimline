@@ -66,33 +66,24 @@
             android:background="@color/fragment_transparent"
             android:visibility="gone" />
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:background="@color/colorScreenBackground"
-            android:elevation="@dimen/_10sdp"
-            android:visibility="gone" />
 
         <!--        <FrameLayout-->
-        <!--            android:id="@+id/filterFrameLayout"-->
+        <!--            android:id="@+id/frameLayout"-->
         <!--            android:layout_width="wrap_content"-->
         <!--            android:layout_height="match_parent"-->
         <!--            android:layout_alignParentEnd="true"-->
         <!--            android:background="@color/colorScreenBackground"-->
-        <!--            android:elevation="@dimen/_5sdp"-->
+        <!--            android:elevation="@dimen/_10sdp"-->
         <!--            android:visibility="gone" />-->
-
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/filterFrameLayout"
-            android:layout_width="wrap_content"
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:background="@color/colorScreenBackground"
-            android:elevation="@dimen/_5sdp"
+            android:elevation="@dimen/_10sdp"
             android:orientation="vertical"
             android:paddingStart="@dimen/_10sdp"
             android:paddingTop="@dimen/_10sdp"
@@ -102,7 +93,159 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginBottom="@dimen/_5sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/titleFilterText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="Filter"
+                        android:textColor="@color/colorToolbarHeader"
+                        android:textSize="@dimen/_8sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end">
+
+                    <ImageView
+                        android:id="@+id/closeFilterView"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_close_black"
+                        app:tint="@color/orange" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/proxinova_semi_bold"
+                android:textColor="@color/colorToolbarHeader"
+                android:text="Min Price"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textSize="@dimen/_7sdp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lnameEdtLayout"
+
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_2sdp"
+                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <AutoCompleteTextView
+                    android:id="@+id/minPrice"
+                    style="@style/textInputEditTextForTablet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:hint="Min Price"
+                    android:inputType="none"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="0dp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="0dp"
+                    android:textColor="@color/colorToolbarHeader"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:fontFamily="@font/proxinova_semi_bold"
+                android:textColor="@color/colorToolbarHeader"
+                android:text="Max Price"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textSize="@dimen/_7sdp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_2sdp"
+                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <AutoCompleteTextView
+                    android:id="@+id/maxPrice"
+                    style="@style/textInputEditTextForTablet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:hint="Max Price"
+                    android:inputType="none"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="0dp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="0dp"
+                    android:textColor="@color/colorToolbarHeader"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/filterFrameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@color/colorScreenBackground"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:elevation="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -114,9 +257,11 @@
 
                     <TextView
                         android:id="@+id/titleText"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="@dimen/_2sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:fontFamily="@font/proxima_nova_bold"
                         android:text="Sort By"
@@ -133,8 +278,8 @@
 
                     <ImageView
                         android:id="@+id/closeView"
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
                         android:layout_gravity="center_vertical|end"
                         android:src="@drawable/ic_close_black"
                         app:tint="@color/orange" />

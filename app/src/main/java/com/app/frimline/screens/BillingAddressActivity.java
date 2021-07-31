@@ -69,6 +69,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         HELPER.ERROR_HELPER_For_MOBILE_VALIDATION(binding.phoneNoEdt, binding.phoneNoEdtLayout);
         HELPER.ERROR_HELPER(binding.emailEdt, binding.emailEdtLayout);
 
+
+
         HELPER.FOCUS_HELPER(binding.scrollView,binding.nameEdt, binding.nameEdtLayout);
         HELPER.FOCUS_HELPER(binding.scrollView,binding.lnameEdt, binding.lnameEdtLayout);
         HELPER.FOCUS_HELPER(binding.scrollView,binding.companyEdt, binding.companyEdtLayout);
@@ -78,6 +80,17 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         HELPER.FOCUS_HELPER(binding.scrollView,binding.postalCodeEdt, binding.postalCodeEdtLayout);
         HELPER.FOCUS_HELPER(binding.scrollView,binding.phoneNoEdt, binding.phoneNoEdtLayout);
         HELPER.FOCUS_HELPER(binding.scrollView,binding.emailEdt, binding.emailEdtLayout);
+
+
+        binding.nameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.lnameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.companyEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.countryEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.streetEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.cityEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.postalCodeEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.phoneNoEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.emailEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
 
         binding.countryEdt.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +133,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         if (binding.countryEdt.getText().toString().trim().length() == 0) {
             isError = true;
-            binding.countryEdtLayout.setError("Enter Country");
+            binding.countryEdtLayout.setError("Enter Select");
             if (!isFocus) {
                 isFocus = true;
                 binding.countryEdt.requestFocus();

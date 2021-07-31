@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
+import com.app.frimline.Common.Validators;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityMobileVerificationBinding;
 import com.devs.vectorchildfinder.VectorChildFinder;
@@ -43,22 +44,33 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     public void changeTheme() {
         PREF pref = new PREF(act);
-        binding.includeBtn.button.setText("Get OTP");
+        binding.includeBtn.button.setText("Reset");
         binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (PROTOTYPE_MODE) {
-                    HELPER.SIMPLE_ROUTE(act, OtpVerificationActivity.class);
+                    HELPER.SIMPLE_ROUTE(act, ResetPasswordActivity.class);
                 } else {
-                    if (binding.phoneNoEdt.getText().toString().length() == 10) {
-                        HELPER.SIMPLE_ROUTE(act, OtpVerificationActivity.class);
+//                    if (binding.phoneNoEdt.getText().toString().length() == 10) {
+//                        HELPER.SIMPLE_ROUTE(act, OtpVerificationActivity.class);
+//                        finish();
+//                    } else if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
+//                        binding.phoneNoEdt.requestFocus();
+//                        binding.phoneNoEdtLayout.setError("Enter Mobile No.");
+//                    } else {
+//                        binding.phoneNoEdt.requestFocus();
+//                        binding.phoneNoEdtLayout.setError("Enter Valid Mobile No.");
+//                    }
+
+                    if (Validators.Companion.isEmailValid(binding.phoneNoEdt.getText().toString())) {
+                        HELPER.SIMPLE_ROUTE(act, ResetPasswordActivity.class);
                         finish();
                     } else if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
                         binding.phoneNoEdt.requestFocus();
-                        binding.phoneNoEdtLayout.setError("Enter Mobile No.");
+                        binding.phoneNoEdtLayout.setError("Enter email id");
                     } else {
                         binding.phoneNoEdt.requestFocus();
-                        binding.phoneNoEdtLayout.setError("Enter Valid Mobile No.");
+                        binding.phoneNoEdtLayout.setError("Enter valid Email Id");
                     }
                 }
             }

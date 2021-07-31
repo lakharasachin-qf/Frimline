@@ -54,6 +54,10 @@ public class LoginVMobileFragment extends BaseFragment {
         binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
         binding.shipToDiffCheck.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
         HELPER.ERROR_HELPER_For_MOBILE_VALIDATION(binding.nameEdt, binding.nameEdtLayout);
+
+        binding.nameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+
+
         binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,29 +3,24 @@ package com.app.frimline.fragments;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCategoryProfileLayoutBinding;
+import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.gson.Gson;
 
 
-public class CategoryProfileFragment extends Fragment {
+public class CategoryProfileFragment extends BaseFragment {
     private FragmentCategoryProfileLayoutBinding binding;
 
     public interface OnNavClick {
@@ -40,18 +35,21 @@ public class CategoryProfileFragment extends Fragment {
         this.onNavClick = onNavClick;
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_profile_layout, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_profile_layout, parent, false);
         hideShowView();
         showColor();
+        if (API_MODE) {
+            setProfile();
+        }
         return binding.getRoot();
     }
 
-    public void showColor(){
-        PREF pref=new PREF(getActivity());
+    public void showColor() {
+        PREF pref = new PREF(getActivity());
         binding.underLineRight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         binding.underLineRightDesc.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         binding.text1.setTextColor((Color.parseColor(pref.getCategoryColor())));
@@ -60,7 +58,7 @@ public class CategoryProfileFragment extends Fragment {
         binding.titleTxt.setTextColor((Color.parseColor(pref.getCategoryColor())));
         binding.viewBottom.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-        GradientDrawable drawable = (GradientDrawable)binding.sectuib.getBackground();
+        GradientDrawable drawable = (GradientDrawable) binding.sectuib.getBackground();
         drawable.setStroke(2, Color.parseColor(pref.getCategoryColor()));
 
     }
@@ -113,12 +111,12 @@ public class CategoryProfileFragment extends Fragment {
         });
     }
 
-    public void changeStatusBarColor(int color){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getActivity().getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(color);
-        }
+    public void setProfile() {
+
+        CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
+        HELPER.LOAD_HTML(binding.shortDescription, model.getDescriptions());
+        HELPER.LOAD_HTML(binding.descTXt, model.getLongDescription());
+        Log.e("FRAGMENT",new Gson().toJson(model));
+
     }
 }

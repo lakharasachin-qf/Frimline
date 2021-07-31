@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -11,16 +11,38 @@
         android:paddingTop="@dimen/_15sdp"
         android:paddingEnd="@dimen/_15sdp"
         tools:context=".Fragments.bottomsheets.ListBottomFragment">
-
-        <TextView
-            android:id="@+id/titleText"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/_10sdp">
 
-            android:fontFamily="@font/proxima_nova_bold"
-            android:text="Title"
-            android:textColor="@color/colorToolbarHeader"
-            android:textSize="@dimen/_12sdp" />
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:text=""
+                android:textColor="@color/colorToolbarHeader"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/closeView"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_close_black"
+                app:tint="@color/orange" />
+        </RelativeLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/titleText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/proxima_nova_bold"-->
+<!--            android:text="Title"-->
+<!--            android:textColor="@color/colorToolbarHeader"-->
+<!--            android:textSize="@dimen/_12sdp" />-->
 
 
         <androidx.recyclerview.widget.RecyclerView

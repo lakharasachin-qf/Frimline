@@ -194,6 +194,7 @@
                                 android:layout_below="@+id/underLineRight"
                                 android:layout_marginEnd="@dimen/_15sdp"
                                 android:layout_marginBottom="@dimen/_25sdp"
+                                android:id="@+id/shortDescription"
 
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:includeFontPadding="false"

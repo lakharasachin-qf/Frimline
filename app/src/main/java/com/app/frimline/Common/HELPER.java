@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -206,7 +208,7 @@ public class HELPER {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    int scrollTo = ((View) v.getParent().getParent()).getBottom() + v.getBottom();
+                    int scrollTo = ((View) v.getParent().getParent()).getTop() + v.getTop();
 
                     scrollView.smoothScrollTo(0, scrollTo);
                     // scrollView.scrollTo(editText.getLeft(), editText.getBottom());
@@ -322,6 +324,14 @@ public class HELPER {
                 dialog.dismiss();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void LOAD_HTML(TextView textView , String data){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            textView.setText(Html.fromHtml(data));
         }
     }
 }

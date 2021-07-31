@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.viewpager.widget.ViewPager;
 
 public class WrapContentHeightViewPager extends ViewPager {
+    private int mCurrentPagePosition = 0;
 
     public WrapContentHeightViewPager(Context context) {
         super(context);
@@ -30,21 +31,36 @@ public class WrapContentHeightViewPager extends ViewPager {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
+//        int height = 0;
+//        for (int i = 0; i < getChildCount(); ++i) {
+//            View child = getChildAt(i);
+//            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+//            int h = child.getMeasuredHeight();
+//            if (h > height) {
+//                height = h;
+//            }
+//        }
+//        heightMeasureSpec = (MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
 
         int height = 0;
-        for (int i = 0; i < getChildCount(); ++i) {
-            View child = getChildAt(i);
-            child.measure(widthMeasureSpec,
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+        View child = getChildAt(getCurrentItem());
+        if (child != null) {
+            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             int h = child.getMeasuredHeight();
-            if (h > height) {
-                height = h;
-            }
+            //if (h > height) {
+            height = h;
+            //}
+
+            heightMeasureSpec = (MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
         }
-
-        heightMeasureSpec = (MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
-
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+
+
     }
+
+
 }

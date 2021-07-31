@@ -119,6 +119,17 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         HELPER.FOCUS_HELPER(binding.scrollView,binding.emailEdt, binding.emailEdtLayout);
 
 
+
+        binding.nameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.lnameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.companyEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.countryEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.streetEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.cityEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.postalCodeEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.phoneNoEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+        binding.emailEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
+
         binding.countryEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +170,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
 
             if (binding.countryEdt.getText().toString().trim().length() == 0) {
                 isError = true;
-                binding.countryEdtLayout.setError("Enter Country");
+                binding.countryEdtLayout.setError("Select Country");
                 if (!isFocus) {
                     isFocus = true;
                     binding.countryEdt.requestFocus();

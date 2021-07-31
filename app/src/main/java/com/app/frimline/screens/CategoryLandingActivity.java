@@ -6,9 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -17,11 +15,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.app.frimline.BaseNavDrawerActivity;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CategoryNavViewPager;
 import com.app.frimline.views.CustomViewPager;
@@ -32,6 +31,8 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
+
+import java.util.Observable;
 
 public class CategoryLandingActivity extends BaseNavDrawerActivity {
 
@@ -76,19 +77,7 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             customViewPager.setVisibility(View.GONE);
             Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
             toolbar_Navigation.setVisibility(View.VISIBLE);
-            //    changeStatusBarColor(this.getResources().getColor(R.color.colorScreenBackground));
         }
-
-//
-//        if (Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT < 30) {
-//            setStatusBarTransparent();
-//            getWindow().setStatusBarColor(Color.TRANSPARENT);
-//        }
-//        if (Build.VERSION.SDK_INT >= 30) {
-//            HELPER.hideStatusBarAPI30(act);
-//            findViewById(R.id.drawer_layout).setFitsSystemWindows(false);
-//        }
-
 
 
     }
@@ -98,7 +87,6 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
     public void onBackPressed() {
         if (shimmer_view_container != null)
             shimmer_view_container.stopShimmer();
-
         drawerMenu.onBackPressed();
     }
 
@@ -148,13 +136,6 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         ImageView logo = findViewById(R.id.logo);
 
 
-//        //code apply only in tablet mode
-//        TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-//        if (telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
-//            RelativeLayout relativeLayout = findViewById(R.id.HomePageLayout);
-//            relativeLayout.setGravity(Gravity.NO_GRAVITY);
-//        }
-
 
     }
 
@@ -162,7 +143,7 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         ImageView logo = act.findViewById(R.id.logo);
         VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_logo_green, logo);
         VectorDrawableCompat.VFullPath path1 = vector.findPathByName("background");
-        path1.setFillColor(Color.parseColor(primaryColor));
+        path1.setFillColor(ContextCompat.getColor(act,R.color.orange));
         logo.invalidate();
 
         RelativeLayout cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
@@ -190,12 +171,9 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             public void run() {
 
                 if (CurrentPosition == 2) {
-
                     drawerMenu.performCategoryProfile();
                     drawerLayout.setVisibility(View.VISIBLE);
                     customViewPager.setVisibility(View.GONE);
-
-
                 } else if (CurrentPosition == 0) {
                     customViewPager.setPagingEnabled(false);
                     drawerLayout.setVisibility(View.VISIBLE);
@@ -245,5 +223,22 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
 
             handler.postDelayed(r, 200);
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (frimline.getObserver().getValue() == ObserverActionID.SLIDE_VIEW_RIGHT) {
+                    customViewPager.setCurrentItem(2, true);
+                }
+                if (frimline.getObserver().getValue() == ObserverActionID.SLIDE_VIEW_LEFT) {
+                    customViewPager.setCurrentItem(0, true);
+                }
+            }
+        });
+
     }
 }

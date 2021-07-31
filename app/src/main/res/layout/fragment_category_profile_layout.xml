@@ -187,12 +187,14 @@
                                 android:backgroundTint="@color/colorGreen" />
 
                             <TextView
+                                android:id="@+id/shortDescription"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/underLineRight"
                                 android:layout_marginEnd="@dimen/_15sdp"
                                 android:layout_marginBottom="@dimen/_25sdp"
-
+                                android:maxLines="4"
+                                android:ellipsize="end"
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:includeFontPadding="false"
                                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,"

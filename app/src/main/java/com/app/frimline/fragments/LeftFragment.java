@@ -1,13 +1,16 @@
 package com.app.frimline.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 
 
@@ -16,6 +19,9 @@ public class LeftFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_left, container, false);
+        View view = inflater.inflate(R.layout.fragment_left, container, false);
+        ProgressBar progressBar1 = view.findViewById(R.id.progressBar1);
+        progressBar1.getIndeterminateDrawable().setColorFilter(Color.parseColor(new PREF(getActivity()).getThemeColor()), android.graphics.PorterDuff.Mode.MULTIPLY);
+        return view;
     }
 }

@@ -1,31 +1,41 @@
 package com.app.frimline.fragments;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
-import com.app.frimline.Common.PREF;
+import com.app.frimline.Common.FRIMLINE;
+import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCenterBinding;
+import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.google.gson.Gson;
 
-public class CenterFragment extends Fragment {
+public class CenterFragment extends BaseFragment {
 
     private FragmentCenterBinding binding;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_center,container,false);
-          //  binding.layout1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getCategoryColor())));
-            //binding.icon.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getCategoryColor())));
-           // binding.text.setTextColor((Color.parseColor(new PREF(getActivity()).getCategoryColor())));
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_center, parent, false);
+        binding.goToStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.SLIDE_VIEW_LEFT);
+            }
+        });
+        binding.moreInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.SLIDE_VIEW_RIGHT);
+            }
+        });
+        if (API_MODE)
+            HELPER.LOAD_HTML(binding.description, new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class).getDescriptions());
         return binding.getRoot();
     }
 }

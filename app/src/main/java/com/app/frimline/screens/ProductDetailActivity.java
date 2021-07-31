@@ -1,17 +1,23 @@
 package com.app.frimline.screens;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
+import com.app.cartcounter.CharOrder;
+import com.app.cartcounter.strategy.Strategy;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
@@ -32,6 +38,7 @@ import com.devs.vectorchildfinder.VectorDrawableCompat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ProductDetailActivity extends BaseActivity {
 
@@ -62,12 +69,14 @@ public class ProductDetailActivity extends BaseActivity {
             }
         });
         binding.toolbarNavigation.title.setText("Mouthwash");
+        binding.counter.setText("1");
         binding.incrementAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int currentCounter = Integer.parseInt(binding.counter.getText().toString());
                 currentCounter++;
                 binding.counter.setText(String.valueOf(currentCounter));
+
             }
         });
 
@@ -78,6 +87,7 @@ public class ProductDetailActivity extends BaseActivity {
                 if (currentCounter > 1) {
                     currentCounter--;
                     binding.counter.setText(String.valueOf(currentCounter));
+
                 } else {
                     Toast.makeText(act, "At least one quantity required", Toast.LENGTH_SHORT).show();
                 }
@@ -101,6 +111,18 @@ public class ProductDetailActivity extends BaseActivity {
                     binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
                     binding.addTextTxt.setTextColor(Color.WHITE);
                 }
+
+            }
+        });
+
+        binding.counter.setAnimationDuration(150L);
+        binding.counter.setTextFontFamily(Objects.requireNonNull(ResourcesCompat.getFont(act, R.font.proxinova_semi_bold)));
+        binding.counter.setCharStrategy(Strategy.NormalAnimation());
+        binding.counter.addCharOrder(CharOrder.Number);
+        binding.counter.setAnimationInterpolator(new AccelerateDecelerateInterpolator());
+        binding.counter.addAnimatorListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
 
             }
         });

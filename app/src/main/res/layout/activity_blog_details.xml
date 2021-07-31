@@ -176,6 +176,7 @@ Overall Health"
                     app:dotsSpacing="3dp"
                     app:dotsWidthFactor="2.5"
                     app:selectedDotColor="@color/orange"
+
                     app:progressMode="true"
                     />
                 <LinearLayout

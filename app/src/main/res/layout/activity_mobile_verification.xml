@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/proxima_nova_bold"
-                    android:text="OTP Verification"
+                    android:text="Reset Password?"
                     android:textColor="@color/colorGreen"
                     android:textSize="@dimen/_18sdp" />
 
@@ -86,16 +86,16 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:fontFamily="@font/proxima_nova_regular"
-                    android:text="We will send you a One Time Password on \nthis mobile number"
+                    android:text="We will send you a link to reset your Password on \nthis email id"
                     android:textAlignment="center"
                     android:textSize="@dimen/_10sdp" />
-
+<!--android:text="We will send you a One Time Password on \nthis mobile number"-->
 
                 <TextView
                     style="@style/EditTextTitle"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:layout_marginBottom="@dimen/_7sdp"
-                    android:text="Mobile Number"
+                    android:text="Email Id"
                     android:textSize="@dimen/_10sdp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -108,10 +108,10 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneNoEdt"
                         style="@style/textInputEditTextForMediumScreen"
-                        android:drawableStart="@drawable/edt_signup_icon"
-                        android:hint="Phone No."
-                        android:maxLength="10"
-                        android:inputType="number" />
+                        android:drawableStart="@drawable/edt_email_icon"
+                        android:hint="Email Id"
+
+                        android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <include
                     android:id="@+id/includeBtn"

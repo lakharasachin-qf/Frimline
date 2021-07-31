@@ -44,14 +44,14 @@
                 android:layout_height="match_parent"
                 android:background="@color/blue">
 
-                            <ImageView
-                                android:id="@+id/oralHealthCareImage1"
-                                app:tint="@color/blue"
-                                android:tintMode="multiply"
-                                android:scaleType="fitEnd"
-                                android:src="@drawable/mint_center__one_health_care"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/oralHealthCareImage1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/mint_center__one_health_care"
+                    android:tintMode="multiply"
+                    app:tint="@color/blue" />
 
 
             </RelativeLayout>
@@ -136,13 +136,15 @@
                     android:backgroundTint="@color/white" />
 
                 <TextView
+                    android:id="@+id/description"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_regular"
                     android:includeFontPadding="false"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
                     android:textColor="@color/white"
+                    android:maxLines="4"
+                    android:ellipsize="end"
                     android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>

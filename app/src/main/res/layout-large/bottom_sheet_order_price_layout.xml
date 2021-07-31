@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="#fff"
     android:orientation="vertical"
-    app:behavior_hideable="true"
+    app:behavior_hideable="false"
     app:behavior_peekHeight="75dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -21,11 +21,13 @@
         android:paddingTop="@dimen/_10sdp"
         android:paddingEnd="@dimen/_15sdp"
         android:paddingBottom="@dimen/_15sdp">
+
         <RelativeLayout
 
             android:id="@+id/bottomMinState"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/headingTitle1"
                 android:layout_width="wrap_content"
@@ -35,6 +37,7 @@
                 android:text="Price Details (2 Item) "
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
+
             <TextView
                 android:id="@+id/finalAmoutPrice1"
                 android:layout_width="wrap_content"
@@ -49,7 +52,6 @@
         </RelativeLayout>
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/headingTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +59,8 @@
             android:includeFontPadding="false"
             android:text="Price Details (2 Item) "
             android:textColor="@color/white"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
