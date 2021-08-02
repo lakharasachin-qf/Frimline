@@ -29,13 +29,14 @@
 
 
         <androidx.core.widget.NestedScrollView
+            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/logo"
@@ -99,10 +100,40 @@
                 <com.app.frimline.views.WrapContentHeightViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/tabContainer"
                     android:layout_marginTop="-20dp" />
+                <LinearLayout
+                    android:layout_below="@+id/viewPager"
+                    android:gravity="bottom"
+                    android:id="@+id/signupTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="Don't have an account?  "
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/signupTxtTXT"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:fontFamily="@font/proxima_nova_black"
+                        android:text="Sign Up"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="@dimen/_16sdp" />
+
+                </LinearLayout>
 
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
@@ -115,35 +146,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:src="@drawable/ic_left_arrow_black" />
 
-        <LinearLayout
-            android:id="@+id/signupTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:fontFamily="@font/proxima_nova_regular"
-                android:text="Don't have an account?  "
-                android:textSize="@dimen/_11sdp" />
-
-            <TextView
-                android:id="@+id/signupTxtTXT"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:fontFamily="@font/proxima_nova_black"
-                android:text="Sign Up"
-                android:textColor="@color/colorGreen"
-                android:textSize="@dimen/_16sdp" />
-
-        </LinearLayout>
 
     </RelativeLayout>
 
