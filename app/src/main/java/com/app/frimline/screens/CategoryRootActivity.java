@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -48,6 +50,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     private FrameLayout nav_host_fragment;
     private ProgressBar screenLoader;
     private Toolbar toolbar_Navigation;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +62,10 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         if (API_MODE) {
             nav_host_fragment.setVisibility(View.GONE);
             screenLoader.setVisibility(View.VISIBLE);
-            screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act,R.color.orange)));
+            screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
             toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
             toolbar_Navigation.setVisibility(View.GONE);
-            screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act,R.color.orange),android.graphics.PorterDuff.Mode.MULTIPLY);
+            screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
 
             getThemeColor();
 
@@ -161,8 +164,8 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         drawerMenu.setDefaultFragment(DrawerMenu.CATEGORY_ROOT_FRAGMENT);
         drawerMenu.prepareMenuData();
         drawerMenu.populateExpandableList();
-        if (toolbar_Navigation.getVisibility()==View.GONE)
-        toolbar_Navigation.setVisibility(View.VISIBLE);
+        if (toolbar_Navigation.getVisibility() == View.GONE)
+            toolbar_Navigation.setVisibility(View.VISIBLE);
 
     }
 
@@ -189,6 +192,24 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        LinearLayout NoDataFound = findViewById(R.id.NoDataFound);
+                        AppCompatButton button = findViewById(R.id.button);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                NoDataFound.setVisibility(View.GONE);
+                                nav_host_fragment.setVisibility(View.GONE);
+                                screenLoader.setVisibility(View.VISIBLE);
+                                screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
+                                toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
+                                toolbar_Navigation.setVisibility(View.GONE);
+                                screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+                                getThemeColor();
+                            }
+                        });
+                        NoDataFound.setVisibility(View.VISIBLE);
+                        nav_host_fragment.setVisibility(View.GONE);
+                        screenLoader.setVisibility(View.GONE);
                     }
                 }
         ) {

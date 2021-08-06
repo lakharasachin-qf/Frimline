@@ -3,28 +3,34 @@ package com.app.frimline.fragments.aboutProducts;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
+import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
-import com.app.frimline.databinding.FragmentCenterBinding;
 import com.app.frimline.databinding.FragmentDescriptionBinding;
+import com.app.frimline.fragments.BaseFragment;
+import com.app.frimline.models.HomeFragements.ProductModel;
 
-public class DescriptionFragment extends Fragment {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class DescriptionFragment extends BaseFragment {
 
     private FragmentDescriptionBinding binding;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_description,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_description, parent, false);
 
 
-        String  data = "<div class=\"woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab\" id=\"tab-description\" role=\"tabpanel\" aria-labelledby=\"tab-title-description\" style=\"\">\n" +
+        String data = "<div class=\"woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab\" id=\"tab-description\" role=\"tabpanel\" aria-labelledby=\"tab-title-description\" style=\"\">\n" +
                 "\t\t\t\t\n" +
                 "\n" +
                 "<p>Dente91 Cool Mint Lactoferrin Mouthwash gives you protection against plaque, bad breath, and gum problems. Its anti-bacterial germ defense property gives you fresh breath daily.</p>\n\n <br><br>" +
@@ -52,6 +58,16 @@ public class DescriptionFragment extends Fragment {
             binding.text.setText(Html.fromHtml(data));
         }
 
+        if (CONSTANT.API_MODE){
+             loadData();
+        }
         return binding.getRoot();
+    }
+
+    private ProductModel productModel;
+
+    public void loadData() {
+        productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
+        HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getDescription());
     }
 }

@@ -94,7 +94,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="end"
                     android:background="@drawable/shape_ovel"
-                    android:backgroundTint="@color/colorGreen"
+                    android:backgroundTint="@color/cartNormal"
                     android:padding="@dimen/_4sdp"
                     android:src="@drawable/ic_cart"
                     app:tint="@color/white" />

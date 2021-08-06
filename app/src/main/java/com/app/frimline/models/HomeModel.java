@@ -1,5 +1,9 @@
 package com.app.frimline.models;
 
+import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.HomeFragements.BannerModel;
+import com.app.frimline.models.HomeFragements.TradingStoriesModel;
+
 import java.util.ArrayList;
 
 public class HomeModel {
@@ -87,5 +91,48 @@ public class HomeModel {
 
     public void setCategoryProduct(ArrayList<HomeModel> categoryProduct) {
         this.categoryProduct = categoryProduct;
+    }
+
+
+
+    private ArrayList<CategorySingleModel> categoryArrayList=new ArrayList<>();
+
+    public ArrayList<CategorySingleModel> getCategoryArrayList() {
+        return categoryArrayList;
+    }
+
+    public void setCategoryArrayList(ArrayList<CategorySingleModel> categoryArrayList) {
+        this.categoryArrayList = categoryArrayList;
+    }
+
+    /**
+     * API MODE VARIABLES
+     * */
+    private ArrayList<com.app.frimline.models.HomeFragements.ProductModel> apiProductModel;
+
+    public ArrayList<com.app.frimline.models.HomeFragements.ProductModel> getApiProductModel() {
+        return apiProductModel;
+    }
+
+    public void setApiProductModel(ArrayList<com.app.frimline.models.HomeFragements.ProductModel> apiProductModel) {
+        this.apiProductModel = apiProductModel;
+    }
+    private ArrayList<TradingStoriesModel> tradingStoriesList;
+
+    public ArrayList<TradingStoriesModel> getTradingStoriesList() {
+        return tradingStoriesList;
+    }
+
+    public void setTradingStoriesList(ArrayList<TradingStoriesModel> tradingStoriesList) {
+        this.tradingStoriesList = tradingStoriesList;
+    }
+    private ArrayList<BannerModel> bannerList;
+
+    public ArrayList<BannerModel> getBannerList() {
+        return bannerList;
+    }
+
+    public void setBannerList(ArrayList<BannerModel> bannerList) {
+        this.bannerList = bannerList;
     }
 }

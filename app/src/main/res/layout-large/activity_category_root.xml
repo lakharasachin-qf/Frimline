@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/screenLoader"
         style="?android:attr/progressBarStyleLargeInverse"
         android:layout_width="wrap_content"
@@ -17,9 +18,49 @@
         android:progressTint="@color/orange" />
 
     <FrameLayout
+        android:visibility="gone"
         android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+         />
+    <LinearLayout
+        android:id="@+id/NoDataFound"
+
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxinova_semi_bold"
+            android:gravity="center"
+            android:text="Something went wrong. Please\ntry again"
+            android:textAlignment="center"
+            android:textSize="@dimen/_10sdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/shape_button_second"
+            android:backgroundTint="@color/orange"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:gravity="center"
+            android:paddingStart="@dimen/_25sdp"
+            android:paddingEnd="@dimen/_25sdp"
+            android:text="Try Again"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp">
+
+        </androidx.appcompat.widget.AppCompatButton>
+    </LinearLayout>
 
 </RelativeLayout>

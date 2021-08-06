@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.R;
+import com.app.frimline.models.HomeFragements.BannerModel;
 import com.app.frimline.models.OutCategoryModel;
+import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,10 +25,10 @@ public class HomeBannerAdapter extends PagerAdapter {
 
     private Activity context;
     private LayoutInflater layoutInflater;
-    private List<OutCategoryModel> sliderImg;
+    private List<BannerModel> sliderImg;
 
 
-    public HomeBannerAdapter(List<OutCategoryModel> sliderImg, Activity context) {
+    public HomeBannerAdapter(List<BannerModel> sliderImg, Activity context) {
         this.sliderImg = sliderImg;
         this.context = context;
     }
@@ -44,7 +48,13 @@ public class HomeBannerAdapter extends PagerAdapter {
 
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.item_home_banner_child_layout, null);
-        ImageView productImages = view.findViewById(R.id.productImage);
+        if (CONSTANT.API_MODE) {
+            ImageView productImages = view.findViewById(R.id.banner);
+            Glide.with(context).load(sliderImg.get(position).getUrl()).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
+        } else {
+            LinearLayout dummyContainer = view.findViewById(R.id.dummyContainer);
+            dummyContainer.setVisibility(View.VISIBLE);
+        }
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);
         return view;

@@ -10,18 +10,25 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCenterBinding;
 import com.app.frimline.databinding.FragmentIngredientsBinding;
+import com.app.frimline.fragments.BaseFragment;
+import com.app.frimline.models.HomeFragements.ProductModel;
 
-public class IngredientsFragment extends Fragment {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class IngredientsFragment extends BaseFragment {
 
     private FragmentIngredientsBinding binding;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ingredients,container,false);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ingredients,parent,false);
         String  data = "<div class=\"woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab\" id=\"tab-description\" role=\"tabpanel\" aria-labelledby=\"tab-title-description\" style=\"\">\n" +
                 "\t\t\t\t\n" +
                 "\n" +
@@ -49,6 +56,18 @@ public class IngredientsFragment extends Fragment {
         } else {
             binding.text.setText(Html.fromHtml(data));
         }
+        if (CONSTANT.API_MODE) {
+            loadData();
+        }
         return binding.getRoot();
     }
+
+    private ProductModel productModel;
+
+    public void loadData() {
+        productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
+
+        HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getIngredients());
+    }
+
 }

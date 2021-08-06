@@ -23,25 +23,28 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
         <activity
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="stateVisible|adjustPan"
             android:name=".screens.ResetPasswordActivity"
             android:exported="true" />
         <activity
+            android:screenOrientation="${screenOrientation}"
+
             android:name=".screens.ForgotPasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
+         />
         <activity
             android:name=".screens.SignupActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".screens.LoginActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="${screenOrientation}"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,61 +53,75 @@
         </activity>
         <activity
             android:name=".screens.OtpVerificationActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".screens.BlogDetailsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="${screenOrientation}"
+            />
         <activity
             android:name=".screens.SearchActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".screens.MyCartActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".screens.ProductDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="${screenOrientation}"
+            />
         <activity
             android:name=".screens.OrderHistoryViewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="${screenOrientation}"
+            />
         <activity
             android:name=".screens.HomeActivity"
             android:label="@string/title_activity_home"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".screens.AddressesActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".screens.EditProfileActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".screens.CategoryLandingActivityDemo"
-            android:screenOrientation="portrait" /> <!-- <activity -->
+            android:screenOrientation="${screenOrientation}"
+            /> <!-- <activity -->
         <!-- android:name=".screens.CategoryLandingActivityDemo" -->
         <!-- android:screenOrientation="portrait" /> -->
         <activity
             android:name=".screens.CheckoutAddressActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".screens.BillingAddressActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".screens.CategoryHomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="${screenOrientation}"
+            />
         <activity
             android:name=".screens.CategoryRootActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="${screenOrientation}"
+
             android:theme="@style/Theme.FrimlineTRy" />
         <activity
             android:name=".screens.CategoryLandingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="${screenOrientation}"
+            />
     </application>
 
 </manifest>

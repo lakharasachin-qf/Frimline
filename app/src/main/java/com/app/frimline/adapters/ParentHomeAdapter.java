@@ -3,12 +3,9 @@ package com.app.frimline.adapters;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -17,7 +14,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemHomeAlertCovidSectionLayoutBinding;
@@ -27,14 +24,9 @@ import com.app.frimline.databinding.ItemHomeOffersSectionLayoutBinding;
 import com.app.frimline.databinding.ItemHomeProductSectionLayoutBinding;
 import com.app.frimline.databinding.ItemHomePromoOffersSectionLayoutBinding;
 import com.app.frimline.databinding.ItemHomeTopRattingSectionLayoutBinding;
-import com.app.frimline.databinding.ItemProductSectionOneLayoutBinding;
-import com.app.frimline.databinding.ItemProductSectionThreeLayoutBinding;
-import com.app.frimline.databinding.ItemProductSectionTwoLayoutBinding;
+import com.app.frimline.models.HomeFragements.BannerModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
-import com.app.frimline.models.OutCategoryModel;
-import com.app.frimline.screens.ProductDetailActivity;
-import com.app.frimline.views.SnappingRecyclerView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -135,66 +127,58 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final HomeModel model = dashBoardItemList.get(position);
-
+        Log.e("home", new Gson().toJson(model));
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.BANNER:
-                    List<OutCategoryModel> outCategoryModels = new ArrayList<>();
-                    outCategoryModels.add(new OutCategoryModel());
-                    outCategoryModels.add(new OutCategoryModel());
-                    outCategoryModels.add(new OutCategoryModel());
-                    outCategoryModels.add(new OutCategoryModel());
-                    HomeBannerAdapter sliderAdapter = new HomeBannerAdapter(outCategoryModels, activity);
-                    ((Banner) holder).binding.viewPager.setAdapter(sliderAdapter);
-                    ((Banner) holder).binding.dot.setViewPager(((Banner) holder).binding.viewPager);
-                    ((Banner) holder).binding.dot.setSelectedDotColor(Color.parseColor(new PREF(activity).getCategoryColor()));
+                    if (CONSTANT.API_MODE) {
+                        HomeBannerAdapter sliderAdapter = new HomeBannerAdapter(model.getBannerList(), activity);
+                        ((Banner) holder).binding.viewPager.setAdapter(sliderAdapter);
+
+                        ((Banner) holder).binding.dot.setViewPager(((Banner) holder).binding.viewPager);
+                        ((Banner) holder).binding.dot.setSelectedDotColor(Color.parseColor(new PREF(activity).getCategoryColor()));
+                    } else {
+                        List<BannerModel> outCategoryModels = new ArrayList<>();
+                        outCategoryModels.add(new BannerModel());
+                        outCategoryModels.add(new BannerModel());
+                        HomeBannerAdapter sliderAdapter = new HomeBannerAdapter(outCategoryModels, activity);
+                        ((Banner) holder).binding.viewPager.setAdapter(sliderAdapter);
+                        ((Banner) holder).binding.dot.setViewPager(((Banner) holder).binding.viewPager);
+                        ((Banner) holder).binding.dot.setSelectedDotColor(Color.parseColor(new PREF(activity).getCategoryColor()));
+                    }
                     break;
                 case LAYOUT_TYPE.CATEGORY_PRODUCT:
 
                     MultiViewAdapterForHomeFragment productAdapter = new MultiViewAdapterForHomeFragment(model.getCategoryProduct(), activity);
+                    productAdapter.setPosition(position);
                     ((CategoryProduct) holder).binding.categoryProductRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((CategoryProduct) holder).binding.categoryProductRecycler.setHasFixedSize(true);
                     SnapHelper startSnapHelper = new PagerSnapHelper();
                     ((CategoryProduct) holder).binding.categoryProductRecycler.setOnFlingListener(null);
                     startSnapHelper.attachToRecyclerView(((CategoryProduct) holder).binding.categoryProductRecycler);
                     ((CategoryProduct) holder).binding.categoryProductRecycler.setAdapter(productAdapter);
+
                     break;
                 case LAYOUT_TYPE.CATEGORY:
 
-                    OurProductAdapter productAdapte3r = new OurProductAdapter(model.getProductList(), activity);
+                    OurProductAdapter productAdapte3r = new OurProductAdapter(model.getCategoryArrayList(), activity);
                     ((Category) holder).binding.ourProductSection.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((Category) holder).binding.ourProductSection.setAdapter(productAdapte3r);
                     break;
 
                 case LAYOUT_TYPE.OFFERS:
 
-                    TrendingProductAdapter productAdapter2 = new TrendingProductAdapter(model.getProductList(), activity);
+                    TrendingProductAdapter productAdapter2 = new TrendingProductAdapter(model.getTradingStoriesList(), activity);
                     ((Offers) holder).binding.trendingSectionRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((Offers) holder).binding.trendingSectionRecycler.setAdapter(productAdapter2);
-                     /*
-                    ((Offers) holder).binding.viewPagerImageSlider.setAdapter(new SlideOffersBannerrAdapter(model.getProductList(),activity));
-                    ((Offers) holder).binding.viewPagerImageSlider.setClipToPadding(false);
-                    ((Offers) holder).binding.viewPagerImageSlider.setClipChildren(false);
-                 //   ((Offers) holder).binding.viewPagerImageSlider.setOffscreenPageLimit(2);
-                 //   ((Offers) holder).binding.viewPagerImageSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-//
-//                    CompositePageTransformer compositePageTransformer=new CompositePageTransformer();
-//                    compositePageTransformer.addTransformer(new MarginPageTransformer(20));
-//                    compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-//                        @Override
-//                        public void transformPage(@NonNull View page, float position) {
-//                            float r=1 - Math.abs(position);
-//                            page.setScaleY(0.85f + r * 0.15f);
-//                        }
-//                    });
-//                    ((Offers) holder).binding.viewPagerImageSlider.setPageTransformer(compositePageTransformer);*/
+
                     break;
                 case LAYOUT_TYPE.PROMO_CODES:
 
                     break;
                 case LAYOUT_TYPE.TOP_RATTED:
 
-                    TopRattedProductAdapter adaptertop = new TopRattedProductAdapter(model.getProductList(), activity);
+                    TopRattedProductAdapter adaptertop = new TopRattedProductAdapter(model.getApiProductModel(), activity);
                     ((TopRatted) holder).binding.topRattingProductRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((TopRatted) holder).binding.topRattingProductRecycler.setAdapter(adaptertop);
                     break;
@@ -205,6 +189,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
             }
         }
     }
+
 
 
     public class Banner extends RecyclerView.ViewHolder {
@@ -243,8 +228,9 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
             binding = itemView;
             changeColor();
         }
-        public void changeColor(){
-            PREF pref=new PREF(activity);
+
+        public void changeColor() {
+            PREF pref = new PREF(activity);
             binding.topRaatedviewUnderline.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         }
     }
@@ -257,8 +243,9 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
             binding = itemView;
             changeColor();
         }
-        public void changeColor(){
-            PREF pref=new PREF(activity);
+
+        public void changeColor() {
+            PREF pref = new PREF(activity);
             binding.offerUnderline.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         }
     }
@@ -271,8 +258,9 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
             binding = itemView;
             changeColor();
         }
-        public void changeColor(){
-            PREF pref=new PREF(activity);
+
+        public void changeColor() {
+            PREF pref = new PREF(activity);
             binding.ourCategoryUnderline.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         }
     }

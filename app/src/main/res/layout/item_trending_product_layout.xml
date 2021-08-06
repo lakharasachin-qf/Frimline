@@ -8,6 +8,7 @@
 
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="@dimen/_180sdp"
         android:layout_height="@dimen/_250sdp"
         android:scaleType="centerCrop"

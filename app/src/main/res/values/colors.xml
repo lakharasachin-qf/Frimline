@@ -39,4 +39,7 @@
     <color name="fragment_transparent">#B4000000</color>
 
     <color name="grayForShimmer">#A6A6A6</color>
+    <color name="cartNormal">#ACACAC</color>
+
+
 </resources>

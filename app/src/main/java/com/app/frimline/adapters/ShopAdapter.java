@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemShopFilterChipContainerLayoutBinding;
 import com.app.frimline.databinding.ItemShopHotProductContainerLayoutBinding;
 import com.app.frimline.databinding.ItemShopTopProductContainerLayoutBinding;
+import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.models.OutCategoryModel;
@@ -91,34 +94,55 @@ public class ShopAdapter extends RecyclerView.Adapter {
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.LAYOUT_TOP_PRODUCT:
-                    ArrayList<OutCategoryModel> data=new ArrayList<>();
-                    data.add(new OutCategoryModel());
-                    data.add(new OutCategoryModel());
-                    data.add(new OutCategoryModel());
-                    data.add(new OutCategoryModel());
-                    ShopTopProductAdapter productAdapte3r = new ShopTopProductAdapter(data, activity);
-                    ((TopProductContainer) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-                    ((TopProductContainer) holder).binding.productRecycler.setAdapter(productAdapte3r);
+                    if (CONSTANT.API_MODE){
+                        ShopTopProductAdapter productAdapte3r = new ShopTopProductAdapter(model.getApiProductModel(), activity);
+                        productAdapte3r.setParentPosition(position);
+                        ((TopProductContainer) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((TopProductContainer) holder).binding.productRecycler.setAdapter(productAdapte3r);
+                    }else {
+                        ArrayList<ProductModel> data = new ArrayList<>();
+                        data.add(new ProductModel());
+                        data.add(new ProductModel());
+                        data.add(new ProductModel());
+                        data.add(new ProductModel());
+                        ShopTopProductAdapter productAdapte3r = new ShopTopProductAdapter(data, activity);
+                        ((TopProductContainer) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((TopProductContainer) holder).binding.productRecycler.setAdapter(productAdapte3r);
+                    }
                     break;
                 case LAYOUT_TYPE.LAYOUT_FILTER_CHIP:
-                    ArrayList<String> strings=new ArrayList<>();
-                    strings.add("Skin care");
-                    strings.add("Oral Hygine");
-                    strings.add("Health Supplement");
-                    ShopFilterAdapter shopFilterAdapter = new ShopFilterAdapter(strings, activity);
-                    ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-                    ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
-
+                    if (CONSTANT.API_MODE) {
+                        ShopFilterAdapter shopFilterAdapter = new ShopFilterAdapter(model.getCategoryArrayList(), activity);
+                        ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
+                    }else{
+                        ArrayList<CategorySingleModel> hitModels = new ArrayList<>();
+                        hitModels.add(new CategorySingleModel());
+                        hitModels.add(new CategorySingleModel());
+                        hitModels.add(new CategorySingleModel());
+                        hitModels.add(new CategorySingleModel());
+                        ShopFilterAdapter shopFilterAdapter = new ShopFilterAdapter(hitModels, activity);
+                        ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
+                    }
                     break;
                 case LAYOUT_TYPE.LAYOUT_HOT_PRODUCT:
-                    ArrayList<OutCategoryModel> hitModels=new ArrayList<>();
-                    hitModels.add(new OutCategoryModel());
-                    hitModels.add(new OutCategoryModel());
-                    hitModels.add(new OutCategoryModel());
-                    hitModels.add(new OutCategoryModel());
-                    ShopHotProductAdapter shopHotProductAdapter = new ShopHotProductAdapter(hitModels, activity);
-                    ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new GridLayoutManager(activity,2));
-                    ((HotProductHolder) holder).binding.productRecycler.setAdapter(shopHotProductAdapter);
+                    if (CONSTANT.API_MODE){
+
+                        ShopHotProductAdapter productAdapte3r = new ShopHotProductAdapter(model.getApiProductModel(), activity);
+                        productAdapte3r.setParentPosition(position);
+                        ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((HotProductHolder) holder).binding.productRecycler.setAdapter(productAdapte3r);
+                    }else {
+                        ArrayList<ProductModel> hitModels = new ArrayList<>();
+                        hitModels.add(new ProductModel());
+                        hitModels.add(new ProductModel());
+                        hitModels.add(new ProductModel());
+                        hitModels.add(new ProductModel());
+                        ShopHotProductAdapter shopHotProductAdapter = new ShopHotProductAdapter(hitModels, activity);
+                        ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new GridLayoutManager(activity, 2));
+                        ((HotProductHolder) holder).binding.productRecycler.setAdapter(shopHotProductAdapter);
+                    }
                     break;
             }
         }

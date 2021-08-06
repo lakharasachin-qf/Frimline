@@ -92,7 +92,7 @@
 
 
                         <TextView
-                            android:id="@+id/headingTitle1"
+                            android:id="@+id/nameTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proxima_nova_bold"
@@ -113,7 +113,7 @@
 
 
                         <TextView
-                            android:id="@+id/finalAmout"
+                            android:id="@+id/shortDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_10sdp"
@@ -243,6 +243,7 @@
                         android:paddingEnd="@dimen/_15sdp">
 
                         <TextView
+                            android:id="@+id/categoryLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_10sdp"
@@ -254,6 +255,7 @@
                             android:textSize="@dimen/_12sdp" />
 
                         <TextView
+                            android:id="@+id/tagsLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_10sdp"

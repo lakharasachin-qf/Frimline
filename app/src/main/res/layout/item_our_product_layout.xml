@@ -6,16 +6,26 @@
     android:id="@+id/product"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_gravity="center_horizontal"
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/shape_layout_image_round_background_second"
         android:elevation="@dimen/_2sdp"
+        android:padding="@dimen/_3sdp"  />
 
-        android:src="@drawable/product_one"
-        app:civ_border_width="@dimen/_2sdp"
-        app:civ_border_color="@color/white"
-        android:layout_width="@dimen/_85sdp"
-        android:layout_height="@dimen/_85sdp"/>
+
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:elevation="@dimen/_2sdp"-->
+<!--        android:id="@+id/image"-->
+<!--        android:src="@drawable/product_one"-->
+<!--        app:civ_border_width="@dimen/_2sdp"-->
+<!--        app:civ_border_color="@color/white"-->
+<!--        android:layout_width="@dimen/_85sdp"-->
+<!--        android:layout_height="@dimen/_85sdp"/>-->
 
     <TextView
         android:ellipsize="end"

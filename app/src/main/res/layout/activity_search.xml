@@ -10,6 +10,10 @@
         android:orientation="vertical"
         tools:context=".screens.SearchActivity">
 
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/nameEdtLayout"
@@ -329,19 +333,95 @@
 
         </ScrollView>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/sortAction"
-            style="@style/ChipStyle"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:elevation="@dimen/_4sdp"
-            android:shadowColor="@color/colorGreen"
-            android:text="Sort"
-            android:textColor="@color/colorToolbarHeader"
-            app:chipIcon="@drawable/ic_sort_black_24dp"
-            app:chipStrokeColor="@color/colorGreen" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sortAction"
+                style="@style/ChipStyle"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:elevation="@dimen/_4sdp"
+                android:shadowColor="@color/colorGreen"
+                android:text="Sort"
+                android:textColor="@color/colorToolbarHeader"
+                app:chipIcon="@drawable/ic_sort_black_24dp"
+                app:chipStrokeColor="@color/colorGreen" />
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:elevation="@dimen/_4sdp"
+
+            android:id="@+id/transparentOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/fragment_transparent"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/filterFrameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@color/colorScreenBackground"
+            android:elevation="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical">
+
+                    <TextView
+                        android:id="@+id/titleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text=""
+                        android:textColor="@color/colorToolbarHeader"
+                        android:textSize="@dimen/_12sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end|center_vertical">
+
+                    <ImageView
+                        android:id="@+id/closeView"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_gravity="end|center_vertical"
+                        android:src="@drawable/ic_close_black"
+                        app:tint="@color/orange" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
     </RelativeLayout>
 </layout>

@@ -1,8 +1,5 @@
 package com.app.frimline.screens;
 
-import static java.security.AccessController.getContext;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -10,7 +7,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -63,24 +59,20 @@ public class LoginActivity extends BaseActivity {
         loginWidth();
     }
 
-    public void loginWidth(){
+    public void loginWidth() {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
-        int fragmentWidth = (width / 6)+20;
+        int fragmentWidth = (width / 6) + 20;
 
-        //code apply only in tablet mode
-        TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-        if (telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
-            fragmentWidth = (width / 6)+20;
+        if (HELPER.isTablet(act)) {
+            fragmentWidth = (width / 6) + 20;
             RelativeLayout.LayoutParams layoutParams =
                     (RelativeLayout.LayoutParams) binding.logo.getLayoutParams();
             layoutParams.topMargin = fragmentWidth;
             binding.logo.setLayoutParams(layoutParams);
         }
-
-
 
 
     }

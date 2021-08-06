@@ -24,14 +24,13 @@ import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
+import com.app.frimline.adapters.CatBannerAdapter;
 import com.app.frimline.adapters.CategoryAdapter;
-import com.app.frimline.adapters.HomeBannerAdapter;
 import com.app.frimline.adapters.TodaysTomorrowAdapter;
 import com.app.frimline.databinding.FragmentCategoryRootBinding;
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
 import com.app.frimline.models.CategoryRootFragments.TodaysModel;
 import com.app.frimline.models.LAYOUT_TYPE;
-import com.app.frimline.models.OutCategoryModel;
 import com.app.frimline.screens.CategoryLandingActivity;
 
 import java.util.ArrayList;
@@ -53,10 +52,21 @@ public class CategoryRootFragment extends BaseFragment {
         if (API_MODE) {
             startShimmer();
             getTodayTomorrow();
-        }else {
+        } else {
             binding.shimmerViewContainer.setVisibility(View.GONE);
             binding.categoryProductRecycler.setVisibility(View.VISIBLE);
             binding.scrollView.setVisibility(View.VISIBLE);
+
+            List<String> outCategoryModels = new ArrayList<>();
+            outCategoryModels.add("");
+            outCategoryModels.add("");
+            outCategoryModels.add("");
+            outCategoryModels.add("");
+            CatBannerAdapter sliderAdapter = new CatBannerAdapter(outCategoryModels, getActivity());
+            binding.viewPager.setAdapter(sliderAdapter);
+            binding.dot.setViewPager(binding.viewPager);
+            binding.dot.setSelectedDotColor(Color.parseColor(new PREF(getActivity()).getThemeColor()));
+
         }
 
         binding.cat1.setOnClickListener(new View.OnClickListener() {
@@ -100,15 +110,7 @@ public class CategoryRootFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        List<OutCategoryModel> outCategoryModels = new ArrayList<>();
-        outCategoryModels.add(new OutCategoryModel());
-        outCategoryModels.add(new OutCategoryModel());
-        outCategoryModels.add(new OutCategoryModel());
-        outCategoryModels.add(new OutCategoryModel());
-        HomeBannerAdapter sliderAdapter = new HomeBannerAdapter(outCategoryModels, getActivity());
-        binding.viewPager.setAdapter(sliderAdapter);
-        binding.dot.setViewPager(binding.viewPager);
-        binding.dot.setSelectedDotColor(Color.parseColor(new PREF(getActivity()).getThemeColor()));
+
         return binding.getRoot();
     }
 
@@ -199,7 +201,15 @@ public class CategoryRootFragment extends BaseFragment {
             } else {
                 //show error message
             }
+            loadBanner();
         }
+    }
+
+    public void loadBanner() {
+            CatBannerAdapter sliderAdapter = new CatBannerAdapter(rootModel.getBannerList(), getActivity());
+            binding.viewPager.setAdapter(sliderAdapter);
+            binding.dot.setViewPager(binding.viewPager);
+            binding.dot.setSelectedDotColor(Color.parseColor(new PREF(getActivity()).getThemeColor()));
     }
 
     public ArrayList<TodaysModel> prepareData() {
@@ -222,7 +232,7 @@ public class CategoryRootFragment extends BaseFragment {
                 }
             }
             Log.e("" + i, String.valueOf(model.getLayoutType()));
-            model.setMessage(str.trim()+".");
+            model.setMessage(str.trim() + ".");
             list.add(model);
             i++;
         }

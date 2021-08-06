@@ -2,8 +2,10 @@ package com.app.frimline.Common;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -334,4 +336,18 @@ public class HELPER {
             textView.setText(Html.fromHtml(data));
         }
     }
+
+
+    /**
+     * Determine if the device is a tablet (i.e. it has a large screen).
+     *
+     * @param context The calling context.
+     */
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
 }

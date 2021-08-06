@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/tools">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +9,6 @@
         android:animateLayoutChanges="true"
         android:background="@color/colorScreenBackground"
         tools:context=".fragments.LeftFragment">
-
         <ImageView
             android:id="@+id/backgroundLayar"
             android:layout_width="wrap_content"
@@ -17,276 +17,294 @@
             android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background" />
 
-        <RelativeLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/containerRecycler"
+        <RelativeLayout
+            android:id="@+id/containerRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/containerRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/_70sdp" />
+
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filterChip"
+                    style="@style/ChipStyle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:elevation="@dimen/_4sdp"
+                    android:shadowColor="@color/colorGreen"
+                    android:text="Filter"
+                    android:textColor="@color/colorToolbarHeader"
+                    app:chipIcon="@drawable/ic_filter"
+                    app:chipStrokeColor="@color/colorGreen" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/sortFilterAction"
+                    style="@style/ChipStyle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:elevation="@dimen/_4sdp"
+                    android:shadowColor="@color/colorGreen"
+                    android:text="Sort"
+                    android:textColor="@color/colorToolbarHeader"
+                    app:chipIcon="@drawable/ic_sort_black_24dp"
+                    app:chipStrokeColor="@color/colorGreen" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/transparentOverlay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/_70sdp" />
+                android:background="@color/fragment_transparent"
+                android:visibility="gone" />
 
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/filterChip"
-                style="@style/ChipStyle"
+            <LinearLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:elevation="@dimen/_4sdp"
-                android:shadowColor="@color/colorGreen"
-                android:text="Filter"
-                android:textColor="@color/colorToolbarHeader"
-                app:chipIcon="@drawable/ic_filter"
-                app:chipStrokeColor="@color/colorGreen" />
+                android:background="@color/colorScreenBackground"
+                android:elevation="@dimen/_10sdp"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_15sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:visibility="gone">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/sortFilterAction"
-                style="@style/ChipStyle"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start">
+
+                        <TextView
+                            android:id="@+id/titleFilterText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/colorToolbarHeader"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end|center_vertical">
+
+                        <ImageView
+                            android:id="@+id/closeFilterView"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_gravity="end|center_vertical"
+                            android:src="@drawable/ic_close_black"
+                            app:tint="@color/orange" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/proxinova_semi_bold"
+                    android:text="Min Price"
+                    android:textColor="@color/colorToolbarHeader"
+                    android:textSize="@dimen/_10sdp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/lnameEdtLayout"
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                    app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/minPrice"
+                        style="@style/textInputEditTextForMediumScreen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:hint="Min Price"
+                        android:inputType="none"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingBottom="0dp"
+                        android:textColor="@color/colorToolbarHeader"
+                        android:textSize="@dimen/_12sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/proxinova_semi_bold"
+                    android:text="Max Price"
+                    android:textColor="@color/colorToolbarHeader"
+                    android:textSize="@dimen/_10sdp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                    app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusTopStart="@dimen/_20sdp"
+
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/maxPrice"
+                        style="@style/textInputEditTextForTablet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:hint="Max Price"
+                        android:inputType="none"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingBottom="0dp"
+                        android:textColor="@color/colorToolbarHeader"
+                        android:textSize="@dimen/_12sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filterFrameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:elevation="@dimen/_4sdp"
-                android:shadowColor="@color/colorGreen"
-                android:text="Sort"
-                android:textColor="@color/colorToolbarHeader"
-                app:chipIcon="@drawable/ic_sort_black_24dp"
-                app:chipStrokeColor="@color/colorGreen" />
+                android:background="@color/colorScreenBackground"
+                android:elevation="@dimen/_10sdp"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start|center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:text=""
+                            android:textColor="@color/colorToolbarHeader"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end|center_vertical">
+
+                        <ImageView
+                            android:id="@+id/closeView"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_gravity="end|center_vertical"
+                            android:src="@drawable/ic_close_black"
+                            app:tint="@color/orange" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/transparentOverlay"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/fragment_transparent"
+
+            android:orientation="vertical"
+            shimmer:shimmer_duration="800">
+
+            <include layout="@layout/shimmer_fragment_shop" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+        <TextView
+            android:id="@+id/emptyData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:fontFamily="@font/proxinova_semi_bold"
+            android:gravity="center"
+            android:text="Something went wrong\nPlease try again."
+            android:textSize="@dimen/_12sdp"
             android:visibility="gone" />
-
-        <!--        <FrameLayout-->
-        <!--            android:id="@+id/frameLayout"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:background="@color/colorScreenBackground"-->
-        <!--            android:elevation="@dimen/_5sdp"-->
-        <!--            android:visibility="gone" />-->
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:background="@color/colorScreenBackground"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingTop="@dimen/_15sdp"
-            android:elevation="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_15sdp"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start">
-
-                    <TextView
-                        android:layout_marginStart="@dimen/_3sdp"
-                        android:id="@+id/titleFilterText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="dfgd"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/colorToolbarHeader"
-                        android:textSize="@dimen/_12sdp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end|center_vertical">
-
-                    <ImageView
-                        android:id="@+id/closeFilterView"
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_gravity="end|center_vertical"
-                        android:src="@drawable/ic_close_black"
-                        app:tint="@color/orange" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_2sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/proxinova_semi_bold"
-                android:textColor="@color/colorToolbarHeader"
-                android:text="Min Price"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textSize="@dimen/_10sdp" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/lnameEdtLayout"
-
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_2sdp"
-                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
-                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
-                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
-                app:boxCornerRadiusTopStart="@dimen/_20sdp"
-                app:errorEnabled="false"
-                app:hintEnabled="false">
-
-                <AutoCompleteTextView
-                    android:id="@+id/minPrice"
-                    style="@style/textInputEditTextForMediumScreen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:hint="Min Price"
-                    android:inputType="none"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingTop="0dp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:paddingBottom="0dp"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_12sdp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_2sdp"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:fontFamily="@font/proxinova_semi_bold"
-                android:textColor="@color/colorToolbarHeader"
-                android:text="Max Price"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textSize="@dimen/_10sdp" />
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_2sdp"
-                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
-                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
-                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
-                app:boxCornerRadiusTopStart="@dimen/_20sdp"
-
-                app:errorEnabled="false"
-                app:hintEnabled="false">
-
-                <AutoCompleteTextView
-                    android:id="@+id/maxPrice"
-                    style="@style/textInputEditTextForTablet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:hint="Max Price"
-                    android:inputType="none"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingTop="0dp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:paddingBottom="0dp"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_12sdp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/filterFrameLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:background="@color/colorScreenBackground"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/_15sdp"
-            android:paddingTop="@dimen/_10sdp"
-            android:elevation="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_15sdp"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start|center_vertical">
-
-                    <TextView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:id="@+id/titleText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text=""
-                        android:textColor="@color/colorToolbarHeader"
-                        android:textSize="@dimen/_12sdp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end|center_vertical">
-
-                    <ImageView
-                        android:id="@+id/closeView"
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_gravity="end|center_vertical"
-                        android:src="@drawable/ic_close_black"
-                        app:tint="@color/orange" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
     </RelativeLayout>
 </layout>

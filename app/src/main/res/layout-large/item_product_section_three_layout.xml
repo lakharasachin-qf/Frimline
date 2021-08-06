@@ -41,7 +41,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/product_one" />
+                        android:src="@drawable/ic_square_place_holder" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -102,7 +102,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="end"
                         android:background="@drawable/shape_ovel"
-                        android:backgroundTint="@color/colorGreen"
+                        android:backgroundTint="@color/cartNormal"
                         android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_cart"
                         app:tint="@color/white" />
@@ -151,7 +151,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/product_one" />
+                        android:src="@drawable/ic_square_place_holder" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -216,7 +216,7 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/shape_ovel"
-                    android:backgroundTint="@color/colorGreen"
+                    android:backgroundTint="@color/cartNormal"
                     android:padding="@dimen/_4sdp"
                     android:src="@drawable/ic_cart"
                     app:tint="@color/white" />
@@ -253,7 +253,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/product_one" />
+                        android:src="@drawable/ic_square_place_holder" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -319,7 +319,7 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/shape_ovel"
-                    android:backgroundTint="@color/colorGreen"
+                    android:backgroundTint="@color/cartNormal"
                     android:padding="@dimen/_4sdp"
                     android:src="@drawable/ic_cart"
                     app:tint="@color/white" />

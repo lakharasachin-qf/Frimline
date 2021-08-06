@@ -14,6 +14,16 @@ public class CategorySingleModel {
     private String detailImage;
     private String longDescription;
 
+    private boolean isActive=false;
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     public String getCategoryId() {
         return categoryId;
     }

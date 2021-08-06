@@ -7,6 +7,8 @@
 
 
         <ImageView
+            android:background="@color/orange"
+            android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_120sdp"
             android:scaleType="centerCrop"
@@ -14,6 +16,8 @@
 
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/dummyContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

@@ -7,10 +7,10 @@
         android:layout_height="wrap_content">
 
         <ScrollView
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/_50sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_50sdp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,22 +26,135 @@
                     app:cardCornerRadius="@dimen/_7sdp"
                     app:cardUseCompatPadding="true">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:padding="@dimen/_15sdp">
 
+
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/weightLayout"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:text="WEIGHT"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <TextView
+                                android:id="@+id/weightTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:text="Not Filled"
+                                android:textSize="@dimen/_11sdp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:visibility="gone"
+                            android:id="@+id/view1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:background="@color/grey" />
+
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/dimentionLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:text="DIMENSIONS"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <TextView
+                                android:id="@+id/dimentionTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:text="Not Filled"
+                                android:textSize="@dimen/_11sdp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:visibility="gone"
+                            android:id="@+id/view2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:background="@color/grey" />
+
+
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/sizeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:text="SIZE"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <TextView
+                                android:id="@+id/sizeTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:text="Not Filled"
+                                android:textSize="@dimen/_11sdp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:visibility="gone"
+                            android:id="@+id/view3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:background="@color/grey" />
 
                         <TextView
                             android:id="@+id/text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_40sdp"
+                            android:layout_marginBottom="@dimen/_40sdp"
                             android:fontFamily="@font/proxima_nova_regular"
-                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor\n\nincididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation\n\nullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui\n\nofficia deserunt mollit anim id est laborum."
-                            android:textSize="@dimen/_12sdp" />
+                            android:text="No Data\nAvailable"
+                            android:textAlignment="center"
+                            android:visibility="gone"
+                            android:layout_gravity="center|center_vertical"
+                            android:textSize="@dimen/_12sdp"
+                             />
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

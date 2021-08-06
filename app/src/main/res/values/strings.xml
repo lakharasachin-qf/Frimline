@@ -14,5 +14,6 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
-
+    <string name="Rs">\u20B9</string>
+    <string name="Multiplication">\u00D7</string>
 </resources>
