@@ -12,7 +12,7 @@ public class CONSTANT {
      * false for stop api calls
      * true for api calls
      * */
-    public static final boolean API_MODE = true;
+    public static final boolean API_MODE = false;
 
 
 

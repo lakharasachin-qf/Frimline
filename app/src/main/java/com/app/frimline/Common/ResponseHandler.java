@@ -2,9 +2,11 @@ package com.app.frimline.Common;
 
 import android.content.Context;
 
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.CategoryRootFragments.ReviewRootModel;
+import com.app.frimline.models.HomeFragements.Attribute;
 import com.app.frimline.models.HomeFragements.BannerModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeFragements.SectionPositionModel;
@@ -239,7 +241,7 @@ public class ResponseHandler {
                 model.setTagsModel(tagsArrayList);
 
 
-                ProductModel.Attribute attribute = model.new Attribute();
+                Attribute attribute = new Attribute();
                 JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
                 for (int md = 0; md < metaDataArra.length(); md++) {
 
@@ -310,7 +312,7 @@ public class ResponseHandler {
                 }
                 model.setProductImagesList(productImages);
                 model.setTagsModel(tagsArrayList);
-                ProductModel.Attribute attribute = model.new Attribute();
+                Attribute attribute = new Attribute();
                 JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
                 for (int md = 0; md < metaDataArra.length(); md++) {
 
@@ -528,7 +530,7 @@ public class ResponseHandler {
                 model.setTagsModel(tagsArrayList);
 
 
-                ProductModel.Attribute attribute = model.new Attribute();
+                Attribute attribute = new Attribute();
                 JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
                 for (int md = 0; md < metaDataArra.length(); md++) {
 
@@ -568,6 +570,7 @@ public class ResponseHandler {
     }
 
     public static HomeModel getCategoryForShop(JSONObject jsonObject) {
+
         JSONArray categoryArr = getJSONArray(jsonObject, "category");
         ArrayList<CategorySingleModel> categoryList = new ArrayList<>();
         for (int i = 0; i < categoryArr.length(); i++) {
@@ -630,7 +633,7 @@ public class ResponseHandler {
                 model.setTagsModel(tagsArrayList);
 
 
-                ProductModel.Attribute attribute = model.new Attribute();
+                Attribute attribute = new Attribute();
                 JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
                 for (int md = 0; md < metaDataArra.length(); md++) {
 

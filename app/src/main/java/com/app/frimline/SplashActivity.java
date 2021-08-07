@@ -3,19 +3,19 @@ package com.app.frimline;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ActivitySplashBinding;
-import com.app.frimline.screens.BillingAddressActivity;
+import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.screens.CategoryRootActivity;
-import com.app.frimline.screens.CheckoutAddressActivity;
-import com.app.frimline.screens.ProductDetailActivity;
 
 public class SplashActivity extends BaseActivity {
     private AnimatorSet animatorSet1;
@@ -47,8 +47,12 @@ public class SplashActivity extends BaseActivity {
             }
         }, 1000);
 
-    }
+//        CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
+//        ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId("934578");
+        
+     
 
+    }
 
 
 }

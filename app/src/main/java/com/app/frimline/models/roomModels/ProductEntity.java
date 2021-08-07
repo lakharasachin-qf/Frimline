@@ -1,29 +1,77 @@
-package com.app.frimline.models.HomeFragements;
+package com.app.frimline.models.roomModels;
 
-import org.json.JSONArray;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
+import com.app.frimline.models.HomeFragements.Attribute;
+import com.app.frimline.models.HomeFragements.Tags;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class ProductModel {
+@Entity(tableName = "cart")
+public class ProductEntity {
+    @PrimaryKey(autoGenerate = true)
+    private int cartId;
+
+    @ColumnInfo(name = "id")
     private String id;
+
+    @ColumnInfo(name = "name")
     private String name;
+
+    @ColumnInfo(name = "slug")
     private String slug;
+
+    @ColumnInfo(name = "description")
     private String description;
+
+    @ColumnInfo(name = "shortDescription")
     private String shortDescription;
+
+    @ColumnInfo(name = "price")
     private String price;
+
+    @ColumnInfo(name = "regularPrice")
     private String regularPrice;
+
+    @ColumnInfo(name = "priceHtml")
     private String priceHtml;
+
+    @ColumnInfo(name = "stockStatus")
     private String stockStatus;
+
+    @TypeConverters(TagConverter.class)
+    @ColumnInfo(name = "tags")
     private ArrayList<Tags> tagsModel;
+
+    @TypeConverters(StringConverter.class)
+    @ColumnInfo(name = "imageList")
     private ArrayList<String> productImagesList;
+
+    @ColumnInfo(name = "categoryId")
     private String categoryId;
+
+    @ColumnInfo(name = "categoryName")
     private String categoryName;
 
-     private Attribute attribute;
+    @TypeConverters(AttributeConverter.class)
+    @ColumnInfo(name = "attribute")
+    private Attribute attribute;
 
     public Attribute getAttribute() {
         return attribute;
+    }
+
+
+    public int getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
     }
 
     public void setAttribute(Attribute attribute) {
@@ -47,8 +95,8 @@ public class ProductModel {
         this.categoryName = categoryName;
     }
 
-    //for cart
-    private boolean isAddedToCart=false;
+
+    private boolean isAddedToCart = false;
 
     public boolean isAddedToCart() {
         return isAddedToCart;
@@ -146,6 +194,4 @@ public class ProductModel {
         this.productImagesList = productImagesList;
     }
 
-
 }
-

@@ -33,6 +33,8 @@ import androidx.core.widget.NestedScrollView;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCategoryRootBinding;
 import com.app.frimline.databinding.FragmentHomeBinding;
+import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.roomModels.ProductEntity;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.google.android.material.textfield.TextInputEditText;
@@ -329,7 +331,7 @@ public class HELPER {
         }
     }
 
-    public static void LOAD_HTML(TextView textView , String data){
+    public static void LOAD_HTML(TextView textView, String data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             textView.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
         } else {
@@ -350,4 +352,25 @@ public class HELPER {
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
+    public static ProductEntity convertToCartObject(ProductModel model) {
+        ProductEntity entity = new ProductEntity();
+        entity.setId(model.getId());
+
+        entity.setName(model.getName());
+        entity.setSlug(model.getSlug());
+        entity.setDescription(model.getDescription());
+        entity.setShortDescription(model.getShortDescription());
+        entity.setRegularPrice(model.getRegularPrice());
+        entity.setPrice(model.getPrice());
+
+        entity.setPriceHtml(model.getPriceHtml());
+        entity.setCategoryId(model.getCategoryId());
+        entity.setCategoryName(model.getCategoryName());
+        entity.setStockStatus(model.getStockStatus());
+        entity.setProductImagesList(model.getProductImagesList());
+        entity.setTagsModel(model.getTagsModel());
+        entity.setAttribute(model.getAttribute());
+
+        return entity;
+    }
 }

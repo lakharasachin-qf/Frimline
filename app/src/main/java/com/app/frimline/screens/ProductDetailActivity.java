@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -26,6 +25,7 @@ import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.adapters.ProductImageSliderAdpater;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ActivityProductDetailBinding;
 import com.app.frimline.fragments.aboutProducts.AdditionalInfoFragment;
 import com.app.frimline.fragments.aboutProducts.DescriptionFragment;
@@ -50,7 +50,7 @@ public class ProductDetailActivity extends BaseActivity {
     private boolean isAddedToCart = false;
     private int observableId;
     private boolean applyThemeColor = false;
-    private String defaultColor ="#EF7F1A";
+    private String defaultColor = "#EF7F1A";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -252,6 +252,9 @@ public class ProductDetailActivity extends BaseActivity {
 
     public void loadData() {
         productModel = gson.fromJson(getIntent().getStringExtra("model"), ProductModel.class);
+//        CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
+//        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productModel));
+
         ArrayList<String> productImages = productModel.getProductImagesList();
         binding.toolbarNavigation.title.setText(productModel.getCategoryName());
         ProductImageSliderAdpater sliderAdapter = new ProductImageSliderAdpater(productImages, act);
