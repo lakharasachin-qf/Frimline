@@ -1,30 +1,28 @@
 package com.app.frimline.adapters;
 
 import android.app.Activity;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
-import com.app.frimline.models.OutCategoryModel;
-import com.app.frimline.screens.ProductDetailActivity;
+import com.app.frimline.databinding.ItemReviewLayoutBinding;
+import com.app.frimline.models.CategoryRootFragments.ReviewRootModel;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdapter.ViewHolder> {
-    private final ArrayList<OutCategoryModel> frameItems;
+    private final ArrayList<ReviewRootModel.Review> frameItems;
     Activity activity;
 
 
-    public ProductReviewAdapter(ArrayList<OutCategoryModel> frameItems, Activity activity) {
+    public ProductReviewAdapter(ArrayList<ReviewRootModel.Review> frameItems, Activity activity) {
         this.frameItems = frameItems;
         this.activity = activity;
     }
@@ -32,24 +30,44 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_review_layout, parent, false);
-        return new ViewHolder(view);
+        ItemReviewLayoutBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_review_layout, parent, false);
+
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final OutCategoryModel model = frameItems.get(position);
+        final ReviewRootModel.Review model = frameItems.get(position);
+        if (CONSTANT.API_MODE) {
+            Glide.with(activity)
+                    .load(model.getUserAvatar())
+                    .circleCrop()
+                    .into(holder.binding.circleView);
+            HELPER.LOAD_HTML(holder.binding.reviewTxt, model.getReview());
+           // HELPER.LOAD_HTML(holder.binding.userNameTxt, model.get());
+
+         //   holder.binding.reviewAddedData.setText(model.getReview());
+          //  holder.binding.userNameTxt.setText(model.getReview());
+            if (model.getRating().isEmpty()) {
+                holder.binding.rate.setRating(0);
+            } else {
+                holder.binding.rate.setRating(Float.parseFloat(model.getRating()));
+            }
+
+        }
     }
+
     @Override
     public int getItemCount() {
         return frameItems.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            View view=itemView.findViewById(R.id.underLine);
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ItemReviewLayoutBinding binding;
+
+        public ViewHolder(@NonNull ItemReviewLayoutBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
         }
     }
 

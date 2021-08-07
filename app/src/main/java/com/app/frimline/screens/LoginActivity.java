@@ -67,7 +67,7 @@ public class LoginActivity extends BaseActivity {
         int fragmentWidth = (width / 6) + 20;
 
         if (HELPER.isTablet(act)) {
-            fragmentWidth = (width / 6) + 20;
+            fragmentWidth = (width / 6) + 40;
             RelativeLayout.LayoutParams layoutParams =
                     (RelativeLayout.LayoutParams) binding.logo.getLayoutParams();
             layoutParams.topMargin = fragmentWidth;

@@ -7,16 +7,16 @@
 
 
         <ScrollView
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/_50sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_50sdp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -26,15 +26,188 @@
                     app:cardCornerRadius="@dimen/_7sdp"
                     app:cardUseCompatPadding="true">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/reviewContainerRecycler"
+                    <ProgressBar
+                        android:id="@+id/screenLoader"
+                        style="?android:attr/progressBarStyleLargeInverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:elevation="@dimen/_10sdp"
+                        android:fitsSystemWindows="true"
+                        android:padding="@dimen/_7sdp"
+                        android:progressTint="@color/orange"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/errorContainer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:clipToPadding="false"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp" />
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxinova_semi_bold"
+                            android:gravity="center"
+                            android:text="Something went wrong. Please\ntry again"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_11sdp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/tryAgainBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
+                            android:background="@drawable/shape_button_second"
+                            android:backgroundTint="@color/orange"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/_25sdp"
+                            android:paddingEnd="@dimen/_25sdp"
+                            android:text="Try Again"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10sdp">
+
+                        </androidx.appcompat.widget.AppCompatButton>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/reviewContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/primarySecondLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/proxinova_semi_bold"
+                            android:text="There are no reviews yet."
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <View
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:background="@color/grey" />
+
+                        <TextView
+                            android:id="@+id/secondaryLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:text="Be the first to Review\nDente91 n-HAP Toothpaste Pack of 2"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_9sdp" />
+
+                        <TextView
+                            android:id="@+id/loginHintLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:text="You must be Signed up to post a Review."
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9sdp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_26sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
+                            android:background="@drawable/shape_button_second"
+                            android:backgroundTint="@color/orange"
+                            android:fontFamily="@font/proxima_nova_bold"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/_25sdp"
+                            android:paddingEnd="@dimen/_25sdp"
+                            android:text="Try Again"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_9sdp">
+
+                        </androidx.appcompat.widget.AppCompatButton>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/dataDisplayContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone">
+
+                        <RelativeLayout
+                            android:id="@+id/addReviews"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:fontFamily="@font/proxima_nova_bold"
+                                android:includeFontPadding="false"
+                                android:text="Add Review"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_add"
+                                app:tint="@color/orange" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:id="@+id/view"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/grey"
+                            android:layout_below="@+id/addReviews"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_7sdp" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reviewContainerRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/view"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:clipToPadding="false"
+                            android:paddingTop="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_10sdp" />
+                    </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

@@ -23,7 +23,6 @@
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:background="@color/colorScreenBackground"
-                    android:minHeight="@dimen/_300sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
                     app:cardUseCompatPadding="true">
 

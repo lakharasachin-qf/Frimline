@@ -322,4 +322,13 @@
         <item name="android:windowBackground">@color/colorToolbarHeader</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
+
+
+    <style name="dialogBackgroundStyle" parent="MyAlertDialogStyle">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:windowBackground">@color/orange</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.CategoryRootFragments.ReviewRootModel;
 import com.app.frimline.models.HomeFragements.BannerModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeFragements.SectionPositionModel;
@@ -565,6 +566,7 @@ public class ResponseHandler {
 
         return homeModel;
     }
+
     public static HomeModel getCategoryForShop(JSONObject jsonObject) {
         JSONArray categoryArr = getJSONArray(jsonObject, "category");
         ArrayList<CategorySingleModel> categoryList = new ArrayList<>();
@@ -594,6 +596,7 @@ public class ResponseHandler {
         categoryModel.setCategoryArrayList(categoryList);
         return categoryModel;
     }
+
     public static HomeModel getTopRatedForShop(JSONObject jsonObject) {
         JSONArray topRatedArr = getJSONArray(jsonObject, "top_rated");
         ArrayList<ProductModel> topRattedModelArrayList = new ArrayList<>();
@@ -676,5 +679,38 @@ public class ResponseHandler {
         }
         return rootArrayList;
     }
+
+    public static ReviewRootModel handleReviewList(String apiData) {
+        ReviewRootModel model = new ReviewRootModel();
+
+        JSONArray jsonArr = null;
+        try {
+            jsonArr = new JSONArray(apiData);
+            if (jsonArr.length() != 0) {
+                ArrayList<ReviewRootModel.Review> reviewsList = new ArrayList<>();
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    ReviewRootModel.Review review = model.new Review();
+                    review.setId(jsonArr.getJSONObject(i).getString("id"));
+                    review.setReviewerEmail(jsonArr.getJSONObject(i).getString("reviewer_email"));
+                    review.setReview(jsonArr.getJSONObject(i).getString("review"));
+                    review.setRating(jsonArr.getJSONObject(i).getString("rating"));
+                    review.setStatus(jsonArr.getJSONObject(i).getString("status"));
+                    if (jsonArr.getJSONObject(i).get("reviewer_avatar_urls") instanceof JSONObject && jsonArr.getJSONObject(i).getJSONObject("reviewer_avatar_urls").has("96")) {
+                        review.setUserAvatar(((JSONObject) jsonArr.getJSONObject(i).get("reviewer_avatar_urls")).getString("96"));
+                    }
+
+                    reviewsList.add(review);
+                }
+                model.setReviewsList(reviewsList);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return model;
+
+    }
+
+
 }
 

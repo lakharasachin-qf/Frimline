@@ -1,6 +1,7 @@
 package com.app.frimline.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemTopRattesProductLayoutBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -57,9 +60,30 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
                     .error(R.drawable.ic_square_place_holder).into(holder.binding.image);
 
             holder.binding.productNameTxt.setText(model.getName());
-            HELPER.LOAD_HTML(holder.binding.descriptionTxt,model.getDescription());
+            HELPER.LOAD_HTML(holder.binding.descriptionTxt, model.getDescription());
             holder.binding.price.setText(activity.getString(R.string.Rs) + model.getPrice());
+
+            holder.binding.ExploreMoreTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(activity, ProductDetailActivity.class);
+                    i.putExtra("model", new Gson().toJson(model));
+                    activity.startActivity(i);
+                    activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                }
+            });
+
+        } else {
+            holder.binding.ExploreMoreTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(activity, ProductDetailActivity.class);
+                    activity.startActivity(i);
+                    activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                }
+            });
         }
+
     }
 
     @Override
@@ -77,12 +101,6 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
 
             this.binding.ExploreMoreTxt.setTextColor(Color.parseColor(new PREF(activity).getCategoryColor()));
 
-            this.binding.ExploreMoreTxt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HELPER.SIMPLE_ROUTE(activity, ProductDetailActivity.class);
-                }
-            });
 
         }
     }

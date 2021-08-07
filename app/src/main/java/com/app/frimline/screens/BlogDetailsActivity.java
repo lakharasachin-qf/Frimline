@@ -56,6 +56,7 @@ public class BlogDetailsActivity extends BaseActivity {
 
         binding.chip1.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.chip1.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.dotsIndicator.setSelectedDotColor(Color.parseColor(new PREF(act).getThemeColor()));
 
         binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
     }

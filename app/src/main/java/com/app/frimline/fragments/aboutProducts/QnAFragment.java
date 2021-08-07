@@ -46,4 +46,6 @@ public class QnAFragment extends Fragment {
         binding.qnAContainerRecycler.setAdapter(adaptertop);
         return binding.getRoot();
     }
+
+
 }

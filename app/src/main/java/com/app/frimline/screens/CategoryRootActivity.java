@@ -201,9 +201,10 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                                 nav_host_fragment.setVisibility(View.GONE);
                                 screenLoader.setVisibility(View.VISIBLE);
                                 screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
+                                screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+
                                 toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
                                 toolbar_Navigation.setVisibility(View.GONE);
-                                screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
                                 getThemeColor();
                             }
                         });

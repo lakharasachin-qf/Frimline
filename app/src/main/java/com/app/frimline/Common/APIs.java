@@ -6,4 +6,5 @@ public class APIs {
     public static final String THEME_COLOR = BASE + "/wp-json/wc/v3/theme-color";
     public static final String CATEGORY_HOME = BASE + "/wp-json/wc/v3/category-home/";
     public static final String SHOP = BASE + "/wp-json/wc/v3/shop";
+    public static final String PRODUCT_REVIEW = BASE + "/wp-json/wc/v3/product-reviews/";
 }

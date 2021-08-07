@@ -49,11 +49,8 @@ public class RecentBlogViewAdapter extends PagerAdapter {
 
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.item_blog_recent_layout, null);
+        setTheme(view);
         Chip chip1 = view.findViewById(R.id.chip1);
-        chip1.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
-        chip1.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
-        View view3 = view.findViewById(R.id.view3);
-        view3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
 
 
         chip1.setOnClickListener(new View.OnClickListener() {
@@ -70,11 +67,24 @@ public class RecentBlogViewAdapter extends PagerAdapter {
 
     }
 
-    @Override
+    public void setTheme(View view) {
+        Chip chip1 = view.findViewById(R.id.chip1);
+        Chip chip2 = view.findViewById(R.id.chip2);
+        chip1.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+        chip1.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+        chip2.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+        chip2.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+        View view3 = view.findViewById(R.id.view3);
+        View view2 = view.findViewById(R.id.view2);
+        view3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+        view2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+
+    }
+   /* @Override
     public float getPageWidth(int position) {
         return 0.5f;
 
-    }
+    }*/
 
     @Override
     public void destroyItem(@NotNull ViewGroup container, int position, @NotNull Object object) {

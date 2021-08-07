@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,23 @@ public class SignupActivity extends BaseActivity {
 
         changeTheme();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        loginWidth();
+    }
+    public void loginWidth() {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int fragmentWidth = (width / 6) + 20;
+
+        if (HELPER.isTablet(act)) {
+            fragmentWidth = (width / 6) + 30;
+            RelativeLayout.LayoutParams layoutParams =
+                    (RelativeLayout.LayoutParams) binding.logo.getLayoutParams();
+            layoutParams.topMargin = fragmentWidth;
+            binding.logo.setLayoutParams(layoutParams);
+        }
+
 
     }
 
