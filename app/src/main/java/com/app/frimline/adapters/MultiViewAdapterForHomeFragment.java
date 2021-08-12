@@ -19,12 +19,14 @@ import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ItemProductSectionOneLayoutBinding;
 import com.app.frimline.databinding.ItemProductSectionThreeLayoutBinding;
 import com.app.frimline.databinding.ItemProductSectionTwoLayoutBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
+import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -38,6 +40,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
     private final Gson gson;
     Activity activity;
     private boolean applyThemeColor = false;
+    private CartRoomDatabase cartRoomDatabase;
 
     public void setApplyThemeColor(boolean applyThemeColor) {
         this.applyThemeColor = applyThemeColor;
@@ -47,6 +50,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson = new Gson();
+        cartRoomDatabase = CartRoomDatabase.getAppDatabase(activity);
     }
 
 
@@ -132,6 +136,15 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                 HELPER.SIMPLE_ROUTE(activity, ProductDetailActivity.class);
             }
         });
+
+        //check cart db
+        ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(0).getId());
+        if (entity != null) {
+            productList.get(0).setAddedToCart(true);
+        }else {
+            productList.get(0).setAddedToCart(false);
+        }
+
         if (productList.get(0).isAddedToCart()) {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
         }
@@ -144,12 +157,14 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                     model.getProductList().get(0).setAddedToCart(true);
                     Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                     binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+                    cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productList.get(0)));
                 } else {
                     model.getProductList().get(0).setAddedToCart(false);
                     Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                     binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+                    cartRoomDatabase.productEntityDao().deleteProduct(productList.get(0).getId());
                 }
-
+                HELPER.changeCartCounter(activity);
 
             }
         });
@@ -177,20 +192,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                 activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
             }
         });
-        binding.addCart1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!productList.get(0).isAddedToCart()) {
-                    productList.get(0).setAddedToCart(true);
-                    Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
-                    binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
-                } else {
-                    productList.get(0).setAddedToCart(false);
-                    Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
-                    binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
-                }
-            }
-        });
+
     }
 
 
@@ -233,6 +235,27 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                     .placeholder(R.drawable.ic_square_place_holder)
                     .error(R.drawable.ic_square_place_holder)
                     .into(binding.productImage3);
+
+
+            //check cart db
+            ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(0).getId());
+            if (entity != null) {
+                productList.get(0).setAddedToCart(true);
+            }else {
+                productList.get(0).setAddedToCart(false);
+            }
+            entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(1).getId());
+            if (entity != null) {
+                productList.get(1).setAddedToCart(true);
+            }else{
+                productList.get(1).setAddedToCart(false);
+            }
+            entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(2).getId());
+            if (entity != null) {
+                productList.get(2).setAddedToCart(true);
+            }else{
+                productList.get(2).setAddedToCart(false);
+            }
 
 
             if (productList.get(0).isAddedToCart()) {
@@ -308,14 +331,16 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
                         Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                         binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+                        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productList.get(0)));
                     } else {
                         productList.get(0).setAddedToCart(false);
 
                         Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                         binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+                        cartRoomDatabase.productEntityDao().deleteProduct(productList.get(0).getId());
                     }
 
-
+                    HELPER.changeCartCounter(activity);
                 }
             });
             binding.addCart2.setOnClickListener(new View.OnClickListener() {
@@ -325,13 +350,15 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                         productList.get(1).setAddedToCart(true);
                         Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                         binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+                        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productList.get(1)));
                     } else {
                         productList.get(1).setAddedToCart(false);
                         Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                         binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+                        cartRoomDatabase.productEntityDao().deleteProduct(productList.get(1).getId());
                     }
 
-
+                    HELPER.changeCartCounter(activity);
                 }
             });
             binding.addCart3.setOnClickListener(new View.OnClickListener() {
@@ -341,15 +368,19 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                         productList.get(2).setAddedToCart(true);
                         binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
                         Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
+                        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productList.get(2)));
                     } else {
                         productList.get(2).setAddedToCart(false);
                         Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                         binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+                        cartRoomDatabase.productEntityDao().deleteProduct(productList.get(2).getId());
                     }
-
+                    HELPER.changeCartCounter(activity);
 
                 }
             });
+
+
         } else {
 
 
@@ -437,6 +468,20 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         HELPER.LOAD_HTML(binding.productName2, productList.get(1).getName());
         HELPER.LOAD_HTML(binding.productPrice1, activity.getString(R.string.Rs) + productList.get(0).getPrice());
         HELPER.LOAD_HTML(binding.productPrice2, activity.getString(R.string.Rs) + productList.get(1).getPrice());
+
+        ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(0).getId());
+        if (entity != null) {
+            productList.get(0).setAddedToCart(true);
+        }else {
+            productList.get(0).setAddedToCart(false);
+        }
+        if (entity != null) {
+            productList.get(1).setAddedToCart(true);
+        }else {
+            productList.get(1).setAddedToCart(false);
+        }
+
+
         if (productList.get(0).isAddedToCart()) {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
         }
@@ -495,12 +540,14 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                     productList.get(0).setAddedToCart(true);
                     Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                     binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+                    cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productList.get(0)));
                 } else {
                     productList.get(0).setAddedToCart(false);
                     Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                     binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+                    cartRoomDatabase.productEntityDao().deleteProduct(productList.get(0).getId());
                 }
-
+                HELPER.changeCartCounter(activity);
 
             }
         });
@@ -511,11 +558,14 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                     productList.get(1).setAddedToCart(true);
                     Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                     binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+                    cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productList.get(1)));
                 } else {
                     productList.get(1).setAddedToCart(false);
                     Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                     binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+                    cartRoomDatabase.productEntityDao().deleteProduct(productList.get(1).getId());
                 }
+                HELPER.changeCartCounter(activity);
             }
         });
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:shimmer="http://schemas.android.com/apk/res-auto">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_below="@+id/toolbar"
             android:scrollbars="none"
             android:layout_width="match_parent"
@@ -45,45 +46,48 @@
                         android:background="@drawable/shape_for_my_account"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ImageView
-                            android:id="@+id/actionEdit"
+                            android:id="@+id/actionAdd1"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentTop="true"
-                            android:padding="@dimen/_3sdp"
                             android:background="@drawable/shape_ovel"
                             android:backgroundTint="@color/colorGreen"
-                            android:src="@drawable/ic_edit_black_24dp"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp"/>
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_edit_black_24dp" />
 
 
                         <TextView
                             android:id="@+id/titleTxt"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
 
                             android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
-                            android:textSize="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:textColor="@color/colorEditText"
                             android:text="Billing Address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/colorEditText"
+                            android:textSize="@dimen/_15sdp" />
 
                         <TextView
-                            android:textSize="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:visibility="visible"
+                            android:id="@+id/billingTxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/titleTxt"
-                            android:fontFamily="@font/proxima_nova_regular"
                             android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
                             android:text="A-1 ,11, Ground Floor, Green Feild, Jogeshwari Vikroli Link
 Rd, Opp Fantasi Land, Andheri (west)"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="@dimen/_10sdp" />
 
                     </RelativeLayout>
 
@@ -103,35 +107,37 @@ Rd, Opp Fantasi Land, Andheri (west)"
                         android:background="@drawable/shape_for_my_account"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ImageView
-                            android:id="@+id/actionAdd"
+                            android:id="@+id/actionAdd2"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentTop="true"
-                            android:padding="@dimen/_3sdp"
                             android:background="@drawable/shape_ovel"
                             android:backgroundTint="@color/colorGreen"
-                            android:src="@drawable/ic_add_black_24dp"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp"/>
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_add_black_24dp" />
 
 
                         <TextView
                             android:id="@+id/title2Txt"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
 
                             android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
-                            android:textSize="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:textColor="@color/colorEditText"
                             android:text="Shipping Address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/colorEditText"
+                            android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/shippingTxt"
                             android:visibility="gone"
                             android:textSize="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_15sdp"
@@ -150,6 +156,16 @@ Rd, Opp Fantasi Land, Andheri (west)"
             </LinearLayout>
 
         </ScrollView>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
+            android:orientation="vertical"
+            shimmer:shimmer_duration="800">
+
+            <include layout="@layout/shimmer_address_activity" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </RelativeLayout>
 </layout>

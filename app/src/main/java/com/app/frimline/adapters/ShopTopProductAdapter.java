@@ -21,11 +21,13 @@ import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ItemProductSectionOneLayoutBinding;
 import com.app.frimline.databinding.ItemShopTopProductLayoutBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.OutCategoryModel;
+import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -38,7 +40,7 @@ public class ShopTopProductAdapter extends RecyclerView.Adapter<ShopTopProductAd
     Activity activity;
     private int parentPosition;
 
-
+    private CartRoomDatabase db;
     public void setParentPosition(int parentPosition) {
         this.parentPosition = parentPosition;
     }
@@ -46,6 +48,7 @@ public class ShopTopProductAdapter extends RecyclerView.Adapter<ShopTopProductAd
     public ShopTopProductAdapter(ArrayList<ProductModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
         this.activity = activity;
+        db= CartRoomDatabase.getAppDatabase(activity);
     }
 
     @NonNull
@@ -71,10 +74,19 @@ public class ShopTopProductAdapter extends RecyclerView.Adapter<ShopTopProductAd
     private void loadDataForOneLayout(ItemShopTopProductLayoutBinding binding, ProductModel model, int position) {
         colorCode = new PREF(activity).getThemeColor();
 
-        Log.e("DATA",new Gson().toJson(model));
+        //check cart db
+        ProductEntity entity = db.productEntityDao().findProductByProductId(model.getId());
+        if (entity != null) {
+            model.setAddedToCart(true);
+        }else {
+            model.setAddedToCart(false);
+        }
+
         if (model.isAddedToCart()) {
             binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
         }
+
+
 
         Glide.with(activity).load(model.getProductImagesList().get(0))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -108,11 +120,15 @@ public class ShopTopProductAdapter extends RecyclerView.Adapter<ShopTopProductAd
                     model.setAddedToCart(true);
                     Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                     binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+                    db.productEntityDao().insert(HELPER.convertToCartObject(model));
                 } else {
                     model.setAddedToCart(false);
                     Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                     binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+                    db.productEntityDao().deleteProduct(model.getId());
                 }
+                HELPER.changeCartCounter(activity);
+
             }
         });
     }

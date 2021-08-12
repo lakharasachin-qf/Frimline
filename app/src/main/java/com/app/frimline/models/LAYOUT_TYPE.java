@@ -16,6 +16,8 @@ public class LAYOUT_TYPE {
 
     public static final int LAYOUT_LEFT_BLOG=0;
     public static final int LAYOUT_RIGHT_BLOG=1;
+    public static final int LAYOUT_TWO_BLOG=0;
+    public static final int LAYOUT_ONE_BLOG=1;
 
     public static final int LAYOUT_TOP_PRODUCT=0;
     public static final int LAYOUT_FILTER_CHIP=1;

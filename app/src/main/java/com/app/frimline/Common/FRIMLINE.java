@@ -4,17 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.app.frimline.adapters.ApplicationController;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -42,6 +36,7 @@ public class FRIMLINE extends MultiDexApplication {
         super.onCreate();
 
         sInstance = this;
+        overrideDefaultTypefaces();
 
         MultiDex.install(this);
 
@@ -52,6 +47,17 @@ public class FRIMLINE extends MultiDexApplication {
 
 
         printHashKey();
+    }
+
+    /**
+     * Method used to override the default typefaces with the custom fonts
+     * for the application.
+     */
+    private void overrideDefaultTypefaces() {
+        FontChanger.overrideDefaultFont(this, "DEFAULT", "fonts/proxima_nova_light.otf");
+        FontChanger.overrideDefaultFont(this, "MONOSPACE", "fonts/proxima_nova_bold.otf");
+        FontChanger.overrideDefaultFont(this, "SERIF", "fonts/proxima_nova_regular.otf");
+        FontChanger.overrideDefaultFont(this, "SANS_SERIF", "fonts/proxima_nova_regular.otf");
     }
 
     private void printHashKey() {
@@ -73,8 +79,6 @@ public class FRIMLINE extends MultiDexApplication {
     public AppObserver getObserver() {
         return observer;
     }
-
-
 
 
 }

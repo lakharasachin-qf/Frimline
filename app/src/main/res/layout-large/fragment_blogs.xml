@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:shimmer="http://schemas.android.com/tools">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorScreenBackground"
         android:orientation="vertical">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            shimmer:shimmer_duration="800">
+
+            <include layout="@layout/shimmer_home_fragment" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/blogsRecycler"
@@ -41,7 +51,16 @@
             </LinearLayout>
 
         </ScrollView>-->
-
+        <TextView
+            android:id="@+id/emptyData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:fontFamily="@font/proxinova_semi_bold"
+            android:gravity="center"
+            android:text="Something went wrong\nPlease try again."
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </layout>

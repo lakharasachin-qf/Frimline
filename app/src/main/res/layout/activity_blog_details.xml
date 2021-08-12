@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:shimmer="http://schemas.android.com/tools">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorScreenBackground"
@@ -64,6 +63,7 @@
 
 
                             <TextView
+                                android:id="@+id/title"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/proxima_nova_bold"
@@ -82,35 +82,53 @@ Overall Health"
                                 android:backgroundTint="@color/orange" />
 
                             <TextView
+                                android:id="@+id/longDescriptionTxt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/proxima_nova_regular"
-                                android:text="Your oral health is more important than you might realize! It impacts various aspects of your lives- from being healthy to feeling self-confident, from enjoying food and to personal relationships and more. So, it is necessary to focus on oral health as this can lead to problems that are bigger than an unpleasant smile. For many, the results of oral neglect may have been dental problems such as tooth decay and gum disease, but the effects of poor oral health can go further, leading to serious health consequences.
+                                android:textColor="@color/colorToolbarHeader"
+                                android:textSize="@dimen/_11sdp"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/demo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/description"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/proxima_nova_regular"
+                                    android:text="Your oral health is more important than you might realize! It impacts various aspects of your lives- from being healthy to feeling self-confident, from enjoying food and to personal relationships and more. So, it is necessary to focus on oral health as this can lead to problems that are bigger than an unpleasant smile. For many, the results of oral neglect may have been dental problems such as tooth decay and gum disease, but the effects of poor oral health can go further, leading to serious health consequences.
 
 \n\nHere is a simple oral hygiene routine you can sink your teeth into for improving your dental hygiene and health."
-                                android:textColor="@color/colorToolbarHeader"
-                                android:textSize="@dimen/_11sdp" />
+                                    android:textColor="@color/colorToolbarHeader"
+                                    android:textSize="@dimen/_11sdp" />
 
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginBottom="@dimen/_10sdp"
-                                android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Brushing:"
-                                android:textColor="@color/colorToolbarHeader"
-                                android:textSize="@dimen/_12sdp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginBottom="@dimen/_10sdp"
+                                    android:fontFamily="@font/proxima_nova_bold"
+                                    android:text="Brushing:"
+                                    android:textColor="@color/colorToolbarHeader"
+                                    android:textSize="@dimen/_12sdp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/proxima_nova_regular"
-                                android:text="Let us ‘brush up’ on the procedure:\n\nBrush your teeth twice a day for at least 2 minutes. While brushing, make sure to use a gentle circular motion to avoid damaging the enamel.
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/proxima_nova_regular"
+                                    android:text="Let us ‘brush up’ on the procedure:\n\nBrush your teeth twice a day for at least 2 minutes. While brushing, make sure to use a gentle circular motion to avoid damaging the enamel.
 
 \n\nToothbrush :\n\nTry using soft-bristled toothbrushes, as they are gentle on teeth and gums while being able to remove bacteria and plaque. Also, replace your toothbrush about every 3-4 months or sooner, as the bristles and are no longer as effective."
-                                android:textColor="@color/colorToolbarHeader"
-                                android:textSize="@dimen/_11sdp" />
+                                    android:textColor="@color/colorToolbarHeader"
+                                    android:textSize="@dimen/_11sdp" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
 
@@ -127,6 +145,7 @@ Overall Health"
                         app:cardUseCompatPadding="true">
 
                         <ImageView
+                            android:id="@+id/blogImage"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_150sdp"
                             android:scaleType="centerCrop"
@@ -137,48 +156,65 @@ Overall Health"
                 </RelativeLayout>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sdp"
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:includeFontPadding="false"
-                    android:text="Related Post"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_16sdp" />
 
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="3dp"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:layout_marginBottom="@dimen/_7sdp"
-                    android:background="@drawable/shape_underline"
-                    android:backgroundTint="@color/orange" />
-
-                <androidx.viewpager.widget.ViewPager
-                    android:clipToPadding="false"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp" />
-                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                    android:id="@+id/dots_indicator"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:dotsColor="#DDDDDD"
-                    app:dotsCornerRadius="8dp"
-                    app:dotsSize="8dp"
-                    app:dotsSpacing="3dp"
-                    app:dotsWidthFactor="2.5"
-                    app:selectedDotColor="@color/orange"
+                    android:layout_height="@dimen/_300sdp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    shimmer:shimmer_duration="800">
+                    <include layout="@layout/shimmer_home_fragment" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+                <LinearLayout
+                    android:id="@+id/recentContainer"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:includeFontPadding="false"
+                        android:text="Related Post"
+                        android:textColor="@color/colorToolbarHeader"
+                        android:textSize="@dimen/_16sdp" />
 
-                    app:progressMode="true"
-                    />
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:background="@drawable/shape_underline"
+                        android:backgroundTint="@color/orange" />
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_300sdp"
+                        android:clipToPadding="false"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:paddingEnd="@dimen/_12sdp" />
+
+                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                        android:id="@+id/dots_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        app:dotsColor="#DDDDDD"
+                        app:dotsCornerRadius="8dp"
+                        app:dotsSize="8dp"
+                        app:dotsSpacing="3dp"
+                        app:dotsWidthFactor="2.5"
+                        app:selectedDotColor="@color/orange" />
+                </LinearLayout>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -11,6 +11,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <item name="android:windowTranslucentStatus">true</item>
 
+        <item name="android:typeface">serif</item>
 
     </style>
     <!-- Base application theme. -->
@@ -18,12 +19,16 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryDark">@color/orange</item>
+        <item name="android:typeface">serif</item>
+
         <item name="colorAccent">@color/colorToolbarHeader</item>
     </style>
 
     <style name="Theme.FrimlineTRy" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue</item>
+        <item name="android:typeface">serif</item>
+
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/colorToolbarHeader</item>
@@ -35,6 +40,8 @@
     <style name="Theme.Frimline.GREENSHADE" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/orange</item>
+        <item name="android:typeface">serif</item>
+
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/colorToolbarHeader</item>
@@ -52,6 +59,8 @@
         <item name="colorOnPrimary">@color/orange</item>
         <item name="colorAccent">@color/colorToolbarHeader</item>
         <item name="colorSecondary">@color/orange</item>
+        <item name="android:typeface">serif</item>
+
         <item name="colorSecondaryVariant">@color/orange</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

@@ -1,14 +1,14 @@
 package com.app.frimline.screens;
 
 import android.animation.LayoutTransition;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Selection;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -17,14 +17,35 @@ import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.APIs;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.PREF;
+import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.Common.Validators;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivitySignupBinding;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
+import com.app.frimline.models.Billing;
+import com.app.frimline.models.ProfileModel;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends BaseActivity {
     private ActivitySignupBinding binding;
@@ -40,6 +61,7 @@ public class SignupActivity extends BaseActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         loginWidth();
     }
+
     public void loginWidth() {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -94,8 +116,13 @@ public class SignupActivity extends BaseActivity {
                 if (PROTOTYPE_MODE) {
                     onBackPressed();
                 } else {
-                    if (!validations())
-                        onBackPressed();
+                    if (!validations()) {
+                        if (CONSTANT.API_MODE) {
+                            signUp();
+                        } else {
+                            onBackPressed();
+                        }
+                    }
                 }
             }
         });
@@ -105,10 +132,10 @@ public class SignupActivity extends BaseActivity {
         HELPER.ERROR_HELPER(binding.newPasswordEdt, binding.newPasswordLayout);
 
 
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.nameTxt, binding.nameTxtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.emailEdt, binding.emailEdtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.phoneNoEdt, binding.phoneNoEdtLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.newPasswordEdt, binding.newPasswordLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.nameTxt, binding.nameTxtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.emailEdt, binding.emailEdtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.phoneNoEdt, binding.phoneNoEdtLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.newPasswordEdt, binding.newPasswordLayout);
 
 
         binding.nameTxtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
@@ -117,27 +144,6 @@ public class SignupActivity extends BaseActivity {
         binding.newPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
 
-        binding.phoneNoEdt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.phoneNoEdtLayout.setError("");
-                binding.phoneNoEdtLayout.setErrorEnabled(false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().startsWith("+91 ")) {
-                    binding.phoneNoEdt.setText("+91 ");
-                    Selection.setSelection(binding.phoneNoEdt.getText(), binding.phoneNoEdt.getText().length());
-
-                }
-            }
-        });
     }
 
     public boolean validations() {
@@ -181,7 +187,7 @@ public class SignupActivity extends BaseActivity {
             binding.phoneNoEdtLayout.setError("Enter phone no.");
             binding.phoneNoEdtLayout.setErrorEnabled(true);
         }
-        if (binding.phoneNoEdt.getText().toString().length() < 14) {
+        if (binding.phoneNoEdt.getText().toString().length() < 10) {
             isError = true;
             if (!isFocus) {
                 isFocus = true;
@@ -212,9 +218,212 @@ public class SignupActivity extends BaseActivity {
         }
 
 
-
         return isError;
 
     }
 
+
+    private boolean isLoading = false;
+
+    private void signUp() {
+
+        if (!isLoading)
+            isLoading = true;
+        HELPER.showLoadingTran(act);
+//        binding.screenLoader.setVisibility(View.VISIBLE);
+//        binding.scrollView.setVisibility(View.GONE);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_UP, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.e("Sign up - Response", response);
+                isLoading = false;
+                binding.screenLoader.setVisibility(View.GONE);
+                binding.scrollView.setVisibility(View.VISIBLE);
+                JSONObject object = ResponseHandler.createJsonObject(response);
+                if (ResponseHandler.getString(object, "code").equalsIgnoreCase("200")) {
+                    ProfileModel model = ResponseHandler.parseSignUpResponse(response);
+                    if (model != null) {
+                        prefManager.setUserToken(model.getToken());
+                        prefManager.setUser(model);
+                        prefManager.setLogin(true);
+                        loadProfile();
+                    }
+                } else {
+                    HELPER.dismissLoadingTran();
+                    errorDialog("Error", ResponseHandler.getString(object, "message"));
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HELPER.dismissLoadingTran();
+                        NetworkResponse response = error.networkResponse;
+                        error.printStackTrace();
+                        if (response.statusCode == 400) {
+                            try {
+                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                                JSONObject jsonObject = new JSONObject(jsonString);
+                                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                            } catch (UnsupportedEncodingException | JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.e("Error", gson.toJson(response.headers));
+                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                            //errorDialog("Error", ResponseHandler.getString(, "message"));
+                        }
+                        isLoading = false;
+                        binding.screenLoader.setVisibility(View.GONE);
+                        binding.scrollView.setVisibility(View.VISIBLE);
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", binding.nameTxt.getText().toString());
+                params.put("email", binding.emailEdt.getText().toString());
+                params.put("password", binding.newPasswordEdt.getText().toString());
+                params.put("phone", binding.phoneNoEdt.getText().toString());
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
+    DialogDiscardImageBinding discardImageBinding;
+
+    public void errorDialog(String title, String msg) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.titleTxt.setText(title);
+        discardImageBinding.subTitle.setText(msg);
+        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                if (!title.equalsIgnoreCase("Error")) {
+                    Intent data = new Intent();
+                    data.putExtra("success", "1");
+                    setResult(RESULT_OK, data);
+                    finish();
+
+                }
+
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
+    private void loadProfile() {
+
+        if (!isLoading)
+            isLoading = true;
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                HELPER.dismissLoadingTran();
+                binding.screenLoader.setVisibility(View.GONE);
+
+                JSONObject object = ResponseHandler.createJsonObject(response);
+                if (object != null) {
+                    ProfileModel model = new ProfileModel();
+                    model.setDisplayName(prefManager.getUser().getDisplayName());
+                    model.setUserId(ResponseHandler.getString(object, "id"));
+                    model.setEmail(ResponseHandler.getString(object, "email"));
+                    model.setFirstName(ResponseHandler.getString(object, "first_name"));
+                    model.setLastName(ResponseHandler.getString(object, "last_name"));
+                    model.setRole(ResponseHandler.getString(object, "role"));
+                    model.setUserName(ResponseHandler.getString(object, "username"));
+                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+
+                    Billing billingAddress = new Billing();
+                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
+                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
+                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
+                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
+                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
+                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
+                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
+                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
+                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
+                    billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
+                    billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
+                    model.setBillingAddress(billingAddress);
+
+                    billingAddress = new Billing();
+                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
+                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
+                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
+                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
+                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
+                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
+                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
+                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
+                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
+                    model.setShippingAddress(billingAddress);
+
+                    prefManager.setUser(model);
+                    errorDialog("Sign Up", "Your account is registered now.");
+
+                }
+
+
+            }
+
+
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        HELPER.dismissLoadingTran();
+                        isLoading = false;
+                        binding.screenLoader.setVisibility(View.GONE);
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
 }

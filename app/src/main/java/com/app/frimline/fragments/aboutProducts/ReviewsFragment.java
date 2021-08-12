@@ -50,8 +50,10 @@ public class ReviewsFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reviews, parent, false);
         binding.screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
         binding.screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+
         if (act.getIntent().hasExtra("themeColor"))
             applyThemeColor = true;
+
         if (applyThemeColor) {
             defaultColor = pref.getThemeColor();
         } else {
@@ -59,7 +61,10 @@ public class ReviewsFragment extends BaseFragment {
         }
 
         if (CONSTANT.API_MODE) {
-            loadReview();
+            model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), ProductModel.class);
+            if (model != null) {
+                loadReview();
+            }
         } else {
             ArrayList<ReviewRootModel.Review> modelArrayList = new ArrayList<>();
             ReviewRootModel.Review outCategoryModel = new ReviewRootModel().new Review();
@@ -89,12 +94,22 @@ public class ReviewsFragment extends BaseFragment {
                 showAddReviewDialog();
             }
         });
+        changeTheme();
         return binding.getRoot();
     }
 
+    public void changeTheme() {
+        binding.screenLoader.setProgressTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+        binding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(defaultColor), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        binding.tryAgainBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+        binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+
+    }
 
     private boolean isLoading = false;
     private ReviewRootModel reviewRootModel;
+    ProductModel model;
 
     private void loadReview() {
 
@@ -106,7 +121,7 @@ public class ReviewsFragment extends BaseFragment {
         binding.reviewContainer.setVisibility(View.GONE);
 
         binding.screenLoader.setVisibility(View.VISIBLE);
-        ProductModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), ProductModel.class);
+
         Log.e("Review-URL", APIs.PRODUCT_REVIEW + "9659");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_REVIEW + model.getId(), new Response.Listener<String>() {
             @Override
@@ -129,7 +144,7 @@ public class ReviewsFragment extends BaseFragment {
                     binding.dataDisplayContainer.setVisibility(View.GONE);
                     binding.button.setText("Add Review");
                     binding.loginHintLabel.setVisibility(View.GONE);
-                    HELPER.LOAD_HTML(binding.secondaryLabel, "Be the first to <b><font color='" + defaultColor + "'>Review</font></b><br>Dente91 n-HAP Toothpaste Pack of 2");
+                    HELPER.LOAD_HTML(binding.secondaryLabel, "Be the first to <b><fonts color='" + defaultColor + "'>Review</fonts></b><br>Dente91 n-HAP Toothpaste Pack of 2");
 
                 }
 
@@ -183,7 +198,9 @@ public class ReviewsFragment extends BaseFragment {
         reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_add_review, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(reqBinding.getRoot());
-
+        reqBinding.dialogCloseImg.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+        reqBinding.icon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+        reqBinding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         alertDialog = builder.create();
         alertDialog.setContentView(reqBinding.getRoot());
         reqBinding.dialogCloseImg.setOnClickListener(new View.OnClickListener() {

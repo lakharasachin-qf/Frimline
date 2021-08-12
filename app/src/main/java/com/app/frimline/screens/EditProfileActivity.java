@@ -13,12 +13,14 @@ import android.view.WindowManager;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.Validators;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityEditProfileBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
+import com.app.frimline.models.ProfileModel;
 
 public class EditProfileActivity extends BaseActivity {
     private ActivityEditProfileBinding binding;
@@ -40,6 +42,19 @@ public class EditProfileActivity extends BaseActivity {
         ((ViewGroup) findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         changeTheme();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        if (CONSTANT.API_MODE) {
+            loadData();
+        }
+    }
+
+    public void loadData() {
+        ProfileModel model = prefManager.getUser();
+        binding.nameEdt.setText(model.getFirstName());
+        binding.lnameEdt.setText(model.getLastName());
+        binding.displayNameEdt.setText(model.getDisplayName());
+        // binding.phoneNoEdt.setText(model.getFirstName());
+        binding.emailEdt.setText(model.getEmail());
+
 
     }
 

@@ -14,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.models.OutCategoryModel;
+import com.app.frimline.models.QAModel;
 
 import java.util.ArrayList;
 
 public class ProductQNAAdapter extends RecyclerView.Adapter<ProductQNAAdapter.ViewHolder> {
-    private final ArrayList<OutCategoryModel> frameItems;
+    private final ArrayList<QAModel> frameItems;
     Activity activity;
 
     private boolean isThemeColor = false;
@@ -27,7 +28,7 @@ public class ProductQNAAdapter extends RecyclerView.Adapter<ProductQNAAdapter.Vi
         isThemeColor = themeColor;
     }
 
-    public ProductQNAAdapter(ArrayList<OutCategoryModel> frameItems, Activity activity) {
+    public ProductQNAAdapter(ArrayList<QAModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
         this.activity = activity;
     }
@@ -42,7 +43,7 @@ public class ProductQNAAdapter extends RecyclerView.Adapter<ProductQNAAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final OutCategoryModel model = frameItems.get(position);
+        final QAModel model = frameItems.get(position);
     }
 
     @Override

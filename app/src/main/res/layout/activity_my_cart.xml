@@ -70,7 +70,7 @@
                             android:paddingBottom="@dimen/_10sdp">
 
                             <TextView
-
+                                android:id="@+id/itemCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
@@ -81,6 +81,7 @@
                                 android:textSize="@dimen/_12sdp" />
 
                             <TextView
+                                android:id="@+id/totalTopMRP"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -92,18 +93,16 @@
 
                         </RelativeLayout>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/cartRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:paddingBottom="@dimen/_30sdp">
-
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/cartRecycler"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -183,7 +182,9 @@
                                     android:layout_toStartOf="@+id/applyCode"
                                     android:background="@null"
                                     android:fontFamily="@font/proxinova_semi_bold"
-                                    android:hint="Coupon Code"                                    android:includeFontPadding="false"
+                                    android:hint="Coupon Code"
+                                    android:imeOptions="actionDone"
+                                    android:includeFontPadding="false"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_11sdp" />
 
@@ -211,10 +212,6 @@
                             </RelativeLayout>
 
                         </LinearLayout>
-
-                        <!--                    <androidx.recyclerview.widget.RecyclerView-->
-                        <!--                        android:layout_width="wrap_content"-->
-                        <!--                        android:layout_height="wrap_content"/>-->
 
 
                     </LinearLayout>
@@ -249,6 +246,7 @@
                                 android:textColor="@color/white"
 
                                 android:textSize="@dimen/_13sdp" />
+
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
@@ -401,6 +399,7 @@
             layout="@layout/include_activity_toolbar_layout" />
 
         <RelativeLayout
+
             android:id="@+id/boottomFooter"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"

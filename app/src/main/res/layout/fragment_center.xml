@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/proxima_nova_regular"
+                    android:fontFamily="@font/proxinova_semi_bold"
                     android:includeFontPadding="false"
                     android:text="Hygiene"
                     android:textColor="@color/white"

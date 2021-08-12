@@ -55,12 +55,12 @@
 
                             <ImageView
                                 android:id="@+id/dialogCloseImg"
-                                android:tint="@color/orange"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_gravity="end"
-                                android:src="@drawable/ic_close_black" />
+                                android:src="@drawable/ic_close_black"
+                                android:tint="@color/orange" />
 
                         </RelativeLayout>
 
@@ -84,13 +84,11 @@
 
                             <me.zhanghai.android.materialratingbar.MaterialRatingBar
                                 android:id="@+id/rate"
-                                style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"
+                                style="@style/Widget.MaterialRatingBar.RatingBar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:layout_marginBottom="@dimen/_2sdp"
-                                android:progressTint="#FFDF3E"
-                                 />
+                                android:progressTint="#FFDF3E" />
 
                             <TextView
                                 style="@style/EditTextTitle"
@@ -116,23 +114,24 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
                                 android:layout_marginTop="@dimen/_15sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:visibility="gone">
 
                                 <ImageView
+                                    android:id="@+id/icon"
                                     android:layout_width="@dimen/_15sdp"
                                     android:layout_height="@dimen/_15sdp"
-                                    android:padding="@dimen/_1sdp"
                                     android:layout_gravity="center_vertical"
+                                    android:padding="@dimen/_1sdp"
                                     android:src="@drawable/ic_attach_file" />
 
                                 <TextView
-                                    android:layout_marginStart="@dimen/_7sdp"
                                     style="@style/EditTextTitle"
                                     android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/_7sdp"
                                     android:text="Attach File" />
 
                             </LinearLayout>

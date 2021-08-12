@@ -79,12 +79,12 @@ public class TodaysTomorrowAdapter extends RecyclerView.Adapter {
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.LAYOUT_LEFT_BLOG:
+                    HELPER.LOAD_HTML(((LeftBlog) holder).binding.message,model.getMessage());
                     ((LeftBlog) holder).binding.message.setText(model.getMessage());
 
                     break;
                 case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
-                    ((RightBlog) holder).binding.message.setText(model.getMessage());
- 
+                    HELPER.LOAD_HTML(((RightBlog) holder).binding.message,model.getMessage());
                     break;
 
             }

@@ -19,8 +19,44 @@ public class ProductModel {
     private ArrayList<String> productImagesList;
     private String categoryId;
     private String categoryName;
+    private String qty="1";
+    private int cartId;
+    private String calculatedAmount;
+    private String rating;
 
-     private Attribute attribute;
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getCalculatedAmount() {
+        return calculatedAmount;
+    }
+
+    public void setCalculatedAmount(String calculatedAmount) {
+        this.calculatedAmount = calculatedAmount;
+    }
+
+    public int getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
+    }
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+
+    private Attribute attribute;
 
     public Attribute getAttribute() {
         return attribute;

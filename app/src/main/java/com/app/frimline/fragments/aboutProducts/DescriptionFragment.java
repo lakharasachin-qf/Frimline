@@ -68,6 +68,8 @@ public class DescriptionFragment extends BaseFragment {
 
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getDescription());
+        if (productModel!=null) {
+            HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getDescription());
+        }
     }
 }

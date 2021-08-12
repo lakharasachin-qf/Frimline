@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.fragments.BlogsFragment;
 import com.app.frimline.fragments.CategoryProfileFragment;
@@ -304,16 +305,19 @@ public class DrawerMenu {
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
-                HELPER.SIMPLE_ROUTE(activity, LoginActivity.class);
-//                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
-//                toolbar_Navigation.setVisibility(View.VISIBLE);
-//                HomePageLayout.setVisibility(View.GONE);
-//                OtherScreenLayout.setVisibility(View.VISIBLE);
-//                titleTxt.setText("My Account");
-//                currentMenuItem = "Account";
-//                Fragment fragmentSelected = myAccountFragment;
-//                replaceFragment(fragmentSelected);
-//                drawer.closeDrawer(GravityCompat.START);
+                if (new PREF(activity).isLogin()){
+                    Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+                    toolbar_Navigation.setVisibility(View.VISIBLE);
+                    HomePageLayout.setVisibility(View.GONE);
+                    OtherScreenLayout.setVisibility(View.VISIBLE);
+                    titleTxt.setText("My Account");
+                    currentMenuItem = "Account";
+                    Fragment fragmentSelected = myAccountFragment;
+                    replaceFragment(fragmentSelected);
+                    drawer.closeDrawer(GravityCompat.START);
+                }else {
+                    HELPER.SIMPLE_ROUTE(activity, LoginActivity.class);
+                }
             }
         });
 

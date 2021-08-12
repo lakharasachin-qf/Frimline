@@ -68,7 +68,6 @@ public class ShopFragment extends BaseFragment {
             loadShopData();
 
         } else {
-
             binding.containerRoot.setVisibility(View.VISIBLE);
             binding.shimmerViewContainer.setVisibility(View.GONE);
 

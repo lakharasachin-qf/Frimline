@@ -20,10 +20,12 @@ import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ItemShopHotProductLayoutBinding;
 import com.app.frimline.databinding.ItemShopTopProductLayoutBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.OutCategoryModel;
+import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -37,13 +39,14 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
 
     private int parentPosition;
 
-
+    private CartRoomDatabase db;
     public void setParentPosition(int parentPosition) {
         this.parentPosition = parentPosition;
     }
     public ShopHotProductAdapter(ArrayList<ProductModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
         this.activity = activity;
+        db = CartRoomDatabase.getAppDatabase(activity);
     }
 
     @NonNull
@@ -67,6 +70,14 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
 
     private void loadDataForOneLayout(ItemShopHotProductLayoutBinding binding, ProductModel model, int position) {
         colorCode = new PREF(activity).getThemeColor();
+
+        //check cart db
+        ProductEntity entity = db.productEntityDao().findProductByProductId(model.getId());
+        if (entity != null) {
+            model.setAddedToCart(true);
+        }else {
+            model.setAddedToCart(false);
+        }
 
 
         if (model.isAddedToCart()) {

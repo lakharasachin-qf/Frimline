@@ -14,12 +14,14 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.app.frimline.BaseNavDrawerActivity;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CategoryNavViewPager;
@@ -136,20 +138,26 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         ImageView logo = findViewById(R.id.logo);
 
 
-
     }
 
     public void hangeTheme(Activity act, String primaryColor) {
         ImageView logo = act.findViewById(R.id.logo);
         VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_logo_green, logo);
         VectorDrawableCompat.VFullPath path1 = vector.findPathByName("background");
-        path1.setFillColor(ContextCompat.getColor(act,R.color.orange));
+        path1.setFillColor(ContextCompat.getColor(act, R.color.orange));
         logo.invalidate();
 
         RelativeLayout cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
         RelativeLayout cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
         cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
         cartBackgroundLayar2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        TextView userNameTxt = findViewById(R.id.userNameTxt);
+        if (pref.isLogin()) {
+            userNameTxt.setText(pref.getUser().getDisplayName());
+        } else {
+            userNameTxt.setText("Sign In");
+        }
+        HELPER.changeCartCounter(act);
     }
 
     public void setStatusBarTransparent() {
@@ -237,8 +245,31 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                 if (frimline.getObserver().getValue() == ObserverActionID.SLIDE_VIEW_LEFT) {
                     customViewPager.setCurrentItem(0, true);
                 }
+                if (frimline.getObserver().getValue() == ObserverActionID.CART_COUNTER_UPDATE) {
+                    HELPER.changeCartCounter(act);
+                }
+                if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
+                    TextView userNameTxt = findViewById(R.id.userNameTxt);
+                    if (pref.isLogin()) {
+                        userNameTxt.setText(pref.getUser().getDisplayName());
+                    } else {
+                        userNameTxt.setText("Sign In");
+                    }
+                }
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        HELPER.changeCartCounter(act);
+        TextView userNameTxt = findViewById(R.id.userNameTxt);
+        if (pref.isLogin()) {
+            userNameTxt.setText(pref.getUser().getDisplayName());
+        } else {
+            userNameTxt.setText("Sign In");
+        }
     }
 }

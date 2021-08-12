@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.AppCompatButton;
@@ -31,8 +32,10 @@ import com.app.frimline.BaseNavDrawerActivity;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
+import com.app.frimline.databinding.CustomNavigationBinding;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
 import com.app.frimline.views.navigationDrawer.DrawerMenuForRoot;
 import com.google.android.material.navigation.NavigationView;
@@ -44,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 public class CategoryRootActivity extends BaseNavDrawerActivity {
 
@@ -62,10 +66,10 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         if (API_MODE) {
             nav_host_fragment.setVisibility(View.GONE);
             screenLoader.setVisibility(View.VISIBLE);
-            screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
             toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
             toolbar_Navigation.setVisibility(View.GONE);
             screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+            screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
 
             getThemeColor();
 
@@ -88,12 +92,14 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         drawerMenu.onBackPressedForCategoryRoot();
     }
 
-
+    private CustomNavigationBinding binding;
     private void setUpToolbar() {
         FrameLayout frameLayout = findViewById(R.id.content_frame);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("InflateParams") View activityView = layoutInflater.inflate(R.layout.activity_category_root, null, false);
+        @SuppressLint("InflateParams")
+        View activityView = layoutInflater.inflate(R.layout.activity_category_root, null, false);
         frameLayout.addView(activityView);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(CategoryRootActivity.this);
 
@@ -157,8 +163,9 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         HELPER.changeTheme(act, pref.getCategoryColor());
         RelativeLayout cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
         RelativeLayout cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
-        cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
-        cartBackgroundLayar2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+
+        HELPER.backgroundTint(act,cartBackgroundLayar,true);
+        HELPER.backgroundTint(act,cartBackgroundLayar2,true);
 
         drawerMenu = new DrawerMenuForRoot(act, DrawerMenu.CATEGORY_ROOT_FRAGMENT);
         drawerMenu.setDefaultFragment(DrawerMenu.CATEGORY_ROOT_FRAGMENT);
@@ -166,6 +173,15 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         drawerMenu.populateExpandableList();
         if (toolbar_Navigation.getVisibility() == View.GONE)
             toolbar_Navigation.setVisibility(View.VISIBLE);
+
+        HELPER.changeCartCounter(act);
+        TextView userNameTxt = findViewById(R.id.userNameTxt);
+
+        if (pref.isLogin()) {
+            userNameTxt.setText(pref.getUser().getDisplayName());
+        }else{
+            userNameTxt.setText("Sign In");
+        }
 
     }
 
@@ -239,5 +255,19 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     public void nextFlow() {
         setUpToolbar();
 
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if (frimline.getObserver().getValue() == ObserverActionID.CART_COUNTER_UPDATE) {
+            HELPER.changeCartCounter(act);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        HELPER.changeCartCounter(act);
     }
 }

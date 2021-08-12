@@ -1,6 +1,7 @@
 package com.app.frimline.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -11,12 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemLeftBlogLayoutBinding;
 import com.app.frimline.databinding.ItemRightBlogLayoutBinding;
-import com.app.frimline.models.HomeModel;
+import com.app.frimline.models.BlogModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.screens.BlogDetailsActivity;
 import com.google.gson.Gson;
@@ -25,11 +27,11 @@ import java.util.ArrayList;
 
 
 public class BlogsAdapter extends RecyclerView.Adapter {
-    private ArrayList<HomeModel> dashBoardItemList;
+    private ArrayList<BlogModel> dashBoardItemList;
     private final Gson gson;
     Activity activity;
 
-    public BlogsAdapter(ArrayList<HomeModel> dashBoardItemList, Activity activity) {
+    public BlogsAdapter(ArrayList<BlogModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson = new Gson();
@@ -72,28 +74,46 @@ public class BlogsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final HomeModel model = dashBoardItemList.get(position);
+        final BlogModel model = dashBoardItemList.get(position);
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.LAYOUT_LEFT_BLOG:
+                    if (CONSTANT.API_MODE) {
+                        HELPER.LOAD_HTML(((LeftBlog) holder).binding.description, model.getShortContent());
+                        HELPER.LOAD_HTML(((LeftBlog) holder).binding.title, model.getTitle());
+                    }
                     ((LeftBlog) holder).binding.layout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            HELPER.SIMPLE_ROUTE(activity, BlogDetailsActivity.class);
+
+                            Intent i = new Intent(activity, BlogDetailsActivity.class);
+                            i.putExtra("model", gson.toJson(model));
+                            activity.startActivity(i);
+                            activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+
                         }
                     });
                     ((LeftBlog) holder).binding.exploreMore.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             ((LeftBlog) holder).binding.layout.performClick();
                         }
                     });
                     break;
                 case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
+                    if (CONSTANT.API_MODE) {
+                        HELPER.LOAD_HTML(((RightBlog) holder).binding.description, model.getShortContent());
+                        HELPER.LOAD_HTML(((RightBlog) holder).binding.title, model.getTitle());
+                    }
+
                     ((RightBlog) holder).binding.layout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            HELPER.SIMPLE_ROUTE(activity, BlogDetailsActivity.class);
+                            Intent i = new Intent(activity, BlogDetailsActivity.class);
+                            i.putExtra("model", gson.toJson(model));
+                            activity.startActivity(i);
+                            activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                         }
                     });
                     ((RightBlog) holder).binding.exploreMore.setOnClickListener(new View.OnClickListener() {

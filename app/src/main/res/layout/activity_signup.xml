@@ -5,8 +5,8 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:animateLayoutChanges="true"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/colorScreenBackground"
         android:orientation="vertical">
 
@@ -29,10 +29,11 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/_14sdp">
+            android:fitsSystemWindows="true"
+            android:paddingBottom="@dimen/_14sdp"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -86,11 +87,11 @@
 
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:animateLayoutChanges="true"
                         android:id="@+id/containerLinear"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_30sdp"
+                        android:animateLayoutChanges="true"
                         android:orientation="vertical"
                         android:paddingStart="@dimen/_25sdp"
                         android:paddingEnd="@dimen/_25sdp">
@@ -114,14 +115,14 @@
                                 style="@style/EditTextTitle"
                                 android:layout_marginTop="@dimen/_10sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Username" />
+                                android:text="Username*" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/nameTxtLayout"
                                 style="@style/TextInputLayoutStyleForMediumScreen"
                                 android:layout_width="match_parent"
-                                app:errorEnabled="false"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/nameTxt"
@@ -135,7 +136,7 @@
                                 style="@style/EditTextTitle"
                                 android:layout_marginTop="@dimen/_12sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Email" />
+                                android:text="Email*" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/emailEdtLayout"
@@ -157,7 +158,7 @@
                                 style="@style/EditTextTitle"
                                 android:layout_marginTop="@dimen/_12sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Phone Number" />
+                                android:text="Phone Number*" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/phoneNoEdtLayout"
@@ -171,23 +172,23 @@
                                     style="@style/textInputEditTextForMediumScreen"
                                     android:drawableStart="@drawable/edt_signup_icon"
                                     android:hint="Phone No."
-                                    android:maxLength="14"
-                                    android:inputType="number" />
+                                    android:inputType="number"
+                                    android:maxLength="10" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
                                 style="@style/EditTextTitle"
                                 android:layout_marginTop="@dimen/_12sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Password" />
+                                android:text="Password*" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/newPasswordLayout"
                                 style="@style/TextInputLayoutStyleForMediumScreen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:errorIconDrawable="@null"
                                 app:errorEnabled="false"
+                                app:errorIconDrawable="@null"
                                 app:passwordToggleEnabled="true">
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -248,9 +249,27 @@
             android:id="@+id/backPress"
             android:layout_width="@dimen/_22sdp"
             android:layout_height="@dimen/_22sdp"
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:src="@drawable/ic_left_arrow_black" />
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/screenLoader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLargeInverse"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:elevation="@dimen/_20sdp"
+                android:padding="@dimen/_135sdp"
+                android:progressTint="@color/orange" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

@@ -78,15 +78,16 @@
                         android:backgroundTint="@color/orange" />
 
                     <TextView
+                        android:id="@+id/description"
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
 
-
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_30sdp"
+                        android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_regular"
+                        android:maxLines="4"
                         android:text="Your oral health is more important
 than you might realize! It impacts
 various aspects of your lives..."
@@ -183,15 +184,16 @@ various aspects of your lives..."
                         android:backgroundTint="@color/orange" />
 
                     <TextView
+                        android:id="@+id/description2"
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
 
-
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_30sdp"
+                        android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_regular"
+                        android:maxLines="4"
                         android:text="Your oral health is more important
 than you might realize! It impacts
 various aspects of your lives..."
@@ -271,7 +273,7 @@ various aspects of your lives..."
                     android:layout_marginTop="@dimen/_3sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:ellipsize="end"
-                    android:fontFamily="@font/proxinova_semi_bold"
+                    android:fontFamily="@fonts/proxinova_semi_bold"
                     android:includeFontPadding="false"
                     android:maxLines="2"
                     android:text="Oral Health: An Investment\nIn Your Overall Health"
@@ -297,7 +299,7 @@ various aspects of your lives..."
 
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_30sdp"
-                    android:fontFamily="@font/proxima_nova_regular"
+                    android:fontFamily="@fonts/proxima_nova_regular"
                     android:text="Your oral health is more important
     than you might realize! It impacts
     various aspects of your lives..."
@@ -315,7 +317,7 @@ various aspects of your lives..."
             android:layout_marginTop="-33dp"
             android:layout_marginBottom="0dp"
             android:elevation="@dimen/_3sdp"
-            android:fontFamily="@font/proxima_nova_bold"
+            android:fontFamily="@fonts/proxima_nova_bold"
             android:shadowColor="@color/orange"
             android:text="Explore More"
             android:textAppearance="@style/ChipFontStyle"

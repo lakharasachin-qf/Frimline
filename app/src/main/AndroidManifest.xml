@@ -72,17 +72,13 @@
         <activity
             android:name=".screens.ProductDetailActivity"
             android:screenOrientation="${screenOrientation}"
+
+            android:windowSoftInputMode="adjustResize"
             />
         <activity
             android:name=".screens.OrderHistoryViewActivity"
             android:screenOrientation="${screenOrientation}"
             />
-        <activity
-            android:name=".screens.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:screenOrientation="${screenOrientation}"
-
-            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".screens.AddressesActivity"
             android:screenOrientation="${screenOrientation}"
@@ -93,12 +89,7 @@
             android:screenOrientation="${screenOrientation}"
 
             android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity
-            android:name=".screens.CategoryLandingActivityDemo"
-            android:screenOrientation="${screenOrientation}"
-            /> <!-- <activity -->
-        <!-- android:name=".screens.CategoryLandingActivityDemo" -->
-        <!-- android:screenOrientation="portrait" /> -->
+
         <activity
             android:name=".screens.CheckoutAddressActivity"
             android:screenOrientation="${screenOrientation}"
@@ -108,7 +99,7 @@
             android:name=".screens.BillingAddressActivity"
             android:screenOrientation="${screenOrientation}"
 
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".screens.CategoryHomeActivity"
             android:screenOrientation="${screenOrientation}"

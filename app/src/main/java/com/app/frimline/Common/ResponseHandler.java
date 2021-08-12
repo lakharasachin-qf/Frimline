@@ -2,7 +2,8 @@ package com.app.frimline.Common;
 
 import android.content.Context;
 
-import com.app.frimline.databaseHelper.CartRoomDatabase;
+import com.app.frimline.models.Billing;
+import com.app.frimline.models.BlogModel;
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.CategoryRootFragments.ReviewRootModel;
@@ -14,6 +15,10 @@ import com.app.frimline.models.HomeFragements.Tags;
 import com.app.frimline.models.HomeFragements.TradingStoriesModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
+import com.app.frimline.models.OrderModel;
+import com.app.frimline.models.OrderedProductModel;
+import com.app.frimline.models.ProfileModel;
+import com.app.frimline.models.QAModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -124,6 +129,75 @@ public class ResponseHandler {
         }
     }
 
+    public static ArrayList<ProductModel> commonProductParsing(JSONArray productArr) {
+        ArrayList<ProductModel> poductList = new ArrayList<>();
+        for (int i = 0; i < productArr.length(); i++) {
+            try {
+                JSONObject productObj = productArr.getJSONObject(i);
+                ProductModel model = new ProductModel();
+                model.setId(getString(productObj, "id"));
+                model.setName(getString(productObj, "name"));
+                model.setSlug(getString(productObj, "slug"));
+                model.setRating(getString(productObj, "rating_count"));
+                model.setDescription(getString(productObj, "description"));
+                model.setShortDescription(getString(productObj, "short_description"));
+                model.setPrice(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
+                model.setCalculatedAmount(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
+                model.setRegularPrice(getString(productObj, "regular_price"));
+                model.setPriceHtml(getString(productObj, "price_html"));
+                model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
+                model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
+                model.setStockStatus(getString(productObj, "stock_status"));
+                ArrayList<Tags> tagsArrayList = new ArrayList<>();
+                for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {
+                    Tags tags = new Tags();
+                    tags.setTag(productObj.getJSONArray("tags").getJSONObject(k).getString("name"));
+                    tags.setId(productObj.getJSONArray("tags").getJSONObject(k).getString("id"));
+                    tagsArrayList.add(tags);
+                }
+                ArrayList<String> productImages = new ArrayList<>();
+                for (int k = 0; k < productObj.getJSONArray("images").length(); k++) {
+                    productImages.add(productObj.getJSONArray("images").getJSONObject(k).getString("src"));
+                }
+                model.setProductImagesList(productImages);
+                model.setTagsModel(tagsArrayList);
+
+
+                Attribute attribute = new Attribute();
+                JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
+                for (int md = 0; md < metaDataArra.length(); md++) {
+
+                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("how_touse")) {
+                        attribute.setHowToUse(metaDataArra.getJSONObject(md).getString("value"));
+                    }
+                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("Ingredents_content")) {
+                        attribute.setIngredients(metaDataArra.getJSONObject(md).getString("value"));
+                    }
+                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("description")) {
+                        attribute.setDescription(metaDataArra.getJSONObject(md).getString("value"));
+                    }
+                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("additional_information")) {
+                        attribute.setDimWeight(metaDataArra.getJSONObject(md).getJSONObject("value").getString("weight"));
+                        if (metaDataArra.getJSONObject(md).getJSONObject("value").get("dimensions") instanceof JSONObject) {
+                            attribute.setDimLength(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("length"));
+                            attribute.setDimWidth(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("width"));
+                            attribute.setDimHeight(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("height"));
+                        }
+                    }
+                }
+                JSONArray attributesArr = getJSONArray(productObj, "attributes");
+                if (attributesArr.length() != 0 && attributesArr.getJSONObject(0).get("options") instanceof JSONArray && attributesArr.getJSONObject(0).getJSONArray("options").length() != 0) {
+                    attribute.setSize(attributesArr.getJSONObject(0).getJSONArray("options").getString(0));
+                }
+                model.setAttribute(attribute);
+                poductList.add(model);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return poductList;
+    }
+
 
     public static CategoryRootModel handleResponseCategoryRootFragment(String res) {
         CategoryRootModel categoryRootModel = null;
@@ -210,69 +284,7 @@ public class ResponseHandler {
 
     public static HomeModel getTopRated(JSONObject jsonObject) {
         JSONArray topRatedArr = getJSONArray(jsonObject, "top_rated");
-        ArrayList<ProductModel> topRattedModelArrayList = new ArrayList<>();
-        for (int i = 0; i < topRatedArr.length(); i++) {
-            try {
-                JSONObject productObj = topRatedArr.getJSONObject(i);
-                ProductModel model = new ProductModel();
-                model.setId(getString(productObj, "id"));
-                model.setName(getString(productObj, "name"));
-                model.setSlug(getString(productObj, "slug"));
-                model.setDescription(getString(productObj, "description"));
-                model.setShortDescription(getString(productObj, "short_description"));
-                model.setPrice(getString(productObj, "price"));
-                model.setRegularPrice(getString(productObj, "regular_price"));
-                model.setPriceHtml(getString(productObj, "price_html"));
-                model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
-                model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
-                model.setStockStatus(getString(productObj, "stock_status"));
-                ArrayList<Tags> tagsArrayList = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {
-                    Tags tags = new Tags();
-                    tags.setTag(productObj.getJSONArray("tags").getJSONObject(k).getString("name"));
-                    tags.setId(productObj.getJSONArray("tags").getJSONObject(k).getString("id"));
-                    tagsArrayList.add(tags);
-                }
-                ArrayList<String> productImages = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("images").length(); k++) {
-                    productImages.add(productObj.getJSONArray("images").getJSONObject(k).getString("src"));
-                }
-                model.setProductImagesList(productImages);
-                model.setTagsModel(tagsArrayList);
-
-
-                Attribute attribute = new Attribute();
-                JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
-                for (int md = 0; md < metaDataArra.length(); md++) {
-
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("how_touse")) {
-                        attribute.setHowToUse(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("Ingredents_content")) {
-                        attribute.setIngredients(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("description")) {
-                        attribute.setDescription(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("additional_information")) {
-                        attribute.setDimWeight(metaDataArra.getJSONObject(md).getJSONObject("value").getString("weight"));
-                        if (metaDataArra.getJSONObject(md).getJSONObject("value").get("dimensions") instanceof JSONObject) {
-                            attribute.setDimLength(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("length"));
-                            attribute.setDimWidth(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("width"));
-                            attribute.setDimHeight(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("height"));
-                        }
-                    }
-                }
-                JSONArray attributesArr = getJSONArray(productObj, "attributes");
-                if (attributesArr.length() != 0 && attributesArr.getJSONObject(0).get("options") instanceof JSONArray && attributesArr.getJSONObject(0).getJSONArray("options").length() != 0) {
-                    attribute.setSize(attributesArr.getJSONObject(0).getJSONArray("options").getString(0));
-                }
-                model.setAttribute(attribute);
-                topRattedModelArrayList.add(model);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        ArrayList<ProductModel> topRattedModelArrayList = commonProductParsing(topRatedArr);
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.TOP_RATTED);
         homeModel.setLayoutIndex(getPosition(jsonObject, "Top Rated"));
@@ -283,70 +295,7 @@ public class ResponseHandler {
 
     public static HomeModel getProducts(JSONObject jsonObject) {
         JSONArray productArr = getJSONArray(jsonObject, "product");
-        List<ProductModel> productModels = new ArrayList<>();
-        for (int i = 0; i < productArr.length(); i++) {
-            try {
-                JSONObject productObj = productArr.getJSONObject(i);
-                ProductModel model = new ProductModel();
-                model.setId(getString(productObj, "id"));
-                model.setName(getString(productObj, "name"));
-                model.setSlug(getString(productObj, "slug"));
-                model.setDescription(getString(productObj, "description"));
-                model.setShortDescription(getString(productObj, "short_description"));
-                model.setPrice(getString(productObj, "price"));
-                model.setRegularPrice(getString(productObj, "regular_price"));
-                model.setPriceHtml(getString(productObj, "price_html"));
-                model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
-                model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
-                model.setStockStatus(getString(productObj, "stock_status"));
-                ArrayList<Tags> tagsArrayList = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {
-                    Tags tags = new Tags();
-                    tags.setTag(productObj.getJSONArray("tags").getJSONObject(k).getString("name"));
-                    tags.setId(productObj.getJSONArray("tags").getJSONObject(k).getString("id"));
-                    tagsArrayList.add(tags);
-                }
-                ArrayList<String> productImages = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("images").length(); k++) {
-                    productImages.add(productObj.getJSONArray("images").getJSONObject(k).getString("src"));
-                }
-                model.setProductImagesList(productImages);
-                model.setTagsModel(tagsArrayList);
-                Attribute attribute = new Attribute();
-                JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
-                for (int md = 0; md < metaDataArra.length(); md++) {
-
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("how_touse")) {
-                        attribute.setHowToUse(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("Ingredents_content")) {
-                        attribute.setIngredients(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("description")) {
-                        attribute.setDescription(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("additional_information")) {
-                        attribute.setDimWeight(metaDataArra.getJSONObject(md).getJSONObject("value").getString("weight"));
-                        if (metaDataArra.getJSONObject(md).getJSONObject("value").get("dimensions") instanceof JSONObject) {
-                            attribute.setDimLength(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("length"));
-                            attribute.setDimWidth(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("width"));
-                            attribute.setDimHeight(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("height"));
-                        }
-                    }
-                }
-                JSONArray attributesArr = getJSONArray(productObj, "attributes");
-                if (attributesArr.length() != 0 && attributesArr.getJSONObject(0).get("options") instanceof JSONArray && attributesArr.getJSONObject(0).getJSONArray("options").length() != 0) {
-                    attribute.setSize(attributesArr.getJSONObject(0).getJSONArray("options").getString(0));
-                }
-
-
-                model.setAttribute(attribute);
-
-                productModels.add(model);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        List<ProductModel> productModels = commonProductParsing(productArr);
 
 
         ArrayList<HomeModel> tempArray = new ArrayList<>();
@@ -499,69 +448,7 @@ public class ResponseHandler {
 
     public static HomeModel getHotProducts(JSONObject jsonObject) {
         JSONArray topRatedArr = getJSONArray(jsonObject, "hot_product");
-        ArrayList<ProductModel> topRattedModelArrayList = new ArrayList<>();
-        for (int i = 0; i < topRatedArr.length(); i++) {
-            try {
-                JSONObject productObj = topRatedArr.getJSONObject(i);
-                ProductModel model = new ProductModel();
-                model.setId(getString(productObj, "id"));
-                model.setName(getString(productObj, "name"));
-                model.setSlug(getString(productObj, "slug"));
-                model.setDescription(getString(productObj, "description"));
-                model.setShortDescription(getString(productObj, "short_description"));
-                model.setPrice(getString(productObj, "price"));
-                model.setRegularPrice(getString(productObj, "regular_price"));
-                model.setPriceHtml(getString(productObj, "price_html"));
-                model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
-                model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
-                model.setStockStatus(getString(productObj, "stock_status"));
-                ArrayList<Tags> tagsArrayList = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {
-                    Tags tags = new Tags();
-                    tags.setTag(productObj.getJSONArray("tags").getJSONObject(k).getString("name"));
-                    tags.setId(productObj.getJSONArray("tags").getJSONObject(k).getString("id"));
-                    tagsArrayList.add(tags);
-                }
-                ArrayList<String> productImages = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("images").length(); k++) {
-                    productImages.add(productObj.getJSONArray("images").getJSONObject(k).getString("src"));
-                }
-                model.setProductImagesList(productImages);
-                model.setTagsModel(tagsArrayList);
-
-
-                Attribute attribute = new Attribute();
-                JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
-                for (int md = 0; md < metaDataArra.length(); md++) {
-
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("how_touse")) {
-                        attribute.setHowToUse(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("Ingredents_content")) {
-                        attribute.setIngredients(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("description")) {
-                        attribute.setDescription(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("additional_information")) {
-                        attribute.setDimWeight(metaDataArra.getJSONObject(md).getJSONObject("value").getString("weight"));
-                        if (metaDataArra.getJSONObject(md).getJSONObject("value").get("dimensions") instanceof JSONObject) {
-                            attribute.setDimLength(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("length"));
-                            attribute.setDimWidth(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("width"));
-                            attribute.setDimHeight(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("height"));
-                        }
-                    }
-                }
-                JSONArray attributesArr = getJSONArray(productObj, "attributes");
-                if (attributesArr.length() != 0 && attributesArr.getJSONObject(0).get("options") instanceof JSONArray && attributesArr.getJSONObject(0).getJSONArray("options").length() != 0) {
-                    attribute.setSize(attributesArr.getJSONObject(0).getJSONArray("options").getString(0));
-                }
-                model.setAttribute(attribute);
-                topRattedModelArrayList.add(model);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        ArrayList<ProductModel> topRattedModelArrayList = commonProductParsing(topRatedArr);
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
         homeModel.setApiProductModel(topRattedModelArrayList);
@@ -602,69 +489,7 @@ public class ResponseHandler {
 
     public static HomeModel getTopRatedForShop(JSONObject jsonObject) {
         JSONArray topRatedArr = getJSONArray(jsonObject, "top_rated");
-        ArrayList<ProductModel> topRattedModelArrayList = new ArrayList<>();
-        for (int i = 0; i < topRatedArr.length(); i++) {
-            try {
-                JSONObject productObj = topRatedArr.getJSONObject(i);
-                ProductModel model = new ProductModel();
-                model.setId(getString(productObj, "id"));
-                model.setName(getString(productObj, "name"));
-                model.setSlug(getString(productObj, "slug"));
-                model.setDescription(getString(productObj, "description"));
-                model.setShortDescription(getString(productObj, "short_description"));
-                model.setPrice(getString(productObj, "price"));
-                model.setRegularPrice(getString(productObj, "regular_price"));
-                model.setPriceHtml(getString(productObj, "price_html"));
-                model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
-                model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
-                model.setStockStatus(getString(productObj, "stock_status"));
-                ArrayList<Tags> tagsArrayList = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {
-                    Tags tags = new Tags();
-                    tags.setTag(productObj.getJSONArray("tags").getJSONObject(k).getString("name"));
-                    tags.setId(productObj.getJSONArray("tags").getJSONObject(k).getString("id"));
-                    tagsArrayList.add(tags);
-                }
-                ArrayList<String> productImages = new ArrayList<>();
-                for (int k = 0; k < productObj.getJSONArray("images").length(); k++) {
-                    productImages.add(productObj.getJSONArray("images").getJSONObject(k).getString("src"));
-                }
-                model.setProductImagesList(productImages);
-                model.setTagsModel(tagsArrayList);
-
-
-                Attribute attribute = new Attribute();
-                JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
-                for (int md = 0; md < metaDataArra.length(); md++) {
-
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("how_touse")) {
-                        attribute.setHowToUse(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("Ingredents_content")) {
-                        attribute.setIngredients(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("description")) {
-                        attribute.setDescription(metaDataArra.getJSONObject(md).getString("value"));
-                    }
-                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("additional_information")) {
-                        attribute.setDimWeight(metaDataArra.getJSONObject(md).getJSONObject("value").getString("weight"));
-                        if (metaDataArra.getJSONObject(md).getJSONObject("value").get("dimensions") instanceof JSONObject) {
-                            attribute.setDimLength(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("length"));
-                            attribute.setDimWidth(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("width"));
-                            attribute.setDimHeight(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("height"));
-                        }
-                    }
-                }
-                JSONArray attributesArr = getJSONArray(productObj, "attributes");
-                if (attributesArr.length() != 0 && attributesArr.getJSONObject(0).get("options") instanceof JSONArray && attributesArr.getJSONObject(0).getJSONArray("options").length() != 0) {
-                    attribute.setSize(attributesArr.getJSONObject(0).getJSONArray("options").getString(0));
-                }
-                model.setAttribute(attribute);
-                topRattedModelArrayList.add(model);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        ArrayList<ProductModel> topRattedModelArrayList = commonProductParsing(topRatedArr);
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_TOP_PRODUCT);
         homeModel.setApiProductModel(topRattedModelArrayList);
@@ -715,5 +540,235 @@ public class ResponseHandler {
     }
 
 
+    public static QAModel handleQAFragment(String apiData) {
+        QAModel model = new QAModel();
+
+        JSONArray jsonArr = null;
+        try {
+            jsonArr = new JSONArray(apiData);
+            if (jsonArr.length() != 0) {
+                ArrayList<QAModel> reviewsList = new ArrayList<>();
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    QAModel review = new QAModel();
+                    review.setId(jsonArr.getJSONObject(i).getString("id"));
+                    if (jsonArr.getJSONObject(i).get("answer") instanceof JSONArray) {
+                        if (jsonArr.getJSONObject(i).getJSONArray("answer").length() != 0) {
+                            review.setAnswer(jsonArr.getJSONObject(i).getJSONArray("answer").getJSONObject(0).getString("title"));
+                        }
+                    }
+                    review.setQuestion(jsonArr.getJSONObject(i).getString("title"));
+
+
+                    reviewsList.add(review);
+                }
+                model.setBlogList(reviewsList);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return model;
+
+    }
+
+    public static ArrayList<BlogModel> handleResponseBlogFragment(String res) {
+        ArrayList<BlogModel> rootArrayList = new ArrayList<>();
+
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(res);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                BlogModel model = new BlogModel();
+                if (i % 2 == 0) {
+                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_RIGHT_BLOG);
+                } else {
+                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
+                }
+                model.setId(jsonArray.getJSONObject(i).getString("id"));
+                model.setDate(jsonArray.getJSONObject(i).getString("date"));
+                model.setTitle(jsonArray.getJSONObject(i).getJSONObject("title").getString("rendered"));
+                model.setShortContent(jsonArray.getJSONObject(i).getJSONObject("excerpt").getString("rendered"));
+                model.setContent(jsonArray.getJSONObject(i).getJSONObject("content").getString("rendered"));
+                rootArrayList.add(model);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return rootArrayList;
+
+    }
+
+    public static ArrayList<BlogModel> handleResponseRecentBlog(String res) {
+        ArrayList<BlogModel> rootArrayList = new ArrayList<>();
+        ArrayList<BlogModel> tempArray = new ArrayList<>();
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(res);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                BlogModel model = new BlogModel();
+                if (i % 2 == 0) {
+                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_RIGHT_BLOG);
+                } else {
+                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
+                }
+                model.setId(jsonArray.getJSONObject(i).getString("id"));
+                model.setDate(jsonArray.getJSONObject(i).getString("date"));
+                model.setTitle(jsonArray.getJSONObject(i).getJSONObject("title").getString("rendered"));
+                model.setShortContent(jsonArray.getJSONObject(i).getJSONObject("excerpt").getString("rendered"));
+                model.setContent(jsonArray.getJSONObject(i).getJSONObject("content").getString("rendered"));
+                rootArrayList.add(model);
+            }
+
+            tempArray = new ArrayList<>();
+            ArrayList<ArrayList<BlogModel>> chunkArray = chunkBlog(rootArrayList, 2);
+
+            for (int i = 0; i < chunkArray.size(); i++) {
+                BlogModel model = new BlogModel();
+                ArrayList<BlogModel> modelArrayList = chunkArray.get(i);
+                if (modelArrayList.size() == 1) {
+                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_ONE_BLOG);
+                } else {
+                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_TWO_BLOG);
+                }
+                model.setBlogList(modelArrayList);
+                tempArray.add(model);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tempArray;
+
+    }
+
+    public static ArrayList<ArrayList<BlogModel>> chunkBlog(List<BlogModel> array, int chunkSize) {
+        int numOfChunks = (int) Math.ceil((double) array.size() / chunkSize);
+        ArrayList<ArrayList<BlogModel>> output = new ArrayList<>();
+
+        final AtomicInteger counter = new AtomicInteger();
+
+        for (BlogModel number : array) {
+            if (counter.getAndIncrement() % chunkSize == 0) {
+                output.add(new ArrayList<>());
+            }
+            output.get(output.size() - 1).add(number);
+        }
+
+        return output;
+    }
+
+    public static ProfileModel parseSignUpResponse(String response) {
+        ProfileModel model = null;
+
+        JSONObject jsonObj = createJsonObject(response);
+
+        try {
+            assert jsonObj != null;
+            if (getString(jsonObj, "code").equalsIgnoreCase("200") && jsonObj.get("data") instanceof JSONObject) {
+                model = new ProfileModel();
+                model.setEmail(getString(getJSONObject(jsonObj, "data"), "user_email"));
+                model.setDisplayName(getString(getJSONObject(jsonObj, "data"), "user_display_name"));
+                model.setToken(getString(getJSONObject(jsonObj, "data"), "token"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return model;
+
+    }
+
+    public static ArrayList<OrderModel> parseOrderHistory(String response) {
+        ArrayList<OrderModel> arrayList =new ArrayList<>();
+
+
+        try {
+            JSONArray array = new JSONArray(response);
+
+            for (int i =0 ; i<array.length();i++){
+                OrderModel orderModel = new OrderModel();
+                JSONObject object = array.getJSONObject(i);
+                orderModel.setOrderId(getString(object,"id"));
+                orderModel.setOrderKey(getString(object,"order_key"));
+                orderModel.setStatus(getString(object,"status"));
+                orderModel.setOrderDate(getString(object,"date_created"));
+                orderModel.setDiscountTotal(getString(object,"discount_total"));
+                orderModel.setDiscountTax(getString(object,"discount_tax"));
+                orderModel.setShippingTotal(getString(object,"shipping_total"));
+                orderModel.setShippingTax(getString(object,"shipping_tax"));
+                orderModel.setCartTax(getString(object,"cart_tax"));
+                orderModel.setTotal(getString(object,"total"));
+                orderModel.setTotal_tax(getString(object,"total_tax"));
+                orderModel.setCustomerNote(getString(object,"customer_note"));
+                orderModel.setPaymentMethod(getString(object,"payment_method"));
+                orderModel.setPaymentMethodTitle(getString(object,"payment_method_title"));
+                orderModel.setTransactionId(getString(object,"transaction_id"));
+                orderModel.setDatePaid(getString(object,"date_paid"));
+
+                Billing billingAddress= new Billing();
+                billingAddress.setFirstName(getString(getJSONObject(object,"billing"),"first_name"));
+                billingAddress.setLastName(getString(getJSONObject(object,"billing"),"last_name"));
+                billingAddress.setCompany(getString(getJSONObject(object,"billing"),"company"));
+                billingAddress.setAddress1(getString(getJSONObject(object,"billing"),"address_1"));
+                billingAddress.setAddress2(getString(getJSONObject(object,"billing"),"address_2"));
+                billingAddress.setCity(getString(getJSONObject(object,"billing"),"city"));
+                billingAddress.setState(getString(getJSONObject(object,"billing"),"state"));
+                billingAddress.setPostCode(getString(getJSONObject(object,"billing"),"postcode"));
+                billingAddress.setCountry(getString(getJSONObject(object,"billing"),"country"));
+                billingAddress.setEmail(getString(getJSONObject(object,"billing"),"email"));
+                billingAddress.setPhone(getString(getJSONObject(object,"billing"),"phone"));
+                orderModel.setBillingAddress(billingAddress);
+
+
+                Billing shippingAddress= new Billing();
+                shippingAddress.setFirstName(getString(getJSONObject(object,"shipping"),"first_name"));
+                shippingAddress.setLastName(getString(getJSONObject(object,"shipping"),"last_name"));
+                shippingAddress.setCompany(getString(getJSONObject(object,"shipping"),"company"));
+                shippingAddress.setAddress1(getString(getJSONObject(object,"shipping"),"address_1"));
+                shippingAddress.setAddress2(getString(getJSONObject(object,"shipping"),"address_2"));
+                shippingAddress.setCity(getString(getJSONObject(object,"shipping"),"city"));
+                shippingAddress.setState(getString(getJSONObject(object,"shipping"),"state"));
+                shippingAddress.setPostCode(getString(getJSONObject(object,"shipping"),"postcode"));
+                shippingAddress.setCountry(getString(getJSONObject(object,"shipping"),"country"));
+                orderModel.setShippingAddress(shippingAddress);
+
+
+
+                ArrayList<OrderedProductModel> productList = new ArrayList<>();
+                JSONArray productArr= getJSONArray(object,"line_items");
+                for (int k=0;k<productArr.length();k++){
+                    JSONObject productObj = productArr.getJSONObject(k);
+                    OrderedProductModel productModel = new OrderedProductModel();
+                    productModel.setId(productObj.getString("id"));
+                    productModel.setName(productObj.getString("name"));
+                    productModel.setProductId(productObj.getString("product_id"));
+                    productModel.setQty(productObj.getString("quantity"));
+                    productModel.setSubTotal(productObj.getString("subtotal"));
+                    productModel.setSubTotalTxt(productObj.getString("subtotal_tax"));
+                    productModel.setTotal(productObj.getString("total"));
+                    productModel.setTotalTax(productObj.getString("total_tax"));
+                    productModel.setProductPrice(productObj.getString("price"));
+                    productList.add(productModel);
+                }
+                orderModel.setProductsList(productList);
+                arrayList.add(orderModel);
+
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return arrayList;
+
+    }
 }
 

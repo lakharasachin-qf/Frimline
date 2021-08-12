@@ -1,124 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<androidx.cardview.widget.CardView android:id="@+id/itemLayout"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/_100sdp"
-    android:layout_marginStart="@dimen/_10sdp"
-    android:layout_marginEnd="@dimen/_10sdp"
-    android:orientation="vertical"
-    app:cardCornerRadius="@dimen/_7sdp"
-    app:cardElevation="@dimen/_3sdp"
-    app:cardUseCompatPadding="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/itemLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/_100sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:cardUseCompatPadding="true">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/_75sdp"
-            android:layout_height="@dimen/_75sdp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            app:cardBackgroundColor="#F7F7F7"
-            app:cardCornerRadius="@dimen/_7sdp"
-            app:cardElevation="0dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/product_one" />
-        </androidx.cardview.widget.CardView>
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_75sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:cardBackgroundColor="#F7F7F7"
+                app:cardCornerRadius="@dimen/_7sdp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/product_one" />
+            </androidx.cardview.widget.CardView>
 
             <RelativeLayout
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:id="@+id/productName"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:includeFontPadding="false"
-                    android:singleLine="true"
-                    android:text="Dente91 Lactoferrin Mouthwash"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:layout_below="@+id/productName"
-                    android:id="@+id/productQTY"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:includeFontPadding="false"
-                    android:text="Quantity: 01"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp" />
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_below="@+id/productQTY"
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/productName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:text="Dente91 Lactoferrin Mouthwash"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
 
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:includeFontPadding="false"
-                    android:text="₹199.00"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    <TextView
+                        android:id="@+id/productQTY"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/productName"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:includeFontPadding="false"
+                        android:text="Quantity: 01"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/incrementorContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/productName"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:layout_weight="1">
 
 
-                <TextView
-                    android:layout_below="@+id/price"
-                    android:id="@+id/dateDelivery"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:includeFontPadding="false"
-                    android:text="Delivery By 4 Jun 2021"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp" />
+                        <TextView
+                            android:id="@+id/decrementAction"
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/shape_cart_backgorund_secondary"
+                            android:backgroundTint="#41D1D1D1"
+                            android:includeFontPadding="false"
+                            android:paddingTop="@dimen/_5sdp"
+                            android:text="-"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="bold"
+                            tools:ignore="RtlCompat" />
+
+                        <com.app.cartcounter.RollingTextView
+                            android:id="@+id/counter"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:background="@drawable/shape_cart_backgorund"
+                            android:backgroundTint="#A6D1D1D1"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+
+                        <TextView
+                            android:id="@+id/incrementAction"
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/shape_cart_backgorund_secondary"
+                            android:backgroundTint="#41D1D1D1"
+                            android:includeFontPadding="false"
+                            android:paddingTop="@dimen/_5sdp"
+                            android:text="+"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"
+                            tools:ignore="RtlCompat" />
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@+id/productQTY"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:includeFontPadding="false"
+                        android:text="₹199.00"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                    <TextView
+
+                        android:id="@+id/dateDelivery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/incrementorContainer"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:includeFontPadding="false"
+                        android:text="Delivery By 4 Jun 2021"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/actionDelete"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="end"
+                    android:background="@drawable/shape_ovel"
+                    android:backgroundTint="#FF4141"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_delete_black_24dp" />
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/actionDelete"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="end"
-                android:background="@drawable/shape_ovel"
-                android:backgroundTint="#FF4141"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_delete_black_24dp" />
-        </RelativeLayout>
 
+        </LinearLayout>
 
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </layout>

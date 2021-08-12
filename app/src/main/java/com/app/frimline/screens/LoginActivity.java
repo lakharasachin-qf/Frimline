@@ -1,11 +1,11 @@
 package com.app.frimline.screens;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
@@ -177,10 +181,33 @@ public class LoginActivity extends BaseActivity {
         binding.signupTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(act, SignupActivity.class);
+                openSomeActivityForResult();
+
             }
         });
 
+
+    }
+
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        if (data.hasExtra("success")) {
+                            onBackPressed();
+                        }
+
+                    }
+                }
+            });
+
+    public void openSomeActivityForResult() {
+        Intent intent = new Intent(this, SignupActivity.class);
+        someActivityResultLauncher.launch(intent);
     }
 
 }

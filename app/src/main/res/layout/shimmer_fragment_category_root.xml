@@ -139,7 +139,7 @@
             <!--                    <TextView-->
             <!--                        android:layout_width="match_parent"-->
             <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:fontFamily="@font/proxinova_semi_bold"-->
+            <!--                        android:fontFamily="@fonts/proxinova_semi_bold"-->
             <!--                        android:text="Oral Hygiene"-->
             <!--                        android:textAlignment="center"-->
             <!--                        android:textColor="@color/black"-->
@@ -167,7 +167,7 @@
             <!--                    <TextView-->
             <!--                        android:layout_width="match_parent"-->
             <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:fontFamily="@font/proxinova_semi_bold"-->
+            <!--                        android:fontFamily="@fonts/proxinova_semi_bold"-->
             <!--                        android:text="Skin Care"-->
             <!--                        android:textAlignment="center"-->
             <!--                        android:textColor="@color/black"-->
@@ -197,7 +197,7 @@
             <!--                        android:layout_width="match_parent"-->
             <!--                        android:layout_height="wrap_content"-->
             <!--                        android:ellipsize="marquee"-->
-            <!--                        android:fontFamily="@font/proxinova_semi_bold"-->
+            <!--                        android:fontFamily="@fonts/proxinova_semi_bold"-->
             <!--                        android:singleLine="true"-->
             <!--                        android:text="Health Supplements"-->
             <!--                        android:textAlignment="center"-->

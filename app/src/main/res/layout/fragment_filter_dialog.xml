@@ -39,7 +39,7 @@
 <!--            android:id="@+id/titleText"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:fontFamily="@font/proxima_nova_bold"-->
+<!--            android:fontFamily="@fonts/proxima_nova_bold"-->
 <!--            android:text="Title"-->
 <!--            android:textColor="@color/colorToolbarHeader"-->
 <!--            android:textSize="@dimen/_12sdp" />-->

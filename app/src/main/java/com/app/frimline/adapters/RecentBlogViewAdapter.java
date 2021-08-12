@@ -7,14 +7,17 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
-import com.app.frimline.models.OutCategoryModel;
+import com.app.frimline.models.BlogModel;
+import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.screens.BlogDetailsActivity;
 import com.google.android.material.chip.Chip;
 
@@ -26,10 +29,10 @@ public class RecentBlogViewAdapter extends PagerAdapter {
 
     private Activity context;
     private LayoutInflater layoutInflater;
-    private List<OutCategoryModel> sliderImg;
+    private List<BlogModel> sliderImg;
 
 
-    public RecentBlogViewAdapter(List<OutCategoryModel> sliderImg, Activity context) {
+    public RecentBlogViewAdapter(List<BlogModel> sliderImg, Activity context) {
         this.sliderImg = sliderImg;
         this.context = context;
     }
@@ -46,27 +49,73 @@ public class RecentBlogViewAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(@NotNull ViewGroup container, final int position) {
+        BlogModel model = sliderImg.get(position);
+        if (model.getLayoutType() == LAYOUT_TYPE.LAYOUT_ONE_BLOG) {
+            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.item_blog_recent_layout_only_one, null);
+            setTheme1(view);
+            Chip chip1 = view.findViewById(R.id.chip1);
+            chip1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
+                    context.finish();
+                }
+            });
 
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.item_blog_recent_layout, null);
-        setTheme(view);
-        Chip chip1 = view.findViewById(R.id.chip1);
-
-
-        chip1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
-                context.finish();
+            TextView title = view.findViewById(R.id.productName);
+            TextView description = view.findViewById(R.id.description);
+            if (CONSTANT.API_MODE) {
+                HELPER.LOAD_HTML(title, model.getBlogList().get(0).getTitle());
+                HELPER.LOAD_HTML(description, model.getBlogList().get(0).getShortContent());
             }
-        });
 
-        ViewPager vp = (ViewPager) container;
-        vp.addView(view, 0);
-        return view;
+            ViewPager vp = (ViewPager) container;
+            vp.addView(view, 0);
+            return view;
+
+        } else {
+            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.item_blog_recent_layout, null);
+            setTheme(view);
+            Chip chip1 = view.findViewById(R.id.chip1);
+            chip1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
+                    context.finish();
+                }
+            });
+
+
+            TextView title = view.findViewById(R.id.productName);
+            TextView title2 = view.findViewById(R.id.productName2);
+            TextView description = view.findViewById(R.id.description);
+            TextView description2 = view.findViewById(R.id.description2);
+            if (CONSTANT.API_MODE) {
+                HELPER.LOAD_HTML(title, model.getBlogList().get(0).getTitle());
+                HELPER.LOAD_HTML(description, model.getBlogList().get(0).getShortContent());
+                HELPER.LOAD_HTML(title2, model.getBlogList().get(0).getTitle());
+                HELPER.LOAD_HTML(description2, model.getBlogList().get(0).getShortContent());
+            }
+
+            ViewPager vp = (ViewPager) container;
+            vp.addView(view, 0);
+            return view;
+
+        }
 
     }
+    public void setTheme1(View view) {
+        Chip chip1 = view.findViewById(R.id.chip1);
 
+        chip1.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+        chip1.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+
+        View view3 = view.findViewById(R.id.view3);
+        view3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
+
+    }
     public void setTheme(View view) {
         Chip chip1 = view.findViewById(R.id.chip1);
         Chip chip2 = view.findViewById(R.id.chip2);

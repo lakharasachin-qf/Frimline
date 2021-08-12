@@ -61,6 +61,42 @@ public class ProductEntity {
     @ColumnInfo(name = "attribute")
     private Attribute attribute;
 
+    @ColumnInfo(name = "qty")
+    private String qty;
+
+
+    @ColumnInfo(name = "calculatedAmount")
+    private String calculatedAmount;
+
+    @ColumnInfo(name = "rating")
+    private String rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+
+    public String getCalculatedAmount() {
+        return calculatedAmount;
+    }
+
+    public void setCalculatedAmount(String calculatedAmount) {
+        this.calculatedAmount = calculatedAmount;
+    }
+
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+
     public Attribute getAttribute() {
         return attribute;
     }

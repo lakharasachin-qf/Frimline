@@ -28,6 +28,7 @@ import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.NetworkChangeReceiver2;
 import com.app.frimline.Common.PREF;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
@@ -49,7 +50,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
     Toolbar toolbar;
     public static final boolean PROTOTYPE= CONSTANT.PROTOTYPING_MODE;
     public static final boolean API_MODE= CONSTANT.API_MODE;
-
+    public CartRoomDatabase cartRoomDatabase;
     public BaseNavDrawerActivity() {
     }
 
@@ -83,7 +84,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         frimline = (FRIMLINE) this.getApplication();
         frimline.getObserver().addObserver(this);
 
-
+        cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
         noconnectionAlertDialog = new Dialog(this, R.style.MyAlertDialogStyle_extend);
         view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
         AppCompatButton appCompatButton = view.findViewById(R.id.button);

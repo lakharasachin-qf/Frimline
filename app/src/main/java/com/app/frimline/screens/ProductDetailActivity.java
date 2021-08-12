@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
@@ -35,6 +36,7 @@ import com.app.frimline.fragments.aboutProducts.QnAFragment;
 import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
 import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.views.WrapContentHeightViewPager;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
@@ -51,13 +53,15 @@ public class ProductDetailActivity extends BaseActivity {
     private int observableId;
     private boolean applyThemeColor = false;
     private String defaultColor = "#EF7F1A";
+    private CartRoomDatabase cartRoomDatabase;
+    private boolean isSameProductEdit = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_product_detail);
         defaultColor = "#EF7F1A";
-
+        cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
         if (getIntent().hasExtra("themeColor"))
             applyThemeColor = true;
 
@@ -67,7 +71,7 @@ public class ProductDetailActivity extends BaseActivity {
         } else {
             defaultColor = prefManager.getCategoryColor();
         }
-        makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
+        makeStatusBarSemiTranspenret(binding.toolbar);
         ViewTreeObserver viewTreeObserver = binding.scrollView.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -76,13 +80,22 @@ public class ProductDetailActivity extends BaseActivity {
                 //
             }
         });
-        binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HELPER.ON_BACK_PRESS_ANIM(act);
             }
         });
-        binding.toolbarNavigation.title.setText("Mouthwash");
+
+
+        binding.titleToolbar.setText("Mouthwash");
+        HELPER.changeCartCounterToolbar(act);
+        binding.cartActionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.SIMPLE_ROUTE(act, MyCartActivity.class);
+            }
+        });
         binding.counter.setText("1");
         binding.incrementAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +103,22 @@ public class ProductDetailActivity extends BaseActivity {
                 int currentCounter = Integer.parseInt(binding.counter.getText().toString());
                 currentCounter++;
                 binding.counter.setText(String.valueOf(currentCounter));
-
+                if (CONSTANT.API_MODE) {
+                    if (cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId()) != null) {
+                        isSameProductEdit = true;
+                        ProductEntity entity = db.productEntityDao().findProductByProductId(productModel.getId());
+                        productModel.setQty(binding.counter.getText().toString());
+                        entity.setQty(binding.counter.getText().toString());
+                        entity.setCalculatedAmount(HELPER.incrementAction(productModel));
+                        productModel.setCalculatedAmount(entity.getCalculatedAmount());
+                        db.productEntityDao().updateSpecificProduct((entity));
+                        HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+                    } else {
+                        productModel.setQty(binding.counter.getText().toString());
+                        productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
+                        HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+                    }
+                }
             }
         });
 
@@ -101,7 +129,22 @@ public class ProductDetailActivity extends BaseActivity {
                 if (currentCounter > 1) {
                     currentCounter--;
                     binding.counter.setText(String.valueOf(currentCounter));
-
+                    if (CONSTANT.API_MODE) {
+                        if (cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId()) != null) {
+                            isSameProductEdit = true;
+                            ProductEntity entity = db.productEntityDao().findProductByProductId(productModel.getId());
+                            productModel.setQty(binding.counter.getText().toString());
+                            entity.setQty(binding.counter.getText().toString());
+                            entity.setCalculatedAmount(HELPER.incrementAction(productModel));
+                            productModel.setCalculatedAmount(entity.getCalculatedAmount());
+                            db.productEntityDao().updateSpecificProduct((entity));
+                            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+                        } else {
+                            productModel.setQty(binding.counter.getText().toString());
+                            productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
+                            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+                        }
+                    }
                 } else {
                     Toast.makeText(act, "At least one quantity required", Toast.LENGTH_SHORT).show();
                 }
@@ -111,14 +154,29 @@ public class ProductDetailActivity extends BaseActivity {
         binding.addCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                if (isSameProductEdit) {
+//                    ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId());
+//                    entity.setQty(binding.counter.getText().toString());
+//                    entity.setCalculatedAmount(HELPER.incrementAction(productModel));
+//                    HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+//                    cartRoomDatabase.productEntityDao().updateSpecificProduct(entity);
+//                    Toast.makeText(act, "Cart product updated", Toast.LENGTH_SHORT).show();
+//                    binding.addTextTxt.setText("Added to cart");
+//                    binding.addCartContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+//                    binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+//                    binding.addTextTxt.setTextColor(Color.WHITE);
+//                    return;
+//                }
                 if (isAddedToCart) {
                     binding.addTextTxt.setText("Add to cart");
                     isAddedToCart = false;
                     binding.addCartContainer.setBackgroundTintList(null);
                     binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-                    binding.addTextTxt.setTextColor(Color.parseColor(defaultColor));
+                    binding.addTextTxt.setTextColor((Color.BLACK));
                     if (CONSTANT.API_MODE) {
+
+                        cartRoomDatabase.productEntityDao().deleteProduct(productModel.getId());
+
                         observableId = Integer.parseInt(getIntent().getStringExtra("removeCartID"));
                         DataTransferModel model = new DataTransferModel();
                         model.setAdapterPosition(getIntent().getStringExtra("adapterPosition"));
@@ -127,6 +185,7 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
+                        HELPER.changeCartCounterToolbar(act);
                     }
                 } else {
                     binding.addTextTxt.setText("Added to cart");
@@ -135,6 +194,10 @@ public class ProductDetailActivity extends BaseActivity {
                     binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
                     binding.addTextTxt.setTextColor(Color.WHITE);
                     if (CONSTANT.API_MODE) {
+                        productModel.setQty(binding.counter.getText().toString());
+                        productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
+                        HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+                        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productModel));
                         observableId = Integer.parseInt(getIntent().getStringExtra("addToCartID"));
                         DataTransferModel model = new DataTransferModel();
                         model.setAdapterPosition(getIntent().getStringExtra("adapterPosition"));
@@ -143,6 +206,8 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
+                        HELPER.changeCartCounterToolbar(act);
+
                     }
                 }
 
@@ -183,9 +248,12 @@ public class ProductDetailActivity extends BaseActivity {
 
     public void changeTheme() {
 
+
+        int code = ColorUtils.setAlphaComponent(Color.parseColor(defaultColor), 100);
+        binding.dotsIndicator.setDotsColor(code);
         binding.dotsIndicator.setSelectedDotColor(Color.parseColor(defaultColor));
         binding.tabLayout.setTabTextColors((Color.WHITE), (Color.parseColor(defaultColor)));
-
+        binding.cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         binding.detailContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         binding.price.setTextColor(Color.parseColor(defaultColor));
         binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
@@ -256,10 +324,12 @@ public class ProductDetailActivity extends BaseActivity {
 //        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productModel));
 
         ArrayList<String> productImages = productModel.getProductImagesList();
-        binding.toolbarNavigation.title.setText(productModel.getCategoryName());
+        binding.titleToolbar.setText(productModel.getCategoryName());
         ProductImageSliderAdpater sliderAdapter = new ProductImageSliderAdpater(productImages, act);
         binding.productImagesSlider.setAdapter(sliderAdapter);
         binding.dotsIndicator.setViewPager(binding.productImagesSlider);
+        int rate = Integer.parseInt(productModel.getRating());
+        binding.ratting.setRating((float) rate);
         HELPER.LOAD_HTML(binding.nameTxt, productModel.getName());
         HELPER.LOAD_HTML(binding.shortDescription, productModel.getShortDescription());
         HELPER.LOAD_HTML(binding.categoryLabel, "<b>Category : </b>" + productModel.getCategoryName());
@@ -272,6 +342,27 @@ public class ProductDetailActivity extends BaseActivity {
             }
             HELPER.LOAD_HTML(binding.tagsLabel, "<b>Tags : <b>" + tagsStr);
         }
+
+        ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId());
+        if (entity != null) {
+            productModel.setAddedToCart(true);
+            productModel.setQty(entity.getQty());
+            binding.addTextTxt.setText("Added to cart");
+            isAddedToCart = true;
+            binding.addCartContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+            binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+            binding.addTextTxt.setTextColor(Color.WHITE);
+            binding.counter.setText(productModel.getQty());
+            productModel.setCalculatedAmount(entity.getCalculatedAmount());
+            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+        }
+
     }
 
+    public void changeState() {
+        binding.addTextTxt.setText("Add to cart");
+        binding.addCartContainer.setBackgroundTintList(null);
+        binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+        binding.addTextTxt.setTextColor(Color.parseColor(defaultColor));
+    }
 }

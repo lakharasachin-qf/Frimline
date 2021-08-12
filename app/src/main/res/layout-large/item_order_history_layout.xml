@@ -1,153 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/itemLayout"
-    app:cardElevation="@dimen/_3sdp"
-    android:layout_marginStart="@dimen/_5sdp"
-    android:layout_marginEnd="@dimen/_5sdp"
-    app:cardCornerRadius="@dimen/_7sdp"
-    app:cardUseCompatPadding="true">
+<layout>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <androidx.cardview.widget.CardView
-            android:layout_marginBottom="@dimen/_7sdp"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            app:cardBackgroundColor="#F7F7F7"
-            app:cardCornerRadius="@dimen/_7sdp"
-            app:cardElevation="0dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/product_one" />
-        </androidx.cardview.widget.CardView>
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_7sdp"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                app:cardBackgroundColor="#F7F7F7"
+                app:cardCornerRadius="@dimen/_7sdp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/product_one" />
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/delivaryIcon"
-                    android:layout_width="@dimen/_9sdp"
-                    android:layout_height="@dimen/_9sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_delivery_icon" />
-
-
-                <TextView
-
-                    android:id="@+id/deliveredTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:includeFontPadding="false"
-                    android:text="Delivered"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/_9sdp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/productNameTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:fontFamily="@font/proxima_nova_regular"
-                android:includeFontPadding="false"
-                android:text="Order Id: ORD16947"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_11sdp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="@font/proxima_nova_bold"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:text="Dente91 Lactoferrin Mouthwash"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_11sdp" />
-
-
-
-            <RelativeLayout
-                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp">
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:fontFamily="@font/proxima_nova_bold"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/delivaryIcon"
+                        android:layout_width="@dimen/_9sdp"
+                        android:layout_height="@dimen/_9sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_delivery_icon" />
+
+
+                    <TextView
+
+                        android:id="@+id/deliveredTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:includeFontPadding="false"
+                        android:text="Delivered"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/orderId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:fontFamily="@font/proxima_nova_regular"
                     android:includeFontPadding="false"
-                    android:text="₹199.00"
+                    android:text="Order Id: ORD16947"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp" />
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:layout_below="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:isIndicator="true"
-
-                    android:rating="3"
-                    android:progressTint="#FFDF3E"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small" />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/viewDetailsBtn"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-
-                    android:background="@drawable/shape_button_second"
-                    android:fontFamily="@font/proxinova_semi_bold"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:paddingTop="@dimen/_7sdp"
-                    android:paddingEnd="@dimen/_15sdp"
-                    android:paddingBottom="@dimen/_7sdp"
-                    android:text="View Details"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_10sdp">
-
-                </androidx.appcompat.widget.AppCompatButton>
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_bold"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:text="Dente91 Lactoferrin Mouthwash"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp" />
 
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:includeFontPadding="false"
+                        android:text="₹199.00"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rate"
+
+                        android:layout_below="@+id/price"
+                        android:isIndicator="true"
+                        android:progressTint="#FFDF3E"
+                        android:rating="3" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/viewDetailsBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="end"
+                        android:background="@drawable/shape_button_second"
+                        android:fontFamily="@font/proxinova_semi_bold"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_7sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_7sdp"
+                        android:text="View Details"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp">
+
+                    </androidx.appcompat.widget.AppCompatButton>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
 
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>

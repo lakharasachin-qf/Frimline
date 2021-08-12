@@ -21,6 +21,7 @@ import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.NetworkChangeReceiver;
 import com.app.frimline.Common.PREF;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -38,7 +39,9 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
     public boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
-    public static final boolean API_MODE= CONSTANT.API_MODE;
+    public static final boolean API_MODE = CONSTANT.API_MODE;
+    public CartRoomDatabase db;
+
     public BaseActivity() {
     }
 
@@ -65,6 +68,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = this;
+        db = CartRoomDatabase.getAppDatabase(this);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -103,12 +107,8 @@ public class BaseActivity extends AppCompatActivity implements Observer {
 
     protected Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Accept", "application/json");
-        headers.put("Content-Type", "application/json");
-
-//        if (prefManager.getUserToken() != null) {
-//            headers.put("Authorization", "Bearer" + prefManager.getUserToken());
-//        }
+        if (prefManager.isLogin())
+            headers.put("Authorization", "Bearer " + prefManager.getToken());
         return headers;
     }
 

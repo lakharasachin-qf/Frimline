@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:shimmer="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,6 +24,8 @@
             android:src="@drawable/ic_screen_bottom_background" />
 
         <ScrollView
+            android:id="@+id/scrollView"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
@@ -50,7 +52,7 @@
                         android:background="@drawable/shape_for_my_account">
 
                         <ImageView
-                            android:id="@+id/actionEdit"
+                            android:id="@+id/actionAdd1"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_alignParentTop="true"
@@ -78,6 +80,8 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/billingTxt"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/titleTxt"
@@ -109,7 +113,7 @@ Rd, Opp Fantasi Land, Andheri (west)"
                         android:background="@drawable/shape_for_my_account">
 
                         <ImageView
-                            android:id="@+id/actionAdd"
+                            android:id="@+id/actionAdd2"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_alignParentTop="true"
@@ -137,6 +141,7 @@ Rd, Opp Fantasi Land, Andheri (west)"
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/shippingTxt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/title2Txt"
@@ -155,6 +160,16 @@ Rd, Opp Fantasi Land, Andheri (west)"
             </LinearLayout>
 
         </ScrollView>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
+            android:orientation="vertical"
+            shimmer:shimmer_duration="800">
+
+            <include layout="@layout/shimmer_address_activity" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </RelativeLayout>
 </layout>

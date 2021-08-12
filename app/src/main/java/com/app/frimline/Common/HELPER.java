@@ -16,11 +16,14 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -31,6 +34,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.app.frimline.R;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.FragmentCategoryRootBinding;
 import com.app.frimline.databinding.FragmentHomeBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
@@ -39,6 +43,10 @@ import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HELPER {
 
@@ -304,7 +312,12 @@ public class HELPER {
         dialog = new Dialog(act);
         dialog.getWindow().setBackgroundDrawableResource(
                 R.color.colorProgressBackground);
-        dialog.setContentView(R.layout.progress_bar_layout);
+
+        View view = LayoutInflater.from(act).inflate(R.layout.progress_bar_layout, null);
+        dialog.setContentView(view);
+        ProgressBar progressBar = view.findViewById(R.id.progressBar2);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor(new PREF(act).getThemeColor()), android.graphics.PorterDuff.Mode.MULTIPLY);
+        progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         dialog.setCancelable(false);
         act.runOnUiThread(new Runnable() {
             @Override
@@ -355,7 +368,9 @@ public class HELPER {
     public static ProductEntity convertToCartObject(ProductModel model) {
         ProductEntity entity = new ProductEntity();
         entity.setId(model.getId());
-
+        entity.setQty(model.getQty());
+        entity.setRating(model.getRating());
+        entity.setCalculatedAmount(model.getCalculatedAmount());
         entity.setName(model.getName());
         entity.setSlug(model.getSlug());
         entity.setDescription(model.getDescription());
@@ -372,5 +387,101 @@ public class HELPER {
         entity.setAttribute(model.getAttribute());
 
         return entity;
+    }
+
+    public static ProductModel convertFromCartObject(ProductEntity model) {
+        ProductModel cartProduct = new ProductModel();
+        cartProduct.setId(model.getId());
+        cartProduct.setCartId(model.getCartId());
+        cartProduct.setCalculatedAmount(model.getCalculatedAmount());
+        cartProduct.setRating(model.getRating());
+        cartProduct.setName(model.getName());
+        cartProduct.setQty(model.getQty());
+        cartProduct.setSlug(model.getSlug());
+        cartProduct.setDescription(model.getDescription());
+        cartProduct.setShortDescription(model.getShortDescription());
+        cartProduct.setRegularPrice(model.getRegularPrice());
+        cartProduct.setPrice(model.getPrice());
+
+        cartProduct.setPriceHtml(model.getPriceHtml());
+        cartProduct.setCategoryId(model.getCategoryId());
+        cartProduct.setCategoryName(model.getCategoryName());
+        cartProduct.setStockStatus(model.getStockStatus());
+        cartProduct.setProductImagesList(model.getProductImagesList());
+        cartProduct.setTagsModel(model.getTagsModel());
+        cartProduct.setAttribute(model.getAttribute());
+
+        return cartProduct;
+    }
+
+    public static void changeCartCounter(Activity act) {
+        CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
+        TextView cartCounterTop = act.findViewById(R.id.cartCounterTop);
+        TextView cartCounterNav = act.findViewById(R.id.cartCounterNav);
+        RelativeLayout cartBackgroundLayar = act.findViewById(R.id.cartBackgroundLayar);
+        RelativeLayout cartBackgroundLayar2 = act.findViewById(R.id.cartBackgroundLayar2);
+
+        int count = cartRoomDatabase.productEntityDao().getAll().size();
+
+        if (count != 0) {
+            cartCounterTop.setText(String.valueOf(count));
+            cartCounterNav.setText(String.valueOf(count));
+            cartBackgroundLayar.setVisibility(View.VISIBLE);
+            cartBackgroundLayar2.setVisibility(View.VISIBLE);
+        } else {
+            cartBackgroundLayar.setVisibility(View.INVISIBLE);
+            cartBackgroundLayar2.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public static void changeCartCounterToolbar(Activity act) {
+        CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
+        TextView cartCounterTop = act.findViewById(R.id.cartCounterTop);
+
+        RelativeLayout cartBackgroundLayar = act.findViewById(R.id.cartBackgroundLayar);
+
+
+        int count = cartRoomDatabase.productEntityDao().getAll().size();
+
+        if (count != 0) {
+            cartCounterTop.setText(String.valueOf(count));
+
+            cartBackgroundLayar.setVisibility(View.VISIBLE);
+
+        } else {
+            cartBackgroundLayar.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
+    public static ArrayList<ProductModel> getCartList(List<ProductEntity> all) {
+        ArrayList<ProductModel> cartList = new ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            cartList.add(convertFromCartObject(all.get(i)));
+        }
+        return cartList;
+    }
+
+    public static String incrementAction(ProductModel model) {
+        double aDouble = Double.parseDouble(model.getPrice());
+        int qty = Integer.parseInt(model.getQty());
+        double finalAmount = aDouble * qty;
+        return format.format((finalAmount));
+    }
+
+    public static DecimalFormat format = new DecimalFormat("0.00");
+
+
+    public static void backgroundTint(Activity act, View view,boolean theme) {
+        if (theme)
+            view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        else
+            view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
+    }
+    public static void imageTint(Activity act, ImageView view,boolean theme) {
+        if (theme)
+            view.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        else
+            view.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
     }
 }

@@ -25,7 +25,7 @@
             android:src="@drawable/ic_screen_bottom_background"
             app:tint="@color/colorGreen" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
@@ -87,7 +87,7 @@
                                 <TextView
                                     style="@style/EditTextTitle"
                                     android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="First Name" />
+                                    android:text="First Name*" />
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/nameEdtLayout"
@@ -117,7 +117,7 @@
                                 <TextView
                                     style="@style/EditTextTitle"
                                     android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="Last Name" />
+                                    android:text="Last Name*" />
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/lnameEdtLayout"
@@ -183,7 +183,7 @@
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_12sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Street Address" />
+                            android:text="Street Address 1*" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/streetEdtLayout"
@@ -195,7 +195,27 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/streetEdt"
                                 style="@style/textInputEditTextForMediumScreen"
-                                android:hint="Street Address"
+                                android:hint="Street Address 1"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            style="@style/EditTextTitle"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:text="Street Address 2*" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/streetEdtLayout2"
+                            style="@style/TextInputLayoutStyleForMediumScreen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/streetEdt2"
+                                style="@style/textInputEditTextForMediumScreen"
+                                android:hint="Street Address 2"
                                 android:inputType="text" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -204,7 +224,7 @@
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_12sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Town / City" />
+                            android:text="Town / City*" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/cityEdtLayout"
@@ -220,12 +240,30 @@
                                 android:inputType="text" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-
                         <TextView
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_12sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Postcode / ZIP" />
+                            android:text="State*" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/stateEdtLayout"
+                            style="@style/TextInputLayoutStyleForMediumScreen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/stateEdt"
+                                style="@style/textInputEditTextForMediumScreen"
+                                android:hint="State"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            style="@style/EditTextTitle"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:text="Postcode / ZIP*" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/postalCodeEdtLayout"
@@ -241,52 +279,58 @@
                                 android:maxLength="6"
                                 android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
-
-
-                        <TextView
-                            style="@style/EditTextTitle"
-                            android:layout_marginTop="@dimen/_12sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Phone No" />
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/phoneNoEdtLayout"
-                            style="@style/TextInputLayoutStyleForMediumScreen"
+                        <LinearLayout
+                            android:id="@+id/billingSectionOther"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:errorEnabled="false">
+                            android:layout_height="wrap_content">
+                            <TextView
+                                style="@style/EditTextTitle"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Phone No*" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/phoneNoEdt"
-                                style="@style/textInputEditTextForMediumScreen"
-                                android:hint="Phone no."
-                                android:inputType="number"
-                                android:maxLength="10" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/phoneNoEdtLayout"
+                                style="@style/TextInputLayoutStyleForMediumScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
 
-                        <TextView
-                            style="@style/EditTextTitle"
-                            android:layout_marginTop="@dimen/_12sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Email Address" />
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/phoneNoEdt"
+                                    style="@style/textInputEditTextForMediumScreen"
+                                    android:hint="Phone no."
+                                    android:inputType="number"
+                                    android:maxLength="10" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/emailEdtLayout"
-                            style="@style/TextInputLayoutStyleForMediumScreen"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:errorEnabled="false">
+                            <TextView
+                                style="@style/EditTextTitle"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Email Address*" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/emailEdt"
-                                style="@style/textInputEditTextForMediumScreen"
-                                android:hint="Email Id"
-                                android:scrollbarStyle="insideInset"
-                                android:scrollbars="vertical"
-                                android:overScrollMode="always"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/emailEdtLayout"
+                                style="@style/TextInputLayoutStyleForMediumScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
 
-                                android:inputType="textEmailAddress" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/emailEdt"
+                                    style="@style/textInputEditTextForMediumScreen"
+                                    android:hint="Email Id"
+                                    android:scrollbarStyle="insideInset"
+                                    android:scrollbars="vertical"
+                                    android:overScrollMode="always"
+
+                                    android:inputType="textEmailAddress" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+
 
                         <include
                             android:id="@+id/includeBtn"
@@ -300,7 +344,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 </layout>

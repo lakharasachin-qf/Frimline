@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -51,12 +49,11 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="-20dp"
                         android:layout_marginBottom="30dp"
-                        app:dotsColor="#DDDDDD"
+                        app:dotsColor="#B78C8C8C"
                         app:dotsCornerRadius="8dp"
                         app:dotsSize="8dp"
                         app:dotsSpacing="3dp"
                         app:dotsWidthFactor="2.5"
-                        app:progressMode="true"
                         app:selectedDotColor="@color/orange" />
 
                     <ImageView
@@ -102,6 +99,7 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                            android:id="@+id/ratting"
                             style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -167,27 +165,12 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_5sdp"
                                 android:layout_marginEnd="@dimen/_5sdp"
-                                android:gravity="center"
                                 android:background="@drawable/shape_cart_backgorund"
+                                android:gravity="center"
                                 android:includeFontPadding="false"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_13sdp"
-                                />
-<!--                            <TextView-->
-<!--                                android:id="@+id/counter"-->
-<!--                                android:layout_width="@dimen/_40sdp"-->
-<!--                                android:layout_height="@dimen/_30sdp"-->
-<!--                                android:layout_gravity="center_vertical"-->
-<!--                                android:layout_marginStart="@dimen/_5sdp"-->
-<!--                                android:layout_marginEnd="@dimen/_5sdp"-->
-<!--                                android:background="@drawable/shape_cart_backgorund"-->
-<!--                                android:includeFontPadding="false"-->
-<!--                                android:paddingTop="@dimen/_7sdp"-->
-<!--                                android:text="1"-->
-<!--                                android:textAlignment="center"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:textSize="@dimen/_13sdp"-->
-<!--                                tools:ignore="RtlCompat" />-->
+                                android:textSize="@dimen/_13sdp" />
+
 
                             <TextView
                                 android:id="@+id/incrementAction"
@@ -312,9 +295,95 @@
             </LinearLayout>
         </ScrollView>
 
-        <include
-            android:id="@+id/toolbar_Navigation"
-            layout="@layout/include_activity_toolbar_layout" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorScreenBackground"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
+
+                <ImageView
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:id="@+id/backPress"
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/ic_left_arrow_black" />
+
+                <TextView
+                    android:id="@+id/titleToolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/proxima_nova_bold"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/colorToolbarHeader"
+                    android:textSize="@dimen/_16sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/cartActionLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true">
+
+                    <ImageView
+                        android:id="@+id/cartAction"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/ic_cart"
+                        app:tint="#FF000000" />
+
+                    <RelativeLayout
+                        android:id="@+id/cartBackgroundLayar"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                         android:layout_alignParentTop="true"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:background="@drawable/shape_ovel"
+                        android:backgroundTint="@color/colorGreen"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/cartCounterTop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:includeFontPadding="false"
+                            android:text="12"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorToolbarHeader"
+                            android:textSize="@dimen/_8sdp"
+                            tools:ignore="RtlCompat" />
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
 
         <RelativeLayout
             android:id="@+id/boottomFooter"

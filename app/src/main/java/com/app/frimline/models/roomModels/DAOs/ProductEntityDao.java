@@ -21,6 +21,9 @@ public interface ProductEntityDao {
     @Query("DELETE FROM cart")
     void deleteAll();
 
+    @Query("DELETE FROM cart WHERE id=:productId")
+    void deleteProduct(String productId);
+
     @Update
     void updateSpecificProduct(ProductEntity entity);
 

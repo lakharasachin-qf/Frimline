@@ -572,20 +572,32 @@ public class HomeFragment extends BaseFragment {
             public void run() {
                 if (frimline.getObserver().getValue() == ObserverActionID.HOME_ADDED_TO_CART) {
                     if (parentHomeAdapter != null) {
-                        relaodData(frimline.getObserver().getModel(),true);
+                        relaodData(frimline.getObserver().getModel(), true);
+                        HELPER.changeCartCounter(act);
                     }
                 }
                 if (frimline.getObserver().getValue() == ObserverActionID.HOME_REMOVE_FROM_CART) {
                     if (parentHomeAdapter != null) {
-                        relaodData(frimline.getObserver().getModel(),false);
+                        relaodData(frimline.getObserver().getModel(), false);
+                        HELPER.changeCartCounter(act);
                     }
+                }
+                if (frimline.getObserver().getValue() == ObserverActionID.CART_COUNTER_UPDATE) {
+                    int refreshingPost = 0;
+                    for (int i = 0; i < rootModel.size(); i++) {
+                        if (rootModel.get(i).getLayoutType() == LAYOUT_TYPE.CATEGORY_PRODUCT) {
+                            refreshingPost = i;
+                            break;
+                        }
+                    }
+                    parentHomeAdapter.notifyItemChanged(refreshingPost);
                 }
             }
         });
 
     }
 
-    public void relaodData(DataTransferModel dataTransferModel,boolean addOrNot) {
+    public void relaodData(DataTransferModel dataTransferModel, boolean addOrNot) {
         String productId = dataTransferModel.getProductId();
         int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout produc t item
         int layoutType = Integer.parseInt(dataTransferModel.getLayoutType());//item layout 3 product or 2 product or 1 product

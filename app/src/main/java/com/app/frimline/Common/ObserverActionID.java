@@ -15,4 +15,9 @@ public class ObserverActionID {
 
     public static final int SHOP_ADDED_TO_CART=8;
     public static final int SHOP_REMOVE_FROM_CART=9;
+
+
+
+    public static final int CART_COUNTER_UPDATE=10;
+    public static final int LOGOUT=11;
 }
