@@ -1,6 +1,7 @@
 package com.app.frimline.Common;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.BlogModel;
@@ -19,6 +20,7 @@ import com.app.frimline.models.OrderModel;
 import com.app.frimline.models.OrderedProductModel;
 import com.app.frimline.models.ProfileModel;
 import com.app.frimline.models.QAModel;
+import com.app.frimline.models.SearchModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -242,7 +244,7 @@ public class ResponseHandler {
                         singleModel.setCatColor(getString(dataArr.getJSONObject(i), "cat_color"));
                         singleModel.setDetailImage(getString(dataArr.getJSONObject(i), "details_image"));
                         singleModel.setLongDescription(getString(dataArr.getJSONObject(i), "long_description"));
-                        dataList.add(singleModel);
+
                         dataList.add(singleModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -444,7 +446,9 @@ public class ResponseHandler {
 
         return output;
     }
-
+    public static ArrayList<ProductModel> convertListToArray(List<ProductModel> array){
+        return new ArrayList<>(array);
+    }
 
     public static HomeModel getHotProducts(JSONObject jsonObject) {
         JSONArray topRatedArr = getJSONArray(jsonObject, "hot_product");
@@ -501,9 +505,28 @@ public class ResponseHandler {
         ArrayList<HomeModel> rootArrayList = new ArrayList<>();
         JSONObject jsonObject = createJsonObject(res);
         if (jsonObject != null) {
-            rootArrayList.add(getTopRatedForShop(jsonObject));
-            rootArrayList.add(getCategoryForShop(jsonObject));
-            rootArrayList.add(getHotProducts(jsonObject));
+            int count=0;
+            HomeModel topRatedModel = getTopRatedForShop(jsonObject);
+            if (topRatedModel.getApiProductModel().size() != 0) {
+                rootArrayList.add(topRatedModel);
+                count++;
+            }
+
+            HomeModel categoryModel = getCategoryForShop(jsonObject);
+            if (categoryModel.getCategoryArrayList().size() != 0)
+                rootArrayList.add(categoryModel);
+
+            HomeModel hotProductModel = getHotProducts(jsonObject);
+            if (hotProductModel.getApiProductModel().size() != 0) {
+                rootArrayList.add(hotProductModel);
+                count++;
+            }
+
+            if (count == 0){
+                rootArrayList.clear();
+            }
+
+
         }
         return rootArrayList;
     }
@@ -553,10 +576,10 @@ public class ResponseHandler {
                     review.setId(jsonArr.getJSONObject(i).getString("id"));
                     if (jsonArr.getJSONObject(i).get("answer") instanceof JSONArray) {
                         if (jsonArr.getJSONObject(i).getJSONArray("answer").length() != 0) {
-                            review.setAnswer(jsonArr.getJSONObject(i).getJSONArray("answer").getJSONObject(0).getString("title"));
+                            review.setAnswer(jsonArr.getJSONObject(i).getJSONArray("answer").getJSONObject(0).getString("content"));
                         }
                     }
-                    review.setQuestion(jsonArr.getJSONObject(i).getString("title"));
+                    review.setQuestion(jsonArr.getJSONObject(i).getString("content"));
 
 
                     reviewsList.add(review);
@@ -616,6 +639,9 @@ public class ResponseHandler {
                 }
                 model.setId(jsonArray.getJSONObject(i).getString("id"));
                 model.setDate(jsonArray.getJSONObject(i).getString("date"));
+                //image link for blog
+                model.setBlogImage(jsonArray.getJSONObject(i).getString("date"));
+
                 model.setTitle(jsonArray.getJSONObject(i).getJSONObject("title").getString("rendered"));
                 model.setShortContent(jsonArray.getJSONObject(i).getJSONObject("excerpt").getString("rendered"));
                 model.setContent(jsonArray.getJSONObject(i).getJSONObject("content").getString("rendered"));
@@ -684,64 +710,63 @@ public class ResponseHandler {
     }
 
     public static ArrayList<OrderModel> parseOrderHistory(String response) {
-        ArrayList<OrderModel> arrayList =new ArrayList<>();
+        ArrayList<OrderModel> arrayList = new ArrayList<>();
 
 
         try {
             JSONArray array = new JSONArray(response);
 
-            for (int i =0 ; i<array.length();i++){
+            for (int i = 0; i < array.length(); i++) {
                 OrderModel orderModel = new OrderModel();
                 JSONObject object = array.getJSONObject(i);
-                orderModel.setOrderId(getString(object,"id"));
-                orderModel.setOrderKey(getString(object,"order_key"));
-                orderModel.setStatus(getString(object,"status"));
-                orderModel.setOrderDate(getString(object,"date_created"));
-                orderModel.setDiscountTotal(getString(object,"discount_total"));
-                orderModel.setDiscountTax(getString(object,"discount_tax"));
-                orderModel.setShippingTotal(getString(object,"shipping_total"));
-                orderModel.setShippingTax(getString(object,"shipping_tax"));
-                orderModel.setCartTax(getString(object,"cart_tax"));
-                orderModel.setTotal(getString(object,"total"));
-                orderModel.setTotal_tax(getString(object,"total_tax"));
-                orderModel.setCustomerNote(getString(object,"customer_note"));
-                orderModel.setPaymentMethod(getString(object,"payment_method"));
-                orderModel.setPaymentMethodTitle(getString(object,"payment_method_title"));
-                orderModel.setTransactionId(getString(object,"transaction_id"));
-                orderModel.setDatePaid(getString(object,"date_paid"));
+                orderModel.setOrderId(getString(object, "id"));
+                orderModel.setOrderKey(getString(object, "order_key"));
+                orderModel.setStatus(getString(object, "status"));
+                orderModel.setOrderDate(getString(object, "date_created"));
+                orderModel.setDiscountTotal(getString(object, "discount_total"));
+                orderModel.setDiscountTax(getString(object, "discount_tax"));
+                orderModel.setShippingTotal(getString(object, "shipping_total"));
+                orderModel.setShippingTax(getString(object, "shipping_tax"));
+                orderModel.setCartTax(getString(object, "cart_tax"));
+                orderModel.setTotal(getString(object, "total"));
+                orderModel.setTotal_tax(getString(object, "total_tax"));
+                orderModel.setCustomerNote(getString(object, "customer_note"));
+                orderModel.setPaymentMethod(getString(object, "payment_method"));
+                orderModel.setPaymentMethodTitle(getString(object, "payment_method_title"));
+                orderModel.setTransactionId(getString(object, "transaction_id"));
+                orderModel.setDatePaid(getString(object, "date_paid"));
 
-                Billing billingAddress= new Billing();
-                billingAddress.setFirstName(getString(getJSONObject(object,"billing"),"first_name"));
-                billingAddress.setLastName(getString(getJSONObject(object,"billing"),"last_name"));
-                billingAddress.setCompany(getString(getJSONObject(object,"billing"),"company"));
-                billingAddress.setAddress1(getString(getJSONObject(object,"billing"),"address_1"));
-                billingAddress.setAddress2(getString(getJSONObject(object,"billing"),"address_2"));
-                billingAddress.setCity(getString(getJSONObject(object,"billing"),"city"));
-                billingAddress.setState(getString(getJSONObject(object,"billing"),"state"));
-                billingAddress.setPostCode(getString(getJSONObject(object,"billing"),"postcode"));
-                billingAddress.setCountry(getString(getJSONObject(object,"billing"),"country"));
-                billingAddress.setEmail(getString(getJSONObject(object,"billing"),"email"));
-                billingAddress.setPhone(getString(getJSONObject(object,"billing"),"phone"));
+                Billing billingAddress = new Billing();
+                billingAddress.setFirstName(getString(getJSONObject(object, "billing"), "first_name"));
+                billingAddress.setLastName(getString(getJSONObject(object, "billing"), "last_name"));
+                billingAddress.setCompany(getString(getJSONObject(object, "billing"), "company"));
+                billingAddress.setAddress1(getString(getJSONObject(object, "billing"), "address_1"));
+                billingAddress.setAddress2(getString(getJSONObject(object, "billing"), "address_2"));
+                billingAddress.setCity(getString(getJSONObject(object, "billing"), "city"));
+                billingAddress.setState(getString(getJSONObject(object, "billing"), "state"));
+                billingAddress.setPostCode(getString(getJSONObject(object, "billing"), "postcode"));
+                billingAddress.setCountry(getString(getJSONObject(object, "billing"), "country"));
+                billingAddress.setEmail(getString(getJSONObject(object, "billing"), "email"));
+                billingAddress.setPhone(getString(getJSONObject(object, "billing"), "phone"));
                 orderModel.setBillingAddress(billingAddress);
 
 
-                Billing shippingAddress= new Billing();
-                shippingAddress.setFirstName(getString(getJSONObject(object,"shipping"),"first_name"));
-                shippingAddress.setLastName(getString(getJSONObject(object,"shipping"),"last_name"));
-                shippingAddress.setCompany(getString(getJSONObject(object,"shipping"),"company"));
-                shippingAddress.setAddress1(getString(getJSONObject(object,"shipping"),"address_1"));
-                shippingAddress.setAddress2(getString(getJSONObject(object,"shipping"),"address_2"));
-                shippingAddress.setCity(getString(getJSONObject(object,"shipping"),"city"));
-                shippingAddress.setState(getString(getJSONObject(object,"shipping"),"state"));
-                shippingAddress.setPostCode(getString(getJSONObject(object,"shipping"),"postcode"));
-                shippingAddress.setCountry(getString(getJSONObject(object,"shipping"),"country"));
+                Billing shippingAddress = new Billing();
+                shippingAddress.setFirstName(getString(getJSONObject(object, "shipping"), "first_name"));
+                shippingAddress.setLastName(getString(getJSONObject(object, "shipping"), "last_name"));
+                shippingAddress.setCompany(getString(getJSONObject(object, "shipping"), "company"));
+                shippingAddress.setAddress1(getString(getJSONObject(object, "shipping"), "address_1"));
+                shippingAddress.setAddress2(getString(getJSONObject(object, "shipping"), "address_2"));
+                shippingAddress.setCity(getString(getJSONObject(object, "shipping"), "city"));
+                shippingAddress.setState(getString(getJSONObject(object, "shipping"), "state"));
+                shippingAddress.setPostCode(getString(getJSONObject(object, "shipping"), "postcode"));
+                shippingAddress.setCountry(getString(getJSONObject(object, "shipping"), "country"));
                 orderModel.setShippingAddress(shippingAddress);
 
 
-
                 ArrayList<OrderedProductModel> productList = new ArrayList<>();
-                JSONArray productArr= getJSONArray(object,"line_items");
-                for (int k=0;k<productArr.length();k++){
+                JSONArray productArr = getJSONArray(object, "line_items");
+                for (int k = 0; k < productArr.length(); k++) {
                     JSONObject productObj = productArr.getJSONObject(k);
                     OrderedProductModel productModel = new OrderedProductModel();
                     productModel.setId(productObj.getString("id"));
@@ -769,6 +794,91 @@ public class ResponseHandler {
 
         return arrayList;
 
+    }
+
+
+    public static ArrayList<SearchModel> parseSearch(String response) {
+        ArrayList<SearchModel> searchListResult = null;
+
+        JSONObject searchObj = createJsonObject(response);
+        if (searchObj != null) {
+
+            try {
+                searchListResult = new ArrayList<>();
+                ArrayList<ProductModel> arrayProduct = commonProductParsing(searchObj.getJSONArray("products"));
+                int totalSize = arrayProduct.size();
+                int firstPartSize = Integer.parseInt(String.valueOf(totalSize / 2));
+                List<ProductModel> topProduct =  arrayProduct.subList(0, firstPartSize);
+
+                ArrayList<ArrayList<ProductModel>> chunkArray = chunkArray(topProduct, 3);
+                ArrayList<HomeModel> tempArray = new ArrayList<>();
+
+                for (int i = 0; i < chunkArray.size(); i++) {
+                    HomeModel model = new HomeModel();
+                    ArrayList<ProductModel> modelArrayList = chunkArray.get(i);
+                    model.setApiProductModel(modelArrayList);
+                    if (modelArrayList.size() == 3)
+                        model.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
+                    else if (modelArrayList.size() == 2)
+                        model.setLayoutType(LAYOUT_TYPE.LAYOUT_TWO_PRODUCT);
+                    else if (modelArrayList.size() == 1)
+                        model.setLayoutType(LAYOUT_TYPE.LAYOUT_ONE_PRODUCT);
+                    tempArray.add(model);
+
+                }
+
+                //-----------------------------------------------
+
+                SearchModel topSearchModel = new SearchModel();
+                topSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_TOP_PRODUCT);
+                List<ProductModel> HotProduct =   arrayProduct.subList(firstPartSize, arrayProduct.size());
+                Log.e("HotProduct", String.valueOf(HotProduct.size()));
+                topSearchModel.setTopProduct(tempArray);
+                searchListResult.add(topSearchModel);
+
+                //----------------------------------------
+                JSONArray categoryArr = searchObj.getJSONArray("category");
+                ArrayList<CategorySingleModel> categoryList = new ArrayList<>();
+                for (int i = 0; i < categoryArr.length(); i++) {
+                    CategorySingleModel singleModel = new CategorySingleModel();
+                    try {
+                        singleModel.setCategoryId(getString(categoryArr.getJSONObject(i), "id"));
+                        singleModel.setCategoryName(getString(categoryArr.getJSONObject(i), "name"));
+                        singleModel.setSlug(getString(categoryArr.getJSONObject(i), "slug"));
+                        singleModel.setParents(getString(categoryArr.getJSONObject(i), "parent"));
+                        singleModel.setDescriptions(getString(categoryArr.getJSONObject(i), "description"));
+                        singleModel.setDisplay(getString(categoryArr.getJSONObject(i), "display"));
+                        singleModel.setImage(getString(getJSONObject(categoryArr.getJSONObject(i), "image"), "src"));
+                        singleModel.setMenuOrder(getString(categoryArr.getJSONObject(i), "menu_order"));
+                        singleModel.setCount(getString(categoryArr.getJSONObject(i), "count"));
+                        singleModel.setCatColor(getString(categoryArr.getJSONObject(i), "cat_color"));
+                        singleModel.setDetailImage(getString(categoryArr.getJSONObject(i), "details_image"));
+                        singleModel.setLongDescription(getString(categoryArr.getJSONObject(i), "long_description"));
+                        categoryList.add(singleModel);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                SearchModel categoryModel = new SearchModel();
+                categoryModel.setLayoutType(LAYOUT_TYPE.LAYOUT_FILTER_CHIP);
+                categoryModel.setCategoryList(categoryList);
+                searchListResult.add(categoryModel);
+
+                //------------------------------------------
+                SearchModel hotSearchModel = new SearchModel();
+                hotSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
+                hotSearchModel.setHotProduct(new ArrayList<>(HotProduct));
+                searchListResult.add(hotSearchModel);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        return searchListResult;
     }
 }
 

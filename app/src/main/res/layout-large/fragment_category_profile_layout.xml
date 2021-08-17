@@ -37,6 +37,7 @@
                 <ImageView
                     android:id="@+id/main_backdrop"
                     android:layout_width="match_parent"
+                    android:background="@color/white"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
@@ -120,11 +121,13 @@
                     </RelativeLayout>
 
                     <ImageView
+                        android:id="@+id/image2"
                         android:layout_width="@dimen/_72sdp"
                         android:layout_height="@dimen/_220sdp"
                         android:layout_below="@+id/coverSection"
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/_85sdp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/category_profile_right_cover" />
 
                     <androidx.cardview.widget.CardView

@@ -40,6 +40,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 public class MyAccountFragment extends BaseFragment {
     public interface OnDrawerAction {
@@ -114,6 +115,15 @@ public class MyAccountFragment extends BaseFragment {
             }
         });
 
+
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
+                HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
+            }
+        });
+
         binding.includeSignupBtn.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +145,13 @@ public class MyAccountFragment extends BaseFragment {
 
                 }
 
+
+                if (!model.getPhoneNo().isEmpty()) {
+                    binding.mobileNo.setText(model.getPhoneNo());
+                } else {
+                    binding.mobileNo.setVisibility(View.GONE);
+
+                }
                 //binding..setText(model.getDisplayName());
             }
         }
@@ -165,6 +182,15 @@ public class MyAccountFragment extends BaseFragment {
 
                 }
 
+                if (!model.getPhoneNo().isEmpty()) {
+                    if (model.getPhoneNo().startsWith("+91"))
+                        binding.mobileNo.setText(model.getPhoneNo());
+                    else
+                        binding.mobileNo.setText("+91 " + model.getPhoneNo());
+                } else {
+                    binding.mobileNo.setVisibility(View.GONE);
+
+                }
                 //binding..setText(model.getDisplayName());
             }
         }
@@ -258,14 +284,17 @@ public class MyAccountFragment extends BaseFragment {
                 JSONObject object = ResponseHandler.createJsonObject(response);
                 if (object != null) {
                     ProfileModel model = new ProfileModel();
-                    model.setDisplayName(pref.getUser().getDisplayName());
+                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
                     model.setUserId(ResponseHandler.getString(object, "id"));
                     model.setEmail(ResponseHandler.getString(object, "email"));
                     model.setFirstName(ResponseHandler.getString(object, "first_name"));
                     model.setLastName(ResponseHandler.getString(object, "last_name"));
                     model.setRole(ResponseHandler.getString(object, "role"));
                     model.setUserName(ResponseHandler.getString(object, "username"));
+                    model.setUserName(ResponseHandler.getString(object, "username"));
                     model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+
 
                     Billing billingAddress = new Billing();
                     billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
@@ -346,7 +375,29 @@ public class MyAccountFragment extends BaseFragment {
                 binding.emailTxt.setVisibility(View.GONE);
             }
 
+
+            if (!model.getPhoneNo().isEmpty()) {
+                binding.mobileNo.setText(model.getPhoneNo());
+            } else {
+                binding.mobileNo.setVisibility(View.GONE);
+
+            }
         }
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    binding.loginContent.setVisibility(View.GONE);
+                    binding.NoDataFound.setVisibility(View.GONE);
+                    binding.screenLoader.setVisibility(View.VISIBLE);
+                    loadProfile();
+                }
+            });
+        }
+    }
 }

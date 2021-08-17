@@ -68,7 +68,7 @@
             android:name=".screens.MyCartActivity"
             android:screenOrientation="${screenOrientation}"
 
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".screens.ProductDetailActivity"
             android:screenOrientation="${screenOrientation}"
@@ -98,7 +98,6 @@
         <activity
             android:name=".screens.BillingAddressActivity"
             android:screenOrientation="${screenOrientation}"
-
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".screens.CategoryHomeActivity"

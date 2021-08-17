@@ -23,6 +23,7 @@ import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductReviewAdapter;
@@ -199,6 +200,7 @@ public class ReviewsFragment extends BaseFragment {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(reqBinding.getRoot());
         reqBinding.dialogCloseImg.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+        reqBinding.companyEdtLayout.setBoxStrokeColor(Color.parseColor(defaultColor));
         reqBinding.icon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         reqBinding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         alertDialog = builder.create();
@@ -216,10 +218,65 @@ public class ReviewsFragment extends BaseFragment {
         reqBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+
+                if (CONSTANT.API_MODE){
+                    addReview();
+                }else{
+                    alertDialog.dismiss();
+
+                }
             }
         });
 
 
+    }
+
+
+    private void addReview() {
+
+        if (!isLoading)
+            isLoading = true;
+
+        HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_REVIEW, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("add-review", response);
+                HELPER.dismissLoadingTran();
+                isLoading = false;
+                alertDialog.dismiss();
+                loadReview();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        isLoading = false;
+                        HELPER.dismissLoadingTran();
+                        alertDialog.dismiss();
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("product_id",model.getId());
+                params.put("review",reqBinding.reviewEdt.getText().toString());
+                params.put("rating", String.valueOf(reqBinding.rate.getRating()));
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ import com.app.frimline.adapters.ListAdapter;
 import com.app.frimline.adapters.ShopAdapter;
 import com.app.frimline.adapters.SortingAdapter;
 import com.app.frimline.databinding.FragmentShopBinding;
+import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeModel;
@@ -57,6 +59,10 @@ public class ShopFragment extends BaseFragment {
     private FragmentShopBinding binding;
     private ShopAdapter shopAdapter;
     private ArrayList<HomeModel> rootModel;
+    private int minPricePosition = 0;
+    private int maxPricePosition = 0;
+    private ListModel sortingOptionSelection;
+    private CategorySingleModel selectedCategory;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -87,9 +93,11 @@ public class ShopFragment extends BaseFragment {
             binding.containerRecycler.setNestedScrollingEnabled(false);
             binding.containerRecycler.setAdapter(shopAdapter);
 
-            fillSortingData();
-            setupFilter();
         }
+
+        fillSortingData();
+        setupFilter();
+
         return binding.getRoot();
     }
 
@@ -194,41 +202,90 @@ public class ShopFragment extends BaseFragment {
 
     public void fillSortingData() {
 
-        listModels = new ArrayList<>();
-
-        ListModel countryModel = new ListModel();
-        countryModel.setName("Sort by popularity");
-        listModels.add(countryModel);
-        countryModel = new ListModel();
-        countryModel.setName("Sort by average rating");
-        listModels.add(countryModel);
-        countryModel = new ListModel();
-        countryModel.setName("Sort by latest");
-        listModels.add(countryModel);
-        countryModel = new ListModel();
-        countryModel.setName("Sort by price : Low to High");
-        listModels.add(countryModel);
-        countryModel = new ListModel();
-        countryModel.setName("Sort by price : High to Low");
-        listModels.add(countryModel);
-
         binding.titleText.setText("Sort By");
         binding.titleFilterText.setText("Filter");
-        if (listModels != null) {
-            adpt = new SortingAdapter(listModels, act, 1);
-            SortingAdapter.setOnCheckedRadioListener radioListener = new SortingAdapter.setOnCheckedRadioListener() {
-                @Override
-                public void onOptionSelect(ListModel listModel, int position) {
+        listModels = new ArrayList<>();
+        if (CONSTANT.API_MODE) {
+            ListModel popularityModel = new ListModel();
+            popularityModel.setName("Sort by popularity");
+            popularityModel.setOrderBy("popularity");
+            popularityModel.setOrder(ListModel.ASC);
+            listModels.add(popularityModel);
 
-                }
-            };
-            adpt.setRadioListener(radioListener);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
-            binding.recyclerList.setLayoutManager(mLayoutManager);
-            binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
-            binding.recyclerList.setAdapter(adpt);
+            ListModel ratingModel = new ListModel();
+            ratingModel.setName("Sort by average rating");
+            ratingModel.setOrderBy("rating");
+            ratingModel.setOrder(ListModel.ASC);
+            listModels.add(ratingModel);
+
+            ListModel dateModel = new ListModel();
+            dateModel.setName("Sort by latest");
+            dateModel.setOrderBy("date");
+            dateModel.setOrder(ListModel.ASC);
+            listModels.add(dateModel);
+
+            ListModel priceModelLowToHigh = new ListModel();
+            priceModelLowToHigh.setName("Sort by price : Low to High");
+            priceModelLowToHigh.setOrderBy("price");
+            priceModelLowToHigh.setOrder(ListModel.ASC);
+            listModels.add(priceModelLowToHigh);
+
+            ListModel priceModelHighToLow = new ListModel();
+            priceModelHighToLow.setName("Sort by price : High to Low");
+            priceModelHighToLow.setOrderBy("price");
+            priceModelHighToLow.setOrder(ListModel.DESC);
+            listModels.add(priceModelHighToLow);
+
+            if (listModels != null) {
+                adpt = new SortingAdapter(listModels, act, 1);
+                SortingAdapter.setOnCheckedRadioListener radioListener = new SortingAdapter.setOnCheckedRadioListener() {
+                    @Override
+                    public void onOptionSelect(ListModel listModel, int position) {
+                        sortingOptionSelection = listModel;
+                        loadShopData();
+                    }
+                };
+                adpt.setRadioListener(radioListener);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
+                binding.recyclerList.setLayoutManager(mLayoutManager);
+                binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
+                binding.recyclerList.setAdapter(adpt);
 
 
+            }
+        } else {
+            ListModel countryModel = new ListModel();
+            countryModel.setName("Sort by popularity");
+            listModels.add(countryModel);
+            countryModel = new ListModel();
+            countryModel.setName("Sort by average rating");
+            listModels.add(countryModel);
+            countryModel = new ListModel();
+            countryModel.setName("Sort by latest");
+            listModels.add(countryModel);
+            countryModel = new ListModel();
+            countryModel.setName("Sort by price : Low to High");
+            listModels.add(countryModel);
+            countryModel = new ListModel();
+            countryModel.setName("Sort by price : High to Low");
+            listModels.add(countryModel);
+
+            if (listModels != null) {
+                adpt = new SortingAdapter(listModels, act, 1);
+                SortingAdapter.setOnCheckedRadioListener radioListener = new SortingAdapter.setOnCheckedRadioListener() {
+                    @Override
+                    public void onOptionSelect(ListModel listModel, int position) {
+
+                    }
+                };
+                adpt.setRadioListener(radioListener);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
+                binding.recyclerList.setLayoutManager(mLayoutManager);
+                binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
+                binding.recyclerList.setAdapter(adpt);
+
+
+            }
         }
 
         binding.closeView.setOnClickListener(new View.OnClickListener() {
@@ -268,10 +325,16 @@ public class ShopFragment extends BaseFragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void setAdapaters() {
+        rootPriceList = new ArrayList<>();
+        minPriceList = new ArrayList<>();
+        maxPriceList = new ArrayList<>();
+
         binding.minPrice.clearListSelection();
         binding.maxPrice.clearListSelection();
+
         binding.maxPrice.setText("");
         binding.minPrice.setText("");
+
         rootPriceList.clear();
         rootPriceList.add("100");
         rootPriceList.add("500");
@@ -280,8 +343,9 @@ public class ShopFragment extends BaseFragment {
         rootPriceList.add("2000");
         rootPriceList.add("2500");
         rootPriceList.add("3000");
-        minPriceList = rootPriceList;
-        maxPriceList = rootPriceList;
+
+        minPriceList = new ArrayList<>(rootPriceList);
+        maxPriceList = new ArrayList<>(rootPriceList);
 
         adapter = new ListAdapter(getActivity(), R.layout.item_string_filter_price_layout, minPriceList);
 
@@ -292,6 +356,23 @@ public class ShopFragment extends BaseFragment {
         binding.maxPrice.setThreshold(0);
         binding.maxPrice.setAdapter(adapter2);
 
+
+        binding.minPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                minPricePosition = position;
+                adapter2.updateReceiptsList(rootPriceList.subList(position, rootPriceList.size()));
+            }
+        });
+
+        binding.maxPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                maxPricePosition = position;
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.PRICE_FILTER);
+            }
+        });
+
         binding.filterFrameLayout.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
@@ -299,6 +380,7 @@ public class ShopFragment extends BaseFragment {
                 return true;
             }
         });
+
         binding.frameLayout.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
@@ -316,20 +398,28 @@ public class ShopFragment extends BaseFragment {
         if (!isLoading)
             isLoading = true;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.SHOP, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Log.e("Response", response);
+                Log.e("Response", response);
+
                 stopShimmer();
                 isLoading = false;
                 rootModel = ResponseHandler.handleShopFragmentData(response);
                 shopAdapter = new ShopAdapter(rootModel, getActivity());
+
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
                 binding.containerRecycler.setHasFixedSize(true);
                 binding.containerRecycler.setNestedScrollingEnabled(false);
                 binding.containerRecycler.setLayoutManager(mLayoutManager);
                 binding.containerRecycler.setAdapter(shopAdapter);
-                //loadData(rootModel);
+
+                if (rootModel.size() == 0) {
+                    binding.containerRoot.setVisibility(View.GONE);
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
+                    binding.emptyData.setVisibility(View.GONE);
+                }
+
             }
         },
                 new Response.ErrorListener() {
@@ -353,6 +443,17 @@ public class ShopFragment extends BaseFragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("min_price", "");
+                params.put("max_price", "");
+                if (sortingOptionSelection != null) {
+                    params.put("orderby", sortingOptionSelection.getOrderBy());
+                    params.put("order", sortingOptionSelection.getOrder());
+                }
+
+                if (selectedCategory != null)
+                    params.put("category", selectedCategory.getCategoryId());
+
+                Log.e("Param", params.toString());
                 return params;
             }
         };
@@ -368,7 +469,9 @@ public class ShopFragment extends BaseFragment {
                 @Override
                 public void run() {
                     if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-
+                        sortingOptionSelection = gson.fromJson(frimline.getObserver().getData(), ListModel.class);
+                        startShimmer();
+                        loadShopData();
                     }
                     if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
                         slideTorightFilter(binding.filterFrameLayout);
@@ -405,6 +508,24 @@ public class ShopFragment extends BaseFragment {
                         relaodData(frimline.getObserver().getModel(), false);
                     }
                 }
+                if (frimline.getObserver().getValue() == ObserverActionID.PRICE_FILTER) {
+                    if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
+                        slideTorightFilter(binding.filterFrameLayout);
+                    }
+                    if (binding.frameLayout.getVisibility() == View.VISIBLE) {
+                        slideToright(binding.frameLayout);
+                    }
+                    startShimmer();
+                    loadShopData();
+                }
+
+                if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER) {
+                    if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
+                        selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
+                        startShimmer();
+                        loadShopData();
+                    }
+                }
             }
         });
 
@@ -420,7 +541,6 @@ public class ShopFragment extends BaseFragment {
         HomeModel model = rootModel.get(itemPosition);
         ProductModel dashBoardItemList = model.getApiProductModel().get(adapterPosition);
         dashBoardItemList.setAddedToCart(addOrNot);
-
         int refreshingPost = 0;
         for (int i = 0; i < rootModel.size(); i++) {
             if (rootModel.get(i).getLayoutType() == layoutType) {

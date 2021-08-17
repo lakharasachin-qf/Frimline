@@ -36,6 +36,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
+                    android:background="@color/white"
                     android:id="@+id/main_backdrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -58,13 +59,14 @@
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_23sdp"
                             android:src="@drawable/ic_drawer_menu" />
+
                         <TextView
                             android:id="@+id/titleTxt"
                             android:layout_width="match_parent"
-                            android:textAlignment="center"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proxinova_semi_bold"
                             android:text="Oral Hygiene"
+                            android:textAlignment="center"
                             android:textColor="@color/colorToolbarHeader"
                             android:textSize="@dimen/_17sdp"
                             android:visibility="visible" />
@@ -118,11 +120,14 @@
                     </RelativeLayout>
 
                     <ImageView
+                        android:id="@+id/image2"
                         android:layout_width="@dimen/_72sdp"
                         android:layout_height="@dimen/_220sdp"
+
                         android:layout_below="@+id/coverSection"
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/_85sdp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/category_profile_right_cover" />
 
                     <androidx.cardview.widget.CardView
@@ -163,9 +168,9 @@
 
                                 <TextView
                                     android:id="@+id/text2"
-                                    android:layout_marginStart="@dimen/_7sdp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_7sdp"
                                     android:fontFamily="@font/proxinova_semi_bold"
                                     android:includeFontPadding="false"
                                     android:text="Hygiene"
@@ -193,14 +198,15 @@
                                 android:layout_below="@+id/underLineRight"
                                 android:layout_marginEnd="@dimen/_15sdp"
                                 android:layout_marginBottom="@dimen/_25sdp"
-                                android:maxLines="4"
                                 android:ellipsize="end"
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:includeFontPadding="false"
+                                android:maxLines="4"
                                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,"
                                 android:textSize="@dimen/_11sdp" />
 
                             <View
+                                android:id="@+id/viewBottom"
                                 android:layout_width="@dimen/_90sdp"
                                 android:layout_height="@dimen/_18sdp"
                                 android:layout_alignParentEnd="true"
@@ -208,7 +214,6 @@
                                 android:layout_marginTop="@dimen/_40sdp"
                                 android:layout_marginEnd="-30dp"
                                 android:alpha="0.3"
-                                android:id="@+id/viewBottom"
                                 android:background="@drawable/shape_for_category_profile" />
                         </RelativeLayout>
 
@@ -271,7 +276,6 @@
                                 android:includeFontPadding="false"
                                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n\nEprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.\n\nSunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat. Duis aute irure dolor."
                                 android:textSize="@dimen/_11sdp" />
-
 
 
                             <RelativeLayout

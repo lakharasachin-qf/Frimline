@@ -1,6 +1,7 @@
 package com.app.frimline.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.app.frimline.R;
 import com.app.frimline.databinding.ItemOrderHistoryLayoutBinding;
 import com.app.frimline.models.OrderModel;
 import com.app.frimline.screens.OrderHistoryViewActivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -63,9 +65,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 //                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_delivery_icon));
 //                holder.binding.delivaryIcon.setImageTintList(null);
 //            }
-            holder.binding.rate.setVisibility(View.GONE);
-            HELPER.LOAD_HTML(holder.binding.orderId,"Order Id:" + model.getOrderKey());
-            HELPER.LOAD_HTML(holder.binding.price,activity.getString(R.string.Rs)+model.getTotal());
+
+            HELPER.LOAD_HTML(holder.binding.orderId, "Order Id:" + model.getOrderKey());
+            HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getTotal());
+            HELPER.LOAD_HTML(holder.binding.productName, model.getProductsList().get(0).getName());
+            holder.binding.viewDetailsBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(activity, OrderHistoryViewActivity.class);
+                    i.putExtra("model",new Gson().toJson(model));
+                    activity.startActivity(i);
+                    activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                }
+            });
 
         } else {
             holder.binding.viewDetailsBtn.setOnClickListener(new View.OnClickListener() {

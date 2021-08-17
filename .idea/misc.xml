@@ -57,6 +57,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_cat_root_todays_left_layout.xml" value="0.5234375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_cat_root_todays_right_layout.xml" value="0.5234375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_home_banner_child_layout.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_left_blog_layout.xml" value="0.4325" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_my_cart_layout.xml" value="0.5234375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_order_history_layout.xml" value="0.455" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_our_product_layout.xml" value="0.5234375" />
@@ -64,6 +65,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_product_section_one_layout.xml" value="0.5234375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_product_section_three_layout.xml" value="0.33" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_product_section_two_layout.xml" value="0.5234375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_q_a_a_layout.xml" value="0.44625" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_radion_button_layout.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_review_layout.xml" value="0.5234375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout-large/item_string_filter_price_layout.xml" value="0.3489583333333333" />
@@ -91,7 +93,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_search.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_signup.xml" value="0.26171875" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/bottom_sheet_order_price_layout.xml" value="0.3489583333333333" />
-        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/content_order_details.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/content_order_details.xml" value="0.2182410423452769" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/custom_navigation.xml" value="0.1" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/dialog_add_review.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/dialog_ask_question.xml" value="0.22039473684210525" />
@@ -127,6 +129,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_cat_root_todays_right_layout.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_home_banner_child_layout.xml" value="0.1" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_home_banner_section_layout.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_home_top_ratting_section_layout.xml" value="0.2182410423452769" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_left_blog_layout.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_list_layout.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_my_cart_layout.xml" value="0.25" />
@@ -136,6 +139,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_product_section_one_layout.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_product_section_three_layout.xml" value="0.33" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_product_section_two_layout.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_q_a_a_layout.xml" value="0.2182410423452769" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_radion_button_layout.xml" value="0.3489583333333333" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_review_layout.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/item_search_first_container_layout.xml" value="0.22039473684210525" />

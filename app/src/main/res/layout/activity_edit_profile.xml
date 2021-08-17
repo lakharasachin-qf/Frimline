@@ -71,7 +71,7 @@
                                 <TextView
                                     style="@style/EditTextTitle"
                                     android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="First Name" />
+                                    android:text="First Name*" />
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/nameEdtLayout"
@@ -104,7 +104,7 @@
                                     style="@style/EditTextTitle"
 
                                     android:layout_marginBottom="@dimen/_7sdp"
-                                    android:text="Last Name" />
+                                    android:text="Last Name*" />
 
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -129,7 +129,7 @@
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_12sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Display Name" />
+                            android:text="Display Name*" />
 
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -152,7 +152,7 @@
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_12sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Email" />
+                            android:text="Email*" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/emailEdtLayout"
@@ -174,7 +174,7 @@
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_12sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:text="Phone No" />
+                            android:text="Phone No*" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/phoneNoEdtLayout"

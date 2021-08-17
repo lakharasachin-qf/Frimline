@@ -353,7 +353,8 @@ public class SignupActivity extends BaseActivity {
                 JSONObject object = ResponseHandler.createJsonObject(response);
                 if (object != null) {
                     ProfileModel model = new ProfileModel();
-                    model.setDisplayName(prefManager.getUser().getDisplayName());
+                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
                     model.setUserId(ResponseHandler.getString(object, "id"));
                     model.setEmail(ResponseHandler.getString(object, "email"));
                     model.setFirstName(ResponseHandler.getString(object, "first_name"));
@@ -363,6 +364,7 @@ public class SignupActivity extends BaseActivity {
                     model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
 
                     Billing billingAddress = new Billing();
+
                     billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
                     billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
                     billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));

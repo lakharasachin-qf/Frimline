@@ -22,7 +22,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.LoginTabAdapter;
@@ -198,6 +200,7 @@ public class LoginActivity extends BaseActivity {
                         // There are no request codes
                         Intent data = result.getData();
                         if (data.hasExtra("success")) {
+                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
                             onBackPressed();
                         }
 

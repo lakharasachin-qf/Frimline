@@ -21,6 +21,8 @@ import com.app.frimline.databinding.ItemRightBlogLayoutBinding;
 import com.app.frimline.models.BlogModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.screens.BlogDetailsActivity;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -100,6 +102,12 @@ public class BlogsAdapter extends RecyclerView.Adapter {
                             ((LeftBlog) holder).binding.layout.performClick();
                         }
                     });
+//                    Glide.with(activity).load(model.getBlogImage())
+//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                            .skipMemoryCache(true)
+//                            .placeholder(R.drawable.ic_square_place_holder)
+//                            .error(R.drawable.ic_square_place_holder)
+//                            .into(((LeftBlog) holder).binding.blogImage);
                     break;
                 case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
                     if (CONSTANT.API_MODE) {

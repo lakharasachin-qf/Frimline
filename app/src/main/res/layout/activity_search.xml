@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rootBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rootBackground"
         android:background="@color/colorScreenBackground"
         android:orientation="vertical"
         tools:context=".screens.SearchActivity">
@@ -15,323 +16,64 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/nameEdtLayout"
-            style="@style/EditTextOverLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:elevation="@dimen/_1sdp"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/_2sdp"
-            android:paddingBottom="@dimen/_2sdp">
-
-            <ImageView
-                android:id="@+id/searchIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_search"
-                app:tint="@color/colorGreen" />
-
-            <EditText
-                android:id="@+id/nameEdt"
-                style="@style/EditBoxWithoutIcons"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_toStartOf="@id/clearAction"
-                android:layout_toEndOf="@id/searchIcon"
-                android:background="@null"
-                android:hint="Search Here..." />
-
-            <ImageView
-                android:id="@+id/clearAction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_close_black"
-                app:tint="@color/colorGreen" />
-        </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/containerRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/nameEdtLayout"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/_15sdp"
-            android:paddingBottom="@dimen/_70sdp" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/nameEdtLayout"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/_70sdp"
-            android:visibility="gone">
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/nameEdtLayout"
+                style="@style/EditTextOverLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:elevation="@dimen/_1sdp"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp">
 
-                <include
-                    layout="@layout/include_product_section_layout"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:layout_marginEnd="@dimen/_12sdp" />
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_search"
+                    app:tint="@color/colorGreen" />
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/nameEdt"
+                    style="@style/EditBoxWithoutIcons"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toStartOf="@id/clearAction"
+                    android:layout_toEndOf="@id/searchIcon"
+                    android:background="@null"
+                    android:hint="Search Here..."
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:maxLines="1" />
+
+                <ImageView
+                    android:id="@+id/clearAction"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:scrollbars="none">
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_close_black"
+                    app:tint="@color/colorGreen" />
+            </RelativeLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/containerRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/nameEdtLayout"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_70sdp" />
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_55sdp"
-                        android:clipToPadding="false"
-                        android:paddingStart="@dimen/_15sdp"
-                        android:paddingEnd="@dimen/_15sdp">
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/ChipStyle"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:text="Skin care" />
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/ChipStyle"
-                            android:layout_marginStart="@dimen/_7sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:text="Health Suppliment" />
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/ChipStyle"
-                            android:layout_marginStart="@dimen/_7sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:text="Oral Hygine" />
-
-
-                    </com.google.android.material.chip.ChipGroup>
-
-                </HorizontalScrollView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_11sdp"
-                    android:orientation="horizontal">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="@dimen/_140sdp"
-                        android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/_7sdp"
-                        app:cardElevation="@dimen/_3sdp"
-                        app:cardUseCompatPadding="true">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/productSectionLeft"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_120sdp"
-                                android:layout_marginStart="@dimen/_4sdp"
-                                android:layout_marginTop="@dimen/_4sdp"
-                                android:layout_marginEnd="@dimen/_4sdp"
-                                android:layout_marginBottom="@dimen/_4sdp"
-                                app:cardCornerRadius="@dimen/_7sdp">
-
-                                <ImageView
-                                    android:id="@+id/productImage"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/product_one" />
-                            </androidx.cardview.widget.CardView>
-
-                            <TextView
-                                android:id="@+id/productName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/productSectionLeft"
-                                android:layout_marginStart="@dimen/_7sdp"
-                                android:layout_marginTop="@dimen/_3sdp"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:ellipsize="end"
-                                android:fontFamily="@font/proxima_nova_regular"
-                                android:includeFontPadding="false"
-                                android:maxLines="2"
-                                android:text="Dente91 Lactoferrin Mouthwash"
-                                android:textColor="@color/colorToolbarHeader"
-                                android:textSize="@dimen/_11sdp" />
-
-                            <View
-                                android:id="@+id/underLine"
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="2dp"
-                                android:layout_below="@+id/productName"
-
-                                android:layout_marginStart="@dimen/_7sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:layout_marginBottom="@dimen/_5sdp"
-                                android:background="@drawable/shape_underline"
-                                android:backgroundTint="#E6F0D6" />
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/underLine"
-                                android:layout_marginStart="@dimen/_7sdp"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:layout_marginBottom="@dimen/_7sdp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/productPrice"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_centerVertical="true"
-                                    android:fontFamily="@font/proxima_nova_black"
-                                    android:includeFontPadding="false"
-                                    android:text="₹199.00"
-                                    android:textColor="@color/colorToolbarHeader"
-                                    android:textSize="@dimen/_12sdp" />
-
-
-                                <ImageView
-                                    android:layout_width="@dimen/_18sdp"
-                                    android:layout_height="@dimen/_18sdp"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="end"
-                                    android:background="@drawable/shape_ovel"
-                                    android:backgroundTint="@color/colorGreen"
-                                    android:padding="@dimen/_4sdp"
-                                    android:src="@drawable/ic_cart"
-                                    app:tint="@color/white" />
-
-                            </RelativeLayout>
-
-                        </RelativeLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="@dimen/_140sdp"
-                        android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/_7sdp"
-                        app:cardElevation="@dimen/_3sdp"
-                        app:cardUseCompatPadding="true">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/productSectionLeft2"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_120sdp"
-                                android:layout_marginStart="@dimen/_4sdp"
-                                android:layout_marginTop="@dimen/_4sdp"
-                                android:layout_marginEnd="@dimen/_4sdp"
-                                android:layout_marginBottom="@dimen/_4sdp"
-                                app:cardCornerRadius="@dimen/_7sdp">
-
-                                <ImageView
-                                    android:id="@+id/productImage2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/product_one" />
-                            </androidx.cardview.widget.CardView>
-
-                            <TextView
-                                android:id="@+id/productName2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/productSectionLeft2"
-                                android:layout_marginStart="@dimen/_7sdp"
-                                android:layout_marginTop="@dimen/_3sdp"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:ellipsize="end"
-                                android:fontFamily="@font/proxima_nova_regular"
-                                android:includeFontPadding="false"
-                                android:maxLines="2"
-                                android:text="Dente91 Lactoferrin Mouthwash"
-                                android:textColor="@color/colorToolbarHeader"
-                                android:textSize="@dimen/_11sdp" />
-
-                            <View
-                                android:id="@+id/underLine2"
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="2dp"
-                                android:layout_below="@+id/productName2"
-
-                                android:layout_marginStart="@dimen/_7sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:layout_marginBottom="@dimen/_5sdp"
-                                android:background="@drawable/shape_underline"
-                                android:backgroundTint="#E6F0D6" />
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/underLine2"
-                                android:layout_marginStart="@dimen/_7sdp"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:layout_marginBottom="@dimen/_7sdp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/productPrice2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_centerVertical="true"
-                                    android:fontFamily="@font/proxima_nova_black"
-                                    android:includeFontPadding="false"
-                                    android:text="₹199.00"
-                                    android:textColor="@color/colorToolbarHeader"
-                                    android:textSize="@dimen/_12sdp" />
-
-
-                                <ImageView
-                                    android:layout_width="@dimen/_18sdp"
-                                    android:layout_height="@dimen/_18sdp"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="end"
-                                    android:background="@drawable/shape_ovel"
-                                    android:backgroundTint="@color/colorGreen"
-                                    android:padding="@dimen/_4sdp"
-                                    android:src="@drawable/ic_cart"
-                                    app:tint="@color/white" />
-
-                            </RelativeLayout>
-
-                        </RelativeLayout>
-                    </androidx.cardview.widget.CardView>
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-        </ScrollView>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/sortAction"
@@ -349,12 +91,12 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:elevation="@dimen/_4sdp"
-
             android:id="@+id/transparentOverlay"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/fragment_transparent"
+            android:elevation="@dimen/_4sdp"
             android:visibility="gone" />
 
 
@@ -423,5 +165,28 @@
                 android:layout_height="match_parent" />
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/emptyData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:fontFamily="@font/proxinova_semi_bold"
+            android:gravity="center"
+            android:text="Something went wrong\nPlease try again."
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_marginTop="@dimen/_80sdp"
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            shimmer:shimmer_duration="800">
+
+            <include layout="@layout/shimmer_fragment_shop" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
     </RelativeLayout>
 </layout>

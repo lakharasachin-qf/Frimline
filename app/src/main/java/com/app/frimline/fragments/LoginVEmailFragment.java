@@ -25,8 +25,10 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
@@ -36,6 +38,7 @@ import com.app.frimline.models.Billing;
 import com.app.frimline.models.ProfileModel;
 import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.ForgotPasswordActivity;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -276,7 +279,8 @@ public class LoginVEmailFragment extends BaseFragment {
                     ProfileModel model = new ProfileModel();
                     model.setUserId(ResponseHandler.getString(object, "id"));
                     model.setEmail(ResponseHandler.getString(object, "email"));
-                    model.setDisplayName(pref.getUser().getDisplayName());
+                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
                     model.setFirstName(ResponseHandler.getString(object, "first_name"));
                     model.setLastName(ResponseHandler.getString(object, "last_name"));
                     model.setRole(ResponseHandler.getString(object, "role"));
@@ -310,6 +314,7 @@ public class LoginVEmailFragment extends BaseFragment {
                     billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
                     model.setShippingAddress(billingAddress);
                     pref.setUser(model);
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
                     act.onBackPressed();
 
                 }

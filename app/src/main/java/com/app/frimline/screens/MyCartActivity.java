@@ -1,8 +1,13 @@
 package com.app.frimline.screens;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,12 +21,14 @@ import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityMyCartBinding;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 
 import java.util.ArrayList;
 
 public class MyCartActivity extends BaseActivity {
     private ActivityMyCartBinding binding;
+    private boolean isCouponCodeApplied = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,28 +56,28 @@ public class MyCartActivity extends BaseActivity {
         changeColor();
 
 
-        binding.promoCodeEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    int scrollTo = ((View) v.getParent().getParent()).getTop() + v.getTop();
-                    binding.scrollView.scrollTo(0, scrollTo);
-                }
-            }
-        });
-
         binding.applyCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.promoCodeContainer.setVisibility(View.GONE);
-                binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
+                HELPER.showLoadingTran(act);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        HELPER.dismissLoadingTran();
+                        applyCouponCalculation(true);
+                        Toast.makeText(act, "Coupon Code Applied Successfully.", Toast.LENGTH_SHORT).show();
+                        binding.promoCodeContainer.setVisibility(View.GONE);
+                        binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
+                    }
+                }, 1000);
+
             }
         });
         binding.removePromo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.promoCodeContainer.setVisibility(View.VISIBLE);
-                binding.appliedCodeSuccess.setVisibility(View.GONE);
+                confirmationDialog("Coupon Code", "Are you sure to remove coupon code.");
+
             }
         });
 
@@ -107,7 +114,9 @@ public class MyCartActivity extends BaseActivity {
                             cartAdapter.notifyItemRemoved(position);
                             cartAdapter.notifyItemRangeChanged(position, cartItemList.size());
 
+                            applyCouponCalculation(false);
                             setState();
+
                             if (cartItemList.size() == 0) {
                                 setNoDataFound();
                             }
@@ -115,18 +124,79 @@ public class MyCartActivity extends BaseActivity {
                         }
                     }
                 }
+
+                @Override
+                public void onCartUpdate(int position, ProductModel model) {
+                    applyCouponCalculation(false);
+                    setState();
+
+                }
             });
 
             binding.cartRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false));
             binding.cartRecycler.setNestedScrollingEnabled(false);
             binding.cartRecycler.setAdapter(cartAdapter);
-
-
             setState();
+
+
+            applyCouponCalculation(false);
 
         } else {
             setNoDataFound();
         }
+    }
+
+
+    public void priceCalculation() {
+        double totalPrice = 0; // sum of all product calculated price [ qty * actual price]
+        for (ProductModel productModel : cartItemList) {
+            totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+        }
+        binding.totalPrice.setText(act.getString(R.string.Rs) + totalPrice);
+
+    }
+
+    public void applyCouponCalculation(boolean apply) {
+        double finalAmount = 0;
+        double couponDiscount = 10;
+        double totalPrice = 0; // sum of all product calculated price [ qty * actual price]
+        isCouponCodeApplied = apply;
+
+
+        for (ProductModel productModel : cartItemList) {
+            totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+        }
+        finalAmount = totalPrice;
+        binding.totalPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
+
+
+        if (apply) {
+            double promoDiscount = (totalPrice * couponDiscount) / 100;
+            finalAmount = totalPrice - promoDiscount;
+            Log.e("Final Apply Code", String.valueOf(finalAmount));
+            binding.promoCodeContainer.setVisibility(View.GONE);
+            binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
+            binding.successAppliedCode.setText(binding.promoCodeEdt.getText().toString() + " Code has Applied.");
+            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
+            binding.couponHeading.setText("Coupon (" + binding.promoCodeEdt.getText().toString() + ")");
+            binding.couponAmountLayer.setVisibility(View.VISIBLE);
+        } else {
+            binding.promoCodeContainer.setVisibility(View.VISIBLE);
+            binding.appliedCodeSuccess.setVisibility(View.GONE);
+            binding.promoCodeEdt.setText("");
+            binding.couponHeading.setText("Coupon");
+            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
+            binding.couponAmountLayer.setVisibility(View.GONE);
+        }
+
+        binding.totalTopMRP.setText("Total : " + act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
+        binding.finalAmoutPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
+        binding.headingSection.setText("Price Details (" + cartItemList.size() + ")");
+
+        if (cartItemList.size() == 1)
+            binding.headingSection.setText("Price Details (" + cartItemList.size() + " Item");
+        else
+            binding.headingSection.setText("Price Details (" + cartItemList.size() + " Items");
     }
 
     public void setState() {
@@ -135,12 +205,6 @@ public class MyCartActivity extends BaseActivity {
         else
             binding.itemCount.setText(cartItemList.size() + " Items");
 
-
-        double MRP = 0.00;
-        for (int i = 0; i < cartItemList.size(); i++) {
-            MRP = MRP + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
-        }
-        binding.totalMRP.setText("Total : " + act.getString(R.string.Rs) + MRP);
     }
 
     public void setAdapter() {
@@ -176,12 +240,16 @@ public class MyCartActivity extends BaseActivity {
                     }
                 }
             }
+
+            @Override
+            public void onCartUpdate(int position, ProductModel model) {
+
+            }
         });
 
         binding.cartRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false));
         binding.cartRecycler.setNestedScrollingEnabled(false);
         binding.cartRecycler.setAdapter(shopFilterAdapter);
-
 
 
     }
@@ -200,7 +268,46 @@ public class MyCartActivity extends BaseActivity {
         HELPER.backgroundTint(act, binding.removePromo, true);
         HELPER.backgroundTint(act, binding.bottomSlider, true);
         HELPER.backgroundTint(act, binding.scrollView, true);
+    }
 
+    DialogDiscardImageBinding discardImageBinding;
 
+    public void confirmationDialog(String title, String msg) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+        discardImageBinding.titleTxt.setText(title);
+        discardImageBinding.subTitle.setText(msg);
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                HELPER.showLoadingTran(act);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        HELPER.dismissLoadingTran();
+                        applyCouponCalculation(false);
+                        Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
+                        binding.promoCodeContainer.setVisibility(View.VISIBLE);
+                        binding.appliedCodeSuccess.setVisibility(View.GONE);
+                    }
+                }, 1000);
+
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 }

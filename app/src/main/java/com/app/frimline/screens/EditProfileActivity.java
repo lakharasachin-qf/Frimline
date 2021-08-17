@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +13,28 @@ import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.PREF;
+import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.Common.Validators;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityEditProfileBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.models.ProfileModel;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditProfileActivity extends BaseActivity {
     private ActivityEditProfileBinding binding;
@@ -52,7 +66,7 @@ public class EditProfileActivity extends BaseActivity {
         binding.nameEdt.setText(model.getFirstName());
         binding.lnameEdt.setText(model.getLastName());
         binding.displayNameEdt.setText(model.getDisplayName());
-        // binding.phoneNoEdt.setText(model.getFirstName());
+        binding.phoneNoEdt.setText(model.getPhoneNo());
         binding.emailEdt.setText(model.getEmail());
 
 
@@ -90,10 +104,14 @@ public class EditProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (PROTOTYPE_MODE) {
-                    confirmationDialog();
+                    confirmationDialog("Profile Update", "Your profile updated successfully");
                 } else {
                     if (!validations()) {
-                        confirmationDialog();
+                        if (CONSTANT.API_MODE) {
+                            loadProfile();
+                        } else {
+                            confirmationDialog("Profile Update", "Your profile updated successfully");
+                        }
                     }
                 }
             }
@@ -161,39 +179,42 @@ public class EditProfileActivity extends BaseActivity {
                 binding.phoneNoEdt.requestFocus();
             }
         }
+        if (!binding.newPasswordEdt.getText().toString().trim().isEmpty()) {
 
-        if (binding.newPasswordEdt.getText().toString().trim().length() == 0) {
-            isError = true;
-            binding.newPasswordLayout.setError("Enter Password");
-            if (!isFocus) {
-                isFocus = true;
-                binding.newPasswordEdt.requestFocus();
-            }
-        }
-        if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
-            isError = true;
-            binding.newPasswordLayout.setError("Password should be at least 12 characters, at least one uppercase and one lowercase letter, one number and one special character.");
-            if (!isFocus) {
-                isFocus = true;
-                binding.newPasswordEdt.requestFocus();
-            }
-        }
-
-        if (binding.confirmPassword.getText().toString().length() == 0) {
-            isError = true;
-            binding.confirmPasswordLayout.setError("Enter Confirm Password");
-            if (!isFocus) {
-                isFocus = true;
-                binding.confirmPassword.requestFocus();
-            }
-        } else {
-            if (!binding.newPasswordEdt.getText().toString().equals(binding.confirmPassword.getText().toString())) {
+            if (binding.newPasswordEdt.getText().toString().trim().length() == 0) {
                 isError = true;
-                binding.confirmPasswordLayout.setError("Password doest not match.");
+                binding.newPasswordLayout.setError("Enter Password");
+                if (!isFocus) {
+                    isFocus = true;
+                    binding.newPasswordEdt.requestFocus();
+                }
+            }
+            if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
+                isError = true;
+                binding.newPasswordLayout.setError("Password should be at least 12 characters, at least one uppercase and one lowercase letter, one number and one special character.");
+                if (!isFocus) {
+                    isFocus = true;
+                    binding.newPasswordEdt.requestFocus();
+                }
+            }
+
+            if (binding.confirmPassword.getText().toString().length() == 0) {
+                isError = true;
+                binding.confirmPasswordLayout.setError("Enter Confirm Password");
                 if (!isFocus) {
                     isFocus = true;
                     binding.confirmPassword.requestFocus();
                 }
+            } else {
+                if (!binding.newPasswordEdt.getText().toString().equals(binding.confirmPassword.getText().toString())) {
+                    isError = true;
+                    binding.confirmPasswordLayout.setError("Password doest not match.");
+                    if (!isFocus) {
+                        isFocus = true;
+                        binding.confirmPassword.requestFocus();
+                    }
+                }
+
             }
         }
 
@@ -203,14 +224,14 @@ public class EditProfileActivity extends BaseActivity {
 
     DialogDiscardImageBinding discardImageBinding;
 
-    public void confirmationDialog() {
+    public void confirmationDialog(String title, String msg) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(discardImageBinding.getRoot());
-        discardImageBinding.titleTxt.setText("Profile Update");
-        discardImageBinding.subTitle.setText("Your Profile Updated Successfully.");
+        discardImageBinding.titleTxt.setText(title);
+        discardImageBinding.subTitle.setText(msg);
         discardImageBinding.noTxt.setVisibility(View.GONE);
         discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,5 +250,81 @@ public class EditProfileActivity extends BaseActivity {
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+    }
+
+
+    private boolean isLoading = false;
+
+    private void loadProfile() {
+
+        if (!isLoading)
+            isLoading = true;
+
+        HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_PROFILE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                HELPER.dismissLoadingTran();
+                JSONObject object = ResponseHandler.createJsonObject(response);
+                if (object != null) {
+                    ProfileModel model = new ProfileModel();
+                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
+                    model.setUserId(ResponseHandler.getString(object, "id"));
+                    model.setEmail(ResponseHandler.getString(object, "email"));
+                    model.setFirstName(ResponseHandler.getString(object, "first_name"));
+                    model.setLastName(ResponseHandler.getString(object, "last_name"));
+                    model.setRole(ResponseHandler.getString(object, "role"));
+                    model.setUserName(ResponseHandler.getString(object, "username"));
+                    model.setUserName(ResponseHandler.getString(object, "username"));
+                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+
+
+                }
+                confirmationDialog("Profile Update", ResponseHandler.getString(object, "message"));
+
+
+            }
+
+
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        HELPER.dismissLoadingTran();
+                        isLoading = false;
+                        confirmationDialog("Error", "We are getting problem while updating your profile. Please Try again");
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = getHeader();
+                Log.e("HEADER", getHeader().toString());
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                if (!binding.newPasswordEdt.getText().toString().trim().isEmpty())
+                    params.put("password", binding.newPasswordEdt.getText().toString());
+
+                params.put("first_name", binding.nameEdt.getText().toString());
+                params.put("last_name", binding.lnameEdt.getText().toString());
+                params.put("display_name", binding.displayNameEdt.getText().toString());
+                params.put("phone", binding.phoneNoEdt.getText().toString());
+                Log.e("PARAM",params.toString());
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 }

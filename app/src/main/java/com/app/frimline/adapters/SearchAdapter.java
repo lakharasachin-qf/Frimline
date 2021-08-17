@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemSearchFirstContainerLayoutBinding;
 import com.app.frimline.databinding.ItemShopFilterChipContainerLayoutBinding;
@@ -19,17 +20,18 @@ import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.models.OutCategoryModel;
 import com.app.frimline.models.ProductModel;
+import com.app.frimline.models.SearchModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 
 public class SearchAdapter extends RecyclerView.Adapter {
-    private ArrayList<HomeModel> dashBoardItemList;
+    private ArrayList<SearchModel> dashBoardItemList;
     private final Gson gson;
     Activity activity;
 
-    public SearchAdapter(ArrayList<HomeModel> dashBoardItemList, Activity activity) {
+    public SearchAdapter(ArrayList<SearchModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson = new Gson();
@@ -85,42 +87,63 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final HomeModel model = dashBoardItemList.get(position);
+        final SearchModel model = dashBoardItemList.get(position);
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.LAYOUT_TOP_PRODUCT:
+                    MultiViewAdapterForSearch productAdapte3r;
+                    if (CONSTANT.API_MODE) {
+                        productAdapte3r = new MultiViewAdapterForSearch(model.getTopProduct(), activity);
+                        productAdapte3r.setApplyThemeColor(true);
+                        productAdapte3r.setPosition(0);
+                        SnapHelper startSnapHelper = new PagerSnapHelper();
+                        ((TopProductContainer) holder).binding.productRecycler.setOnFlingListener(null);
+                        startSnapHelper.attachToRecyclerView(((TopProductContainer) holder).binding.productRecycler);
 
+                    } else {
 
-                    MultiViewAdapterForHomeFragment productAdapte3r = new MultiViewAdapterForHomeFragment(setAdapterForProduct(), activity);
-                    productAdapte3r.setApplyThemeColor(true);
-                    SnapHelper startSnapHelper = new PagerSnapHelper();
-                    ((TopProductContainer) holder).binding.productRecycler.setOnFlingListener(null);
-                    startSnapHelper.attachToRecyclerView(((TopProductContainer) holder).binding.productRecycler);
-
+                        productAdapte3r = new MultiViewAdapterForSearch(setAdapterForProduct(), activity);
+                        productAdapte3r.setPosition(0);
+                        productAdapte3r.setApplyThemeColor(true);
+                        SnapHelper startSnapHelper = new PagerSnapHelper();
+                        ((TopProductContainer) holder).binding.productRecycler.setOnFlingListener(null);
+                        startSnapHelper.attachToRecyclerView(((TopProductContainer) holder).binding.productRecycler);
+                    }
                     ((TopProductContainer) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((TopProductContainer) holder).binding.productRecycler.setAdapter(productAdapte3r);
                     break;
                 case LAYOUT_TYPE.LAYOUT_FILTER_CHIP:
-                    ArrayList<CategorySingleModel> hitModel2s = new ArrayList<>();
-                    hitModel2s.add(new CategorySingleModel());
-                    hitModel2s.add(new CategorySingleModel());
-                    hitModel2s.add(new CategorySingleModel());
-                    hitModel2s.add(new CategorySingleModel());
-                    ShopFilterAdapter shopFilterAdapter = new ShopFilterAdapter(hitModel2s, activity);
-                    ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-                    ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
-
+                    if (CONSTANT.API_MODE) {
+                        SearchFilterAdapter shopFilterAdapter = new SearchFilterAdapter(model.getCategoryList(), activity);
+                        ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
+                    } else {
+                        ArrayList<CategorySingleModel> hitModel2s = new ArrayList<>();
+                        hitModel2s.add(new CategorySingleModel());
+                        hitModel2s.add(new CategorySingleModel());
+                        hitModel2s.add(new CategorySingleModel());
+                        hitModel2s.add(new CategorySingleModel());
+                        SearchFilterAdapter shopFilterAdapter = new SearchFilterAdapter(hitModel2s, activity);
+                        ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
+                    }
                     break;
                 case LAYOUT_TYPE.LAYOUT_HOT_PRODUCT:
-                    ArrayList<com.app.frimline.models.HomeFragements.ProductModel> hitModels = new ArrayList<>();
-                    hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
-                    hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
-                    hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
-                    hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
+                    if (CONSTANT.API_MODE) {
+                        SearchHotAdapter shopHotProductAdapter = new SearchHotAdapter(model.getHotProduct(), activity);
+                        ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((HotProductHolder) holder).binding.productRecycler.setAdapter(shopHotProductAdapter);
+                    } else {
+                        ArrayList<com.app.frimline.models.HomeFragements.ProductModel> hitModels = new ArrayList<>();
+                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
+                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
+                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
+                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
 
-                    ShopTopProductAdapter shopHotProductAdapter = new ShopTopProductAdapter(hitModels, activity);
-                    ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-                    ((HotProductHolder) holder).binding.productRecycler.setAdapter(shopHotProductAdapter);
+                        SearchHotAdapter shopHotProductAdapter = new SearchHotAdapter(hitModels, activity);
+                        ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((HotProductHolder) holder).binding.productRecycler.setAdapter(shopHotProductAdapter);
+                    }
                     break;
             }
         }
@@ -137,14 +160,14 @@ public class SearchAdapter extends RecyclerView.Adapter {
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
         homeModel.setProductModels(productModelArrayList);
-        ArrayList<OutCategoryModel> innerDataList=new ArrayList<>();
-        OutCategoryModel outCategoryModel =new OutCategoryModel();
+        ArrayList<OutCategoryModel> innerDataList = new ArrayList<>();
+        OutCategoryModel outCategoryModel = new OutCategoryModel();
         outCategoryModel.setName("");
         innerDataList.add(outCategoryModel);
-        outCategoryModel =new OutCategoryModel();
+        outCategoryModel = new OutCategoryModel();
         outCategoryModel.setName("");
         innerDataList.add(outCategoryModel);
-        outCategoryModel =new OutCategoryModel();
+        outCategoryModel = new OutCategoryModel();
         outCategoryModel.setName("");
         innerDataList.add(outCategoryModel);
         homeModel.setProductList(innerDataList);
@@ -157,14 +180,6 @@ public class SearchAdapter extends RecyclerView.Adapter {
         productArray3.add(homeModel);
         productArray3.add(homeModel);
 
-
-//        MultiViewAdapterForHomeFragment productAdapter = new MultiViewAdapterForHomeFragment(productArray, getActivity());
-//        binding.categoryProductRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-//        binding.categoryProductRecycler.setHasFixedSize(true);
-//        SnapHelper startSnapHelper = new PagerSnapHelper();
-//        binding.categoryProductRecycler.setOnFlingListener(null);
-//        startSnapHelper.attachToRecyclerView(binding.categoryProductRecycler);
-//        binding.categoryProductRecycler.setAdapter(productAdapter);
 
         return productArray3;
     }

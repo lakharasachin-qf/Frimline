@@ -45,7 +45,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         final CategorySingleModel model = frameItems.get(position);
         holder.textView.setText(model.getCategoryName());
         Glide.with(activity)
-                .load(model.getDetailImage())
+                .load(model.getImage())
                 .circleCrop()
                 .into(holder.product);
         holder.item.setOnClickListener(new View.OnClickListener() {

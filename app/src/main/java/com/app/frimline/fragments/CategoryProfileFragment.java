@@ -16,6 +16,7 @@ import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCategoryProfileLayoutBinding;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.gson.Gson;
 
@@ -117,6 +118,9 @@ public class CategoryProfileFragment extends BaseFragment {
         HELPER.LOAD_HTML(binding.shortDescription, model.getDescriptions());
         HELPER.LOAD_HTML(binding.descTXt, model.getLongDescription());
         Log.e("FRAGMENT",new Gson().toJson(model));
+
+        Glide.with(act).load(model.getDetailImage()).placeholder(R.drawable.ic_square_place_holder).into(binding.mainBackdrop);
+        Glide.with(act).load(model.getImage()).placeholder(R.drawable.ic_square_place_holder).into(binding.image2);
 
     }
 }

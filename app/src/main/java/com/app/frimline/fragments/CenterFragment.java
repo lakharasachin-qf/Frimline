@@ -34,8 +34,10 @@ public class CenterFragment extends BaseFragment {
                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.SLIDE_VIEW_RIGHT);
             }
         });
-        if (API_MODE)
+        if (API_MODE) {
             HELPER.LOAD_HTML(binding.description, new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class).getDescriptions());
+
+        }
         return binding.getRoot();
     }
 }

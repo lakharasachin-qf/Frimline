@@ -39,4 +39,9 @@ public class ListAdapter<T>
             notifyDataSetChanged();
         }
     }
+    public void updateReceiptsList(List<T> newlist) {
+        items.clear();
+        items.addAll(newlist);
+        this.notifyDataSetChanged();
+    }
 }

@@ -15,7 +15,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/proxima_nova_bold"
             android:includeFontPadding="false"
-            android:text="Top Ratted"
+            android:text="Top Rated"
             android:textColor="@color/black"
             android:textSize="@dimen/_16sdp" />
 

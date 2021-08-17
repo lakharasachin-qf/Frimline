@@ -38,6 +38,15 @@ public class ProfileModel {
     private String avatar;
     private Billing billingAddress;
     private Billing shippingAddress;
+    private String phoneNo;
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
 
     public String getUserId() {
         return userId;

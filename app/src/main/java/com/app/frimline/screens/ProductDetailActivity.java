@@ -235,6 +235,13 @@ public class ProductDetailActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+        HELPER.changeCartCounterToolbar(act);
+    }
+
     public void setImageSlide() {
         ArrayList<String> outCategoryModels = new ArrayList<>();
         outCategoryModels.add("");
@@ -305,7 +312,7 @@ public class ProductDetailActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                binding.scrollView.smoothScrollTo(binding.viewPager.getLeft(), binding.viewPager.getTop());
+              //  binding.scrollView.smoothScrollTo(binding.viewPager.getLeft(), binding.viewPager.getTop());
             }
 
             @Override
@@ -320,8 +327,6 @@ public class ProductDetailActivity extends BaseActivity {
 
     public void loadData() {
         productModel = gson.fromJson(getIntent().getStringExtra("model"), ProductModel.class);
-//        CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
-//        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productModel));
 
         ArrayList<String> productImages = productModel.getProductImagesList();
         binding.titleToolbar.setText(productModel.getCategoryName());
@@ -355,6 +360,15 @@ public class ProductDetailActivity extends BaseActivity {
             binding.counter.setText(productModel.getQty());
             productModel.setCalculatedAmount(entity.getCalculatedAmount());
             HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+        }else{
+
+            binding.addTextTxt.setText("Add to cart");
+            isAddedToCart = false;
+            binding.addCartContainer.setBackgroundTintList(null);
+            binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
+            binding.addTextTxt.setTextColor((Color.BLACK));
+            binding.counter.setText("1");
+
         }
 
     }

@@ -1,5 +1,7 @@
 package com.app.frimline.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +20,13 @@ import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ObserverActionID;
+import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.OrderHistoryAdapter;
 import com.app.frimline.databinding.FragmentOrderHistoryBinding;
 import com.app.frimline.models.OrderModel;
-import com.app.frimline.models.OutCategoryModel;
 import com.app.frimline.screens.LoginActivity;
 
 import org.json.JSONArray;
@@ -32,6 +35,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 public class OrderHistoryFragment extends BaseFragment {
 
@@ -56,8 +60,14 @@ public class OrderHistoryFragment extends BaseFragment {
 
             }
         } else {
+            binding.NoDataFound.setVisibility(View.GONE);
+            binding.shimmerViewContainer.setVisibility(View.GONE);
+            binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
+            stopShimmer();
             setAdapterForOurProduct();
         }
+
+        binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
 
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +78,6 @@ public class OrderHistoryFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadProfile();
-    }
 
     public void setAdapterForOurProduct() {
         ArrayList<OrderModel> modelArrayList = new ArrayList<>();
@@ -102,6 +107,7 @@ public class OrderHistoryFragment extends BaseFragment {
     private boolean isLoading = false;
 
     ArrayList<OrderModel> arrayList;
+
     private void loadProfile() {
 
         if (!isLoading)
@@ -121,7 +127,7 @@ public class OrderHistoryFragment extends BaseFragment {
                     if (arrayList.size() != 0) {
                         binding.NoDataFound.setVisibility(View.GONE);
                         binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
-                        OrderHistoryAdapter productAdapter  = new OrderHistoryAdapter(arrayList, getActivity());
+                        OrderHistoryAdapter productAdapter = new OrderHistoryAdapter(arrayList, getActivity());
                         binding.orderHistoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                         binding.orderHistoryRecycler.setAdapter(productAdapter);
                     } else {
@@ -156,7 +162,15 @@ public class OrderHistoryFragment extends BaseFragment {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = getHeader();
                 Log.e("HEADER", getHeader().toString());
-                return getHeader();
+
+                HashMap<String, String> map = new HashMap<>();
+                pref = new PREF(act);
+                if (pref.isLogin())
+                    map.put("Authorization", "Bearer " + pref.getToken());
+
+                 map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyODYxNTEwMSwibmJmIjoxNjI4NjE1MTAxLCJleHAiOjE2MjkyMTk5MDEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.YpZq2d8kP3PLR5UXfEWFa4uqiNL7wQoaHENHjNuJ-98");
+
+                return map;
             }
 
             @Override
@@ -169,4 +183,16 @@ public class OrderHistoryFragment extends BaseFragment {
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loadProfile();
+                }
+            });
+        }
+    }
 }

@@ -14,8 +14,17 @@ public class BlogModel {
     private String title;
     private String content;
     private String shortContent;
+    private String blogImage;
 
     private ArrayList<BlogModel> blogList;
+
+    public String getBlogImage() {
+        return blogImage;
+    }
+
+    public void setBlogImage(String blogImage) {
+        this.blogImage = blogImage;
+    }
 
     public ArrayList<BlogModel> getBlogList() {
         return blogList;

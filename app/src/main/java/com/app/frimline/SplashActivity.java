@@ -2,7 +2,10 @@ package com.app.frimline;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -47,7 +50,18 @@ public class SplashActivity extends BaseActivity {
 
         CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
         Log.e("List", gson.toJson(cartRoomDatabase.productEntityDao().getAll()));
-
+//        NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+//        NfcAdapter adapter = manager.getDefaultAdapter();
+//        if (adapter != null && adapter.isEnabled()) {
+//            Log.e("NFC", "YES, but enable");
+//            //Yes NFC available
+//        } else if (adapter != null && !adapter.isEnabled()) {
+//            Log.e("NFC", "YES, but not enable");
+//            //NFC is not enabled.Need to enable by the user.
+//        } else {
+//            //NFC is not supported
+//            Log.e("NFC", "Not Support");
+//        }
     }
 
 

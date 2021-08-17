@@ -36,6 +36,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
     public interface setActionsListener {
         void onDeleteAction(int position, ProductModel model);
+        void onCartUpdate(int position, ProductModel model);
     }
 
     private Activity activity;
@@ -106,7 +107,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                     model.setCalculatedAmount(entity.getCalculatedAmount());
                     db.productEntityDao().updateSpecificProduct((entity));
                     HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
-
+                    actionsListener.onCartUpdate(position,model);
+                    HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
                 }
             });
 
@@ -125,7 +127,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                         model.setCalculatedAmount(entity.getCalculatedAmount());
                         db.productEntityDao().updateSpecificProduct((entity));
                         HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
-
+                        HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
+                        actionsListener.onCartUpdate(position,model);
                     } else {
                         Toast.makeText(activity, "At least one quantity required", Toast.LENGTH_SHORT).show();
                     }

@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
@@ -30,6 +31,7 @@ import com.app.frimline.fragments.aboutProducts.HowToUseFragment;
 import com.app.frimline.fragments.aboutProducts.IngredientsFragment;
 import com.app.frimline.fragments.aboutProducts.QnAFragment;
 import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
+import com.app.frimline.models.OrderModel;
 import com.app.frimline.views.WrapContentHeightViewPager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.tabs.TabLayout;
@@ -38,6 +40,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
     BottomSheetBehavior sheetBehavior;
     LinearLayout layoutBottomSheet;
     private ActivityOrderHistoryViewBinding binding;
+    private OrderModel model;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,8 +96,16 @@ public class OrderHistoryViewActivity extends BaseActivity {
             }
         });
         setupTabIcons();
-
         changeTheme();
+
+        if (CONSTANT.API_MODE) {
+            model = gson.fromJson(getIntent().getStringExtra("model"), OrderModel.class);
+            loadData();
+        }
+    }
+
+    public void loadData() {
+
     }
 
     public void changeTheme() {
@@ -187,7 +198,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
 
-                scrollView.smoothScrollTo(tabLayout.getLeft(), tabLayout.getTop()-40);
+                scrollView.smoothScrollTo(tabLayout.getLeft(), tabLayout.getTop() - 40);
             }
 
             @Override

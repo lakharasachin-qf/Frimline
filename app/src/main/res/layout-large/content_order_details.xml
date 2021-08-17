@@ -47,6 +47,7 @@
             android:textSize="@dimen/_10sdp" />
 
         <TextView
+            android:id="@+id/orderId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -183,20 +184,56 @@
                     android:textColor="@color/colorToolbarHeader"
                     android:textSize="@dimen/_11sdp" />
 
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:includeFontPadding="false"
-                    android:text="Mike Hussy        +91 82XX XXXX XX"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_10sdp" />
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/deliName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:ellipsize="end"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="2"
+                            android:text="Mike Hussy dfg fdg fdg dfgdfgdgfdgdfgdfgdfgdfgdffdgdf"
+                            android:textColor="@color/colorToolbarHeader"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/contactNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:includeFontPadding="false"
+                            android:text="+91 82XX XXXX XX"
+                            android:textColor="@color/colorToolbarHeader"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+
 
                 <TextView
+                    android:id="@+id/deliveryAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -240,8 +277,8 @@ Rd, Opp Fantasi Land, Andheri (west)"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_7sdp"
-            android:fitsSystemWindows="true"
             android:animateLayoutChanges="true"
+            android:fitsSystemWindows="true"
             android:nestedScrollingEnabled="false"
             android:paddingBottom="@dimen/_100sdp" />
 

@@ -105,7 +105,7 @@
                                 app:errorEnabled="false">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/companyEdt"
+                                    android:id="@+id/reviewEdt"
                                     style="@style/textInputEditTextForTabletWithoutIcon"
                                     android:hint="Your Review"
                                     android:inputType="text" />

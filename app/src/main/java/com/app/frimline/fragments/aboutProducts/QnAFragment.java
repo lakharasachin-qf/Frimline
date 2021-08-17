@@ -123,7 +123,7 @@ public class QnAFragment extends BaseFragment {
         binding.screenLoader.setVisibility(View.VISIBLE);
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_QA, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_QA+model.getId(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("QA", response);
@@ -211,10 +211,61 @@ public class QnAFragment extends BaseFragment {
         reqBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                if (CONSTANT.API_MODE){
+                    addQuestion();
+                }else {
+                    alertDialog.dismiss();
+                }
+
             }
         });
+    }
 
+    private void addQuestion() {
 
+        if (!isLoading)
+            isLoading = true;
+
+        HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_QUESTION, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("add-review", response);
+                HELPER.dismissLoadingTran();
+                isLoading = false;
+                alertDialog.dismiss();
+                loadReview();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        isLoading = false;
+                        HELPER.dismissLoadingTran();
+                        alertDialog.dismiss();
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("product_id",model.getId());
+                params.put("question",reqBinding.otherInfoEdt.getText().toString());
+
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 }
