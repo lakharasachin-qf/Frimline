@@ -69,6 +69,10 @@ public class EditProfileActivity extends BaseActivity {
         binding.phoneNoEdt.setText(model.getPhoneNo());
         binding.emailEdt.setText(model.getEmail());
 
+        binding.phoneNoEdt.setEnabled(false);
+        binding.emailEdt.setEnabled(false);
+        binding.phoneNoEdtLayout.setEnabled(false);
+        binding.emailEdtLayout.setEnabled(false);
 
     }
 
@@ -81,7 +85,6 @@ public class EditProfileActivity extends BaseActivity {
         HELPER.ERROR_HELPER_For_MOBILE_VALIDATION(binding.phoneNoEdt, binding.phoneNoEdtLayout);
         HELPER.ERROR_HELPER(binding.newPasswordEdt, binding.newPasswordLayout);
         HELPER.ERROR_HELPER(binding.confirmPassword, binding.confirmPasswordLayout);
-
 
         HELPER.FOCUS_HELPER(binding.scrollView, binding.nameEdt, binding.nameEdtLayout);
         HELPER.FOCUS_HELPER(binding.scrollView, binding.lnameEdt, binding.lnameEdtLayout);
@@ -145,38 +148,41 @@ public class EditProfileActivity extends BaseActivity {
                 binding.displayNameEdt.requestFocus();
             }
         }
+        if (binding.emailEdt.isEnabled()) {
+            if (binding.emailEdt.getText().toString().trim().length() == 0) {
+                isError = true;
+                binding.emailEdtLayout.setError("Enter Email Id");
+                if (!isFocus) {
+                    isFocus = true;
+                    binding.emailEdt.requestFocus();
+                }
+            }
+            if (!Validators.Companion.isEmailValid(binding.emailEdt.getText().toString().trim())) {
+                isError = true;
+                binding.emailEdtLayout.setError("Enter Valid Email Id");
+                if (!isFocus) {
+                    isFocus = true;
+                    binding.emailEdt.requestFocus();
+                }
+            }
 
-        if (binding.emailEdt.getText().toString().trim().length() == 0) {
-            isError = true;
-            binding.emailEdtLayout.setError("Enter Email Id");
-            if (!isFocus) {
-                isFocus = true;
-                binding.emailEdt.requestFocus();
-            }
         }
-        if (!Validators.Companion.isEmailValid(binding.emailEdt.getText().toString().trim())) {
-            isError = true;
-            binding.emailEdtLayout.setError("Enter Valid Email Id");
-            if (!isFocus) {
-                isFocus = true;
-                binding.emailEdt.requestFocus();
+        if (binding.phoneNoEdt.isEnabled()) {
+            if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
+                isError = true;
+                binding.phoneNoEdtLayout.setError("Enter Phone No.");
+                if (!isFocus) {
+                    isFocus = true;
+                    binding.phoneNoEdt.requestFocus();
+                }
             }
-        }
-
-        if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
-            isError = true;
-            binding.phoneNoEdtLayout.setError("Enter Phone No.");
-            if (!isFocus) {
-                isFocus = true;
-                binding.phoneNoEdt.requestFocus();
-            }
-        }
-        if (binding.phoneNoEdt.getText().toString().trim().length() < 10) {
-            isError = true;
-            binding.phoneNoEdtLayout.setError("Enter Valid Phone No.");
-            if (!isFocus) {
-                isFocus = true;
-                binding.phoneNoEdt.requestFocus();
+            if (binding.phoneNoEdt.getText().toString().trim().length() < 10) {
+                isError = true;
+                binding.phoneNoEdtLayout.setError("Enter Valid Phone No.");
+                if (!isFocus) {
+                    isFocus = true;
+                    binding.phoneNoEdt.requestFocus();
+                }
             }
         }
         if (!binding.newPasswordEdt.getText().toString().trim().isEmpty()) {
@@ -320,7 +326,7 @@ public class EditProfileActivity extends BaseActivity {
                 params.put("last_name", binding.lnameEdt.getText().toString());
                 params.put("display_name", binding.displayNameEdt.getText().toString());
                 params.put("phone", binding.phoneNoEdt.getText().toString());
-                Log.e("PARAM",params.toString());
+                Log.e("PARAM", params.toString());
                 return params;
             }
         };

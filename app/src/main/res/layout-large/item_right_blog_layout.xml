@@ -100,6 +100,7 @@ aspects of your lives..."
             app:cardUseCompatPadding="true">
 
             <ImageView
+                android:id="@+id/blogImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"

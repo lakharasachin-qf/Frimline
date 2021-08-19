@@ -143,6 +143,7 @@ Overall Health"
                         app:cardUseCompatPadding="true">
 
                         <ImageView
+                            android:id="@+id/blogImage"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_150sdp"
                             android:scaleType="centerCrop"

@@ -97,17 +97,11 @@ public class MyAccountFragment extends BaseFragment {
             public void onClick(View v) {
                 pref.Logout();
 
-
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                 if (CONSTANT.API_MODE) {
                     binding.NoDataFound.setVisibility(View.VISIBLE);
                     binding.loginContent.setVisibility(View.GONE);
-                    binding.button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
-                            HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
-                        }
-                    });
+
                 } else {
                     HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
                 }
@@ -119,6 +113,8 @@ public class MyAccountFragment extends BaseFragment {
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                 HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
             }
@@ -156,10 +152,12 @@ public class MyAccountFragment extends BaseFragment {
             }
         }
         if (CONSTANT.API_MODE) {
-            binding.loginContent.setVisibility(View.GONE);
-            binding.NoDataFound.setVisibility(View.GONE);
-            binding.screenLoader.setVisibility(View.VISIBLE);
-            loadProfile();
+            if (pref.isLogin()) {
+                binding.loginContent.setVisibility(View.GONE);
+                binding.NoDataFound.setVisibility(View.GONE);
+                binding.screenLoader.setVisibility(View.VISIBLE);
+                loadProfile();
+            }
         }
         return binding.getRoot();
     }

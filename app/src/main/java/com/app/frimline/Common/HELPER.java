@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -37,7 +38,12 @@ import com.app.frimline.R;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.FragmentCategoryRootBinding;
 import com.app.frimline.databinding.FragmentHomeBinding;
+import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.HomeFragements.TradingStoriesModel;
+import com.app.frimline.models.HomeModel;
+import com.app.frimline.models.LAYOUT_TYPE;
+import com.app.frimline.models.OutCategoryModel;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
@@ -472,16 +478,85 @@ public class HELPER {
     public static DecimalFormat format = new DecimalFormat("0.00");
 
 
-    public static void backgroundTint(Activity act, View view,boolean theme) {
+    public static void backgroundTint(Activity act, View view, boolean theme) {
         if (theme)
             view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         else
             view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
     }
-    public static void imageTint(Activity act, ImageView view,boolean theme) {
+
+    public static void imageTint(Activity act, ImageView view, boolean theme) {
         if (theme)
             view.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         else
             view.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getCategoryColor())));
     }
+
+
+    public static ArrayList<HomeModel> setAdapterForProduct() {
+        ArrayList<HomeModel> productArray3 = new ArrayList<>();
+
+        ArrayList<com.app.frimline.models.ProductModel> productModelArrayList = new ArrayList<>();
+        com.app.frimline.models.ProductModel productModel = new com.app.frimline.models.ProductModel();
+        productModelArrayList.add(productModel);
+        productModelArrayList.add(productModel);
+        productModelArrayList.add(productModel);
+
+        HomeModel homeModel = new HomeModel();
+
+        ArrayList<OutCategoryModel> innerDataList = new ArrayList<>();
+        OutCategoryModel outCategoryModel = new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        outCategoryModel = new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        outCategoryModel = new OutCategoryModel();
+        outCategoryModel.setName("");
+        innerDataList.add(outCategoryModel);
+        homeModel.setProductList(innerDataList);
+        homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
+        homeModel.setProductModels(productModelArrayList);
+        productArray3.add(homeModel);
+        productArray3.add(homeModel);
+        productArray3.add(homeModel);
+        return productArray3;
+    }
+
+    public static ArrayList<com.app.frimline.models.HomeFragements.ProductModel> setAdapterForTopRattedProduct() {
+        ArrayList<com.app.frimline.models.HomeFragements.ProductModel> modelArrayList = new ArrayList<>();
+        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
+        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
+        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
+        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
+        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
+        return modelArrayList;
+    }
+
+
+    public static ArrayList<TradingStoriesModel> setAdapterForTrendingProduct() {
+        ArrayList<TradingStoriesModel> modelArrayList = new ArrayList<>();
+        modelArrayList.add(new TradingStoriesModel());
+        modelArrayList.add(new TradingStoriesModel());
+        modelArrayList.add(new TradingStoriesModel());
+        modelArrayList.add(new TradingStoriesModel());
+        modelArrayList.add(new TradingStoriesModel());
+        return modelArrayList;
+    }
+
+    public static ArrayList<CategorySingleModel> setAdapterForOurProduct() {
+        ArrayList<CategorySingleModel> modelArrayList = new ArrayList<>();
+        modelArrayList.add(new CategorySingleModel());
+        modelArrayList.add(new CategorySingleModel());
+        modelArrayList.add(new CategorySingleModel());
+        return modelArrayList;
+    }
+
+    public static void closeKeyboard(View view, Activity act) {
+        if (view != null) {
+            InputMethodManager manager = (InputMethodManager) act.getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

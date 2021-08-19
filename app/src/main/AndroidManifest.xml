@@ -5,6 +5,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <supports-screens
         android:largeScreens="true"
@@ -22,96 +26,111 @@
         android:theme="@style/Theme.Frimline"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity
-            android:screenOrientation="${screenOrientation}"
-            android:windowSoftInputMode="stateVisible|adjustPan"
-            android:name=".screens.ResetPasswordActivity"
-            android:exported="true" />
-        <activity
-            android:screenOrientation="${screenOrientation}"
 
+        <activity
+            android:name=".screens.ResetPasswordActivity"
+            android:exported="true"
+            android:screenOrientation="${screenOrientation}"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <activity
             android:name=".screens.ForgotPasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-         />
+            android:screenOrientation="${screenOrientation}" />
+
         <activity
             android:name=".screens.SignupActivity"
             android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="stateVisible|adjustPan" />
+
         <activity
             android:name=".screens.LoginActivity"
             android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="${screenOrientation}"
-            >
+            android:screenOrientation="${screenOrientation}">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".screens.OtpVerificationActivity"
             android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".screens.BlogDetailsActivity"
-            android:screenOrientation="${screenOrientation}"
-            />
+            android:screenOrientation="${screenOrientation}" />
+
         <activity
             android:name=".screens.SearchActivity"
             android:screenOrientation="${screenOrientation}"
-
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".screens.MyCartActivity"
             android:screenOrientation="${screenOrientation}"
-
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".screens.ProductDetailActivity"
             android:screenOrientation="${screenOrientation}"
+            android:windowSoftInputMode="adjustResize" />
 
-            android:windowSoftInputMode="adjustResize"
-            />
         <activity
             android:name=".screens.OrderHistoryViewActivity"
-            android:screenOrientation="${screenOrientation}"
-            />
+            android:screenOrientation="${screenOrientation}" />
+
         <activity
             android:name=".screens.AddressesActivity"
             android:screenOrientation="${screenOrientation}"
-
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".screens.EditProfileActivity"
             android:screenOrientation="${screenOrientation}"
-
             android:windowSoftInputMode="adjustPan|adjustResize" />
 
         <activity
             android:name=".screens.CheckoutAddressActivity"
             android:screenOrientation="${screenOrientation}"
-
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".screens.BillingAddressActivity"
             android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".screens.CategoryHomeActivity"
-            android:screenOrientation="${screenOrientation}"
-            />
+            android:screenOrientation="${screenOrientation}" />
+
         <activity
             android:name=".screens.CategoryRootActivity"
             android:screenOrientation="${screenOrientation}"
-
             android:theme="@style/Theme.FrimlineTRy" />
+
         <activity
             android:name=".screens.CategoryLandingActivity"
-            android:screenOrientation="${screenOrientation}"
-            />
+            android:screenOrientation="${screenOrientation}" />
+
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="true" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

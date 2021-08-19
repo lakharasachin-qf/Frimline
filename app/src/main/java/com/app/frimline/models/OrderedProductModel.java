@@ -10,6 +10,24 @@ public class OrderedProductModel {
     private String total;
     private String totalTax;
     private String productPrice;
+    private String productImage;
+    private String rate;
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
 
     public String getId() {
         return id;

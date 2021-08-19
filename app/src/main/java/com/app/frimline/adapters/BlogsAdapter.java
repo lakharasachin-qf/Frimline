@@ -83,6 +83,10 @@ public class BlogsAdapter extends RecyclerView.Adapter {
                     if (CONSTANT.API_MODE) {
                         HELPER.LOAD_HTML(((LeftBlog) holder).binding.description, model.getShortContent());
                         HELPER.LOAD_HTML(((LeftBlog) holder).binding.title, model.getTitle());
+                        Glide.with(activity).load(model.getBlogImage())
+                                .placeholder(R.drawable.ic_square_place_holder)
+                                .error(R.drawable.ic_square_place_holder)
+                                .into(((LeftBlog) holder).binding.blogImage);
                     }
                     ((LeftBlog) holder).binding.layout.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -102,17 +106,16 @@ public class BlogsAdapter extends RecyclerView.Adapter {
                             ((LeftBlog) holder).binding.layout.performClick();
                         }
                     });
-//                    Glide.with(activity).load(model.getBlogImage())
-//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                            .skipMemoryCache(true)
-//                            .placeholder(R.drawable.ic_square_place_holder)
-//                            .error(R.drawable.ic_square_place_holder)
-//                            .into(((LeftBlog) holder).binding.blogImage);
+
                     break;
                 case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
                     if (CONSTANT.API_MODE) {
                         HELPER.LOAD_HTML(((RightBlog) holder).binding.description, model.getShortContent());
                         HELPER.LOAD_HTML(((RightBlog) holder).binding.title, model.getTitle());
+                        Glide.with(activity).load(model.getBlogImage())
+                                .placeholder(R.drawable.ic_square_place_holder)
+                                .error(R.drawable.ic_square_place_holder)
+                                .into(((RightBlog) holder).binding.blogImage);
                     }
 
                     ((RightBlog) holder).binding.layout.setOnClickListener(new View.OnClickListener() {

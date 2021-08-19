@@ -7,9 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/_30sdp"
-    android:clipToPadding="false"
+     android:clipToPadding="false"
     android:fillViewport="true"
     android:orientation="vertical"
+    android:paddingTop="@dimen/_20sdp"
+    android:paddingBottom="@dimen/_70sdp"
     android:scrollbars="none"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_order_history_view">
@@ -19,32 +21,63 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:src="@drawable/product_third" />
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:fontFamily="@font/proxinova_semi_bold"
-            android:paddingStart="@dimen/_7sdp"
-            android:text="Dente91 Lactoferrin MouthwashDente91 Lactoferrin MouthwashDente91 Lactoferrin Mouthwash"
-            android:textAlignment="center"
-            android:textColor="@color/colorToolbarHeader"
-            android:textSize="@dimen/_12sdp" />
+            android:layout_marginTop="@dimen/_25sdp"
+            android:background="@color/colorScreenBackground"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/proxima_nova_regular"
-            android:text="Quantity : 02"
-            android:textSize="@dimen/_10sdp" />
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/productImagesSlider"
+                android:layout_width="match_parent"
+                android:layout_height="480dp"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingEnd="@dimen/_12sdp" />
+
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dots_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/productImagesSlider"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-20dp"
+                android:layout_marginBottom="30dp"
+                app:dotsColor="#B78C8C8C"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="8dp"
+                app:dotsSpacing="3dp"
+                app:dotsWidthFactor="2.5"
+                app:selectedDotColor="@color/orange" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:src="@drawable/product_third"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+        <!--        <ImageView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_150sdp"-->
+        <!--            android:layout_marginTop="@dimen/_20sdp"-->
+        <!--            android:src="@drawable/product_third" />-->
+
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/_7sdp"-->
+        <!--            android:layout_marginEnd="@dimen/_7sdp"-->
+        <!--            android:fontFamily="@font/proxinova_semi_bold"-->
+        <!--            android:paddingStart="@dimen/_7sdp"-->
+        <!--            android:text="Dente91 Lactoferrin MouthwashDente91 Lactoferrin MouthwashDente91 Lactoferrin Mouthwash"-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:textColor="@color/colorToolbarHeader"-->
+        <!--            android:textSize="@dimen/_12sdp" />-->
+
 
         <TextView
             android:id="@+id/orderId"
@@ -87,25 +120,26 @@
 
 
                 <TextView
+                    android:id="@+id/innerTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_7sdp"
                     android:fontFamily="@font/proxima_nova_bold"
                     android:includeFontPadding="false"
-                    android:text="Delivered"
+                    android:text="Delivered 4 Jul 2021"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_11sdp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:includeFontPadding="false"
-                    android:text=" 4 Jul 2021"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_11sdp" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center_vertical"-->
+                <!--                    android:fontFamily="@font/proxima_nova_regular"-->
+                <!--                    android:includeFontPadding="false"-->
+                <!--                    android:text=" 4 Jul 2021"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="@dimen/_11sdp" />-->
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -155,7 +189,7 @@
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
-
+            android:id="@+id/deliverySection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -214,9 +248,11 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
+
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_3sdp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/contactNo"

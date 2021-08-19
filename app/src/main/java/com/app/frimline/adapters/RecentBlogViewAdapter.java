@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -19,6 +20,7 @@ import com.app.frimline.R;
 import com.app.frimline.models.BlogModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.screens.BlogDetailsActivity;
+import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 
 import org.jetbrains.annotations.NotNull;
@@ -64,10 +66,16 @@ public class RecentBlogViewAdapter extends PagerAdapter {
             });
 
             TextView title = view.findViewById(R.id.productName);
+            ImageView productImage = view.findViewById(R.id.productImage);
             TextView description = view.findViewById(R.id.description);
             if (CONSTANT.API_MODE) {
                 HELPER.LOAD_HTML(title, model.getBlogList().get(0).getTitle());
                 HELPER.LOAD_HTML(description, model.getBlogList().get(0).getShortContent());
+
+                Glide.with(context).load(model.getBlogList().get(0).getBlogImage())
+                        .placeholder(R.drawable.ic_square_place_holder)
+                        .error(R.drawable.ic_square_place_holder)
+                        .into(productImage);
             }
 
             ViewPager vp = (ViewPager) container;
@@ -92,11 +100,24 @@ public class RecentBlogViewAdapter extends PagerAdapter {
             TextView title2 = view.findViewById(R.id.productName2);
             TextView description = view.findViewById(R.id.description);
             TextView description2 = view.findViewById(R.id.description2);
+
+            ImageView productImage = view.findViewById(R.id.productImage);
+            ImageView productImage2 = view.findViewById(R.id.productImage2);
             if (CONSTANT.API_MODE) {
                 HELPER.LOAD_HTML(title, model.getBlogList().get(0).getTitle());
                 HELPER.LOAD_HTML(description, model.getBlogList().get(0).getShortContent());
-                HELPER.LOAD_HTML(title2, model.getBlogList().get(0).getTitle());
-                HELPER.LOAD_HTML(description2, model.getBlogList().get(0).getShortContent());
+                HELPER.LOAD_HTML(title2, model.getBlogList().get(1).getTitle());
+                HELPER.LOAD_HTML(description2, model.getBlogList().get(1).getShortContent());
+
+
+                Glide.with(context).load(model.getBlogList().get(0).getBlogImage())
+                        .placeholder(R.drawable.ic_square_place_holder)
+                        .error(R.drawable.ic_square_place_holder)
+                        .into(productImage);
+                Glide.with(context).load(model.getBlogList().get(1).getBlogImage())
+                        .placeholder(R.drawable.ic_square_place_holder)
+                        .error(R.drawable.ic_square_place_holder)
+                        .into(productImage2);
             }
 
             ViewPager vp = (ViewPager) container;
@@ -106,6 +127,7 @@ public class RecentBlogViewAdapter extends PagerAdapter {
         }
 
     }
+
     public void setTheme1(View view) {
         Chip chip1 = view.findViewById(R.id.chip1);
 
@@ -116,6 +138,7 @@ public class RecentBlogViewAdapter extends PagerAdapter {
         view3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
 
     }
+
     public void setTheme(View view) {
         Chip chip1 = view.findViewById(R.id.chip1);
         Chip chip2 = view.findViewById(R.id.chip2);

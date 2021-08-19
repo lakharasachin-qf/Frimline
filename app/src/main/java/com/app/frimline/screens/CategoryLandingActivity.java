@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.app.frimline.BaseNavDrawerActivity;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
+import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CategoryNavViewPager;
 import com.app.frimline.views.CustomViewPager;
@@ -250,11 +251,14 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                 }
                 if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
                     TextView userNameTxt = findViewById(R.id.userNameTxt);
+                    pref = new PREF(act);
                     if (pref.isLogin()) {
                         userNameTxt.setText(pref.getUser().getDisplayName());
+                        Log.e("AFTERLOG",pref.getUser().getDisplayName());
                     } else {
                         userNameTxt.setText("Sign In");
                     }
+
                 }
             }
         });

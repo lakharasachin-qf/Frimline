@@ -12,3 +12,6 @@ Developer Info:
     Developer : Lakhara Sachin B.
     Language : Android, JAVA
 ----------------------------------------------
+
+To generate sha-1 key
+search  - signingReport

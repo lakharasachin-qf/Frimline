@@ -305,7 +305,7 @@ public class DrawerMenu {
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
-                if (new PREF(activity).isLogin()){
+                if (new PREF(activity).isLogin()) {
                     Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
                     toolbar_Navigation.setVisibility(View.VISIBLE);
                     HomePageLayout.setVisibility(View.GONE);
@@ -315,7 +315,7 @@ public class DrawerMenu {
                     Fragment fragmentSelected = myAccountFragment;
                     replaceFragment(fragmentSelected);
                     drawer.closeDrawer(GravityCompat.START);
-                }else {
+                } else {
                     HELPER.SIMPLE_ROUTE(activity, LoginActivity.class);
                 }
             }
@@ -338,12 +338,17 @@ public class DrawerMenu {
 
     private void addFragment(Fragment fragment) {
         fragmentCurrent = fragment;
+        if (((AppCompatActivity) activity).getSupportFragmentManager().getFragments().size() > 0) {
+            for (Fragment cf : ((AppCompatActivity) activity).getSupportFragmentManager().getFragments()) {
+                ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction().remove(cf);
+            }
+        }
         ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, fragment).commit();
     }
 
     private void replaceFragment(Fragment fragment) {
         fragmentCurrent = fragment;
-        if(!activity.isFinishing()) {
+        if (!activity.isFinishing()) {
 
             ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
                     .addToBackStack(null).commit();

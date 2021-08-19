@@ -21,7 +21,26 @@ public class OrderModel {
     private String paymentMethodTitle;
     private String transactionId;
     private String datePaid;
+    private String invoiceLink;
+    private String trackingLink;
+    private String trackingId;
     private ArrayList<OrderedProductModel> productsList;
+
+    public String getTrackingLink() {
+        return trackingLink;
+    }
+
+    public void setTrackingLink(String trackingLink) {
+        this.trackingLink = trackingLink;
+    }
+
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
+    }
 
     public String getPaymentMethodTitle() {
         return paymentMethodTitle;
@@ -29,6 +48,14 @@ public class OrderModel {
 
     public void setPaymentMethodTitle(String paymentMethodTitle) {
         this.paymentMethodTitle = paymentMethodTitle;
+    }
+
+    public String getInvoiceLink() {
+        return invoiceLink;
+    }
+
+    public void setInvoiceLink(String invoiceLink) {
+        this.invoiceLink = invoiceLink;
     }
 
     public String getOrderId() {

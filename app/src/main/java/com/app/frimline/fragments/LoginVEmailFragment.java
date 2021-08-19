@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,6 @@ import com.app.frimline.models.Billing;
 import com.app.frimline.models.ProfileModel;
 import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.ForgotPasswordActivity;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -86,6 +87,26 @@ public class LoginVEmailFragment extends BaseFragment {
         binding.userNameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
         binding.confirmPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
+        binding.userNameEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.userNameEdtLayout.setError("");
+                binding.userNameEdtLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (pref.getPassword(s.toString()) != null && !pref.getPassword(s.toString()).isEmpty()) {
+                    binding.confirmPassword.setText(pref.getPassword(binding.userNameEdt.getText().toString()));
+                    HELPER.closeKeyboard(binding.confirmPassword, act);
+                }
+            }
+        });
 
         binding.forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +124,7 @@ public class LoginVEmailFragment extends BaseFragment {
                 } else {
                     if (!validations()) {
                         if (CONSTANT.API_MODE) {
+
                             signIn();
                         } else {
                             HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
@@ -157,7 +179,9 @@ public class LoginVEmailFragment extends BaseFragment {
 
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
                 if (jsonObject != null && !jsonObject.has("code")) {
-
+                    if (binding.shipToDiffCheck.isChecked()) {
+                        pref.addRememberMe(binding.userNameEdt.getText().toString(), binding.confirmPassword.getText().toString());
+                    }
                     ProfileModel model = new ProfileModel();
                     model.setToken(ResponseHandler.getString(jsonObject, "token"));
                     model.setEmail(ResponseHandler.getString(jsonObject, "email"));

@@ -10,6 +10,7 @@ import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.CategoryRootFragments.ReviewRootModel;
 import com.app.frimline.models.HomeFragements.Attribute;
 import com.app.frimline.models.HomeFragements.BannerModel;
+import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeFragements.SectionPositionModel;
 import com.app.frimline.models.HomeFragements.Tags;
@@ -374,6 +375,32 @@ public class ResponseHandler {
         return categoryModel;
     }
 
+    public static HomeModel getCouponCodesBanner(JSONObject jsonObject) {
+        ArrayList<CouponCodeModel> categoryList = new ArrayList<>();
+        CouponCodeModel singleModel = new CouponCodeModel();
+        singleModel.setUrl(getString(jsonObject, "banner_2"));
+        categoryList.add(singleModel);
+        HomeModel categoryModel = new HomeModel();
+        categoryModel.setLayoutType(LAYOUT_TYPE.PROMO_CODES);
+        categoryModel.setLayoutIndex(getPosition(jsonObject, "2st Banner"));
+        categoryModel.setCouponCodeBannerList(categoryList);
+        return categoryModel;
+    }
+
+    public static HomeModel getCovidBanner(JSONObject jsonObject) {
+        ArrayList<CouponCodeModel> categoryList = new ArrayList<>();
+        CouponCodeModel singleModel = new CouponCodeModel();
+        singleModel.setUrl(getString(jsonObject, "banner_1"));
+        categoryList.add(singleModel);
+        HomeModel categoryModel = new HomeModel();
+        categoryModel.setLayoutType(LAYOUT_TYPE.ALERT_COVID);
+        categoryModel.setLayoutIndex(getPosition(jsonObject, "1st Banner"));
+        categoryModel.setCouponCodeBannerList(categoryList);
+
+
+        return categoryModel;
+    }
+
     public static ArrayList<HomeModel> handleResponseCategoryHomeFragments(String res) {
         ArrayList<HomeModel> rootArrayList = new ArrayList<>();
 
@@ -388,6 +415,12 @@ public class ResponseHandler {
             rootArrayList.add(getCategory(jsonObject));
 
             rootArrayList.add(getTradingStories(jsonObject));
+
+            rootArrayList.add(getCouponCodesBanner(jsonObject));
+
+            rootArrayList.add(getCovidBanner(jsonObject));
+
+
 
             Collections.sort(rootArrayList, new Comparator<HomeModel>() {
                 @Override
@@ -446,7 +479,8 @@ public class ResponseHandler {
 
         return output;
     }
-    public static ArrayList<ProductModel> convertListToArray(List<ProductModel> array){
+
+    public static ArrayList<ProductModel> convertListToArray(List<ProductModel> array) {
         return new ArrayList<>(array);
     }
 
@@ -505,7 +539,7 @@ public class ResponseHandler {
         ArrayList<HomeModel> rootArrayList = new ArrayList<>();
         JSONObject jsonObject = createJsonObject(res);
         if (jsonObject != null) {
-            int count=0;
+            int count = 0;
             HomeModel topRatedModel = getTopRatedForShop(jsonObject);
             if (topRatedModel.getApiProductModel().size() != 0) {
                 rootArrayList.add(topRatedModel);
@@ -522,7 +556,7 @@ public class ResponseHandler {
                 count++;
             }
 
-            if (count == 0){
+            if (count == 0) {
                 rootArrayList.clear();
             }
 
@@ -612,6 +646,7 @@ public class ResponseHandler {
                 model.setTitle(jsonArray.getJSONObject(i).getJSONObject("title").getString("rendered"));
                 model.setShortContent(jsonArray.getJSONObject(i).getJSONObject("excerpt").getString("rendered"));
                 model.setContent(jsonArray.getJSONObject(i).getJSONObject("content").getString("rendered"));
+                model.setBlogImage(jsonArray.getJSONObject(i).getString("featured_image_url"));
                 rootArrayList.add(model);
             }
 
@@ -640,7 +675,7 @@ public class ResponseHandler {
                 model.setId(jsonArray.getJSONObject(i).getString("id"));
                 model.setDate(jsonArray.getJSONObject(i).getString("date"));
                 //image link for blog
-                model.setBlogImage(jsonArray.getJSONObject(i).getString("date"));
+                model.setBlogImage(jsonArray.getJSONObject(i).getString("featured_image_url"));
 
                 model.setTitle(jsonArray.getJSONObject(i).getJSONObject("title").getString("rendered"));
                 model.setShortContent(jsonArray.getJSONObject(i).getJSONObject("excerpt").getString("rendered"));
@@ -735,6 +770,11 @@ public class ResponseHandler {
                 orderModel.setPaymentMethodTitle(getString(object, "payment_method_title"));
                 orderModel.setTransactionId(getString(object, "transaction_id"));
                 orderModel.setDatePaid(getString(object, "date_paid"));
+                orderModel.setInvoiceLink(getString(object, "invoice_link"));
+                orderModel.setTrackingId(getString(object, "tracking_id"));
+                orderModel.setTrackingLink(getString(object, "tracking_link"));
+
+
 
                 Billing billingAddress = new Billing();
                 billingAddress.setFirstName(getString(getJSONObject(object, "billing"), "first_name"));
@@ -770,6 +810,8 @@ public class ResponseHandler {
                     JSONObject productObj = productArr.getJSONObject(k);
                     OrderedProductModel productModel = new OrderedProductModel();
                     productModel.setId(productObj.getString("id"));
+                    productModel.setRate(productObj.getString("rating"));
+                    productModel.setProductImage(productObj.getString("image"));
                     productModel.setName(productObj.getString("name"));
                     productModel.setProductId(productObj.getString("product_id"));
                     productModel.setQty(productObj.getString("quantity"));
@@ -808,7 +850,7 @@ public class ResponseHandler {
                 ArrayList<ProductModel> arrayProduct = commonProductParsing(searchObj.getJSONArray("products"));
                 int totalSize = arrayProduct.size();
                 int firstPartSize = Integer.parseInt(String.valueOf(totalSize / 2));
-                List<ProductModel> topProduct =  arrayProduct.subList(0, firstPartSize);
+                List<ProductModel> topProduct = arrayProduct.subList(0, firstPartSize);
 
                 ArrayList<ArrayList<ProductModel>> chunkArray = chunkArray(topProduct, 3);
                 ArrayList<HomeModel> tempArray = new ArrayList<>();
@@ -831,7 +873,7 @@ public class ResponseHandler {
 
                 SearchModel topSearchModel = new SearchModel();
                 topSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_TOP_PRODUCT);
-                List<ProductModel> HotProduct =   arrayProduct.subList(firstPartSize, arrayProduct.size());
+                List<ProductModel> HotProduct = arrayProduct.subList(firstPartSize, arrayProduct.size());
                 Log.e("HotProduct", String.valueOf(HotProduct.size()));
                 topSearchModel.setTopProduct(tempArray);
                 searchListResult.add(topSearchModel);

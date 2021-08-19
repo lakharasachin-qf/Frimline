@@ -20,6 +20,7 @@ import com.app.frimline.R;
 import com.app.frimline.databinding.ItemOrderHistoryLayoutBinding;
 import com.app.frimline.models.OrderModel;
 import com.app.frimline.screens.OrderHistoryViewActivity;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -46,7 +47,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final OrderModel model = frameItems.get(position);
         if (CONSTANT.API_MODE) {
-//            if (model.getStatus().equalsIgnoreCase("")) {
+
+            //            if (model.getStatus().equalsIgnoreCase("completed")) {
 //                holder.binding.deliveredTxt.setText("Canceled");
 //                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
 //                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
@@ -66,14 +68,30 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 //                holder.binding.delivaryIcon.setImageTintList(null);
 //            }
 
+            if (model.getStatus().equalsIgnoreCase("processing")) {
+                holder.binding.deliveredTxt.setText("Pending");
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
+                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
+            }
+            if (model.getStatus().equalsIgnoreCase("completed")) {
+                holder.binding.deliveredTxt.setText("Delivered");
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliverySuccess));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_delivery_icon));
+                holder.binding.delivaryIcon.setImageTintList(null);
+            }
+
             HELPER.LOAD_HTML(holder.binding.orderId, "Order Id:" + model.getOrderKey());
             HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getTotal());
             HELPER.LOAD_HTML(holder.binding.productName, model.getProductsList().get(0).getName());
+            Glide.with(activity).load(model.getProductsList().get(0).getProductImage()).placeholder(R.drawable.ic_square_place_holder).error(R.drawable.ic_square_place_holder).into(holder.binding.productImage);
+            holder.binding.rate.setRating(Float.parseFloat(model.getProductsList().get(0).getRate()));
+
             holder.binding.viewDetailsBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(activity, OrderHistoryViewActivity.class);
-                    i.putExtra("model",new Gson().toJson(model));
+                    i.putExtra("orderModel", new Gson().toJson(model));
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                 }

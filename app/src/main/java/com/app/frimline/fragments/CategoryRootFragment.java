@@ -185,13 +185,13 @@ public class CategoryRootFragment extends BaseFragment {
 
             binding.todaysRecycler.setVisibility(View.VISIBLE);
             if (!rootModel.getMessages().isEmpty()) {
-                TodaysTomorrowAdapter adapter = new TodaysTomorrowAdapter(prepareData(), getActivity());
+                TodaysTomorrowAdapter adapter = new TodaysTomorrowAdapter(prepareData(), act);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
                 binding.todaysRecycler.setNestedScrollingEnabled(false);
                 binding.todaysRecycler.setLayoutManager(mLayoutManager);
                 binding.todaysRecycler.setAdapter(adapter);
 
-                CategoryAdapter categoryAdapter = new CategoryAdapter(rootModel.getCategoryList(), getActivity());
+                CategoryAdapter categoryAdapter = new CategoryAdapter(rootModel.getCategoryList(), act);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(act, RecyclerView.HORIZONTAL, false);
                 binding.categoryRecycler.setNestedScrollingEnabled(false);
                 binding.categoryRecycler.setLayoutManager(layoutManager);
@@ -209,7 +209,7 @@ public class CategoryRootFragment extends BaseFragment {
             CatBannerAdapter sliderAdapter = new CatBannerAdapter(rootModel.getBannerList(), getActivity());
             binding.viewPager.setAdapter(sliderAdapter);
             binding.dot.setViewPager(binding.viewPager);
-            binding.dot.setSelectedDotColor(Color.parseColor(new PREF(getActivity()).getThemeColor()));
+            binding.dot.setSelectedDotColor(Color.parseColor(new PREF(act).getThemeColor()));
     }
 
     public ArrayList<TodaysModel> prepareData() {

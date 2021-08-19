@@ -3,7 +3,6 @@ package com.app.frimline.screens;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -33,7 +32,6 @@ import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.CustomNavigationBinding;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
@@ -54,6 +52,12 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     private FrameLayout nav_host_fragment;
     private ProgressBar screenLoader;
     private Toolbar toolbar_Navigation;
+
+    //Boolean variable to mark if the transaction is safe
+    private boolean isTransactionSafe;
+
+    //Boolean variable to mark if there is any transaction pending
+    private boolean isTransactionPending;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     }
 
     private CustomNavigationBinding binding;
+
     private void setUpToolbar() {
         FrameLayout frameLayout = findViewById(R.id.content_frame);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -164,8 +169,8 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         RelativeLayout cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
         RelativeLayout cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
 
-        HELPER.backgroundTint(act,cartBackgroundLayar,true);
-        HELPER.backgroundTint(act,cartBackgroundLayar2,true);
+        HELPER.backgroundTint(act, cartBackgroundLayar, true);
+        HELPER.backgroundTint(act, cartBackgroundLayar2, true);
 
         drawerMenu = new DrawerMenuForRoot(act, DrawerMenu.CATEGORY_ROOT_FRAGMENT);
         drawerMenu.setDefaultFragment(DrawerMenu.CATEGORY_ROOT_FRAGMENT);
@@ -179,9 +184,25 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
 
         if (pref.isLogin()) {
             userNameTxt.setText(pref.getUser().getDisplayName());
-        }else{
+        } else {
             userNameTxt.setText("Sign In");
         }
+
+    }
+
+
+    public void onPostResume() {
+        super.onPostResume();
+        isTransactionSafe = true;
+        if (isTransactionPending) {
+            ApplyTheme();
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+        isTransactionSafe = false;
 
     }
 
@@ -197,7 +218,11 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                     nav_host_fragment.setVisibility(View.VISIBLE);
                     screenLoader.setVisibility(View.GONE);
                     pref.setConfiguration(object.getString("theme_color"), "#EF7F1A");
-                    ApplyTheme();
+                    if (isTransactionSafe) {
+                        ApplyTheme();
+                    } else {
+                        isTransactionPending = true;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -24,6 +24,7 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.RecentBlogViewAdapter;
 import com.app.frimline.databinding.ActivityBlogDetailsBinding;
 import com.app.frimline.models.BlogModel;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,6 +75,10 @@ public class BlogDetailsActivity extends BaseActivity {
 
         HELPER.LOAD_HTML(binding.title, model.getTitle());
         HELPER.LOAD_HTML(binding.longDescriptionTxt, model.getContent());
+        Glide.with(act).load(model.getBlogImage())
+                .placeholder(R.drawable.ic_banner_place_holder)
+                .error(R.drawable.ic_banner_place_holder)
+                .into(binding.blogImage);
     }
 
     public void changeTheme() {

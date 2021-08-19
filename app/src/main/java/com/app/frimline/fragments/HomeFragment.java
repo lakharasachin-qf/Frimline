@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -27,11 +28,8 @@ import com.app.frimline.adapters.ParentHomeAdapter;
 import com.app.frimline.databinding.FragmentHomeBinding;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.DataTransferModel;
-import com.app.frimline.models.HomeFragements.TradingStoriesModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
-import com.app.frimline.models.OutCategoryModel;
-import com.app.frimline.models.ProductModel;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -72,20 +70,28 @@ public class HomeFragment extends BaseFragment {
             if (homeArray == null || homeArray.size() == 0)
                 loadIndexedApi();
         }
+        binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
+
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startShimmer();
+                loadHomeScreen();
+            }
+        });
         return binding.getRoot();
     }
 
     public void startShimmer() {
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.shimmerViewContainer.startShimmer();
-        binding.containerRecycler.setVisibility(View.GONE);
-        binding.emptyData.setVisibility(View.GONE);
+        binding.swipeContainer.setVisibility(View.GONE);
     }
 
     public void stopShimmer() {
         binding.shimmerViewContainer.setVisibility(View.GONE);
         binding.shimmerViewContainer.stopShimmer();
-        binding.containerRecycler.setVisibility(View.VISIBLE);
+        binding.swipeContainer.setVisibility(View.VISIBLE);
     }
 
     Handler handler;
@@ -101,6 +107,7 @@ public class HomeFragment extends BaseFragment {
 
                 binding.shimmerViewContainer.stopShimmer();
                 binding.shimmerViewContainer.setVisibility(View.GONE);
+                binding.swipeContainer.setVisibility(View.VISIBLE);
 
             }
         };
@@ -109,7 +116,6 @@ public class HomeFragment extends BaseFragment {
 
 
     }
-
     private static final String BANNER = "banner";
     private static final String CATEGORY_PRODUCT = "categoryProduct";
     private static final String OFFERS = "Offers";
@@ -117,7 +123,6 @@ public class HomeFragment extends BaseFragment {
     private static final String TOP_RATTED = "topRatted";
     private static final String ALERT_COVID = "alertCovid";
     private static final String CATEGORY = "category";
-
     public void loadIndexedApi() {
 
         JSONObject jsonObject = new JSONObject();
@@ -219,10 +224,7 @@ public class HomeFragment extends BaseFragment {
         }
 
     }
-
     ArrayList<HomeModel> homeArray = new ArrayList<>();
-
-
     public void loadBanner(int position) {
         int lastPos = homeArray.size();
 
@@ -239,7 +241,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
-        parentHomeAdapter.notifyDataSetChanged();
         //parentHomeAdapter.notifyDataSetChanged();
 
     }
@@ -248,7 +249,7 @@ public class HomeFragment extends BaseFragment {
         int lastPos = homeArray.size();
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.CATEGORY_PRODUCT);
-        homeModel.setCategoryProduct(setAdapterForProduct());
+        homeModel.setCategoryProduct(HELPER.setAdapterForProduct());
         homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
         Collections.sort(homeArray, new Comparator<HomeModel>() {
@@ -284,7 +285,7 @@ public class HomeFragment extends BaseFragment {
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.CATEGORY);
         homeModel.setLayoutIndex(position);
-        homeModel.setCategoryArrayList(setAdapterForOurProduct());
+        homeModel.setCategoryArrayList(HELPER.setAdapterForOurProduct());
         homeArray.add(homeModel);
         Collections.sort(homeArray, new Comparator<HomeModel>() {
             @Override
@@ -293,7 +294,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
-        //parentHomeAdapter.notifyDataSetChanged();
 
     }
 
@@ -302,7 +302,7 @@ public class HomeFragment extends BaseFragment {
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.OFFERS);
         homeModel.setLayoutIndex(position);
-        homeModel.setTradingStoriesList(setAdapterForTrendingProduct());
+        homeModel.setTradingStoriesList(HELPER.setAdapterForTrendingProduct());
         homeArray.add(homeModel);
         Collections.sort(homeArray, new Comparator<HomeModel>() {
             @Override
@@ -311,7 +311,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
-        //parentHomeAdapter.notifyDataSetChanged();
+
     }
 
     public void loadPromoCodes(int position) {
@@ -327,7 +327,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
-        //parentHomeAdapter.notifyDataSetChanged();
+
     }
 
     public void loadTopRatted(int position) {
@@ -335,7 +335,7 @@ public class HomeFragment extends BaseFragment {
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.TOP_RATTED);
         homeModel.setLayoutIndex(position);
-        homeModel.setApiProductModel(setAdapterForTopRattedProduct());
+        homeModel.setApiProductModel(HELPER.setAdapterForTopRattedProduct());
         homeArray.add(homeModel);
         Collections.sort(homeArray, new Comparator<HomeModel>() {
             @Override
@@ -343,169 +343,7 @@ public class HomeFragment extends BaseFragment {
                 return lhs.getLayoutIndex() - rhs.getLayoutIndex();
             }
         });
-        //parentHomeAdapter.notifyDataSetChanged();
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
-
-    }
-
-    private void getUpdate(HomeModel homeModel) {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, homeModel.getApiUrl(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //  Log.e("homeModel", homeModel.getLayoutIndex() + " " + homeModel.getLayoutName());
-                if (homeModel.getLayoutName().equalsIgnoreCase(BANNER)) {
-                    loadBanner(homeModel.getLayoutIndex());
-                }
-                if (homeModel.getLayoutName().equalsIgnoreCase(PROMO_CODES)) {
-                    loadPromoCodes(homeModel.getLayoutIndex());
-                }
-                if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY_PRODUCT)) {
-                    loadProducts(homeModel.getLayoutIndex());
-                }
-                if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY)) {
-                    loadCategory(homeModel.getLayoutIndex());
-                }
-                if (homeModel.getLayoutName().equalsIgnoreCase(TOP_RATTED)) {
-                    loadTopRatted(homeModel.getLayoutIndex());
-                }
-                if (homeModel.getLayoutName().equalsIgnoreCase(ALERT_COVID)) {
-                    loadAlertCovid(homeModel.getLayoutIndex());
-                }
-                if (homeModel.getLayoutName().equalsIgnoreCase(OFFERS)) {
-                    loadOffers(homeModel.getLayoutIndex());
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        if (homeModel.getLayoutName().equalsIgnoreCase(BANNER)) {
-                            loadBanner(homeModel.getLayoutIndex());
-                        }
-                        if (homeModel.getLayoutName().equalsIgnoreCase(PROMO_CODES)) {
-                            loadPromoCodes(homeModel.getLayoutIndex());
-                        }
-                        if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY_PRODUCT)) {
-                            loadProducts(homeModel.getLayoutIndex());
-                        }
-                        if (homeModel.getLayoutName().equalsIgnoreCase(CATEGORY)) {
-                            loadCategory(homeModel.getLayoutIndex());
-                        }
-                        if (homeModel.getLayoutName().equalsIgnoreCase(TOP_RATTED)) {
-                            loadTopRatted(homeModel.getLayoutIndex());
-                        }
-                        if (homeModel.getLayoutName().equalsIgnoreCase(ALERT_COVID)) {
-                            loadAlertCovid(homeModel.getLayoutIndex());
-                        }
-                        if (homeModel.getLayoutName().equalsIgnoreCase(OFFERS)) {
-                            loadOffers(homeModel.getLayoutIndex());
-                        }
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
-            }
-        };
-
-        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-    }
-
-    public ArrayList<CategorySingleModel> setAdapterForOurProduct() {
-        ArrayList<CategorySingleModel> modelArrayList = new ArrayList<>();
-        modelArrayList.add(new CategorySingleModel());
-        modelArrayList.add(new CategorySingleModel());
-        modelArrayList.add(new CategorySingleModel());
-
-//        OurProductAdapter productAdapter = new OurProductAdapter(modelArrayList, getActivity());
-//        binding.ourProductSection.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-//        binding.ourProductSection.setAdapter(productAdapter);
-        return modelArrayList;
-    }
-
-    public ArrayList<TradingStoriesModel> setAdapterForTrendingProduct() {
-        ArrayList<TradingStoriesModel> modelArrayList = new ArrayList<>();
-        modelArrayList.add(new TradingStoriesModel());
-        modelArrayList.add(new TradingStoriesModel());
-        modelArrayList.add(new TradingStoriesModel());
-        modelArrayList.add(new TradingStoriesModel());
-        modelArrayList.add(new TradingStoriesModel());
-//        TrendingProductAdapter productAdapter = new TrendingProductAdapter(modelArrayList, getActivity());
-//        binding.trendingSectionRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-//        binding.trendingSectionRecycler.setAdapter(productAdapter);
-        return modelArrayList;
-    }
-
-    public ArrayList<com.app.frimline.models.HomeFragements.ProductModel> setAdapterForTopRattedProduct() {
-        ArrayList<com.app.frimline.models.HomeFragements.ProductModel> modelArrayList = new ArrayList<>();
-        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
-        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
-        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
-        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
-        modelArrayList.add(new com.app.frimline.models.HomeFragements.ProductModel());
-//        TopRattedProductAdapter productAdapter = new TopRattedProductAdapter(modelArrayList, getActivity());
-//        binding.topRattingProductRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-//        binding.topRattingProductRecycler.setAdapter(productAdapter);
-        return modelArrayList;
-    }
-
-    public ArrayList<HomeModel> setAdapterForProduct() {
-        ArrayList<HomeModel> productArray3 = new ArrayList<>();
-
-        ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
-        ProductModel productModel = new ProductModel();
-        productModelArrayList.add(productModel);
-        productModelArrayList.add(productModel);
-        productModelArrayList.add(productModel);
-
-        HomeModel homeModel = new HomeModel();
-
-        ArrayList<OutCategoryModel> innerDataList = new ArrayList<>();
-        OutCategoryModel outCategoryModel = new OutCategoryModel();
-        outCategoryModel.setName("");
-        innerDataList.add(outCategoryModel);
-        outCategoryModel = new OutCategoryModel();
-        outCategoryModel.setName("");
-        innerDataList.add(outCategoryModel);
-        outCategoryModel = new OutCategoryModel();
-        outCategoryModel.setName("");
-        innerDataList.add(outCategoryModel);
-        homeModel.setProductList(innerDataList);
-
-        homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
-        homeModel.setProductModels(productModelArrayList);
-
-        productArray3.add(homeModel);
-        productArray3.add(homeModel);
-        productArray3.add(homeModel);
-
-
-//        MultiViewAdapterForHomeFragment productAdapter = new MultiViewAdapterForHomeFragment(productArray, getActivity());
-//        binding.categoryProductRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-//        binding.categoryProductRecycler.setHasFixedSize(true);
-//        SnapHelper startSnapHelper = new PagerSnapHelper();
-//        binding.categoryProductRecycler.setOnFlingListener(null);
-//        startSnapHelper.attachToRecyclerView(binding.categoryProductRecycler);
-//        binding.categoryProductRecycler.setAdapter(productAdapter);
-
-        return productArray3;
     }
 
 
@@ -513,34 +351,38 @@ public class HomeFragment extends BaseFragment {
     private boolean isLoading = false;
 
     private void loadHomeScreen() {
-
         if (!isLoading)
             isLoading = true;
-
         CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.CATEGORY_HOME + model.getCategoryId(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Log.e("Response", response);
                 stopShimmer();
                 isLoading = false;
+                binding.swipeContainer.setRefreshing(false);
                 rootModel = ResponseHandler.handleResponseCategoryHomeFragments(response);
-                parentHomeAdapter = new ParentHomeAdapter(rootModel, getActivity());
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
-                binding.containerRecycler.setHasFixedSize(true);
-                binding.containerRecycler.setNestedScrollingEnabled(false);
-                binding.containerRecycler.setLayoutManager(mLayoutManager);
-                binding.containerRecycler.setAdapter(parentHomeAdapter);
-                //loadData(rootModel);
+                if (rootModel.size() != 0) {
+                    parentHomeAdapter = new ParentHomeAdapter(rootModel, getActivity());
+                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
+                    binding.containerRecycler.setHasFixedSize(true);
+                    binding.containerRecycler.setNestedScrollingEnabled(false);
+                    binding.containerRecycler.setLayoutManager(mLayoutManager);
+                    binding.containerRecycler.setAdapter(parentHomeAdapter);
+                    binding.containerRecycler.setVisibility(View.VISIBLE);
+                } else {
+                    binding.containerRecycler.setVisibility(View.GONE);
+                    binding.emptyData.setVisibility(View.VISIBLE);
+                }
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
                         isLoading = false;
                         stopShimmer();
+                        binding.containerRecycler.setVisibility(View.GONE);
                         binding.emptyData.setVisibility(View.VISIBLE);
                     }
                 }
@@ -570,7 +412,7 @@ public class HomeFragment extends BaseFragment {
         act.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (parentHomeAdapter!=null) {
+                if (parentHomeAdapter != null) {
                     if (frimline.getObserver().getValue() == ObserverActionID.HOME_ADDED_TO_CART) {
                         if (parentHomeAdapter != null) {
                             relaodData(frimline.getObserver().getModel(), true);

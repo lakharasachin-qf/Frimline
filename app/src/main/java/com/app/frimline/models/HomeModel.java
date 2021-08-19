@@ -2,6 +2,7 @@ package com.app.frimline.models;
 
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.HomeFragements.BannerModel;
+import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.HomeFragements.TradingStoriesModel;
 
 import java.util.ArrayList;
@@ -134,5 +135,16 @@ public class HomeModel {
 
     public void setBannerList(ArrayList<BannerModel> bannerList) {
         this.bannerList = bannerList;
+    }
+
+
+    private ArrayList<CouponCodeModel> couponCodeBannerList;
+
+    public ArrayList<CouponCodeModel> getCouponCodeBannerList() {
+        return couponCodeBannerList;
+    }
+
+    public void setCouponCodeBannerList(ArrayList<CouponCodeModel> couponCodeBannerList) {
+        this.couponCodeBannerList = couponCodeBannerList;
     }
 }

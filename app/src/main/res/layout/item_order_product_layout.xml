@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/productImage"
+
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:adjustViewBounds="true"
+        android:padding="@dimen/_25sdp"
+        android:src="@drawable/product_third" />
+
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:layout_marginEnd="@dimen/_7sdp"
+        android:fontFamily="@font/proxinova_semi_bold"
+        android:paddingStart="@dimen/_7sdp"
+        android:text="Dente91 Lactoferrin MouthwashDente91 Lactoferrin MouthwashDente91 Lactoferrin Mouthwash"
+        android:textAlignment="center"
+        android:textColor="@color/colorToolbarHeader"
+        android:textSize="@dimen/_13sdp" />
+
+    <TextView
+        android:id="@+id/qty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:text="Quantity : 02"
+        android:textSize="@dimen/_10sdp" />
+</LinearLayout>

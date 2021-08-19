@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.app.frimline.databinding.ItemHomeTopRattingSectionLayoutBinding;
 import com.app.frimline.models.HomeFragements.BannerModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -148,7 +150,6 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
                     }
                     break;
                 case LAYOUT_TYPE.CATEGORY_PRODUCT:
-
                     MultiViewAdapterForHomeFragment productAdapter = new MultiViewAdapterForHomeFragment(model.getCategoryProduct(), activity);
                     productAdapter.setPosition(position);
                     ((CategoryProduct) holder).binding.categoryProductRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
@@ -157,24 +158,17 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
                     ((CategoryProduct) holder).binding.categoryProductRecycler.setOnFlingListener(null);
                     startSnapHelper.attachToRecyclerView(((CategoryProduct) holder).binding.categoryProductRecycler);
                     ((CategoryProduct) holder).binding.categoryProductRecycler.setAdapter(productAdapter);
-
                     break;
                 case LAYOUT_TYPE.CATEGORY:
-
                     OurProductAdapter productAdapte3r = new OurProductAdapter(model.getCategoryArrayList(), activity);
                     ((Category) holder).binding.ourProductSection.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((Category) holder).binding.ourProductSection.setAdapter(productAdapte3r);
                     break;
 
                 case LAYOUT_TYPE.OFFERS:
-
                     TrendingProductAdapter productAdapter2 = new TrendingProductAdapter(model.getTradingStoriesList(), activity);
                     ((Offers) holder).binding.trendingSectionRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((Offers) holder).binding.trendingSectionRecycler.setAdapter(productAdapter2);
-
-                    break;
-                case LAYOUT_TYPE.PROMO_CODES:
-
                     break;
                 case LAYOUT_TYPE.TOP_RATTED:
 
@@ -184,12 +178,24 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
                     break;
 
                 case LAYOUT_TYPE.ALERT_COVID:
-
+                    if (CONSTANT.API_MODE) {
+                        ((AlertCovid) holder).binding.content.setVisibility(View.GONE);
+                        Glide.with(activity).load(model.getCouponCodeBannerList().get(0).getUrl())
+                                .placeholder(R.drawable.ic_banner_place_holder)
+                                .error(R.drawable.ic_banner_place_holder)
+                                .into(((AlertCovid) holder).binding.bannerImage);
+                    }
+                    break;
+                case LAYOUT_TYPE.PROMO_CODES:
+                    if (CONSTANT.API_MODE) {
+                        ((PromoCodes) holder).binding.content.setVisibility(View.GONE);
+                        Glide.with(activity).load(model.getCouponCodeBannerList().get(0).getUrl())
+                                .placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(((PromoCodes) holder).binding.bannerImage);
+                    }
                     break;
             }
         }
     }
-
 
 
     public class Banner extends RecyclerView.ViewHolder {

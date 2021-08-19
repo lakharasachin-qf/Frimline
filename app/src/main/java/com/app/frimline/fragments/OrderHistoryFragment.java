@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -49,12 +50,13 @@ public class OrderHistoryFragment extends BaseFragment {
 
         if (CONSTANT.API_MODE) {
             binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-            binding.orderHistoryRecycler.setVisibility(View.GONE);
+            binding.swipeContainer.setVisibility(View.GONE);
             if (pref.isLogin()) {
                 loadProfile();
             } else {
                 binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.orderHistoryRecycler.setVisibility(View.GONE);
+                binding.swipeContainer.setVisibility(View.VISIBLE);
                 binding.NoDataFound.setVisibility(View.VISIBLE);
                 binding.errorText.setText("You are not Signed In.");
 
@@ -62,6 +64,7 @@ public class OrderHistoryFragment extends BaseFragment {
         } else {
             binding.NoDataFound.setVisibility(View.GONE);
             binding.shimmerViewContainer.setVisibility(View.GONE);
+            binding.swipeContainer.setVisibility(View.VISIBLE);
             binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
             stopShimmer();
             setAdapterForOurProduct();
@@ -73,6 +76,19 @@ public class OrderHistoryFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
+            }
+        });
+        binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
+
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (CONSTANT.API_MODE) {
+                    startShimmer();
+                    loadProfile();
+                }else{
+                    binding.swipeContainer.setRefreshing(false);
+                }
             }
         });
         return binding.getRoot();
@@ -95,13 +111,14 @@ public class OrderHistoryFragment extends BaseFragment {
     public void startShimmer() {
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.shimmerViewContainer.startShimmer();
-        binding.orderHistoryRecycler.setVisibility(View.GONE);
+        binding.swipeContainer.setVisibility(View.GONE);
         binding.NoDataFound.setVisibility(View.GONE);
     }
 
     public void stopShimmer() {
         binding.shimmerViewContainer.setVisibility(View.GONE);
         binding.shimmerViewContainer.stopShimmer();
+
     }
 
     private boolean isLoading = false;
@@ -117,7 +134,8 @@ public class OrderHistoryFragment extends BaseFragment {
             @Override
             public void onResponse(String response) {
                 isLoading = false;
-                Log.e("Response", response);
+                binding.swipeContainer.setRefreshing(false);
+                Log.e("Response", response + "s");
                 stopShimmer();
                 JSONArray object = null;
                 try {
@@ -127,6 +145,7 @@ public class OrderHistoryFragment extends BaseFragment {
                     if (arrayList.size() != 0) {
                         binding.NoDataFound.setVisibility(View.GONE);
                         binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
                         OrderHistoryAdapter productAdapter = new OrderHistoryAdapter(arrayList, getActivity());
                         binding.orderHistoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                         binding.orderHistoryRecycler.setAdapter(productAdapter);
@@ -135,6 +154,7 @@ public class OrderHistoryFragment extends BaseFragment {
                         binding.errorText.setText("No order found yet.");
                         binding.NoDataFound.setVisibility(View.VISIBLE);
                         binding.orderHistoryRecycler.setVisibility(View.GONE);
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {
@@ -151,6 +171,7 @@ public class OrderHistoryFragment extends BaseFragment {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         isLoading = false;
+                        binding.swipeContainer.setRefreshing(false);
                         stopShimmer();
                     }
                 }
@@ -168,7 +189,7 @@ public class OrderHistoryFragment extends BaseFragment {
                 if (pref.isLogin())
                     map.put("Authorization", "Bearer " + pref.getToken());
 
-                 map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyODYxNTEwMSwibmJmIjoxNjI4NjE1MTAxLCJleHAiOjE2MjkyMTk5MDEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.YpZq2d8kP3PLR5UXfEWFa4uqiNL7wQoaHENHjNuJ-98");
+                map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyOTI2NTg2MSwibmJmIjoxNjI5MjY1ODYxLCJleHAiOjE2Mjk4NzA2NjEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.Cy_OUQQNARUX1jPChwHY25xdUOineBkllkN7gulYKZg");
 
                 return map;
             }
