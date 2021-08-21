@@ -44,10 +44,9 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
                     .circleCrop()
                     .into(holder.binding.circleView);
             HELPER.LOAD_HTML(holder.binding.reviewTxt, model.getReview());
-           // HELPER.LOAD_HTML(holder.binding.userNameTxt, model.get());
+            HELPER.LOAD_HTML(holder.binding.userNameTxt, model.getReviewerName());
 
-         //   holder.binding.reviewAddedData.setText(model.getReview());
-          //  holder.binding.userNameTxt.setText(model.getReview());
+            holder.binding.reviewAddedData.setText("- " + HELPER.convertDate(model.getDate()));
             if (model.getRating().isEmpty()) {
                 holder.binding.rate.setRating(0);
             } else {

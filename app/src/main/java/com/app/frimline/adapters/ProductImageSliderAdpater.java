@@ -58,8 +58,6 @@ public class ProductImageSliderAdpater extends PagerAdapter {
         if (CONSTANT.API_MODE){
             Glide.with(context)
                     .load(sliderImg.get(position))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_square_place_holder)
                     .error(R.drawable.ic_square_place_holder)
                     .into(productImages);

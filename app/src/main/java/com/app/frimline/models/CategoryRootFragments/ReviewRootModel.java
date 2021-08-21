@@ -20,7 +20,25 @@ public class ReviewRootModel {
         private String reviewerEmail;
         private String rating;
         private String review;
+        private String reviewerName;
+        private String date;
         private String userAvatar;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getReviewerName() {
+            return reviewerName;
+        }
+
+        public void setReviewerName(String reviewerName) {
+            this.reviewerName = reviewerName;
+        }
 
         public String getUserAvatar() {
             return userAvatar;

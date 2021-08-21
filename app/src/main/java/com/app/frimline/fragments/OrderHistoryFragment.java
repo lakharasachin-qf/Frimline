@@ -144,6 +144,7 @@ public class OrderHistoryFragment extends BaseFragment {
 
                     if (arrayList.size() != 0) {
                         binding.NoDataFound.setVisibility(View.GONE);
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
                         binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
                         binding.swipeContainer.setVisibility(View.VISIBLE);
                         OrderHistoryAdapter productAdapter = new OrderHistoryAdapter(arrayList, getActivity());
@@ -170,7 +171,8 @@ public class OrderHistoryFragment extends BaseFragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        isLoading = false;
+
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
                         binding.swipeContainer.setRefreshing(false);
                         stopShimmer();
                     }
@@ -191,7 +193,7 @@ public class OrderHistoryFragment extends BaseFragment {
 
                 map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyOTI2NTg2MSwibmJmIjoxNjI5MjY1ODYxLCJleHAiOjE2Mjk4NzA2NjEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.Cy_OUQQNARUX1jPChwHY25xdUOineBkllkN7gulYKZg");
 
-                return map;
+                return getHeader();
             }
 
             @Override
@@ -212,6 +214,20 @@ public class OrderHistoryFragment extends BaseFragment {
                 @Override
                 public void run() {
                     loadProfile();
+                }
+            });
+        }
+        if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!new PREF(act).isLogin()) {
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                        binding.orderHistoryRecycler.setVisibility(View.GONE);
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
+                        binding.NoDataFound.setVisibility(View.VISIBLE);
+                        binding.errorText.setText("You are not Signed In.");
+                    }
                 }
             });
         }

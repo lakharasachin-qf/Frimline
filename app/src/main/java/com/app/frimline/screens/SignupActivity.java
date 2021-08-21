@@ -168,7 +168,7 @@ public class SignupActivity extends BaseActivity {
             binding.emailEdtLayout.setErrorEnabled(true);
 
         }
-        if (!Validators.Companion.isEmailValid(binding.emailEdt.getText().toString())) {
+       else if (!Validators.Companion.isEmailValid(binding.emailEdt.getText().toString())) {
             isError = true;
             if (!isFocus) {
                 isFocus = true;
@@ -178,6 +178,7 @@ public class SignupActivity extends BaseActivity {
             binding.emailEdtLayout.setErrorEnabled(true);
 
         }
+
         if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
             isError = true;
             if (!isFocus) {
@@ -187,7 +188,7 @@ public class SignupActivity extends BaseActivity {
             binding.phoneNoEdtLayout.setError("Enter phone no.");
             binding.phoneNoEdtLayout.setErrorEnabled(true);
         }
-        if (binding.phoneNoEdt.getText().toString().length() < 10) {
+       else if (binding.phoneNoEdt.getText().toString().length() < 10) {
             isError = true;
             if (!isFocus) {
                 isFocus = true;
@@ -205,7 +206,7 @@ public class SignupActivity extends BaseActivity {
             binding.newPasswordLayout.setError("Enter password");
             binding.newPasswordLayout.setErrorEnabled(true);
         }
-        if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
+        else if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
             isError = true;
             if (!isFocus) {
                 isFocus = true;

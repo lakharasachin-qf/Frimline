@@ -68,6 +68,8 @@ public class SearchActivity extends BaseActivity {
     private ArrayList<SearchModel> searchResult;
     private ListModel sortingOptionSelection;
     private CategorySingleModel selectedCategory;
+    private String categoryId;
+    private String jsonStr;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -169,6 +171,7 @@ public class SearchActivity extends BaseActivity {
             homeModel.setHotProduct(innerDataList);
             arrayList.add(homeModel);
             SearchAdapter shopFilterAdapter = new SearchAdapter(arrayList, act);
+            shopFilterAdapter.setCategoryFilter(selectedCategory);
             binding.containerRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false));
             binding.containerRecycler.setNestedScrollingEnabled(false);
             binding.containerRecycler.setAdapter(shopFilterAdapter);
@@ -228,7 +231,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void changeTheme() {
-
+        binding.closeView.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.clearAction.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.searchIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.sortAction.setChipIconTint(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
@@ -325,14 +328,8 @@ public class SearchActivity extends BaseActivity {
     ArrayList<ListModel> listModels;
     private SortingAdapter adpt;
 
-    /*Sort collection by object attribute. Options: date, id, include, title, slug, price, popularity and rating. Default is date.*/
     public void fillSortingData() {
-        /*
-         * Sort by popularity
-         * Sort by average rating
-         * Sort by latest
-         *
-         * */
+
         listModels = new ArrayList<>();
         if (CONSTANT.API_MODE) {
             ListModel popularityModel = new ListModel();
@@ -460,10 +457,14 @@ public class SearchActivity extends BaseActivity {
                 Log.e("result", response);
                 isLoading = false;
                 stopShimmer();
+
                 searchResult = ResponseHandler.parseSearch(response);
+                Log.e("selectedCategory",gson.toJson(selectedCategory));
+                Log.e("jsonStr", gson.toJson(jsonStr));
                 if (searchResult != null && searchResult.size() != 0) {
                     binding.containerRecycler.setVisibility(View.VISIBLE);
                     searchAdapter = new SearchAdapter(searchResult, act);
+                    searchAdapter.setCategoryFilter(selectedCategory);
                     binding.containerRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false));
                     binding.containerRecycler.setNestedScrollingEnabled(false);
                     binding.containerRecycler.setAdapter(searchAdapter);
@@ -590,8 +591,23 @@ public class SearchActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        slideTorightFilter(binding.filterFrameLayout);
                         selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
+                        jsonStr = new String(frimline.getObserver().getData());
+                        categoryId = selectedCategory.getCategoryId();
+                        Log.e("selectedCategory", gson.toJson(selectedCategory));
+                        Log.e("jsonStr", gson.toJson(jsonStr));
+                        search();
+                    }
+                });
+
+            }
+        }
+        if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER_REMOVE) {
+            if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        selectedCategory =null;
                         search();
                     }
                 });

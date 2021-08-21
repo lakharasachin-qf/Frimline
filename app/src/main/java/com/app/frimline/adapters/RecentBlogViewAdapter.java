@@ -2,6 +2,7 @@ package com.app.frimline.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.screens.BlogDetailsActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -60,8 +62,15 @@ public class RecentBlogViewAdapter extends PagerAdapter {
             chip1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
-                    context.finish();
+                    if (CONSTANT.API_MODE) {
+                        Intent i = new Intent(context, BlogDetailsActivity.class);
+                        i.putExtra("model", new Gson().toJson(model.getBlogList().get(0)));
+                        context.startActivity(i);
+                        context.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                        context.finish();
+                    } else {
+                        HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
+                    }
                 }
             });
 
@@ -90,11 +99,32 @@ public class RecentBlogViewAdapter extends PagerAdapter {
             chip1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
-                    context.finish();
+                    if (CONSTANT.API_MODE) {
+                        Intent i = new Intent(context, BlogDetailsActivity.class);
+                        i.putExtra("model", new Gson().toJson(model.getBlogList().get(0)));
+                        context.startActivity(i);
+                        context.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                        context.finish();
+                    } else {
+                        HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
+                    }
                 }
             });
-
+            Chip chip2 = view.findViewById(R.id.chip2);
+            chip2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (CONSTANT.API_MODE) {
+                        Intent i = new Intent(context, BlogDetailsActivity.class);
+                        i.putExtra("model", new Gson().toJson(model.getBlogList().get(1)));
+                        context.startActivity(i);
+                        context.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                        context.finish();
+                    } else {
+                        HELPER.SIMPLE_ROUTE(context, BlogDetailsActivity.class);
+                    }
+                }
+            });
 
             TextView title = view.findViewById(R.id.productName);
             TextView title2 = view.findViewById(R.id.productName2);

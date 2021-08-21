@@ -9,10 +9,10 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/_30sdp"
 
+    android:clipToPadding="false"
     android:fillViewport="true"
     android:orientation="vertical"
     android:paddingTop="@dimen/_20sdp"
-    android:clipToPadding="false"
     android:paddingBottom="@dimen/_70sdp"
     android:scrollbars="none"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -159,6 +159,7 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/trackingId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -249,11 +250,11 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_3sdp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/contactNo"

@@ -12,10 +12,19 @@ import android.widget.Toast;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
@@ -24,9 +33,18 @@ import com.app.frimline.databinding.ActivityMyCartBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyCartActivity extends BaseActivity {
+    MyCartAdapter cartAdapter;
+    ArrayList<ProductModel> cartItemList;
+    DialogDiscardImageBinding discardImageBinding;
     private ActivityMyCartBinding binding;
     private boolean isCouponCodeApplied = false;
 
@@ -39,9 +57,10 @@ public class MyCartActivity extends BaseActivity {
         binding.boottomFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (prefManager.isLogin())
-                    HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
-                else
+                if (prefManager.isLogin()) {
+
+                    // HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
+                } else
                     HELPER.SIMPLE_ROUTE(act, LoginActivity.class);
             }
         });
@@ -59,17 +78,19 @@ public class MyCartActivity extends BaseActivity {
         binding.applyCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.showLoadingTran(act);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        HELPER.dismissLoadingTran();
-                        applyCouponCalculation(true);
-                        Toast.makeText(act, "Coupon Code Applied Successfully.", Toast.LENGTH_SHORT).show();
-                        binding.promoCodeContainer.setVisibility(View.GONE);
-                        binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
-                    }
-                }, 1000);
+//                if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
+//                    HELPER.showLoadingTran(act);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            HELPER.dismissLoadingTran();
+//                            applyCouponCalculation(true);
+//                            Toast.makeText(act, "Coupon Code Applied Successfully.", Toast.LENGTH_SHORT).show();
+//                            binding.promoCodeContainer.setVisibility(View.GONE);
+//                            binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
+//                        }
+//                    }, 1000);
+//                }
 
             }
         });
@@ -93,9 +114,6 @@ public class MyCartActivity extends BaseActivity {
         super.onResume();
         prefManager = new PREF(act);
     }
-
-    MyCartAdapter cartAdapter;
-    ArrayList<ProductModel> cartItemList;
 
     public void loadData() {
         int count = db.productEntityDao().getAll().size();
@@ -139,13 +157,12 @@ public class MyCartActivity extends BaseActivity {
             setState();
 
 
-            applyCouponCalculation(false);
+            applyCouponCalculation(isCouponCodeApplied);
 
         } else {
             setNoDataFound();
         }
     }
-
 
     public void priceCalculation() {
         double totalPrice = 0; // sum of all product calculated price [ qty * actual price]
@@ -178,7 +195,7 @@ public class MyCartActivity extends BaseActivity {
             binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
             binding.successAppliedCode.setText(binding.promoCodeEdt.getText().toString() + " Code has Applied.");
             binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
-            binding.couponHeading.setText("Coupon (" + binding.promoCodeEdt.getText().toString() + ")");
+            binding.couponHeading.setText("Coupon Discount (" + binding.promoCodeEdt.getText().toString() + ")");
             binding.couponAmountLayer.setVisibility(View.VISIBLE);
         } else {
             binding.promoCodeContainer.setVisibility(View.VISIBLE);
@@ -194,9 +211,9 @@ public class MyCartActivity extends BaseActivity {
         binding.headingSection.setText("Price Details (" + cartItemList.size() + ")");
 
         if (cartItemList.size() == 1)
-            binding.headingSection.setText("Price Details (" + cartItemList.size() + " Item");
+            binding.headingSection.setText("Price Details (" + cartItemList.size() + " Item)");
         else
-            binding.headingSection.setText("Price Details (" + cartItemList.size() + " Items");
+            binding.headingSection.setText("Price Details (" + cartItemList.size() + " Items)");
     }
 
     public void setState() {
@@ -254,7 +271,6 @@ public class MyCartActivity extends BaseActivity {
 
     }
 
-
     public void setNoDataFound() {
         binding.boottomFooter.setVisibility(View.GONE);
         binding.scrollView.setVisibility(View.GONE);
@@ -269,8 +285,6 @@ public class MyCartActivity extends BaseActivity {
         HELPER.backgroundTint(act, binding.bottomSlider, true);
         HELPER.backgroundTint(act, binding.scrollView, true);
     }
-
-    DialogDiscardImageBinding discardImageBinding;
 
     public void confirmationDialog(String title, String msg) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
@@ -310,4 +324,62 @@ public class MyCartActivity extends BaseActivity {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
+
+    private boolean isLoading = false;
+
+    private void verifyCouponCode() {
+        if (!isLoading)
+            isLoading = true;
+        HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEARCH, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                HELPER.dismissLoadingTran();
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        isLoading = false;
+                        HELPER.dismissLoadingTran();
+                        NetworkResponse response = error.networkResponse;
+                        if (response.statusCode == 400) {
+                            try {
+                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                                JSONObject jsonObject = new JSONObject(jsonString);
+
+                            } catch (UnsupportedEncodingException | JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.e("Error", gson.toJson(response.headers));
+                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                        }
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
 }

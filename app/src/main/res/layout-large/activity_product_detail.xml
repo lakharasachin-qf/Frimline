@@ -10,6 +10,8 @@
 
 
         <ScrollView
+            android:visibility="gone"
+
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -74,7 +76,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="-40dp"
+                    android:layout_marginTop="-50dp"
                     android:background="@drawable/shape_order_history_bottom_background"
                     android:orientation="vertical">
 
@@ -138,6 +140,8 @@
                         android:weightSum="2">
 
                         <LinearLayout
+                            android:id="@+id/counterLayout"
+
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1">
@@ -450,6 +454,8 @@
         </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
+            android:visibility="gone"
+
             android:id="@+id/boottomFooter"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
@@ -508,6 +514,38 @@
                     android:textSize="@dimen/_9sdp" />
             </RelativeLayout>
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/screenLoader"
+            style="?android:attr/progressBarStyleLargeInverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:elevation="@dimen/_10sdp"
+            android:fitsSystemWindows="true"
+            android:progressTint="@color/orange" />
+
+        <LinearLayout
+            android:id="@+id/NoDataFound"
+
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxinova_semi_bold"
+                android:gravity="center"
+                android:text="No Data found."
+                android:textAlignment="center"
+                android:textSize="@dimen/_10sdp" />
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

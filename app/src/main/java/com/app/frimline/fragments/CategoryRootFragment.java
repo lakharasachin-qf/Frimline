@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.PREF;
@@ -49,13 +50,23 @@ public class CategoryRootFragment extends BaseFragment {
         ((ViewGroup) binding.getRoot().findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         HELPER.changeThemeCategoryRootFragment(binding, pref.getThemeColor());
 
-        if (API_MODE) {
+        if (CONSTANT.API_MODE) {
+            binding.layout1.setVisibility(View.GONE);
+            binding.layout2.setVisibility(View.GONE);
+            binding.layout3.setVisibility(View.GONE);
+            binding.layout4.setVisibility(View.GONE);
             startShimmer();
             getTodayTomorrow();
         } else {
+            binding.layout1.setVisibility(View.VISIBLE);
+            binding.layout2.setVisibility(View.VISIBLE);
+            binding.layout3.setVisibility(View.VISIBLE);
+            binding.layout4.setVisibility(View.VISIBLE);
+
             binding.shimmerViewContainer.setVisibility(View.GONE);
             binding.categoryProductRecycler.setVisibility(View.VISIBLE);
             binding.scrollView.setVisibility(View.VISIBLE);
+            binding.dummyContainer.setVisibility(View.VISIBLE);
 
             List<String> outCategoryModels = new ArrayList<>();
             outCategoryModels.add("");
@@ -81,6 +92,14 @@ public class CategoryRootFragment extends BaseFragment {
                 }
                 Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
                 startActivity(intent);
+            }
+        });
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.NoDataFound.setVisibility(View.GONE);
+                startShimmer();
+                getTodayTomorrow();
             }
         });
         binding.cat2.setOnClickListener(new View.OnClickListener() {
@@ -136,13 +155,14 @@ public class CategoryRootFragment extends BaseFragment {
 
         if (!isLoading)
             isLoading = true;
-
+        binding.NoDataFound.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.TODAY_TOMORROW, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Log.e("Response", response);
                 stopShimmer();
                 isLoading = false;
+                binding.NoDataFound.setVisibility(View.GONE);
                 rootModel = ResponseHandler.handleResponseCategoryRootFragment(response);
                 loadData(rootModel);
             }
@@ -152,7 +172,10 @@ public class CategoryRootFragment extends BaseFragment {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         isLoading = false;
-                        stopShimmer();
+                        binding.NoDataFound.setVisibility(View.VISIBLE);
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                        binding.shimmerViewContainer.stopShimmer();
+
                     }
                 }
         ) {
@@ -177,7 +200,7 @@ public class CategoryRootFragment extends BaseFragment {
 
 
     public void loadData(CategoryRootModel rootModel) {
-        if (API_MODE) {
+        if (CONSTANT.API_MODE) {
             binding.layout1.setVisibility(View.GONE);
             binding.layout2.setVisibility(View.GONE);
             binding.layout3.setVisibility(View.GONE);
@@ -220,6 +243,7 @@ public class CategoryRootFragment extends BaseFragment {
         int i = 0;
         for (String str : msgList) {
             TodaysModel model = new TodaysModel();
+
             if (i == 0) {
                 model.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
             } else if (i == 1) {
@@ -231,7 +255,8 @@ public class CategoryRootFragment extends BaseFragment {
                     model.setLayoutType(LAYOUT_TYPE.LAYOUT_RIGHT_BLOG);
                 }
             }
-            Log.e("" + i, String.valueOf(model.getLayoutType()));
+            str = str.trim();
+
             model.setMessage(str.trim() + ".");
             list.add(model);
             i++;

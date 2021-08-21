@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -55,11 +54,14 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_billing_address);
         makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
+        binding.toolbarNavigation.title.setText("Checkout");
 
         if (getIntent().hasExtra("isBilling")) {
             flag = 0;
+            binding.toolbarNavigation.title.setText("Add Billing Address");
             if (getIntent().getBooleanExtra("isBilling", false)) {
                 isEdit = true; //comes for edit billing address
+                binding.toolbarNavigation.title.setText("Edit Billing Address");
                 Billing model = prefManager.getUser().getBillingAddress();
                 binding.nameEdt.setText(model.getFirstName());
                 binding.lnameEdt.setText(model.getLastName());
@@ -77,8 +79,10 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         }
         if (getIntent().hasExtra("isShipping")) {
             flag = 1;
+            binding.toolbarNavigation.title.setText("Add Shipping Address");
             if (getIntent().getBooleanExtra("isShipping", false)) {
                 isEdit = true; //comes for edit billing address
+                binding.toolbarNavigation.title.setText("Edit Shipping Address");
                 Billing model = prefManager.getUser().getShippingAddress();
                 binding.nameEdt.setText(model.getFirstName());
                 binding.lnameEdt.setText(model.getLastName());
@@ -95,7 +99,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             binding.billingSectionOther.setVisibility(View.GONE);
         }
 
-        binding.toolbarNavigation.title.setText("Checkout");
         binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +127,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         });
         binding.includeBtn.button.setText("Next");
         ((ViewGroup) findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
         changeTheme();

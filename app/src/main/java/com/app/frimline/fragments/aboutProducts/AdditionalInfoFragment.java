@@ -96,4 +96,47 @@ public class AdditionalInfoFragment extends BaseFragment {
         }
 
     }
+
+    public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
+        if (productModel!=null) {
+            if (!productModel.getAttribute().getDimWeight().isEmpty()) {
+                HELPER.LOAD_HTML(binding.weightTxt, productModel.getAttribute().getDimWeight());
+                binding.weightLayout.setVisibility(View.VISIBLE);
+                binding.view1.setVisibility(View.VISIBLE);
+            } else {
+                binding.weightLayout.setVisibility(View.GONE);
+                binding.view1.setVisibility(View.GONE);
+            }
+
+            String str = "";
+            if (!productModel.getAttribute().getDimLength().isEmpty()) {
+                str = productModel.getAttribute().getDimLength();
+            }
+            if (!productModel.getAttribute().getDimWidth().isEmpty()) {
+                str = str + " " + act.getString(R.string.Multiplication) + " " + productModel.getAttribute().getDimWidth();
+            }
+            if (!productModel.getAttribute().getDimHeight().isEmpty()) {
+                str = str + " " + act.getString(R.string.Multiplication) + " " + productModel.getAttribute().getDimHeight();
+            }
+            if (!str.isEmpty()) {
+                HELPER.LOAD_HTML(binding.dimentionTxt, str);
+                binding.dimentionLayout.setVisibility(View.VISIBLE);
+                binding.view2.setVisibility(View.VISIBLE);
+            } else {
+                binding.dimentionLayout.setVisibility(View.GONE);
+                binding.view2.setVisibility(View.GONE);
+            }
+
+
+            if (!productModel.getAttribute().getSize().isEmpty()) {
+                HELPER.LOAD_HTML(binding.sizeTxt, productModel.getAttribute().getSize());
+                binding.sizeLayout.setVisibility(View.VISIBLE);
+                binding.view3.setVisibility(View.VISIBLE);
+            } else {
+                binding.sizeLayout.setVisibility(View.GONE);
+                binding.view3.setVisibility(View.GONE);
+            }
+        }
+    }
 }

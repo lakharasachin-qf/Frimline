@@ -113,6 +113,7 @@ public class ShopAdapter extends RecyclerView.Adapter {
                 case LAYOUT_TYPE.LAYOUT_FILTER_CHIP:
                     if (CONSTANT.API_MODE) {
                         ShopFilterAdapter shopFilterAdapter = new ShopFilterAdapter(model.getCategoryArrayList(), activity);
+                        shopFilterAdapter.setCategory(selectedCategory);
                         ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                         ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
                     }else{
@@ -147,7 +148,10 @@ public class ShopAdapter extends RecyclerView.Adapter {
             }
         }
     }
-
+    CategorySingleModel selectedCategory;
+    public void setCategoryFilter(CategorySingleModel selectedCategory) {
+        this.selectedCategory =selectedCategory;
+    }
 
 
     public class TopProductContainer extends RecyclerView.ViewHolder {

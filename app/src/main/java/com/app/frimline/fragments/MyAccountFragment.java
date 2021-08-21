@@ -129,7 +129,8 @@ public class MyAccountFragment extends BaseFragment {
 
         if (CONSTANT.API_MODE) {
             model = pref.getUser();
-            if (model != null) {
+
+            if (pref.isLogin() && model != null) {
                 if (!model.getDisplayName().isEmpty()) {
                     binding.nameTxt.setText(model.getDisplayName());
                 }
@@ -142,7 +143,7 @@ public class MyAccountFragment extends BaseFragment {
                 }
 
 
-                if (!model.getPhoneNo().isEmpty()) {
+                if (model.getPhoneNo() != null && !model.getPhoneNo().isEmpty()) {
                     binding.mobileNo.setText(model.getPhoneNo());
                 } else {
                     binding.mobileNo.setVisibility(View.GONE);
@@ -180,7 +181,7 @@ public class MyAccountFragment extends BaseFragment {
 
                 }
 
-                if (!model.getPhoneNo().isEmpty()) {
+                if (model.getPhoneNo() !=null && !model.getPhoneNo().isEmpty()) {
                     if (model.getPhoneNo().startsWith("+91"))
                         binding.mobileNo.setText(model.getPhoneNo());
                     else
@@ -394,6 +395,20 @@ public class MyAccountFragment extends BaseFragment {
                     binding.NoDataFound.setVisibility(View.GONE);
                     binding.screenLoader.setVisibility(View.VISIBLE);
                     loadProfile();
+                }
+            });
+        }
+
+        if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!new PREF(act).isLogin()) {
+                        binding.loginContent.setVisibility(View.GONE);
+                        binding.NoDataFound.setVisibility(View.VISIBLE);
+                        binding.screenLoader.setVisibility(View.GONE);
+                    }
+
                 }
             });
         }

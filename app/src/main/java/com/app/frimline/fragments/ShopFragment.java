@@ -21,6 +21,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -63,6 +64,8 @@ public class ShopFragment extends BaseFragment {
     private int maxPricePosition = 0;
     private ListModel sortingOptionSelection;
     private CategorySingleModel selectedCategory;
+    private String categoryID;
+    private String jsonStr;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -74,7 +77,9 @@ public class ShopFragment extends BaseFragment {
             loadShopData();
 
         } else {
-            binding.containerRoot.setVisibility(View.VISIBLE);
+            binding.swipeContainer.setVisibility(View.VISIBLE);
+            binding.containerRecycler.setVisibility(View.VISIBLE);
+            binding.emptyData.setVisibility(View.GONE);
             binding.shimmerViewContainer.setVisibility(View.GONE);
 
             ArrayList<HomeModel> arrayList = new ArrayList<>();
@@ -94,7 +99,20 @@ public class ShopFragment extends BaseFragment {
             binding.containerRecycler.setAdapter(shopAdapter);
 
         }
+        binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
 
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (CONSTANT.API_MODE) {
+
+                    startShimmer();
+                    loadShopData();
+                } else {
+                    binding.swipeContainer.setRefreshing(false);
+                }
+            }
+        });
         fillSortingData();
         setupFilter();
 
@@ -104,14 +122,18 @@ public class ShopFragment extends BaseFragment {
     public void startShimmer() {
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.shimmerViewContainer.startShimmer();
-        binding.containerRoot.setVisibility(View.GONE);
+        binding.swipeContainer.setVisibility(View.GONE);
+        binding.filterChip.setVisibility(View.GONE);
+        binding.sortFilterAction.setVisibility(View.GONE);
         binding.emptyData.setVisibility(View.GONE);
     }
 
     public void stopShimmer() {
+        binding.filterChip.setVisibility(View.VISIBLE);
+        binding.sortFilterAction.setVisibility(View.VISIBLE);
         binding.shimmerViewContainer.setVisibility(View.GONE);
         binding.shimmerViewContainer.stopShimmer();
-        binding.containerRoot.setVisibility(View.VISIBLE);
+        binding.swipeContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -122,11 +144,13 @@ public class ShopFragment extends BaseFragment {
 
     public void changeTheme() {
 
-        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
-        binding.filterChip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
-        binding.sortFilterAction.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
-        binding.filterChip.setChipIconTint(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
-        binding.sortFilterAction.setChipIconTint(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
+        binding.closeView.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.closeFilterView.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.filterChip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.sortFilterAction.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.filterChip.setChipIconTint(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.sortFilterAction.setChipIconTint(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
     }
 
 
@@ -165,7 +189,7 @@ public class ShopFragment extends BaseFragment {
         view.setVisibility(View.VISIBLE);
         binding.transparentOverlay.setVisibility(View.VISIBLE);
         binding.frameLayout.setVisibility(View.VISIBLE);
-        binding.container.setEnabled(false);
+        binding.swipeContainer.setEnabled(false);
     }
 
     public void slideToLeftFilter(View view) {
@@ -174,7 +198,7 @@ public class ShopFragment extends BaseFragment {
         view.setVisibility(View.VISIBLE);
         binding.transparentOverlay.setVisibility(View.VISIBLE);
         binding.filterFrameLayout.setVisibility(View.VISIBLE);
-        binding.container.setEnabled(false);
+        binding.swipeContainer.setEnabled(false);
     }
 
 
@@ -184,7 +208,7 @@ public class ShopFragment extends BaseFragment {
         binding.transparentOverlay.setVisibility(View.GONE);
         binding.frameLayout.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
-        binding.container.setEnabled(true);
+        binding.swipeContainer.setEnabled(true);
     }
 
     public void slideTorightFilter(View view) {
@@ -193,7 +217,7 @@ public class ShopFragment extends BaseFragment {
         binding.transparentOverlay.setVisibility(View.GONE);
         binding.filterFrameLayout.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
-        binding.container.setEnabled(true);
+        binding.swipeContainer.setEnabled(true);
     }
 
 
@@ -401,23 +425,28 @@ public class ShopFragment extends BaseFragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Response", response);
-
+                Log.e("Response",response);
+                binding.swipeContainer.setRefreshing(false);
                 stopShimmer();
                 isLoading = false;
                 rootModel = ResponseHandler.handleShopFragmentData(response);
-                shopAdapter = new ShopAdapter(rootModel, getActivity());
 
+                shopAdapter = new ShopAdapter(rootModel, getActivity());
+                shopAdapter.setCategoryFilter(selectedCategory);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
                 binding.containerRecycler.setHasFixedSize(true);
                 binding.containerRecycler.setNestedScrollingEnabled(false);
                 binding.containerRecycler.setLayoutManager(mLayoutManager);
                 binding.containerRecycler.setAdapter(shopAdapter);
-
+                binding.containerRecycler.setVisibility(View.VISIBLE);
+                binding.emptyData.setVisibility(View.GONE);
+                binding.swipeContainer.setVisibility(View.VISIBLE);
                 if (rootModel.size() == 0) {
-                    binding.containerRoot.setVisibility(View.GONE);
+                    binding.containerRecycler.setVisibility(View.GONE);
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
                     binding.shimmerViewContainer.setVisibility(View.GONE);
-                    binding.emptyData.setVisibility(View.GONE);
+                    binding.emptyData.setVisibility(View.VISIBLE);
+                    binding.emptyData.setText("No Product Found.");
                 }
 
             }
@@ -427,7 +456,13 @@ public class ShopFragment extends BaseFragment {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         isLoading = false;
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
+                        binding.emptyData.setVisibility(View.VISIBLE);
+                        binding.containerRecycler.setVisibility(View.GONE);
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
                         stopShimmer();
+                        binding.swipeContainer.setRefreshing(false);
                     }
                 }
         ) {
@@ -443,8 +478,8 @@ public class ShopFragment extends BaseFragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("min_price", "");
-                params.put("max_price", "");
+                params.put("min_price", binding.minPrice.getText().toString());
+                params.put("max_price", binding.maxPrice.getText().toString());
                 if (sortingOptionSelection != null) {
                     params.put("orderby", sortingOptionSelection.getOrderBy());
                     params.put("order", sortingOptionSelection.getOrder());
@@ -521,7 +556,23 @@ public class ShopFragment extends BaseFragment {
 
                 if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER) {
                     if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
+
                         selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
+                        jsonStr = new String(frimline.getObserver().getData());
+                        categoryID = selectedCategory.getCategoryId();
+
+
+
+
+                        startShimmer();
+                        loadShopData();
+                    }
+                }
+
+
+                if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER_REMOVE) {
+                    if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
+                        selectedCategory = null;
                         startShimmer();
                         loadShopData();
                     }

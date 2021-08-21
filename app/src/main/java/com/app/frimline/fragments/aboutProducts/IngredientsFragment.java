@@ -71,4 +71,10 @@ public class IngredientsFragment extends BaseFragment {
         }
     }
 
+    public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
+        if (productModel!=null) {
+            HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getIngredients());
+        }
+    }
 }

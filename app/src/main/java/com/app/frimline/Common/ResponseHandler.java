@@ -421,7 +421,6 @@ public class ResponseHandler {
             rootArrayList.add(getCovidBanner(jsonObject));
 
 
-
             Collections.sort(rootArrayList, new Comparator<HomeModel>() {
                 @Override
                 public int compare(HomeModel lhs, HomeModel rhs) {
@@ -576,7 +575,9 @@ public class ResponseHandler {
                 for (int i = 0; i < jsonArr.length(); i++) {
                     ReviewRootModel.Review review = model.new Review();
                     review.setId(jsonArr.getJSONObject(i).getString("id"));
+                    review.setDate(jsonArr.getJSONObject(i).getString("date_created"));
                     review.setReviewerEmail(jsonArr.getJSONObject(i).getString("reviewer_email"));
+                    review.setReviewerName(jsonArr.getJSONObject(i).getString("reviewer"));
                     review.setReview(jsonArr.getJSONObject(i).getString("review"));
                     review.setRating(jsonArr.getJSONObject(i).getString("rating"));
                     review.setStatus(jsonArr.getJSONObject(i).getString("status"));
@@ -775,7 +776,6 @@ public class ResponseHandler {
                 orderModel.setTrackingLink(getString(object, "tracking_link"));
 
 
-
                 Billing billingAddress = new Billing();
                 billingAddress.setFirstName(getString(getJSONObject(object, "billing"), "first_name"));
                 billingAddress.setLastName(getString(getJSONObject(object, "billing"), "last_name"));
@@ -876,7 +876,8 @@ public class ResponseHandler {
                 List<ProductModel> HotProduct = arrayProduct.subList(firstPartSize, arrayProduct.size());
                 Log.e("HotProduct", String.valueOf(HotProduct.size()));
                 topSearchModel.setTopProduct(tempArray);
-                searchListResult.add(topSearchModel);
+                if (tempArray.size()!=0)
+                    searchListResult.add(topSearchModel);
 
                 //----------------------------------------
                 JSONArray categoryArr = searchObj.getJSONArray("category");
@@ -910,7 +911,12 @@ public class ResponseHandler {
                 SearchModel hotSearchModel = new SearchModel();
                 hotSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
                 hotSearchModel.setHotProduct(new ArrayList<>(HotProduct));
-                searchListResult.add(hotSearchModel);
+                if (new ArrayList<>(HotProduct).size()!=0)
+                    searchListResult.add(hotSearchModel);
+
+                if (new ArrayList<>(HotProduct).size()==0 && tempArray.size()==0){
+                    searchListResult.clear();
+                }
 
 
             } catch (JSONException e) {
@@ -922,5 +928,75 @@ public class ResponseHandler {
 
         return searchListResult;
     }
+
+
+    public static ProductModel getProductDetails(JSONObject productObj) {
+        ProductModel model = null;
+
+        try {
+            model = new ProductModel();
+            model.setId(getString(productObj, "id"));
+            model.setName(getString(productObj, "name"));
+            model.setSlug(getString(productObj, "slug"));
+            model.setRating(getString(productObj, "rating_count"));
+            model.setDescription(getString(productObj, "description"));
+            model.setShortDescription(getString(productObj, "short_description"));
+            model.setPrice(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
+            model.setCalculatedAmount(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
+            model.setRegularPrice(getString(productObj, "regular_price"));
+            model.setPriceHtml(getString(productObj, "price_html"));
+            model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
+            model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
+            model.setStockStatus(getString(productObj, "stock_status"));
+            ArrayList<Tags> tagsArrayList = new ArrayList<>();
+            for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {
+                Tags tags = new Tags();
+                tags.setTag(productObj.getJSONArray("tags").getJSONObject(k).getString("name"));
+                tags.setId(productObj.getJSONArray("tags").getJSONObject(k).getString("id"));
+                tagsArrayList.add(tags);
+            }
+            ArrayList<String> productImages = new ArrayList<>();
+            for (int k = 0; k < productObj.getJSONArray("images").length(); k++) {
+                productImages.add(productObj.getJSONArray("images").getJSONObject(k).getString("src"));
+            }
+            model.setProductImagesList(productImages);
+            model.setTagsModel(tagsArrayList);
+
+
+            Attribute attribute = new Attribute();
+            JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
+            for (int md = 0; md < metaDataArra.length(); md++) {
+
+                if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("how_touse")) {
+                    attribute.setHowToUse(metaDataArra.getJSONObject(md).getString("value"));
+                }
+                if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("Ingredents_content")) {
+                    attribute.setIngredients(metaDataArra.getJSONObject(md).getString("value"));
+                }
+                if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("description")) {
+                    attribute.setDescription(metaDataArra.getJSONObject(md).getString("value"));
+                }
+                if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("additional_information")) {
+                    attribute.setDimWeight(metaDataArra.getJSONObject(md).getJSONObject("value").getString("weight"));
+                    if (metaDataArra.getJSONObject(md).getJSONObject("value").get("dimensions") instanceof JSONObject) {
+                        attribute.setDimLength(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("length"));
+                        attribute.setDimWidth(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("width"));
+                        attribute.setDimHeight(metaDataArra.getJSONObject(md).getJSONObject("value").getJSONObject("dimensions").getString("height"));
+                    }
+                }
+            }
+            JSONArray attributesArr = getJSONArray(productObj, "attributes");
+            if (attributesArr.length() != 0 && attributesArr.getJSONObject(0).get("options") instanceof JSONArray && attributesArr.getJSONObject(0).getJSONArray("options").length() != 0) {
+                attribute.setSize(attributesArr.getJSONObject(0).getJSONArray("options").getString(0));
+            }
+            model.setAttribute(attribute);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return model;
+    }
+
 }
 

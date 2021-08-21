@@ -76,7 +76,7 @@ public class QnAFragment extends BaseFragment {
             modelArrayList.add(outCategoryModel);
             modelArrayList.add(outCategoryModel);
             ProductQNAAdapter adaptertop = new ProductQNAAdapter(modelArrayList, getActivity());
-            adaptertop.setThemeColor(true);
+            adaptertop.setThemeColor(applyThemeColor);
             binding.qnAContainerRecycler.setNestedScrollingEnabled(false);
 
             binding.qnAContainerRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -133,9 +133,12 @@ public class QnAFragment extends BaseFragment {
                 if (reviewRootModel.getBlogList() != null && reviewRootModel.getBlogList().size() != 0) {
                     ProductQNAAdapter adaptertop = new ProductQNAAdapter(reviewRootModel.getBlogList(), getActivity());
                     binding.qnAContainerRecycler.setNestedScrollingEnabled(false);
+                    adaptertop.setThemeColor(applyThemeColor);
                     binding.qnAContainerRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                     binding.qnAContainerRecycler.setAdapter(adaptertop);
                     binding.dataDisplayContainer.setVisibility(View.VISIBLE);
+                    binding.qaContainer.setVisibility(View.GONE);
+                    binding.errorContainer.setVisibility(View.GONE);
                 } else {
                     binding.qaContainer.setVisibility(View.VISIBLE);
                     binding.dataDisplayContainer.setVisibility(View.GONE);
@@ -267,5 +270,12 @@ public class QnAFragment extends BaseFragment {
         };
 
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+    public void setProductModel(ProductModel productModel) {
+        this.model = productModel;
+        if (model != null) {
+            loadReview();
+        }
     }
 }

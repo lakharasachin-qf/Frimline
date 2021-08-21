@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_7sdp"
-        app:cardElevation="@dimen/_3sdp"
+        app:cardElevation="@dimen/_2sdp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -91,7 +91,7 @@ various aspects of your lives..."
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="-33dp"
         android:layout_marginBottom="0dp"
-        android:elevation="@dimen/_3sdp"
+        android:elevation="@dimen/_4sdp"
         android:fontFamily="@font/proxima_nova_bold"
         android:shadowColor="@color/orange"
         android:text="Explore More"

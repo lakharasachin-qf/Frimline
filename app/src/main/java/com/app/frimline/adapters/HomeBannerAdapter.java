@@ -14,7 +14,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.R;
 import com.app.frimline.models.HomeFragements.BannerModel;
-import com.app.frimline.models.OutCategoryModel;
 import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +49,8 @@ public class HomeBannerAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.item_home_banner_child_layout, null);
         if (CONSTANT.API_MODE) {
             ImageView productImages = view.findViewById(R.id.banner);
-            Glide.with(context).load(sliderImg.get(position).getUrl()).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
+            //Glide.with(context).load(sliderImg.get(position).getUrl()).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
+            Glide.with(context).load(R.drawable.ic_banner_place_holder).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
         } else {
             LinearLayout dummyContainer = view.findViewById(R.id.dummyContainer);
             dummyContainer.setVisibility(View.VISIBLE);

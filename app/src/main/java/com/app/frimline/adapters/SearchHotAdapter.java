@@ -83,8 +83,6 @@ public class SearchHotAdapter extends RecyclerView.Adapter<SearchHotAdapter.View
 
 
         Glide.with(activity).load(model.getProductImagesList().get(0))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .placeholder(R.drawable.ic_square_place_holder)
                 .error(R.drawable.ic_square_place_holder)
                 .into(binding.productImage);

@@ -169,8 +169,6 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
             }
         });
         Glide.with(activity).load(productList.get(0).getProductImagesList().get(0))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .placeholder(R.drawable.ic_square_place_holder)
                 .error(R.drawable.ic_square_place_holder)
                 .into(binding.productImage1);
@@ -218,20 +216,14 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
             HELPER.LOAD_HTML(binding.productPrice3, activity.getString(R.string.Rs) + productList.get(2).getPrice());
 
             Glide.with(activity).load(productList.get(0).getProductImagesList().get(0))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_square_place_holder)
                     .error(R.drawable.ic_square_place_holder)
                     .into(binding.productImage1);
             Glide.with(activity).load(productList.get(1).getProductImagesList().get(0))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_square_place_holder)
                     .error(R.drawable.ic_square_place_holder)
                     .into(binding.productImage2);
             Glide.with(activity).load(productList.get(2).getProductImagesList().get(0))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_square_place_holder)
                     .error(R.drawable.ic_square_place_holder)
                     .into(binding.productImage3);
@@ -490,14 +482,10 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
         }
         //load data
         Glide.with(activity).load(productList.get(0).getProductImagesList().get(0))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .placeholder(R.drawable.ic_square_place_holder)
                 .error(R.drawable.ic_square_place_holder)
                 .into(binding.productImage1);
         Glide.with(activity).load(productList.get(1).getProductImagesList().get(0))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .placeholder(R.drawable.ic_square_place_holder)
                 .error(R.drawable.ic_square_place_holder)
                 .into(binding.productImage2);

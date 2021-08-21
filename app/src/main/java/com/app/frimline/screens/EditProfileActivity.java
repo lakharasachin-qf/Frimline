@@ -21,14 +21,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.Common.Validators;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityEditProfileBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
+import com.app.frimline.models.Billing;
 import com.app.frimline.models.ProfileModel;
 
 import org.json.JSONObject;
@@ -250,6 +253,7 @@ public class EditProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                 onBackPressed();
             }
         });
@@ -261,7 +265,7 @@ public class EditProfileActivity extends BaseActivity {
 
     private boolean isLoading = false;
 
-    private void loadProfile() {
+    public void loadProfile() {
 
         if (!isLoading)
             isLoading = true;
@@ -272,8 +276,9 @@ public class EditProfileActivity extends BaseActivity {
             public void onResponse(String response) {
                 isLoading = false;
                 HELPER.dismissLoadingTran();
+                Log.e("Response",response);
                 JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
+                if (object != null && ResponseHandler.getString(object,"code").equals("200")) {
                     ProfileModel model = new ProfileModel();
                     model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
                     model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
@@ -286,9 +291,9 @@ public class EditProfileActivity extends BaseActivity {
                     model.setUserName(ResponseHandler.getString(object, "username"));
                     model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
 
-
+                    loadUSER(ResponseHandler.getString(object,"message"));
                 }
-                confirmationDialog("Profile Update", ResponseHandler.getString(object, "message"));
+
 
 
             }
@@ -327,6 +332,99 @@ public class EditProfileActivity extends BaseActivity {
                 params.put("display_name", binding.displayNameEdt.getText().toString());
                 params.put("phone", binding.phoneNoEdt.getText().toString());
                 Log.e("PARAM", params.toString());
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
+
+    private void loadUSER(String msg) {
+
+        if (!isLoading)
+            isLoading = true;
+HELPER.showLoadingTran(act);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                HELPER.dismissLoadingTran();
+                JSONObject object = ResponseHandler.createJsonObject(response);
+                if (object != null) {
+                    ProfileModel model = new ProfileModel();
+                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
+                    model.setUserId(ResponseHandler.getString(object, "id"));
+                    model.setEmail(ResponseHandler.getString(object, "email"));
+                    model.setFirstName(ResponseHandler.getString(object, "first_name"));
+                    model.setLastName(ResponseHandler.getString(object, "last_name"));
+                    model.setRole(ResponseHandler.getString(object, "role"));
+                    model.setUserName(ResponseHandler.getString(object, "username"));
+                    model.setUserName(ResponseHandler.getString(object, "username"));
+                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+
+
+                    Billing billingAddress = new Billing();
+                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
+                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
+                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
+                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
+                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
+                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
+                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
+                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
+                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
+                    billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
+                    billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
+                    model.setBillingAddress(billingAddress);
+
+                    billingAddress = new Billing();
+                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
+                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
+                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
+                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
+                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
+                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
+                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
+                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
+                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
+                    model.setShippingAddress(billingAddress);
+
+                    prefManager.setUser(model);
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                    confirmationDialog("Profile Update", msg);
+
+                }
+
+
+            }
+
+
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        isLoading = false;
+                        HELPER.dismissLoadingTran();
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = getHeader();
+                Log.e("HEADER", getHeader().toString());
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
                 return params;
             }
         };

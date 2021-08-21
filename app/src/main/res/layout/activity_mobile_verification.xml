@@ -1,143 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".screens.MobileVerificationActivity">
 
-    <View
-        android:id="@+id/view"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_40sdp" />
-
-    <ImageView
-        android:id="@+id/backgroundLayar2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
-        android:src="@drawable/ic_screen_header" />
-
-    <ImageView
-        android:id="@+id/backgroundLayar"
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:scaleType="fitEnd"
-        android:src="@drawable/ic_screen_bottom_background"
-        app:tint="@color/colorGreen" />
+        android:orientation="vertical"
+        tools:context=".screens.MobileVerificationActivity">
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="@dimen/_22sdp"
-        app:cardCornerRadius="@dimen/_7sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:cardUseCompatPadding="true">
-
-        <RelativeLayout
+        <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_40sdp" />
 
-            <LinearLayout
-                android:id="@+id/containerLinear"
-                android:animateLayoutChanges="true"
+        <ImageView
+            android:id="@+id/backgroundLayar2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/ic_screen_header" />
+
+        <ImageView
+            android:id="@+id/backgroundLayar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_screen_bottom_background"
+            app:tint="@color/colorGreen" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/_15sdp"
-                android:paddingTop="30dp"
-                android:paddingEnd="@dimen/_15sdp"
-                android:paddingBottom="30dp">
+                android:layout_height="match_parent">
 
-
-                <ImageView
-                    android:id="@+id/otpIcon"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/shape_ovel_green"
-                    android:backgroundTint="@color/colorGreen"
-                    android:padding="@dimen/_26sdp"
-                    android:src="@drawable/ic_mobile_password" />
-
-
-                <TextView
-                    android:id="@+id/otpTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/proxima_nova_bold"
-                    android:text="Reset Password?"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/_18sdp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="We will send you a link to reset your Password on \nthis email id"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_10sdp" />
-<!--android:text="We will send you a One Time Password on \nthis mobile number"-->
-
-                <TextView
-                    style="@style/EditTextTitle"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_marginBottom="@dimen/_7sdp"
-                    android:text="Email Id"
-                    android:textSize="@dimen/_10sdp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/phoneNoEdtLayout"
-                    style="@style/TextInputLayoutStyleForMediumScreen"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/containerVerified"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorEnabled="false">
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="@dimen/_7sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardUseCompatPadding="true">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phoneNoEdt"
-                        style="@style/textInputEditTextForMediumScreen"
-                        android:drawableStart="@drawable/edt_email_icon"
-                        android:hint="Email Id"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        android:inputType="textEmailAddress" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <include
-                    android:id="@+id/includeBtn"
-                    layout="@layout/common_button_match_width_layout" />
-            </LinearLayout>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-    <ImageView
-        android:id="@+id/backPress"
-        android:layout_width="@dimen/_22sdp"
-        android:layout_height="@dimen/_22sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:src="@drawable/ic_left_arrow_black" />
 
-    <TextView
-        android:id="@+id/signupTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_20sdp"
-        android:fontFamily="@font/proxima_nova_bold"
-        android:text="Don't have an account? Sign up"
-        android:textSize="@dimen/_14sdp"
-        android:visibility="gone" />
-</RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="100dp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:paddingStart="@dimen/_15sdp"
+                            android:paddingEnd="@dimen/_15sdp"
+                            android:visibility="visible">
+
+
+                            <ImageView
+                                android:id="@+id/otpVerfiedIcon"
+                                android:layout_width="@dimen/_90sdp"
+                                android:layout_height="@dimen/_90sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:background="@drawable/shape_ovel_green"
+                                android:backgroundTint="@color/colorGreen"
+                                android:padding="@dimen/_26sdp"
+                                android:src="@drawable/ic_otp_verified" />
+
+
+                            <TextView
+                                android:id="@+id/verifiedTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:fontFamily="@font/proxima_nova_bold"
+                                android:text="Verify Account"
+                                android:textColor="@color/colorGreen"
+                                android:textSize="@dimen/_18sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:fontFamily="@font/proxima_nova_regular"
+                                android:text="Mobile verification has\nsuccessfully done"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <include
+                                android:id="@+id/includeBtn1"
+                                layout="@layout/common_button_match_width_layout" />
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/resetPasswordContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/_22sdp"
+                    app:cardCornerRadius="@dimen/_7sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/containerLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:animateLayoutChanges="true"
+                            android:orientation="vertical"
+                            android:paddingStart="@dimen/_15sdp"
+                            android:paddingTop="30dp"
+                            android:paddingEnd="@dimen/_15sdp"
+                            android:paddingBottom="30dp">
+
+
+                            <ImageView
+                                android:id="@+id/otpIcon"
+                                android:layout_width="110dp"
+                                android:layout_height="110dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:background="@drawable/shape_ovel_green"
+                                android:backgroundTint="@color/colorGreen"
+                                android:padding="@dimen/_26sdp"
+                                android:src="@drawable/ic_mobile_password" />
+
+
+                            <TextView
+                                android:id="@+id/otpTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/proxima_nova_bold"
+                                android:text="Reset Password?"
+                                android:textColor="@color/colorGreen"
+                                android:textSize="@dimen/_18sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:fontFamily="@font/proxima_nova_regular"
+                                android:text="We will send you a link to reset your Password on \nthis email id"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/_10sdp" />
+                            <!--android:text="We will send you a One Time Password on \nthis mobile number"-->
+
+                            <TextView
+                                style="@style/EditTextTitle"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Email Id"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/phoneNoEdtLayout"
+                                style="@style/TextInputLayoutStyleForMediumScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/phoneNoEdt"
+                                    style="@style/textInputEditTextForMediumScreen"
+                                    android:drawableStart="@drawable/edt_email_icon"
+                                    android:hint="Email Id"
+
+                                    android:inputType="textEmailAddress" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <include
+                                android:id="@+id/includeBtn"
+                                layout="@layout/common_button_match_width_layout" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ImageView
+            android:id="@+id/backPress"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/ic_left_arrow_black" />
+
+        <TextView
+            android:id="@+id/signupTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:text="Don't have an account? Sign up"
+            android:textSize="@dimen/_14sdp"
+            android:visibility="gone" />
+    </RelativeLayout>
 </layout>

@@ -19,7 +19,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.fragments.BlogsFragment;
@@ -100,6 +102,8 @@ public class DrawerMenu {
         menuModel = new MenuModel("Privacy Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_privacy_policy)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
         menuModel = new MenuModel("Shipping Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_ic_menu_shipping_policy)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
     }
 
@@ -226,6 +230,12 @@ public class DrawerMenu {
                                 titleTxt.setText("Blogs");
                                 searchAction2.setVisibility(View.VISIBLE);
                                 currentMenuItem = "Blogs";
+                                break;
+
+                            case "Logout":
+                                new PREF(activity).Logout();
+                                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
+                                drawer.closeDrawer(GravityCompat.START);
                                 break;
                         }
                     }

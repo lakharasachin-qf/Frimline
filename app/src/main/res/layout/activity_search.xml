@@ -75,21 +75,21 @@
                 android:paddingBottom="@dimen/_70sdp" />
 
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/sortAction"
-                style="@style/ChipStyle"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:elevation="@dimen/_4sdp"
-                android:shadowColor="@color/colorGreen"
-                android:text="Sort"
-                android:textColor="@color/colorToolbarHeader"
-                app:chipIcon="@drawable/ic_sort_black_24dp"
-                app:chipStrokeColor="@color/colorGreen" />
         </RelativeLayout>
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sortAction"
+            style="@style/ChipStyle"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:elevation="@dimen/_4sdp"
+            android:shadowColor="@color/colorGreen"
+            android:text="Sort"
+            android:textColor="@color/colorToolbarHeader"
+            app:chipIcon="@drawable/ic_sort_black_24dp"
+            app:chipStrokeColor="@color/colorGreen" />
         <RelativeLayout
             android:id="@+id/transparentOverlay"
 

@@ -84,6 +84,9 @@
         <activity
             android:name=".screens.OrderHistoryViewActivity"
             android:screenOrientation="${screenOrientation}" />
+        <activity
+            android:name=".screens.OrderProductDetailActivity"
+            android:screenOrientation="${screenOrientation}" />
 
         <activity
             android:name=".screens.AddressesActivity"
@@ -104,10 +107,6 @@
             android:name=".screens.BillingAddressActivity"
             android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".screens.CategoryHomeActivity"
-            android:screenOrientation="${screenOrientation}" />
 
         <activity
             android:name=".screens.CategoryRootActivity"

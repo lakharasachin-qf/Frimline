@@ -23,7 +23,6 @@ import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductReviewAdapter;
@@ -103,6 +102,7 @@ public class ReviewsFragment extends BaseFragment {
         binding.screenLoader.setProgressTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         binding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(defaultColor), android.graphics.PorterDuff.Mode.MULTIPLY);
 
+        binding.addReviewsIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         binding.tryAgainBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
 
@@ -133,13 +133,13 @@ public class ReviewsFragment extends BaseFragment {
                 reviewRootModel = ResponseHandler.handleReviewList(response);
                 if (reviewRootModel.getReviewsList() != null && reviewRootModel.getReviewsList().size() != 0) {
                     binding.reviewContainerRecycler.setVisibility(View.VISIBLE);
-                    binding.reviewContainer.setVisibility(View.GONE);
-
                     ProductReviewAdapter adaptertop = new ProductReviewAdapter(reviewRootModel.getReviewsList(), getActivity());
                     binding.reviewContainerRecycler.setNestedScrollingEnabled(false);
                     binding.reviewContainerRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                     binding.reviewContainerRecycler.setAdapter(adaptertop);
                     binding.dataDisplayContainer.setVisibility(View.VISIBLE);
+                    binding.reviewContainer.setVisibility(View.GONE);
+                    binding.errorContainer.setVisibility(View.GONE);
                 } else {
                     binding.reviewContainer.setVisibility(View.VISIBLE);
                     binding.dataDisplayContainer.setVisibility(View.GONE);
@@ -219,9 +219,9 @@ public class ReviewsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                if (CONSTANT.API_MODE){
+                if (CONSTANT.API_MODE) {
                     addReview();
-                }else{
+                } else {
                     alertDialog.dismiss();
 
                 }
@@ -270,13 +270,21 @@ public class ReviewsFragment extends BaseFragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("product_id",model.getId());
-                params.put("review",reqBinding.reviewEdt.getText().toString());
+                params.put("product_id", model.getId());
+                params.put("review", reqBinding.reviewEdt.getText().toString());
+
                 params.put("rating", String.valueOf(reqBinding.rate.getRating()));
                 return params;
             }
         };
 
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+    public void setProductModel(ProductModel productModel) {
+        this.model = productModel;
+        if (this.model != null) {
+            loadReview();
+        }
     }
 }

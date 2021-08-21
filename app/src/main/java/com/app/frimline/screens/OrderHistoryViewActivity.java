@@ -193,8 +193,15 @@ public class OrderHistoryViewActivity extends BaseActivity {
             if (!model.getShippingAddress().getPostCode().isEmpty()) {
                 shippingAddress = shippingAddress + " - " + model.getShippingAddress().getPostCode();
             }
-            TextView deliveryAddress = findViewById(R.id.deliveryAddress);
-            deliveryAddress.setText(shippingAddress);
+
+            if (!shippingAddress.isEmpty()) {
+                TextView deliveryAddress = findViewById(R.id.deliveryAddress);
+                deliveryAddress.setText(shippingAddress);
+
+            }else{
+                CardView deliverySection = findViewById(R.id.deliverySection);
+                deliverySection.setVisibility(View.GONE);
+            }
 
         }
 
@@ -224,6 +231,22 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView finalAmoutPrice = findViewById(R.id.finalAmoutPrice);
         finalAmoutPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getTotal())));
+
+        TextView trackingId = findViewById(R.id.trackingId);
+        TextView tracklink = findViewById(R.id.trackingLink);
+        if (!model.getTrackingId().isEmpty()){
+            trackingId.setText(model.getTrackingId());
+
+        }else{
+            trackingId.setVisibility(View.GONE);
+        }
+        if (!model.getTrackingLink().isEmpty()){
+            tracklink.setText(model.getTrackingLink());
+
+        }else{
+            tracklink.setVisibility(View.GONE);
+        }
+
     }
 
     public void changeTheme() {
@@ -348,7 +371,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                     REQUESTED_STORAGE);
             Toast.makeText(act, "permission", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(act, "start download", Toast.LENGTH_SHORT).show();
+
             new DownloadFileFromURL().execute(model.getInvoiceLink());
 
         }
@@ -417,10 +440,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
         String filename = "";
 
-        /**
-         * Before starting background thread
-         * Show Progress Bar Dialog
-         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -428,9 +447,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
             // showDialog(progress_bar_type);
         }
 
-        /**
-         * Downloading file in background thread
-         */
         @Override
         protected String doInBackground(String... f_url) {
             int count;
@@ -478,22 +494,14 @@ public class OrderHistoryViewActivity extends BaseActivity {
             return null;
         }
 
-        /**
-         * Updating progress bar
-         */
         protected void onProgressUpdate(String... progress) {
             // setting progress percentage
             Log.e("d","s"+(progress[0]));
         }
 
-        /**
-         * After completing background task
-         * Dismiss the progress dialog
-         **/
+
         @Override
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog after the file was downloaded
-            //dismissDialog(progress_bar_type);
             HELPER.dismissLoadingTran();
             // Reading filepath from sdcard
             String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;

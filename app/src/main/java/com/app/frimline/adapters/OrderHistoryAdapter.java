@@ -81,7 +81,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 holder.binding.delivaryIcon.setImageTintList(null);
             }
 
-            HELPER.LOAD_HTML(holder.binding.orderId, "Order Id:" + model.getOrderKey());
+            HELPER.LOAD_HTML(holder.binding.orderId, "Order Id : " + model.getOrderKey());
+            HELPER.LOAD_HTML(holder.binding.orderDate, HELPER.convertDate(model.getOrderDate()));
             HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getTotal());
             HELPER.LOAD_HTML(holder.binding.productName, model.getProductsList().get(0).getName());
             Glide.with(activity).load(model.getProductsList().get(0).getProductImage()).placeholder(R.drawable.ic_square_place_holder).error(R.drawable.ic_square_place_holder).into(holder.binding.productImage);

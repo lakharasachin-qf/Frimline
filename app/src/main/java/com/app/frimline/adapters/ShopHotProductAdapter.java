@@ -85,8 +85,6 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
         }
 
         Glide.with(activity).load(model.getProductImagesList().get(0))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .placeholder(R.drawable.ic_square_place_holder)
                 .error(R.drawable.ic_square_place_holder)
                 .into(binding.productImage5);

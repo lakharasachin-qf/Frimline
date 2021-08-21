@@ -21,6 +21,10 @@ public class APIs {
     public static final String ADD_REVIEW = BASE + "/wp-json/wc/v3/product/addreview";
     public static final String ADD_QUESTION = BASE + "/wp-json/wc/v3/product/addquestion";
     public static final String UPDATE_PROFILE = BASE + "/wp-json/wp/v2/user/update";
+    public static final String SIGN_IN_MOBILE = BASE + "/wp-json/wp/v2/user/mobilelogin";
+    public static final String OTP_VERIFICATION = BASE + "/wp-json/wp/v2/user/validate/otp";
+    public static final String PRODUCT_DETAILS = BASE + "/wp-json/wc/v3/product-details/";
+    public static final String VALIDATE_CODE = BASE + "/wp-json/wc/v3/coupons/validate";
 
 
 }

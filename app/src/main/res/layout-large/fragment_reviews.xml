@@ -176,6 +176,7 @@
                                 android:textSize="@dimen/_10sdp" />
 
                             <ImageView
+                                android:id="@+id/addReviewsIcon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"

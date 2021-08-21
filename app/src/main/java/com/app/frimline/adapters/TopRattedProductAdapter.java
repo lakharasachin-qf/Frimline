@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemTopRattesProductLayoutBinding;
@@ -67,9 +66,16 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(activity, ProductDetailActivity.class);
+                    i.putExtra("productPosition", "0");
+                    i.putExtra("layoutType", String.valueOf("111"));
+                    i.putExtra("itemPosition", String.valueOf("111"));
+                    i.putExtra("adapterPosition", String.valueOf(position));
                     i.putExtra("model", new Gson().toJson(model));
+                    i.putExtra("addToCartID", String.valueOf("111"));
+                    i.putExtra("removeCartID", String.valueOf("111"));
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+
                 }
             });
 

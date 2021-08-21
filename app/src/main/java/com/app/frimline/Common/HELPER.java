@@ -1,5 +1,6 @@
 package com.app.frimline.Common;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -50,9 +51,14 @@ import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class HELPER {
 
@@ -118,6 +124,7 @@ public class HELPER {
     //Category Root Fragment
     public static void changeThemeCategoryRootFragment(FragmentCategoryRootBinding binding, String primaryColor) {
         binding.headingUnderlineView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(primaryColor)));
+        binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(primaryColor)));
     }
 
 
@@ -559,4 +566,24 @@ public class HELPER {
         }
     }
 
+
+    public static String convertDate(String dateStr) {
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+        Date result = null;
+        String convertedDate = "";
+        if (dateStr != null) {
+            try {
+                result = df.parse(dateStr);
+                System.out.println("date:" + result);
+               // @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+               // sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                System.out.println(sdf.format(result)); //prints date in the format sdf
+                convertedDate = sdf.format(result);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return convertedDate;
+    }
 }

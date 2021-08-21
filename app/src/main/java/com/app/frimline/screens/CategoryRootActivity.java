@@ -23,8 +23,12 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseNavDrawerActivity;
@@ -52,12 +56,13 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     private FrameLayout nav_host_fragment;
     private ProgressBar screenLoader;
     private Toolbar toolbar_Navigation;
-
+    AppCompatButton button;
     //Boolean variable to mark if the transaction is safe
     private boolean isTransactionSafe;
 
     //Boolean variable to mark if there is any transaction pending
     private boolean isTransactionPending;
+    LinearLayout NoDataFound;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,22 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         setUpToolbar();
         nav_host_fragment = findViewById(R.id.nav_host_fragment);
         screenLoader = findViewById(R.id.screenLoader);
+        button = findViewById(R.id.button);
+        NoDataFound = findViewById(R.id.NoDataFound);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NoDataFound.setVisibility(View.GONE);
+                nav_host_fragment.setVisibility(View.GONE);
+                screenLoader.setVisibility(View.VISIBLE);
+                screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
+                screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+                toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
+                toolbar_Navigation.setVisibility(View.GONE);
+                getThemeColor();
+            }
+        });
         if (API_MODE) {
             nav_host_fragment.setVisibility(View.GONE);
             screenLoader.setVisibility(View.VISIBLE);
@@ -233,25 +254,25 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        LinearLayout NoDataFound = findViewById(R.id.NoDataFound);
-                        AppCompatButton button = findViewById(R.id.button);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                NoDataFound.setVisibility(View.GONE);
-                                nav_host_fragment.setVisibility(View.GONE);
-                                screenLoader.setVisibility(View.VISIBLE);
-                                screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
-                                screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
 
-                                toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
-                                toolbar_Navigation.setVisibility(View.GONE);
-                                getThemeColor();
-                            }
-                        });
+
                         NoDataFound.setVisibility(View.VISIBLE);
                         nav_host_fragment.setVisibility(View.GONE);
                         screenLoader.setVisibility(View.GONE);
+
+                        String message = "";
+                        if (error instanceof NetworkError) {
+                            nav_host_fragment.setVisibility(View.GONE);
+                            NoDataFound.setVisibility(View.VISIBLE);
+                            screenLoader.setVisibility(View.GONE);
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (error instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        }  else if (error instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
+                        }
+
+                        Log.e("message", message);
                     }
                 }
         ) {
@@ -261,8 +282,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-//                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-//                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
 

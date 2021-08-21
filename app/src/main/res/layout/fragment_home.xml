@@ -4,6 +4,7 @@
     xmlns:shimmer="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:background="@color/colorBackground"
         android:id="@+id/containerLinear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

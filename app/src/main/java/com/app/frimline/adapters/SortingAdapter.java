@@ -1,18 +1,19 @@
 package com.app.frimline.adapters;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.ObserverActionID;
+import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.models.ListModel;
 import com.google.gson.Gson;
@@ -92,6 +93,7 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
         public SelecBrandLIstHolder(@NonNull View itemView) {
             super(itemView);
             radioButton = itemView.findViewById(R.id.radioButton);
+            radioButton.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         }
 
         void bind(final ListModel listModel) {
@@ -119,12 +121,14 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
             });
         }
     }
+
     public ListModel getSelected() {
         if (checkedPosition != -1) {
             return arrayList.get(checkedPosition);
         }
         return null;
     }
+
     public static String convertFirstUpper(String str) {
 
         if (str == null || str.isEmpty()) {

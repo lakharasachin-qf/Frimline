@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/tools">
 
 
     <LinearLayout
         android:id="@+id/containerLinear"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
+        android:background="@color/colorBackground"
         android:orientation="vertical">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,28 +19,38 @@
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <LinearLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:clipToPadding="false"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/containerRecycler"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:clipToPadding="false" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/emptyData"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/proxinova_semi_bold"
-                    android:gravity="center"
-                    android:text="Something went wrong\nPlease try again."
-                    android:textSize="@dimen/_12sdp"
-                    android:visibility="gone" />
-            </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/containerRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false" />
+
+                    <TextView
+                        android:id="@+id/emptyData"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/proxinova_semi_bold"
+                        android:gravity="center"
+                        android:text="Something went wrong\nPlease try again."
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.facebook.shimmer.ShimmerFrameLayout

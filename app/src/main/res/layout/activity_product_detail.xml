@@ -9,6 +9,7 @@
         android:orientation="vertical">
 
         <ScrollView
+            android:visibility="gone"
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -138,6 +139,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
+                            android:id="@+id/counterLayout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1">
@@ -386,6 +388,7 @@
 
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/boottomFooter"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
@@ -443,6 +446,38 @@
                     android:textSize="@dimen/_10sdp" />
             </RelativeLayout>
         </RelativeLayout>
+
+
+        <ProgressBar
+            android:id="@+id/screenLoader"
+            style="?android:attr/progressBarStyleLargeInverse"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:elevation="@dimen/_20sdp"
+            android:padding="@dimen/_135sdp"
+            android:progressTint="@color/orange" />
+
+        <LinearLayout
+            android:id="@+id/NoDataFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxinova_semi_bold"
+                android:gravity="center"
+                android:text="No Data found."
+                android:textAlignment="center"
+                android:textSize="@dimen/_11sdp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

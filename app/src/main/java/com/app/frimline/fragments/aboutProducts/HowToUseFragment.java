@@ -47,4 +47,11 @@ public class HowToUseFragment extends BaseFragment {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getHowToUse());
         }
     }
+
+    public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
+        if (productModel!=null) {
+            HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getHowToUse());
+        }
+    }
 }

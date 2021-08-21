@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -17,12 +18,20 @@ import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.app.cartcounter.CharOrder;
 import com.app.cartcounter.strategy.Strategy;
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.adapters.ProductImageSliderAdpater;
@@ -41,10 +50,14 @@ import com.app.frimline.views.WrapContentHeightViewPager;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-public class ProductDetailActivity extends BaseActivity {
+public class OrderProductDetailActivity extends BaseActivity {
 
 
     private boolean redShoeVisible = true;
@@ -55,29 +68,36 @@ public class ProductDetailActivity extends BaseActivity {
     private String defaultColor = "#EF7F1A";
     private CartRoomDatabase cartRoomDatabase;
     private boolean isSameProductEdit = false;
+    private String productId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_product_detail);
         defaultColor = "#EF7F1A";
+
         cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
+
         if (getIntent().hasExtra("themeColor"))
             applyThemeColor = true;
-
 
         if (applyThemeColor) {
             defaultColor = prefManager.getThemeColor();
         } else {
             defaultColor = prefManager.getCategoryColor();
         }
+
+        binding.counterLayout.setVisibility(View.INVISIBLE);
+        binding.addCartContainer.setVisibility(View.INVISIBLE);
+        binding.cartActionLayout.setVisibility(View.GONE);
+
         makeStatusBarSemiTranspenret(binding.toolbar);
         ViewTreeObserver viewTreeObserver = binding.scrollView.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {
-                //
+
             }
         });
         binding.backPress.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +108,7 @@ public class ProductDetailActivity extends BaseActivity {
         });
 
 
-        binding.titleToolbar.setText("Mouthwash");
+        binding.titleToolbar.setText("Product");
         HELPER.changeCartCounterToolbar(act);
         binding.cartActionLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,19 +174,6 @@ public class ProductDetailActivity extends BaseActivity {
         binding.addCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (isSameProductEdit) {
-//                    ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId());
-//                    entity.setQty(binding.counter.getText().toString());
-//                    entity.setCalculatedAmount(HELPER.incrementAction(productModel));
-//                    HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-//                    cartRoomDatabase.productEntityDao().updateSpecificProduct(entity);
-//                    Toast.makeText(act, "Cart product updated", Toast.LENGTH_SHORT).show();
-//                    binding.addTextTxt.setText("Added to cart");
-//                    binding.addCartContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-//                    binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-//                    binding.addTextTxt.setTextColor(Color.WHITE);
-//                    return;
-//                }
                 if (isAddedToCart) {
                     binding.addTextTxt.setText("Add to cart");
                     isAddedToCart = false;
@@ -226,23 +233,19 @@ public class ProductDetailActivity extends BaseActivity {
             }
         });
 
-        setupTabIcons();
-        changeTheme();
-        setImageSlide();
+
 
         if (CONSTANT.API_MODE) {
-            binding.scrollView.setVisibility(View.VISIBLE);
-            binding.boottomFooter.setVisibility(View.VISIBLE);
-            binding.screenLoader.setVisibility(View.GONE);
-            loadData();
+            productId = getIntent().getStringExtra("productId");
+            loadProductDetails();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
-        HELPER.changeCartCounterToolbar(act);
+        //loadData();
+        //HELPER.changeCartCounterToolbar(act);
     }
 
     public void setImageSlide() {
@@ -315,7 +318,7 @@ public class ProductDetailActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-              //  binding.scrollView.smoothScrollTo(binding.viewPager.getLeft(), binding.viewPager.getTop());
+                //  binding.scrollView.smoothScrollTo(binding.viewPager.getLeft(), binding.viewPager.getTop());
             }
 
             @Override
@@ -329,7 +332,16 @@ public class ProductDetailActivity extends BaseActivity {
     private ProductModel productModel;
 
     public void loadData() {
-        productModel = gson.fromJson(getIntent().getStringExtra("model"), ProductModel.class);
+
+
+        descriptionFragment.setProductModel(productModel);
+        howToUseFragment.setProductModel(productModel);
+        ingredientsFragment.setProductModel(productModel);
+        additionalInfoFragment.setProductModel(productModel);
+        reviewsFragment.setProductModel(productModel);
+        qnAFragment.setProductModel(productModel);
+
+
 
         ArrayList<String> productImages = productModel.getProductImagesList();
         binding.titleToolbar.setText(productModel.getCategoryName());
@@ -363,7 +375,7 @@ public class ProductDetailActivity extends BaseActivity {
             binding.counter.setText(productModel.getQty());
             productModel.setCalculatedAmount(entity.getCalculatedAmount());
             HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-        }else{
+        } else {
 
             binding.addTextTxt.setText("Add to cart");
             isAddedToCart = false;
@@ -381,5 +393,76 @@ public class ProductDetailActivity extends BaseActivity {
         binding.addCartContainer.setBackgroundTintList(null);
         binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         binding.addTextTxt.setTextColor(Color.parseColor(defaultColor));
+    }
+
+
+    private boolean isLoading = false;
+
+    private void loadProductDetails() {
+
+        if (!isLoading)
+            isLoading = true;
+
+        binding.screenLoader.setVisibility(View.VISIBLE);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_DETAILS + productId, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+
+                JSONObject object = ResponseHandler.createJsonObject(response);
+                productModel = ResponseHandler.getProductDetails(object);
+                Log.e("print",gson.toJson(productModel));
+                if (productModel != null) {
+                    binding.screenLoader.setVisibility(View.GONE);
+                    binding.NoDataFound.setVisibility(View.GONE);
+                    binding.scrollView.setVisibility(View.VISIBLE);
+                    binding.boottomFooter.setVisibility(View.VISIBLE);
+                    setupTabIcons();
+                    changeTheme();
+                    setImageSlide();
+                    loadData();
+                } else {
+                    binding.screenLoader.setVisibility(View.GONE);
+                    binding.NoDataFound.setVisibility(View.VISIBLE);
+                    binding.scrollView.setVisibility(View.GONE);
+                    binding.boottomFooter.setVisibility(View.GONE);
+                    Toast.makeText(act, "No Product Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        binding.screenLoader.setVisibility(View.GONE);
+                        binding.NoDataFound.setVisibility(View.VISIBLE);
+                        binding.scrollView.setVisibility(View.GONE);
+                        binding.boottomFooter.setVisibility(View.GONE);
+                        isLoading = false;
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = getHeader();
+
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 }

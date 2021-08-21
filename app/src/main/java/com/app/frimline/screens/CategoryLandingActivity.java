@@ -254,7 +254,6 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                     pref = new PREF(act);
                     if (pref.isLogin()) {
                         userNameTxt.setText(pref.getUser().getDisplayName());
-                        Log.e("AFTERLOG",pref.getUser().getDisplayName());
                     } else {
                         userNameTxt.setText("Sign In");
                     }

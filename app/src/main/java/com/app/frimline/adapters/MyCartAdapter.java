@@ -87,8 +87,6 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
             HELPER.LOAD_HTML(holder.binding.dateDelivery, "Delivery By <b>4 Jun 2021</b>");
             Glide.with(activity).load(model.getProductImagesList().get(0))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_square_place_holder)
                     .error(R.drawable.ic_square_place_holder)
                     .into(holder.binding.image);

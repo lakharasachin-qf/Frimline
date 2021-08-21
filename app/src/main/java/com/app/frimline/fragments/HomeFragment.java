@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ObserverActionID;
@@ -75,8 +76,12 @@ public class HomeFragment extends BaseFragment {
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                startShimmer();
-                loadHomeScreen();
+                if (CONSTANT.API_MODE) {
+                    startShimmer();
+                    loadHomeScreen();
+                }else {
+                    binding.swipeContainer.setRefreshing(false);
+                }
             }
         });
         return binding.getRoot();
