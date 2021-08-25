@@ -1,4 +1,5 @@
 package com.app.frimline.views
+
 import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
@@ -15,13 +16,17 @@ internal class OTPChildEditText : androidx.appcompat.widget.AppCompatEditText {
         init(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init(context)
     }
 
     private fun init(context: Context) {
         isCursorVisible = false
-        setTextColor(ContextCompat.getColor(context,R.color.transparent))
+        setTextColor(ContextCompat.getColor(context, R.color.transparent))
         setBackgroundDrawable(null)
         inputType = InputType.TYPE_CLASS_NUMBER
         setSelectAllOnFocus(false)

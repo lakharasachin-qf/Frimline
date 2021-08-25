@@ -1,10 +1,7 @@
 package com.app.frimline.adapters;
 
 import android.app.Activity;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,25 +9,20 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemCatRootTodaysLeftLayoutBinding;
 import com.app.frimline.databinding.ItemCatRootTodaysRightLayoutBinding;
-import com.app.frimline.databinding.ItemLeftBlogLayoutBinding;
-import com.app.frimline.databinding.ItemRightBlogLayoutBinding;
 import com.app.frimline.models.CategoryRootFragments.TodaysModel;
-import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
-import com.app.frimline.screens.BlogDetailsActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 
 public class TodaysTomorrowAdapter extends RecyclerView.Adapter {
-    private ArrayList<TodaysModel> dashBoardItemList;
     private final Gson gson;
     Activity activity;
+    private final ArrayList<TodaysModel> dashBoardItemList;
 
     public TodaysTomorrowAdapter(ArrayList<TodaysModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
@@ -79,12 +71,12 @@ public class TodaysTomorrowAdapter extends RecyclerView.Adapter {
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.LAYOUT_LEFT_BLOG:
-                    HELPER.LOAD_HTML(((LeftBlog) holder).binding.message,model.getMessage());
+                    HELPER.LOAD_HTML(((LeftBlog) holder).binding.message, model.getMessage());
                     ((LeftBlog) holder).binding.message.setText(model.getMessage());
 
                     break;
                 case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
-                    HELPER.LOAD_HTML(((RightBlog) holder).binding.message,model.getMessage());
+                    HELPER.LOAD_HTML(((RightBlog) holder).binding.message, model.getMessage());
                     break;
 
             }
@@ -98,7 +90,7 @@ public class TodaysTomorrowAdapter extends RecyclerView.Adapter {
         public LeftBlog(ItemCatRootTodaysLeftLayoutBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
-         }
+        }
 
 
     }

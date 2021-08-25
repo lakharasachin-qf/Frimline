@@ -5,34 +5,29 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ProductDetailsTabAdapter extends FragmentStatePagerAdapter {
-    private int currentItemFragment=-1;
+    private final List<Fragment> fragmentList = new ArrayList<>();
+    private final List<String> fragmentTitleList = new ArrayList<>();
+    private final int currentItemFragment = -1;
+    public ProductDetailsTabAdapter(FragmentManager fm) {
+        super(fm);
+    }
 
     @Override
     public void setPrimaryItem(@NonNull @NotNull ViewGroup container, int position, @NonNull @NotNull Object object) {
         super.setPrimaryItem(container, position, object);
-        if (position == currentItemFragment){
+        if (position == currentItemFragment) {
 //            EnhancedDynamicHeightViewPager viewPager  = (EnhancedDynamicHeightViewPager) container;
 //            currentItemFragment = position;
 //            viewPager.measureCurrentView(fragmentList.get(position).requireView());
         }
-    }
-
-    private final List<Fragment> fragmentList = new ArrayList<>();
-    private final List<String> fragmentTitleList = new ArrayList<>();
-
-    public ProductDetailsTabAdapter(FragmentManager fm) {
-        super(fm);
     }
 
     @Override

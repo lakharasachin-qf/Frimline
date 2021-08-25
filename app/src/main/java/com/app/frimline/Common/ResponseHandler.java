@@ -876,7 +876,7 @@ public class ResponseHandler {
                 List<ProductModel> HotProduct = arrayProduct.subList(firstPartSize, arrayProduct.size());
                 Log.e("HotProduct", String.valueOf(HotProduct.size()));
                 topSearchModel.setTopProduct(tempArray);
-                if (tempArray.size()!=0)
+                if (tempArray.size() != 0)
                     searchListResult.add(topSearchModel);
 
                 //----------------------------------------
@@ -911,10 +911,10 @@ public class ResponseHandler {
                 SearchModel hotSearchModel = new SearchModel();
                 hotSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
                 hotSearchModel.setHotProduct(new ArrayList<>(HotProduct));
-                if (new ArrayList<>(HotProduct).size()!=0)
+                if (new ArrayList<>(HotProduct).size() != 0)
                     searchListResult.add(hotSearchModel);
 
-                if (new ArrayList<>(HotProduct).size()==0 && tempArray.size()==0){
+                if (new ArrayList<>(HotProduct).size() == 0 && tempArray.size() == 0) {
                     searchListResult.clear();
                 }
 

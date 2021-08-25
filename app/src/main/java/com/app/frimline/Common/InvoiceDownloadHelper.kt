@@ -13,26 +13,24 @@ import android.os.Environment
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.android.volley.toolbox.ImageRequest
 import com.app.frimline.R
 import java.io.File
 import java.io.FileOutputStream
-import android.os.AsyncTask
-
 
 
 const val READ_EXTERNAL_STORAGE_PERMISSION = 2004
 
-var downloadUrl = "http://www.africau.edu/images/default/sample.pdf";
+var downloadUrl = "http://www.africau.edu/images/default/sample.pdf"
 private const val outputDir = "Android11Permissions"
 private const val REQ_DOWNLOAD_FILE = 3
-val storagePermission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+val storagePermission =
+    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 class InvoiceDownloadHelper(var act: Activity) {
-    var invoiceLink="";
+    var invoiceLink = ""
 
     fun downloadImage(invoiceLink: String) {
-        this.invoiceLink =invoiceLink;
+        this.invoiceLink = invoiceLink
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             if (permissionToReadWrite) {
                 downloadImageToDownloadFolder()
@@ -73,11 +71,12 @@ class InvoiceDownloadHelper(var act: Activity) {
             var fileOutputStream: FileOutputStream? = null
 
             fileOutputStream = FileOutputStream(file)
-            val bitmap = (ContextCompat.getDrawable(act, R.drawable.logo_demo) as BitmapDrawable).bitmap
+            val bitmap =
+                (ContextCompat.getDrawable(act, R.drawable.logo_demo) as BitmapDrawable).bitmap
 
             bitmap?.compress(Bitmap.CompressFormat.PNG, 80, fileOutputStream)
             Toast.makeText(
-                act,"Success" + file.absolutePath,
+                act, "Success" + file.absolutePath,
                 Toast.LENGTH_LONG
             ).show()
         } catch (e: Exception) {
@@ -128,9 +127,6 @@ class InvoiceDownloadHelper(var act: Activity) {
         ).show()
 
         mgr.enqueue(request)
-
-
-
 
 
     }

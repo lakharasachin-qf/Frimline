@@ -18,49 +18,28 @@ import java.lang.ref.WeakReference;
 
 public class SnappingRecyclerView extends RecyclerView {
 
-    @IntDef({HORIZONTAL, VERTICAL})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface OrientationMode {}
-
     public static final int VERTICAL = 0;
     public static final int HORIZONTAL = 1;
-
-    @IntDef({CENTER, START, END})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface AnchorMode {}
-
     public static final int CENTER = 0;
     public static final int START = 1;
     public static final int END = 2;
-
     private static final int DEFAULT_FLING_THRESHOLD = 1000;
-
-    public interface SnappingRecyclerViewListener {
-        void onPositionChange(int position);
-        void onScroll(int dx, int dy);
-    }
-
     private WeakReference<SnappingRecyclerViewListener> listener;
-
     private int orientation;
-
     /**
      * The anchor to which a View (ViewHolder) should snap too, the START, CENTER or END
      */
     private int anchor;
-
     /**
      * The smooth scroll speed, in ms per inch, this is 100 by default in our custom smooth
      * scroller
      */
     private float scrollSpeed;
-
     /**
      * If the velocity of the user's fling is below a set threshold, finish fling and scroll to the
      * appropriate View
      */
     private int flingThreshold;
-
     private CenterLayoutManager layoutManager;
 
     public SnappingRecyclerView(Context context) {
@@ -104,6 +83,11 @@ public class SnappingRecyclerView extends RecyclerView {
         this.listener = new WeakReference<>(listener);
     }
 
+    @OrientationMode
+    public int getOrientation() {
+        return orientation;
+    }
+
     public void setOrientation(@OrientationMode int orientation) {
         if (this.orientation != orientation) {
             this.orientation = orientation;
@@ -113,9 +97,9 @@ public class SnappingRecyclerView extends RecyclerView {
         }
     }
 
-    @OrientationMode
-    public int getOrientation() {
-        return orientation;
+    @AnchorMode
+    public int getAnchor() {
+        return anchor;
     }
 
     public void setAnchor(@AnchorMode int anchor) {
@@ -127,16 +111,11 @@ public class SnappingRecyclerView extends RecyclerView {
         }
     }
 
-    @AnchorMode
-    public int getAnchor() {
-        return anchor;
-    }
-
     @Override
     public void onScrolled(int dx, int dy) {
         super.onScrolled(dx, dy);
 
-        if(getListener() != null) {
+        if (getListener() != null) {
             getListener().onScroll(dx, dy);
         }
     }
@@ -156,11 +135,11 @@ public class SnappingRecyclerView extends RecyclerView {
 
     @Override
     public boolean fling(int velocityX, int velocityY) {
-        if(Math.abs(orientation == VERTICAL ? velocityY : velocityX) < flingThreshold) {
+        if (Math.abs(orientation == VERTICAL ? velocityY : velocityX) < flingThreshold) {
             int centerViewPosition = calculateSnapViewPosition();
             smoothScrollToPosition(centerViewPosition);
 
-            if(getListener() != null) {
+            if (getListener() != null) {
                 getListener().onPositionChange(centerViewPosition);
             }
 
@@ -179,7 +158,7 @@ public class SnappingRecyclerView extends RecyclerView {
             int centerViewPosition = calculateSnapViewPosition();
             smoothScrollToPosition(centerViewPosition);
 
-            if(getListener() != null) {
+            if (getListener() != null) {
                 getListener().onPositionChange(centerViewPosition);
             }
         }
@@ -190,8 +169,7 @@ public class SnappingRecyclerView extends RecyclerView {
      * anchor mode
      *
      * @param orientation The orientation of the RecyclerView, VERTICAL or HORIZONTAL
-     * @param anchor The RecyclerView's anchor mode, START, CENTER or END
-     *
+     * @param anchor      The RecyclerView's anchor mode, START, CENTER or END
      * @return The anchor of the parent, the RecyclerView
      */
     private int getParentAnchor(@OrientationMode int orientation, @AnchorMode int anchor) {
@@ -212,8 +190,7 @@ public class SnappingRecyclerView extends RecyclerView {
      *
      * @param view
      * @param orientation The orientation of the RecyclerView, VERTICAL or HORIZONTAL
-     * @param anchor The RecyclerView's anchor mode, START, CENTER or END
-     *
+     * @param anchor      The RecyclerView's anchor mode, START, CENTER or END
      * @return The anchor of the given View relative to the provided orientation and anchor
      */
     private int getViewAnchor(View view, @OrientationMode int orientation, @AnchorMode int anchor) {
@@ -246,7 +223,7 @@ public class SnappingRecyclerView extends RecyclerView {
 
         int currentViewClosestToAnchorDistance = parentAnchor - getViewAnchor(currentViewClosestToAnchor, orientation, anchor);
 
-        for(int i = firstVisibleItemPosition + 1; i <= lastVisibleItemPosition; i++) {
+        for (int i = firstVisibleItemPosition + 1; i <= lastVisibleItemPosition; i++) {
             View view = linearLayoutManager.findViewByPosition(i);
             int distanceToAnchor = parentAnchor - getViewAnchor(view, orientation, anchor);
 
@@ -278,7 +255,7 @@ public class SnappingRecyclerView extends RecyclerView {
 
         int currentViewClosestToAnchorPosition = firstVisibleItemPosition;
 
-        for(int i = firstVisibleItemPosition + 1; i <= lastVisibleItemPosition; i++) {
+        for (int i = firstVisibleItemPosition + 1; i <= lastVisibleItemPosition; i++) {
             View view = linearLayoutManager.findViewByPosition(i);
 
             int distanceToCenter = parentAnchor - getViewAnchor(view, orientation, anchor);
@@ -290,5 +267,21 @@ public class SnappingRecyclerView extends RecyclerView {
         }
 
         return currentViewClosestToAnchorPosition;
+    }
+
+    @IntDef({HORIZONTAL, VERTICAL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface OrientationMode {
+    }
+
+    @IntDef({CENTER, START, END})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface AnchorMode {
+    }
+
+    public interface SnappingRecyclerViewListener {
+        void onPositionChange(int position);
+
+        void onScroll(int dx, int dy);
     }
 }

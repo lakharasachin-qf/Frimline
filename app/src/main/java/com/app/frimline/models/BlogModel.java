@@ -1,9 +1,5 @@
 package com.app.frimline.models;
 
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
-import com.app.frimline.models.HomeFragements.BannerModel;
-import com.app.frimline.models.HomeFragements.TradingStoriesModel;
-
 import java.util.ArrayList;
 
 public class BlogModel {

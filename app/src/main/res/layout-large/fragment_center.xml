@@ -92,6 +92,7 @@
                 android:paddingBottom="@dimen/_60sdp">
 
                 <TextView
+                    android:id="@+id/textTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_extrabold"
@@ -101,6 +102,7 @@
                     android:textSize="@dimen/_33sdp" />
 
                 <TextView
+                    android:id="@+id/textBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_regular"

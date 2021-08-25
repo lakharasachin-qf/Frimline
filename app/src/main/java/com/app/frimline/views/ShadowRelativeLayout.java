@@ -41,6 +41,9 @@ public class ShadowRelativeLayout extends RelativeLayout {
      */
     private float shadowDx = 0;
     private float shadowDy = 0;
+    private boolean xmlBackground = true;
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Drawable originBackground;
 
     public ShadowRelativeLayout(@NonNull Context context) {
         this(context, null);
@@ -51,8 +54,6 @@ public class ShadowRelativeLayout extends RelativeLayout {
         this(context, attrs, 0);
     }
 
-    private boolean xmlBackground = true;
-
     public ShadowRelativeLayout(@NonNull Context context, @Nullable AttributeSet attrs,
                                 int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -62,15 +63,11 @@ public class ShadowRelativeLayout extends RelativeLayout {
         setPaint();
     }
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
     @Override
     public void draw(Canvas canvas) {
         canvas.drawRoundRect(getRectF(), shadowRadius, shadowRadius, mPaint);
         super.draw(canvas);
     }
-
-    private Drawable originBackground;
 
     public Drawable getInsetBackground() {
         return super.getBackground();

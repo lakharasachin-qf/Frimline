@@ -43,11 +43,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BillingAddressActivity extends BaseActivity implements OnItemSelectListener {
-    private ActivityBillingAddressBinding binding;
+    JSONObject orderParam;
     //SachinAbc@123456789
-
+    //Show Fragment For BrandList
+    ChooseListBottomFragment bottomSheetFragment;
+    DialogDiscardImageBinding discardImageBinding;
+    private ActivityBillingAddressBinding binding;
     private int flag = -1;  // 0 = for billings add or edit ,  1 = for shipping add or edit
     private boolean isEdit = false;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,8 +80,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.emailEdt.setText(model.getEmail());
             }
             binding.billingSectionOther.setVisibility(View.VISIBLE);
-        }
-        if (getIntent().hasExtra("isShipping")) {
+        } else if (getIntent().hasExtra("isShipping")) {
             flag = 1;
             binding.toolbarNavigation.title.setText("Add Shipping Address");
             if (getIntent().getBooleanExtra("isShipping", false)) {
@@ -97,6 +100,20 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
             }
             binding.billingSectionOther.setVisibility(View.GONE);
+        } else {
+            Billing model = prefManager.getUser().getBillingAddress();
+            binding.nameEdt.setText(model.getFirstName());
+            binding.lnameEdt.setText(model.getLastName());
+            binding.companyEdt.setText(model.getCompany());
+            binding.countryEdt.setText(model.getCountry());
+            binding.streetEdt.setText(model.getAddress1());
+            binding.streetEdt2.setText(model.getAddress2());
+            binding.cityEdt.setText(model.getCity());
+            binding.postalCodeEdt.setText(model.getPostCode());
+            binding.stateEdt.setText(model.getState());
+            binding.phoneNoEdt.setText(model.getPhone());
+            binding.emailEdt.setText(model.getEmail());
+            binding.billingSectionOther.setVisibility(View.VISIBLE);
         }
 
         binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
@@ -118,19 +135,51 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         } else if (flag == 1) {
                             //edit or add shipping address
                             update(APIs.UPDATE_SHIPPING_ADDRESS);
-                        } else
-                            HELPER.SIMPLE_ROUTE(act, CheckoutAddressActivity.class);
+                        } else {
+                            orderParam = new JSONObject();
+                            try {
+                                orderParam.put("billing", getBillingAddress());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Intent i = new Intent(act, CheckoutAddressActivity.class);
+                            i.putExtra("orderParam", orderParam.toString());
+                            act.startActivity(i);
+                            act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                        }
                     }
                 }
 
             }
+
         });
         binding.includeBtn.button.setText("Next");
         ((ViewGroup) findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
         changeTheme();
+    }
+
+    private JSONObject getBillingAddress() {
+        JSONObject billing = new JSONObject();
+        try {
+            billing.put("first_name", binding.nameEdt.getText().toString());
+            billing.put("last_name", binding.lnameEdt.getText().toString());
+            billing.put("address_1", binding.streetEdt.getText().toString());
+            billing.put("address_2", binding.streetEdt2.getText().toString());
+            billing.put("city", binding.cityEdt.getText().toString());
+            billing.put("state", binding.stateEdt.getText().toString());
+            billing.put("postcode", binding.postalCodeEdt.getText().toString());
+            billing.put("company", binding.companyEdt.getText().toString());
+            billing.put("country", binding.countryEdt.getText().toString());
+            billing.put("email", binding.emailEdt.getText().toString());
+            billing.put("phone", binding.phoneNoEdt.getText().toString());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return billing;
     }
 
     private void changeTheme() {
@@ -270,7 +319,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.postalCodeEdt.requestFocus();
             }
         }
-        if (flag == 0) {
+        if (flag != 1) {
             if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
                 isError = true;
                 binding.phoneNoEdtLayout.setError("Enter Phone No.");
@@ -308,9 +357,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         return isError;
     }
 
-    //Show Fragment For BrandList
-    ChooseListBottomFragment bottomSheetFragment;
-
     public void showFragmentList() {
         bottomSheetFragment = new ChooseListBottomFragment();
         if (bottomSheetFragment.isVisible()) {
@@ -327,9 +373,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         binding.countryEdt.setText(model.getName());
         bottomSheetFragment.dismiss();
     }
-
-
-    private boolean isLoading = false;
 
     private void update(String url) {
 
@@ -366,7 +409,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
-                                Log.e("jsosnErir", jsonString.toString());
+                                Log.e("jsosnErir", jsonString);
                                 infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
                             } catch (UnsupportedEncodingException | JSONException e) {
                                 e.printStackTrace();
@@ -408,8 +451,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         };
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
-
-    DialogDiscardImageBinding discardImageBinding;
 
     public void infoAlert(String title, String msg) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);

@@ -3,8 +3,8 @@ package com.app.frimline.models;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 
 public class SortModel {
-    public  static final String ASC = "asc";
-    public  static final String DESC = "desc";
+    public static final String ASC = "asc";
+    public static final String DESC = "desc";
     private String orderBy;
     private String order;
     private CategorySingleModel selectedCategory;

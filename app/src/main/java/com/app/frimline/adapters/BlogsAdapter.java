@@ -22,16 +22,15 @@ import com.app.frimline.models.BlogModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.screens.BlogDetailsActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 
 public class BlogsAdapter extends RecyclerView.Adapter {
-    private ArrayList<BlogModel> dashBoardItemList;
     private final Gson gson;
     Activity activity;
+    private final ArrayList<BlogModel> dashBoardItemList;
 
     public BlogsAdapter(ArrayList<BlogModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;

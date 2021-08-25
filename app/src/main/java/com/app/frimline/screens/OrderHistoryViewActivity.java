@@ -1,6 +1,5 @@
 package com.app.frimline.screens;
 
-import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -73,8 +72,18 @@ import java.util.Date;
 public class OrderHistoryViewActivity extends BaseActivity {
     BottomSheetBehavior sheetBehavior;
     LinearLayout layoutBottomSheet;
+    DialogDiscardImageBinding discardImageBinding;
     private ActivityOrderHistoryViewBinding binding;
     private OrderModel model;
+    private final DescriptionFragment descriptionFragment = new DescriptionFragment();
+    private final HowToUseFragment howToUseFragment = new HowToUseFragment();
+    private final IngredientsFragment ingredientsFragment = new IngredientsFragment();
+    private final AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
+    private final ReviewsFragment reviewsFragment = new ReviewsFragment();
+    private final QnAFragment qnAFragment = new QnAFragment();
+    private int indicatorWidth;
+    private final int REQUEST_SETTINGS = 0005;
+    private final int REQUESTED_STORAGE = 0003;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -198,7 +207,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 TextView deliveryAddress = findViewById(R.id.deliveryAddress);
                 deliveryAddress.setText(shippingAddress);
 
-            }else{
+            } else {
                 CardView deliverySection = findViewById(R.id.deliverySection);
                 deliverySection.setVisibility(View.GONE);
             }
@@ -234,16 +243,16 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView trackingId = findViewById(R.id.trackingId);
         TextView tracklink = findViewById(R.id.trackingLink);
-        if (!model.getTrackingId().isEmpty()){
+        if (!model.getTrackingId().isEmpty()) {
             trackingId.setText(model.getTrackingId());
 
-        }else{
+        } else {
             trackingId.setVisibility(View.GONE);
         }
-        if (!model.getTrackingLink().isEmpty()){
+        if (!model.getTrackingLink().isEmpty()) {
             tracklink.setText(model.getTrackingLink());
 
-        }else{
+        } else {
             tracklink.setVisibility(View.GONE);
         }
 
@@ -269,8 +278,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         dotsIndicator.setDotsColor(code);
         dotsIndicator.setSelectedDotColor(Color.parseColor(prefManager.getThemeColor()));
     }
-
-    DialogDiscardImageBinding discardImageBinding;
 
     public void confirmationDialog() {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
@@ -309,15 +316,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
     }
-
-
-    private DescriptionFragment descriptionFragment = new DescriptionFragment();
-    private HowToUseFragment howToUseFragment = new HowToUseFragment();
-    private IngredientsFragment ingredientsFragment = new IngredientsFragment();
-    private AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
-    private ReviewsFragment reviewsFragment = new ReviewsFragment();
-    private QnAFragment qnAFragment = new QnAFragment();
-    private int indicatorWidth;
 
     private void setupTabIcons() {
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -359,24 +357,88 @@ public class OrderHistoryViewActivity extends BaseActivity {
         tabLayout.setVisibility(View.GONE);
         wrapContentHeightViewPager.setVisibility(View.GONE);
     }
-    private int REQUEST_SETTINGS=0005;
-    private int REQUESTED_STORAGE=0003;
+
     public void downloadPDF() {
         //  new InvoiceDownloadHelper(act).downloadImage(model.getInvoiceLink());
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(act,
-                    new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                    new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                     REQUESTED_STORAGE);
             Toast.makeText(act, "permission", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
 
             new DownloadFileFromURL().execute(model.getInvoiceLink());
 
         }
 
         //confirmationDialog();
+    }
+
+    //runtime storage permission
+    public boolean checkPermission() {
+        int READ_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if ((READ_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean targetSetting = false;
+        if (requestCode == REQUESTED_STORAGE) {
+
+            boolean readStorageGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            boolean writeStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            if (readStorageGrant && writeStorageGrant) {
+                //permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
+                return;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+                    showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUESTED_STORAGE);
+                        }
+                    });
+                } else {
+                    targetSetting = true;
+                }
+            }
+        }
+        if (targetSetting) {
+            showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, REQUEST_SETTINGS);
+                }
+            });
+        }
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     public class Downloading extends AsyncTask<String, Integer, String> {
@@ -419,24 +481,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         }
     }
 
-    //runtime storage permission
-    public boolean checkPermission() {
-        int READ_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if ((READ_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-
-        }
-    }
-
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
         String filename = "";
 
@@ -457,7 +501,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 // this will be useful so that you can show a tipical 0-100% progress bar
                 int lenghtOfFile = conection.getContentLength();
                 String depo = conection.getHeaderField("Content-Disposition");
-                String depoSplit[] = depo.split("filename=");
+                String[] depoSplit = depo.split("filename=");
                 filename = depoSplit[1].replace("filename=", "").replace("\"", "").trim();
                 Log.e("", "fileName" + filename);
 
@@ -466,7 +510,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 // Output stream
                 OutputStream output = new FileOutputStream("/sdcard/" + filename);
 
-                byte data[] = new byte[1024];
+                byte[] data = new byte[1024];
 
                 long total = 0;
 
@@ -496,7 +540,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         protected void onProgressUpdate(String... progress) {
             // setting progress percentage
-            Log.e("d","s"+(progress[0]));
+            Log.e("d", "s" + (progress[0]));
         }
 
 
@@ -509,52 +553,5 @@ public class OrderHistoryViewActivity extends BaseActivity {
             Log.v("FilePath", "" + FilePath);
         }
 
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean targetSetting=false;
-          if (requestCode == REQUESTED_STORAGE){
-
-            boolean readStorageGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-            boolean writeStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-            if (readStorageGrant && writeStorageGrant){
-                //permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
-                return;
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
-                    showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{ READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE}, REQUESTED_STORAGE);
-                        }
-                    });
-                }else {
-                    targetSetting=true;
-                }
-            }
-        }
-        if (targetSetting){
-            showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    intent.setData(uri);
-                    startActivityForResult(intent, REQUEST_SETTINGS);
-                }
-            });
-        }
-    }
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
     }
 }

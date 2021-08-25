@@ -29,7 +29,8 @@ public class StringConverter implements Serializable {
             return (null);
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
         return gson.fromJson(optionValuesString, type);
     }
 

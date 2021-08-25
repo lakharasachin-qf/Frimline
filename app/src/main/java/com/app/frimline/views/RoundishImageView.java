@@ -51,14 +51,14 @@ public class RoundishImageView extends androidx.appcompat.widget.AppCompatImageV
         return cornerRadius;
     }
 
+    public int getRoundedCorners() {
+        return roundedCorners;
+    }
+
     public void setRoundedCorners(int corners) {
         roundedCorners = corners;
         setPath();
         invalidate();
-    }
-
-    public int getRoundedCorners() {
-        return roundedCorners;
     }
 
     @Override

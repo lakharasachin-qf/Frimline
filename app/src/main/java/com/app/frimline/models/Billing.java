@@ -1,6 +1,6 @@
 package com.app.frimline.models;
 
-public class Billing{
+public class Billing {
     private String firstName;
     private String lastName;
     private String company;

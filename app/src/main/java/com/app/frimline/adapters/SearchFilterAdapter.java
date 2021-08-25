@@ -27,7 +27,7 @@ public class SearchFilterAdapter extends RecyclerView.Adapter<SearchFilterAdapte
     private final ArrayList<CategorySingleModel> frameItems;
 
     Activity activity;
-
+    CategorySingleModel selectedCategory;
 
     public SearchFilterAdapter(ArrayList<CategorySingleModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
@@ -100,13 +100,10 @@ public class SearchFilterAdapter extends RecyclerView.Adapter<SearchFilterAdapte
 
     }
 
-
     @Override
     public int getItemCount() {
         return frameItems.size();
     }
-
-    CategorySingleModel selectedCategory;
 
     public void setCategoryFilter(CategorySingleModel selectedCategory) {
         this.selectedCategory = selectedCategory;

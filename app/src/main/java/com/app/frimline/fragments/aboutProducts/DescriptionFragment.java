@@ -17,12 +17,10 @@ import com.app.frimline.databinding.FragmentDescriptionBinding;
 import com.app.frimline.fragments.BaseFragment;
 import com.app.frimline.models.HomeFragements.ProductModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class DescriptionFragment extends BaseFragment {
 
     private FragmentDescriptionBinding binding;
+    private ProductModel productModel;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -58,25 +56,23 @@ public class DescriptionFragment extends BaseFragment {
             binding.text.setText(Html.fromHtml(data));
         }
 
-        if (CONSTANT.API_MODE){
-             loadData();
+        if (CONSTANT.API_MODE) {
+            loadData();
         }
         return binding.getRoot();
     }
 
-    private ProductModel productModel;
-
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        if (productModel!=null) {
+        if (productModel != null) {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getDescription());
         }
     }
 
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
-        if (this.productModel!=null) {
-            Log.e("print",gson.toJson(productModel));
+        if (this.productModel != null) {
+            Log.e("print", gson.toJson(productModel));
             HELPER.LOAD_HTML(binding.text, this.productModel.getAttribute().getDescription());
         }
     }

@@ -1,4 +1,5 @@
 package com.app.frimline.views;
+
 import android.content.Context;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class CenterLayoutManager extends LinearLayoutManager {
 
-    private SmoothScroller smoothScroller;
+    private final SmoothScroller smoothScroller;
 
     private int anchor;
 
@@ -63,7 +64,6 @@ public class CenterLayoutManager extends LinearLayoutManager {
          * Use our custom LinearLayoutManager to calculate PointF.
          *
          * @param targetPosition
-         *
          * @return PointF, a class holding two float coordinates
          */
         @Override

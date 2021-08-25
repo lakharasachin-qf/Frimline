@@ -27,16 +27,17 @@ import java.util.ArrayList;
 
 
 public class SearchAdapter extends RecyclerView.Adapter {
-    private ArrayList<SearchModel> dashBoardItemList;
     private final Gson gson;
     Activity activity;
+    CategorySingleModel selectedCategory;
+    private final ArrayList<SearchModel> dashBoardItemList;
+
 
     public SearchAdapter(ArrayList<SearchModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson = new Gson();
     }
-
 
     @NonNull
     @Override
@@ -78,7 +79,6 @@ public class SearchAdapter extends RecyclerView.Adapter {
         }
 
     }
-
 
     @Override
     public int getItemCount() {
@@ -184,9 +184,9 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
         return productArray3;
     }
-    CategorySingleModel selectedCategory;
+
     public void setCategoryFilter(CategorySingleModel selectedCategory) {
-        this.selectedCategory=selectedCategory;
+        this.selectedCategory = selectedCategory;
     }
 
     public class TopProductContainer extends RecyclerView.ViewHolder {

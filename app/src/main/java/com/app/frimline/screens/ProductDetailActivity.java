@@ -47,7 +47,7 @@ import java.util.Objects;
 public class ProductDetailActivity extends BaseActivity {
 
 
-    private boolean redShoeVisible = true;
+    private final boolean redShoeVisible = true;
     private ActivityProductDetailBinding binding;
     private boolean isAddedToCart = false;
     private int observableId;
@@ -55,6 +55,14 @@ public class ProductDetailActivity extends BaseActivity {
     private String defaultColor = "#EF7F1A";
     private CartRoomDatabase cartRoomDatabase;
     private boolean isSameProductEdit = false;
+    private final DescriptionFragment descriptionFragment = new DescriptionFragment();
+    private final HowToUseFragment howToUseFragment = new HowToUseFragment();
+    private final IngredientsFragment ingredientsFragment = new IngredientsFragment();
+    private final AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
+    private final ReviewsFragment reviewsFragment = new ReviewsFragment();
+    private final QnAFragment qnAFragment = new QnAFragment();
+    private int indicatorWidth;
+    private ProductModel productModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -285,14 +293,6 @@ public class ProductDetailActivity extends BaseActivity {
         HELPER.ON_BACK_PRESS_ANIM(act);
     }
 
-    private DescriptionFragment descriptionFragment = new DescriptionFragment();
-    private HowToUseFragment howToUseFragment = new HowToUseFragment();
-    private IngredientsFragment ingredientsFragment = new IngredientsFragment();
-    private AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
-    private ReviewsFragment reviewsFragment = new ReviewsFragment();
-    private QnAFragment qnAFragment = new QnAFragment();
-    private int indicatorWidth;
-
     private void setupTabIcons() {
         WrapContentHeightViewPager wrapContentHeightViewPager = findViewById(R.id.viewPager);
         ProductDetailsTabAdapter adapter = new ProductDetailsTabAdapter(getSupportFragmentManager());
@@ -315,7 +315,7 @@ public class ProductDetailActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-              //  binding.scrollView.smoothScrollTo(binding.viewPager.getLeft(), binding.viewPager.getTop());
+                //  binding.scrollView.smoothScrollTo(binding.viewPager.getLeft(), binding.viewPager.getTop());
             }
 
             @Override
@@ -324,9 +324,6 @@ public class ProductDetailActivity extends BaseActivity {
             }
         });
     }
-
-
-    private ProductModel productModel;
 
     public void loadData() {
         productModel = gson.fromJson(getIntent().getStringExtra("model"), ProductModel.class);
@@ -363,7 +360,7 @@ public class ProductDetailActivity extends BaseActivity {
             binding.counter.setText(productModel.getQty());
             productModel.setCalculatedAmount(entity.getCalculatedAmount());
             HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-        }else{
+        } else {
 
             binding.addTextTxt.setText("Add to cart");
             isAddedToCart = false;

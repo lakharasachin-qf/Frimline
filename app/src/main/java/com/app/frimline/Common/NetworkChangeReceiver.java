@@ -1,5 +1,7 @@
 package com.app.frimline.Common;
 
+import static com.app.frimline.BaseActivity.InternetError;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,25 +9,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import static com.app.frimline.BaseActivity.InternetError;
-
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
-    @SuppressLint("UnsafeProtectedBroadcastReceiver")
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        try {
-            if (isOnline(context)) {
-
-                InternetError(true);
-            } else {
-                InternetError(false);
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static boolean isOnline(Context context) {
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -35,6 +20,16 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         } catch (NullPointerException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        try {
+            InternetError(isOnline(context));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

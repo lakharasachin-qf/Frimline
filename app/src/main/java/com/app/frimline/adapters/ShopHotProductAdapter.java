@@ -22,13 +22,10 @@ import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ItemShopHotProductLayoutBinding;
-import com.app.frimline.databinding.ItemShopTopProductLayoutBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
-import com.app.frimline.models.OutCategoryModel;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -36,17 +33,18 @@ import java.util.ArrayList;
 public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAdapter.ViewHolder> {
     private final ArrayList<ProductModel> frameItems;
     Activity activity;
-
+    String colorCode = "";
     private int parentPosition;
+    private final CartRoomDatabase db;
 
-    private CartRoomDatabase db;
-    public void setParentPosition(int parentPosition) {
-        this.parentPosition = parentPosition;
-    }
     public ShopHotProductAdapter(ArrayList<ProductModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
         this.activity = activity;
         db = CartRoomDatabase.getAppDatabase(activity);
+    }
+
+    public void setParentPosition(int parentPosition) {
+        this.parentPosition = parentPosition;
     }
 
     @NonNull
@@ -63,21 +61,16 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
         final ProductModel model = frameItems.get(position);
         String colorCode = new PREF(activity).getThemeColor();
         if (CONSTANT.API_MODE)
-            loadDataForOneLayout(holder.binding,model,position);
+            loadDataForOneLayout(holder.binding, model, position);
 
     }
-    String colorCode = "";
 
     private void loadDataForOneLayout(ItemShopHotProductLayoutBinding binding, ProductModel model, int position) {
         colorCode = new PREF(activity).getThemeColor();
 
         //check cart db
         ProductEntity entity = db.productEntityDao().findProductByProductId(model.getId());
-        if (entity != null) {
-            model.setAddedToCart(true);
-        }else {
-            model.setAddedToCart(false);
-        }
+        model.setAddedToCart(entity != null);
 
 
         if (model.isAddedToCart()) {
@@ -97,7 +90,7 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
                 Intent i = new Intent(activity, ProductDetailActivity.class);
                 i.putExtra("themeColor", "0");
                 i.putExtra("productPosition", "0");
-                i.putExtra("layoutType", String.valueOf("0"));
+                i.putExtra("layoutType", "0");
                 i.putExtra("itemPosition", String.valueOf(parentPosition));
                 i.putExtra("adapterPosition", String.valueOf(position));
                 i.putExtra("model", new Gson().toJson(model));
@@ -135,7 +128,7 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
 
         public ViewHolder(@NonNull ItemShopHotProductLayoutBinding itemView) {
             super(itemView.getRoot());
-            binding =itemView;
+            binding = itemView;
 
         }
     }

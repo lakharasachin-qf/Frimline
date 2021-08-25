@@ -35,9 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParentHomeAdapter extends RecyclerView.Adapter {
-    private ArrayList<HomeModel> dashBoardItemList = new ArrayList<>();
     private final Gson gson;
     Activity activity;
+    private ArrayList<HomeModel> dashBoardItemList = new ArrayList<>();
 
     public ParentHomeAdapter(ArrayList<HomeModel> dashBoardItemList, Activity activity) {
 
@@ -93,28 +93,19 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
         Log.e("Position", String.valueOf(position));
         switch (dashBoardItemList.get(position).getLayoutType()) {
             case 0:
-                return LAYOUT_TYPE
-                        .BANNER;
+                return LAYOUT_TYPE.BANNER;
             case 1:
-                return LAYOUT_TYPE
-                        .CATEGORY_PRODUCT;
-
+                return LAYOUT_TYPE.CATEGORY_PRODUCT;
             case 2:
-                return LAYOUT_TYPE
-                        .ALERT_COVID;
+                return LAYOUT_TYPE.ALERT_COVID;
             case 3:
-                return LAYOUT_TYPE
-                        .CATEGORY;
+                return LAYOUT_TYPE.CATEGORY;
             case 4:
-                return LAYOUT_TYPE
-                        .TOP_RATTED;
+                return LAYOUT_TYPE.TOP_RATTED;
             case 5:
-                return LAYOUT_TYPE
-                        .OFFERS;
+                return LAYOUT_TYPE.OFFERS;
             case 6:
-                return LAYOUT_TYPE
-                        .PROMO_CODES;
-
+                return LAYOUT_TYPE.PROMO_CODES;
             default:
                 return -1;
         }

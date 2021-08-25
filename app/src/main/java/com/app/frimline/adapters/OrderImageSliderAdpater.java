@@ -19,7 +19,6 @@ import com.app.frimline.R;
 import com.app.frimline.models.OrderedProductModel;
 import com.app.frimline.screens.OrderProductDetailActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,9 +26,9 @@ import java.util.ArrayList;
 
 public class OrderImageSliderAdpater extends PagerAdapter {
 
-    private Activity context;
+    private final Activity context;
     private LayoutInflater layoutInflater;
-    private ArrayList<OrderedProductModel> sliderImg;
+    private final ArrayList<OrderedProductModel> sliderImg;
 
 
     public OrderImageSliderAdpater(ArrayList<OrderedProductModel> sliderImg, Activity context) {
@@ -65,7 +64,7 @@ public class OrderImageSliderAdpater extends PagerAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context, OrderProductDetailActivity.class);
-                    i.putExtra("themeColor","themeColor");
+                    i.putExtra("themeColor", "themeColor");
                     i.putExtra("productId", sliderImg.get(position).getProductId());
                     context.startActivity(i);
                     context.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);

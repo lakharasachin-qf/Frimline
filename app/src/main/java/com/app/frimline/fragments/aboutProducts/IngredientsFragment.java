@@ -8,28 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.R;
-import com.app.frimline.databinding.FragmentCenterBinding;
 import com.app.frimline.databinding.FragmentIngredientsBinding;
 import com.app.frimline.fragments.BaseFragment;
 import com.app.frimline.models.HomeFragements.ProductModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class IngredientsFragment extends BaseFragment {
 
     private FragmentIngredientsBinding binding;
+    private ProductModel productModel;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ingredients,parent,false);
-        String  data = "<div class=\"woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab\" id=\"tab-description\" role=\"tabpanel\" aria-labelledby=\"tab-title-description\" style=\"\">\n" +
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ingredients, parent, false);
+        String data = "<div class=\"woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab\" id=\"tab-description\" role=\"tabpanel\" aria-labelledby=\"tab-title-description\" style=\"\">\n" +
                 "\t\t\t\t\n" +
                 "\n" +
                 "<p>Dente91 Cool Mint Lactoferrin Mouthwash gives you protection against plaque, bad breath, and gum problems. Its anti-bacterial germ defense property gives you fresh breath daily.</p>\n\n <br><br>" +
@@ -62,18 +58,16 @@ public class IngredientsFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    private ProductModel productModel;
-
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        if (productModel!=null) {
+        if (productModel != null) {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getIngredients());
         }
     }
 
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
-        if (productModel!=null) {
+        if (productModel != null) {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getIngredients());
         }
     }

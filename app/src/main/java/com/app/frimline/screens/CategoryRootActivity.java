@@ -24,7 +24,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
@@ -53,16 +52,17 @@ import java.util.Observable;
 
 public class CategoryRootActivity extends BaseNavDrawerActivity {
 
+    AppCompatButton button;
+    LinearLayout NoDataFound;
+    DrawerMenuForRoot drawerMenu;
     private FrameLayout nav_host_fragment;
     private ProgressBar screenLoader;
     private Toolbar toolbar_Navigation;
-    AppCompatButton button;
     //Boolean variable to mark if the transaction is safe
     private boolean isTransactionSafe;
-
     //Boolean variable to mark if there is any transaction pending
     private boolean isTransactionPending;
-    LinearLayout NoDataFound;
+    private CustomNavigationBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,13 +89,13 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
             }
         });
         if (API_MODE) {
+
             nav_host_fragment.setVisibility(View.GONE);
             screenLoader.setVisibility(View.VISIBLE);
             toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
             toolbar_Navigation.setVisibility(View.GONE);
             screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
             screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
-
             getThemeColor();
 
         } else {
@@ -108,16 +108,10 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
 
     }
 
-
-    DrawerMenuForRoot drawerMenu;
-
-
     @Override
     public void onBackPressed() {
         drawerMenu.onBackPressedForCategoryRoot();
     }
-
-    private CustomNavigationBinding binding;
 
     private void setUpToolbar() {
         FrameLayout frameLayout = findViewById(R.id.content_frame);
@@ -268,7 +262,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                             message = "Cannot connect to Internet...Please check your connection!";
                         } else if (error instanceof ServerError) {
                             message = "The server could not be found. Please try again after some time!!";
-                        }  else if (error instanceof TimeoutError) {
+                        } else if (error instanceof TimeoutError) {
                             message = "Connection TimeOut! Please check your internet connection.";
                         }
 

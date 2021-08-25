@@ -140,7 +140,7 @@
                                     android:includeFontPadding="false"
                                     android:singleLine="true"
                                     android:text="#FGSDH Code has Applied."
-                                    android:textColor="@color/orange"
+
                                     android:textSize="@dimen/_12sdp" />
 
                                 <RelativeLayout
@@ -182,7 +182,7 @@
                                     android:layout_marginBottom="@dimen/_12sdp"
                                     android:layout_toStartOf="@+id/applyCode"
                                     android:background="@null"
-                                    android:fontFamily="@font/proxinova_semi_bold"
+                                    android:fontFamily="@font/proxima_nova_regular"
                                     android:hint="Coupon Code"
                                     android:imeOptions="actionDone"
                                     android:includeFontPadding="false"

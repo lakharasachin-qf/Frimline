@@ -2,8 +2,6 @@ package com.app.frimline.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +11,18 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
-import com.app.frimline.models.OutCategoryModel;
-import com.app.frimline.screens.BlogDetailsActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.material.chip.Chip;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductImageSliderAdpater extends PagerAdapter {
 
-    private Activity context;
+    private final Activity context;
     private LayoutInflater layoutInflater;
-    private ArrayList<String> sliderImg;
+    private final ArrayList<String> sliderImg;
 
 
     public ProductImageSliderAdpater(ArrayList<String> sliderImg, Activity context) {
@@ -55,7 +46,7 @@ public class ProductImageSliderAdpater extends PagerAdapter {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.item_product_image_layout, null);
         ImageView productImages = view.findViewById(R.id.productImage);
-        if (CONSTANT.API_MODE){
+        if (CONSTANT.API_MODE) {
             Glide.with(context)
                     .load(sliderImg.get(position))
                     .placeholder(R.drawable.ic_square_place_holder)

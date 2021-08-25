@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +54,7 @@ public class CategoryProfileFragment extends BaseFragment {
         binding.underLineRightDesc.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         binding.text1.setTextColor((Color.parseColor(pref.getCategoryColor())));
         binding.text2.setTextColor((Color.parseColor(pref.getCategoryColor())));
+        binding.text3.setTextColor((Color.parseColor(pref.getCategoryColor())));
         binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         binding.titleTxt.setTextColor((Color.parseColor(pref.getCategoryColor())));
         binding.viewBottom.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
@@ -115,12 +115,28 @@ public class CategoryProfileFragment extends BaseFragment {
     public void setProfile() {
 
         CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
+        String[] wordList = model.getCategoryName().split(" ");
+        if (wordList.length > 1) {
+            binding.text1.setText(wordList[0]);
+            if (wordList[1].length() > 7) {
+                binding.text2.setText(wordList[1]);
+                binding.text3.setText(wordList[1]);
+                binding.text2.setVisibility(View.GONE);
+                binding.text3.setVisibility(View.VISIBLE);
+            }
+            binding.text2.setText(wordList[1]);
+
+        } else {
+            binding.text1.setText(wordList[0]);
+        }
+
         HELPER.LOAD_HTML(binding.shortDescription, model.getDescriptions());
         HELPER.LOAD_HTML(binding.descTXt, model.getLongDescription());
-        Log.e("FRAGMENT",new Gson().toJson(model));
 
         Glide.with(act).load(model.getDetailImage()).placeholder(R.drawable.ic_square_place_holder).into(binding.mainBackdrop);
-        Glide.with(act).load(model.getImage()).placeholder(R.drawable.ic_square_place_holder).into(binding.image2);
+        Glide.with(act).load(model.getImage())
+                .circleCrop()
+                .into(binding.image2);
 
     }
 }

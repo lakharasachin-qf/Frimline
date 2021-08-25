@@ -15,3 +15,7 @@ Developer Info:
 
 To generate sha-1 key
 search  - signingReport
+
+
+API KEY : rzp_test_p35sgazZRjR37p
+Secret KEY : Q9wyDNbQLE0VBTaSZiVrGIf7

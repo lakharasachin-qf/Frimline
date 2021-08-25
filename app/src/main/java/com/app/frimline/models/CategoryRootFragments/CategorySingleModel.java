@@ -14,7 +14,7 @@ public class CategorySingleModel {
     private String detailImage;
     private String longDescription;
 
-    private boolean isActive=false;
+    private boolean isActive = false;
 
     public boolean isActive() {
         return isActive;

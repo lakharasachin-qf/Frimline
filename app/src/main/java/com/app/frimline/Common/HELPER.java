@@ -58,9 +58,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class HELPER {
+
+    public static Dialog dialog;
+    public static DecimalFormat format = new DecimalFormat("0.00");
 
     /**
      * INTENT-EVENT
@@ -111,7 +113,6 @@ public class HELPER {
         });
     }
 
-
     //CategoryRoot
     public static void changeTheme(Activity act, String primaryColor) {
         ImageView logo = act.findViewById(R.id.logo);
@@ -127,12 +128,10 @@ public class HELPER {
         binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(primaryColor)));
     }
 
-
     //Home Fragment
     public static void changeThemeHomeFragment(FragmentHomeBinding binding, String primaryColor) {
         // binding.headingUnderlineView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(primaryColor)));
     }
-
 
     //hide status bar in android 11 or API 30
     public static void hideStatusBarAPI30(Activity act) {
@@ -160,7 +159,6 @@ public class HELPER {
 //            });
         }
     }
-
 
     public static void setWindowFlag(Activity activity, final int bits, boolean on) {
         Window win = activity.getWindow();
@@ -314,9 +312,6 @@ public class HELPER {
         }
     }
 
-
-    public static Dialog dialog;
-
     public static void showLoadingTran(Activity act) {
 
         if (dialog != null && dialog.isShowing())
@@ -364,7 +359,6 @@ public class HELPER {
             textView.setText(Html.fromHtml(data));
         }
     }
-
 
     /**
      * Determine if the device is a tablet (i.e. it has a large screen).
@@ -482,9 +476,6 @@ public class HELPER {
         return format.format((finalAmount));
     }
 
-    public static DecimalFormat format = new DecimalFormat("0.00");
-
-
     public static void backgroundTint(Activity act, View view, boolean theme) {
         if (theme)
             view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
@@ -575,9 +566,9 @@ public class HELPER {
             try {
                 result = df.parse(dateStr);
                 System.out.println("date:" + result);
-               // @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-               // sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                // sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
                 System.out.println(sdf.format(result)); //prints date in the format sdf
                 convertedDate = sdf.format(result);
             } catch (ParseException e) {
@@ -586,4 +577,6 @@ public class HELPER {
         }
         return convertedDate;
     }
+
+
 }

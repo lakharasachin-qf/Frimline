@@ -14,11 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.frimline.R;
-import com.app.frimline.adapters.CountryChooseAdapter;
 import com.app.frimline.adapters.SortingAdapter;
 import com.app.frimline.databinding.FragmentFilterDialogBinding;
 import com.app.frimline.fragments.BaseFragment;
-import com.app.frimline.models.CountryModel;
 import com.app.frimline.models.ListModel;
 
 import java.util.ArrayList;

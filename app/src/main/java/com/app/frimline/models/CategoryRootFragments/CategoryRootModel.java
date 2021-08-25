@@ -7,7 +7,7 @@ public class CategoryRootModel {
     private String messages;
     private String themeColor;
     private ArrayList<CategorySingleModel> categoryList;
-    private ArrayList<String> bannerList=new ArrayList<>();
+    private ArrayList<String> bannerList = new ArrayList<>();
 
     public ArrayList<String> getBannerList() {
         return bannerList;

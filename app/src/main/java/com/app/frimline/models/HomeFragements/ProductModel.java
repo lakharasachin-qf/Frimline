@@ -1,9 +1,6 @@
 package com.app.frimline.models.HomeFragements;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ProductModel {
     private String id;
@@ -19,10 +16,13 @@ public class ProductModel {
     private ArrayList<String> productImagesList;
     private String categoryId;
     private String categoryName;
-    private String qty="1";
+    private String qty = "1";
     private int cartId;
     private String calculatedAmount;
     private String rating;
+    private Attribute attribute;
+    //for cart
+    private boolean isAddedToCart = false;
 
     public String getRating() {
         return rating;
@@ -56,8 +56,6 @@ public class ProductModel {
         this.qty = qty;
     }
 
-    private Attribute attribute;
-
     public Attribute getAttribute() {
         return attribute;
     }
@@ -65,7 +63,6 @@ public class ProductModel {
     public void setAttribute(Attribute attribute) {
         this.attribute = attribute;
     }
-
 
     public String getCategoryId() {
         return categoryId;
@@ -82,9 +79,6 @@ public class ProductModel {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
-    //for cart
-    private boolean isAddedToCart=false;
 
     public boolean isAddedToCart() {
         return isAddedToCart;

@@ -43,7 +43,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ForgotPasswordActivity extends BaseActivity {
+    DialogDiscardImageBinding discardImageBinding;
     private ActivityMobileVerificationBinding binding;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     public void changeTheme() {
         PREF pref = new PREF(act);
+
         binding.includeBtn.button.setText("Reset");
         binding.includeBtn1.button.setText("Done");
         binding.includeBtn1.button.setOnClickListener(new View.OnClickListener() {
@@ -146,10 +149,6 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     }
 
-
-    private boolean isLoading = false;
-
-
     private void lostPassword() {
 
         if (!isLoading)
@@ -221,8 +220,6 @@ public class ForgotPasswordActivity extends BaseActivity {
 
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
-
-    DialogDiscardImageBinding discardImageBinding;
 
     public void errorDialog(String title, String msg, boolean isSuccess) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);

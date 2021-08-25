@@ -17,6 +17,7 @@ import com.app.frimline.models.HomeFragements.ProductModel;
 public class AdditionalInfoFragment extends BaseFragment {
 
     private FragmentAdditionalInfoBinding binding;
+    private ProductModel productModel;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -51,11 +52,9 @@ public class AdditionalInfoFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    private ProductModel productModel;
-
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        if (productModel!=null) {
+        if (productModel != null) {
             if (!productModel.getAttribute().getDimWeight().isEmpty()) {
                 HELPER.LOAD_HTML(binding.weightTxt, productModel.getAttribute().getDimWeight());
                 binding.weightLayout.setVisibility(View.VISIBLE);
@@ -99,7 +98,7 @@ public class AdditionalInfoFragment extends BaseFragment {
 
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
-        if (productModel!=null) {
+        if (productModel != null) {
             if (!productModel.getAttribute().getDimWeight().isEmpty()) {
                 HELPER.LOAD_HTML(binding.weightTxt, productModel.getAttribute().getDimWeight());
                 binding.weightLayout.setVisibility(View.VISIBLE);

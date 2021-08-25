@@ -22,8 +22,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class OurProductAdapter extends RecyclerView.Adapter<OurProductAdapter.ViewHolder> {
     private final ArrayList<CategorySingleModel> frameItems;
     Activity activity;
@@ -56,15 +54,16 @@ public class OurProductAdapter extends RecyclerView.Adapter<OurProductAdapter.Vi
                     Intent i = new Intent(activity, CategoryLandingActivity.class);
                     i.putExtra("targetCategory", "yes");
                     i.putExtra("fragment", "Home");
-                    i.putExtra("model",new Gson().toJson(model));
+                    i.putExtra("model", new Gson().toJson(model));
 
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                     activity.finish();
                 }
             });
+
             Glide.with(activity)
-                    .load(model.getDetailImage())
+                    .load(model.getImage())
                     .circleCrop()
                     .into(holder.image);
         } else {
@@ -113,6 +112,7 @@ public class OurProductAdapter extends RecyclerView.Adapter<OurProductAdapter.Vi
         LinearLayout product;
         TextView textView;
         ImageView image;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             product = itemView.findViewById(R.id.product);

@@ -1,14 +1,11 @@
 package com.app.frimline.adapters;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.TextView;
 
-import com.app.frimline.R;
 import com.app.frimline.models.SortModel;
 
 import java.util.ArrayList;
@@ -19,38 +16,6 @@ public class PriceAutoTextAdapter extends ArrayAdapter<SortModel> {
     Context context;
     int resource, textViewResourceId;
     List<SortModel> items, tempItems, suggestions;
-
-    public PriceAutoTextAdapter(Context context, int resource, int textViewResourceId, List<SortModel> items) {
-        super(context, resource, textViewResourceId, items);
-        this.context = context;
-        this.resource = resource;
-        this.textViewResourceId = textViewResourceId;
-        this.items = items;
-        tempItems = new ArrayList<SortModel>(items); // this makes the difference.
-        suggestions = new ArrayList<SortModel>();
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-//        if (convertView == null) {
-//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            view = inflater.inflate(R.layout.row, parent, false);
-//        }
-//        SortModel people = items.get(position);
-//        if (people != null) {
-//            TextView lblName = (TextView) view.findViewById(R.id.lbl_name);
-//            if (lblName != null)
-//                lblName.setText(people.getName());
-//        }
-        return view;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return nameFilter;
-    }
-
     /**
      * Custom Filter implementation for custom suggestions we provide.
      */
@@ -91,4 +56,35 @@ public class PriceAutoTextAdapter extends ArrayAdapter<SortModel> {
             }
         }
     };
+
+    public PriceAutoTextAdapter(Context context, int resource, int textViewResourceId, List<SortModel> items) {
+        super(context, resource, textViewResourceId, items);
+        this.context = context;
+        this.resource = resource;
+        this.textViewResourceId = textViewResourceId;
+        this.items = items;
+        tempItems = new ArrayList<SortModel>(items); // this makes the difference.
+        suggestions = new ArrayList<SortModel>();
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+//        if (convertView == null) {
+//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            view = inflater.inflate(R.layout.row, parent, false);
+//        }
+//        SortModel people = items.get(position);
+//        if (people != null) {
+//            TextView lblName = (TextView) view.findViewById(R.id.lbl_name);
+//            if (lblName != null)
+//                lblName.setText(people.getName());
+//        }
+        return view;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return nameFilter;
+    }
 }

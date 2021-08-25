@@ -22,23 +22,23 @@ import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
-import com.app.frimline.models.OutCategoryModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 
 public class ShopAdapter extends RecyclerView.Adapter {
-    private ArrayList<HomeModel> dashBoardItemList;
     private final Gson gson;
     Activity activity;
+    CategorySingleModel selectedCategory;
+    private final ArrayList<HomeModel> dashBoardItemList;
+
 
     public ShopAdapter(ArrayList<HomeModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson = new Gson();
     }
-
 
     @NonNull
     @Override
@@ -81,8 +81,6 @@ public class ShopAdapter extends RecyclerView.Adapter {
 
     }
 
-
-
     @Override
     public int getItemCount() {
         return dashBoardItemList.size();
@@ -94,12 +92,12 @@ public class ShopAdapter extends RecyclerView.Adapter {
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.LAYOUT_TOP_PRODUCT:
-                    if (CONSTANT.API_MODE){
+                    if (CONSTANT.API_MODE) {
                         ShopTopProductAdapter productAdapte3r = new ShopTopProductAdapter(model.getApiProductModel(), activity);
                         productAdapte3r.setParentPosition(position);
                         ((TopProductContainer) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                         ((TopProductContainer) holder).binding.productRecycler.setAdapter(productAdapte3r);
-                    }else {
+                    } else {
                         ArrayList<ProductModel> data = new ArrayList<>();
                         data.add(new ProductModel());
                         data.add(new ProductModel());
@@ -116,7 +114,7 @@ public class ShopAdapter extends RecyclerView.Adapter {
                         shopFilterAdapter.setCategory(selectedCategory);
                         ((FilterHolder) holder).binding.filterRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                         ((FilterHolder) holder).binding.filterRecycler.setAdapter(shopFilterAdapter);
-                    }else{
+                    } else {
                         ArrayList<CategorySingleModel> hitModels = new ArrayList<>();
                         hitModels.add(new CategorySingleModel());
                         hitModels.add(new CategorySingleModel());
@@ -128,13 +126,13 @@ public class ShopAdapter extends RecyclerView.Adapter {
                     }
                     break;
                 case LAYOUT_TYPE.LAYOUT_HOT_PRODUCT:
-                    if (CONSTANT.API_MODE){
+                    if (CONSTANT.API_MODE) {
 
                         ShopHotProductAdapter productAdapte3r = new ShopHotProductAdapter(model.getApiProductModel(), activity);
                         productAdapte3r.setParentPosition(position);
                         ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                         ((HotProductHolder) holder).binding.productRecycler.setAdapter(productAdapte3r);
-                    }else {
+                    } else {
                         ArrayList<ProductModel> hitModels = new ArrayList<>();
                         hitModels.add(new ProductModel());
                         hitModels.add(new ProductModel());
@@ -148,9 +146,9 @@ public class ShopAdapter extends RecyclerView.Adapter {
             }
         }
     }
-    CategorySingleModel selectedCategory;
+
     public void setCategoryFilter(CategorySingleModel selectedCategory) {
-        this.selectedCategory =selectedCategory;
+        this.selectedCategory = selectedCategory;
     }
 
 
@@ -162,8 +160,9 @@ public class ShopAdapter extends RecyclerView.Adapter {
             binding = itemView;
             changeColor();
         }
-        public void changeColor(){
-            PREF pref=new PREF(activity);
+
+        public void changeColor() {
+            PREF pref = new PREF(activity);
             binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
         }
@@ -187,8 +186,9 @@ public class ShopAdapter extends RecyclerView.Adapter {
             binding = itemView;
             changeColor();
         }
-        public void changeColor(){
-            PREF pref=new PREF(activity);
+
+        public void changeColor() {
+            PREF pref = new PREF(activity);
             binding.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
         }

@@ -25,6 +25,8 @@ public class APIs {
     public static final String OTP_VERIFICATION = BASE + "/wp-json/wp/v2/user/validate/otp";
     public static final String PRODUCT_DETAILS = BASE + "/wp-json/wc/v3/product-details/";
     public static final String VALIDATE_CODE = BASE + "/wp-json/wc/v3/coupons/validate";
+    public static final String CREATE_ORDER = BASE + "/wp-json/wc/v3/validate_order/create";
+    public static final String ORDER_DONE = BASE + "/wp-json/wc/v3/order/create";
 
 
 }

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,31 +24,23 @@ import com.app.frimline.databinding.ItemMyCartLayoutBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder> {
     private final ArrayList<ProductModel> frameItems;
-    private CartRoomDatabase db;
-
-    public interface setActionsListener {
-        void onDeleteAction(int position, ProductModel model);
-        void onCartUpdate(int position, ProductModel model);
-    }
-
-    private Activity activity;
+    private final CartRoomDatabase db;
+    private final Activity activity;
     private setActionsListener actionsListener;
-
-    public void setActionsListener(setActionsListener actionsListener) {
-        this.actionsListener = actionsListener;
-    }
-
     public MyCartAdapter(ArrayList<ProductModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
         this.activity = activity;
         db = CartRoomDatabase.getAppDatabase(activity);
+    }
+
+    public void setActionsListener(setActionsListener actionsListener) {
+        this.actionsListener = actionsListener;
     }
 
     @NonNull
@@ -105,7 +96,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                     model.setCalculatedAmount(entity.getCalculatedAmount());
                     db.productEntityDao().updateSpecificProduct((entity));
                     HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
-                    actionsListener.onCartUpdate(position,model);
+                    actionsListener.onCartUpdate(position, model);
                     HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
                 }
             });
@@ -126,7 +117,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                         db.productEntityDao().updateSpecificProduct((entity));
                         HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
                         HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
-                        actionsListener.onCartUpdate(position,model);
+                        actionsListener.onCartUpdate(position, model);
                     } else {
                         Toast.makeText(activity, "At least one quantity required", Toast.LENGTH_SHORT).show();
                     }
@@ -165,6 +156,12 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
         return frameItems.size();
     }
 
+    public interface setActionsListener {
+        void onDeleteAction(int position, ProductModel model);
+
+        void onCartUpdate(int position, ProductModel model);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ItemMyCartLayoutBinding binding;
 
@@ -175,10 +172,6 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
         }
     }
-
-
-
-
 
 
 }

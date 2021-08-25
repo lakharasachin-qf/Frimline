@@ -81,8 +81,8 @@ public class ResetPasswordActivity extends BaseActivity {
         HELPER.ERROR_HELPER(binding.newPasswordEdt, binding.newPasswordLayout);
         HELPER.ERROR_HELPER(binding.confirmPassword, binding.confirmPasswordLayout);
 
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.newPasswordEdt, binding.newPasswordLayout);
-        HELPER.FOCUS_HELPER(binding.scrollView,binding.confirmPassword, binding.confirmPasswordLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.newPasswordEdt, binding.newPasswordLayout);
+        HELPER.FOCUS_HELPER(binding.scrollView, binding.confirmPassword, binding.confirmPasswordLayout);
 
         binding.confirmPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
         binding.newPasswordLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));

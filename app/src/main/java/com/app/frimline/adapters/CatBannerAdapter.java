@@ -21,9 +21,9 @@ import java.util.List;
 
 public class CatBannerAdapter extends PagerAdapter {
 
-    private Activity context;
+    private final Activity context;
     private LayoutInflater layoutInflater;
-    private List<String> sliderImg;
+    private final List<String> sliderImg;
 
 
     public CatBannerAdapter(List<String> sliderImg, Activity context) {

@@ -67,54 +67,13 @@
                         android:background="@drawable/shape_billing_border"
                         android:orientation="vertical"
                         android:padding="@dimen/_15sdp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_12sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
-                            android:fontFamily="@font/proxima_nova_regular"
-                            android:text="Order Notes (Optional)"
-                            android:textSize="@dimen/_10sdp" />
-
-                        <LinearLayout
-                            android:id="@+id/otherNoteEdtLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/shape__address_editext_background"
-                            android:paddingStart="@dimen/_20sdp"
-                            android:paddingTop="@dimen/_15sdp"
-                            android:paddingEnd="@dimen/_20sdp"
-                            android:paddingBottom="@dimen/_15sdp">
-
-                            <EditText
-                                android:id="@+id/otherInfoEdt"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:fontFamily="@font/proxinova_semi_bold"
-                                android:gravity="top|left"
-                                android:hint="Type Here..."
-                                android:includeFontPadding="false"
-                                android:inputType="textMultiLine"
-                                android:lines="8"
-                                android:maxLines="10"
-                                android:minLines="5"
-                                android:scrollbars="vertical"
-
-                                android:textColor="@color/colorEditText"
-                                android:textSize="@dimen/_12sdp" />
-
-
-                        </LinearLayout>
-
                         <LinearLayout
                             android:id="@+id/otherInfo"
                             android:visibility="gone"
                             android:animateLayoutChanges="true"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                             android:orientation="vertical" >
+                            android:orientation="vertical" >
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -228,19 +187,39 @@
                                 style="@style/EditTextTitle"
                                 android:layout_marginTop="@dimen/_12sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Street Address" />
+                                android:text="Street Address 1*" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/streetEdtLayout"
                                 style="@style/TextInputLayoutStyleForMediumScreen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:errorEnabled="true">
+                                app:errorEnabled="false">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/streetEdt"
                                     style="@style/textInputEditTextForMediumScreen"
-                                    android:hint="Street Address"
+                                    android:hint="Street Address 1"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                style="@style/EditTextTitle"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Street Address 2*" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/streetEdtLayout2"
+                                style="@style/TextInputLayoutStyleForMediumScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/streetEdt2"
+                                    style="@style/textInputEditTextForMediumScreen"
+                                    android:hint="Street Address 2"
                                     android:inputType="text" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -265,6 +244,25 @@
                                     android:inputType="text" />
                             </com.google.android.material.textfield.TextInputLayout>
 
+                            <TextView
+                                style="@style/EditTextTitle"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="State*" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/stateEdtLayout"
+                                style="@style/TextInputLayoutStyleForMediumScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/stateEdt"
+                                    style="@style/textInputEditTextForMediumScreen"
+                                    android:hint="State"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
                                 style="@style/EditTextTitle"
@@ -288,244 +286,26 @@
                             </com.google.android.material.textfield.TextInputLayout>
 
 
-                            <TextView
-                                style="@style/EditTextTitle"
-                                android:layout_marginTop="@dimen/_12sdp"
-                                android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Phone No" />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/phoneNoEdtLayout"
-                                style="@style/TextInputLayoutStyleForMediumScreen"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:errorEnabled="true">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/phoneNoEdt"
-                                    style="@style/textInputEditTextForMediumScreen"
-                                    android:hint="Phone no."
-                                    android:maxLength="10"
-                                    android:inputType="number" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <TextView
-                                style="@style/EditTextTitle"
-                                android:layout_marginTop="@dimen/_12sdp"
-                                android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Email Address" />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/emailEdtLayout"
-                                style="@style/TextInputLayoutStyleForMediumScreen"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:errorEnabled="true">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/emailEdt"
-                                    style="@style/textInputEditTextForMediumScreen"
-                                    android:hint="Email Id"
-                                    android:inputType="textEmailAddress" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-
-                        </LinearLayout>
-<!--                        <LinearLayout-->
-<!--                            android:id="@+id/otherInfo"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:orientation="vertical"-->
-<!--                            android:visibility="visible">-->
-
-
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginTop="@dimen/_17sdp"-->
-<!--                                android:orientation="horizontal"-->
-<!--                                android:weightSum="2">-->
-
-<!--                                <LinearLayout-->
-
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="match_parent"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:orientation="vertical"-->
-<!--                                    android:paddingEnd="@dimen/_7sdp">-->
-
-<!--                                    <TextView-->
-<!--                                        style="@style/EditTextTitle"-->
-<!--                                        android:layout_marginBottom="@dimen/_7sdp"-->
-<!--                                        android:text="First Name" />-->
-
-<!--                                    <LinearLayout-->
-<!--                                        android:id="@+id/nameEdtLayout"-->
-<!--                                        style="@style/EditTextOverLayout"-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content">-->
-
-<!--                                        <EditText-->
-<!--                                            android:id="@+id/nameEdt"-->
-<!--                                            style="@style/EditBoxWithoutIcons"-->
-<!--                                            android:background="@null"-->
-<!--                                            android:hint="First Name" />-->
-<!--                                    </LinearLayout>-->
-
-<!--                                </LinearLayout>-->
-
-<!--                                <LinearLayout-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="match_parent"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:orientation="vertical"-->
-<!--                                    android:paddingStart="@dimen/_7sdp">-->
-
-<!--                                    <TextView-->
-<!--                                        style="@style/EditTextTitle"-->
-<!--                                        android:layout_marginBottom="@dimen/_7sdp"-->
-<!--                                        android:text="Last Name" />-->
-
-
-<!--                                    <LinearLayout-->
-<!--                                        android:id="@+id/lnameEdtLayout"-->
-<!--                                        style="@style/EditTextOverLayout"-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content">-->
-
-<!--                                        <EditText-->
-<!--                                            android:id="@+id/lnameEdt"-->
-<!--                                            style="@style/EditBoxWithoutIcons"-->
-<!--                                            android:background="@null"-->
-<!--                                            android:hint="Last Name" />-->
-<!--                                    </LinearLayout>-->
-
-<!--                                </LinearLayout>-->
-<!--                            </LinearLayout>-->
-
-<!--                            <TextView-->
-<!--                                style="@style/EditTextTitle"-->
-<!--                                android:layout_marginTop="@dimen/_12sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_7sdp"-->
-<!--                                android:text="Company Name (optional)" />-->
-
-<!--                            <RelativeLayout-->
-<!--                                android:id="@+id/companyEdtLayout"-->
-<!--                                style="@style/EditTextOverLayout"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content">-->
-
-<!--                                <EditText-->
-<!--                                    android:id="@+id/companyEdt"-->
-
-<!--                                    style="@style/EditBoxWithoutIcons"-->
-
-<!--                                    android:background="@null"-->
-<!--                                    android:hint="Comapany Name" />-->
-
-
-<!--                            </RelativeLayout>-->
-
-
-<!--                            <TextView-->
-<!--                                style="@style/EditTextTitle"-->
-<!--                                android:layout_marginTop="@dimen/_12sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_7sdp"-->
-<!--                                android:text="Country / Region" />-->
-
-<!--                            <LinearLayout-->
-<!--                                android:id="@+id/countryEdtLayout"-->
-<!--                                style="@style/EditTextOverLayout"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content">-->
-
-<!--                                <EditText-->
-<!--                                    android:id="@+id/countryEdt"-->
-<!--                                    style="@style/EditBoxWithoutIcons"-->
-<!--                                    android:background="@null"-->
-<!--                                    android:hint="Country" />-->
-<!--                            </LinearLayout>-->
-
-<!--                            <TextView-->
-<!--                                style="@style/EditTextTitle"-->
-<!--                                android:layout_marginTop="@dimen/_12sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_7sdp"-->
-<!--                                android:text="Street Address" />-->
-
-<!--                            <LinearLayout-->
-<!--                                android:id="@+id/streetEdtLayout"-->
-<!--                                style="@style/EditTextOverLayout"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content">-->
-
-<!--                                <EditText-->
-<!--                                    android:id="@+id/streetEdt"-->
-<!--                                    style="@style/EditBoxWithoutIcons"-->
-<!--                                    android:background="@null"-->
-
-<!--                                    android:hint="Street" />-->
-<!--                            </LinearLayout>-->
-
-<!--                            <TextView-->
-<!--                                style="@style/EditTextTitle"-->
-<!--                                android:layout_marginTop="@dimen/_12sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_7sdp"-->
-
-<!--                                android:text="Town / City" />-->
-
-<!--                            <LinearLayout-->
-<!--                                android:id="@+id/cityEdtLayout"-->
-<!--                                style="@style/EditTextOverLayout"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content">-->
-
-<!--                                <EditText-->
-<!--                                    android:id="@+id/cityEdt"-->
-<!--                                    style="@style/EditBoxWithoutIcons"-->
-<!--                                    android:background="@null"-->
-<!--                                    android:hint="Town / City" />-->
-<!--                            </LinearLayout>-->
-
-<!--                            <TextView-->
-<!--                                style="@style/EditTextTitle"-->
-<!--                                android:layout_marginTop="@dimen/_12sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_7sdp"-->
-<!--                                android:text="Postcode / ZIP" />-->
-
-<!--                            <LinearLayout-->
-<!--                                android:id="@+id/postalCodeEdtLayout"-->
-<!--                                style="@style/EditTextOverLayout"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content">-->
-
-<!--                                <EditText-->
-<!--                                    android:id="@+id/postalCodeEdt"-->
-<!--                                    style="@style/EditBoxWithoutIcons"-->
-<!--                                    android:background="@null"-->
-
-<!--                                    android:hint="Postcode / ZIP" />-->
-<!--                            </LinearLayout>-->
-
-
 <!--                            <TextView-->
 <!--                                style="@style/EditTextTitle"-->
 <!--                                android:layout_marginTop="@dimen/_12sdp"-->
 <!--                                android:layout_marginBottom="@dimen/_7sdp"-->
 <!--                                android:text="Phone No" />-->
 
-<!--                            <LinearLayout-->
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
 <!--                                android:id="@+id/phoneNoEdtLayout"-->
-<!--                                style="@style/EditTextOverLayout"-->
+<!--                                style="@style/TextInputLayoutStyleForMediumScreen"-->
 <!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content">-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                app:errorEnabled="true">-->
 
-<!--                                <EditText-->
+<!--                                <com.google.android.material.textfield.TextInputEditText-->
 <!--                                    android:id="@+id/phoneNoEdt"-->
-<!--                                    style="@style/EditBoxWithoutIcons"-->
-<!--                                    android:background="@null"-->
-<!--                                    android:hint="Phone no." />-->
-<!--                            </LinearLayout>-->
+<!--                                    style="@style/textInputEditTextForMediumScreen"-->
+<!--                                    android:hint="Phone no."-->
+<!--                                    android:maxLength="10"-->
+<!--                                    android:inputType="number" />-->
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
 
 <!--                            <TextView-->
 <!--                                style="@style/EditTextTitle"-->
@@ -533,19 +313,63 @@
 <!--                                android:layout_marginBottom="@dimen/_7sdp"-->
 <!--                                android:text="Email Address" />-->
 
-<!--                            <LinearLayout-->
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
 <!--                                android:id="@+id/emailEdtLayout"-->
-<!--                                style="@style/EditTextOverLayout"-->
+<!--                                style="@style/TextInputLayoutStyleForMediumScreen"-->
 <!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content">-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                app:errorEnabled="true">-->
 
-<!--                                <EditText-->
+<!--                                <com.google.android.material.textfield.TextInputEditText-->
 <!--                                    android:id="@+id/emailEdt"-->
-<!--                                    style="@style/EditBoxWithoutIcons"-->
-<!--                                    android:background="@null"-->
-<!--                                    android:hint="Email Id" />-->
-<!--                            </LinearLayout>-->
-<!--                        </LinearLayout>-->
+<!--                                    style="@style/textInputEditTextForMediumScreen"-->
+<!--                                    android:hint="Email Id"-->
+<!--                                    android:inputType="textEmailAddress" />-->
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:text="Order Notes (Optional)"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <LinearLayout
+                            android:id="@+id/otherNoteEdtLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape__address_editext_background"
+                            android:paddingStart="@dimen/_20sdp"
+                            android:paddingTop="@dimen/_15sdp"
+                            android:paddingEnd="@dimen/_20sdp"
+                            android:paddingBottom="@dimen/_15sdp">
+
+                            <EditText
+                                android:id="@+id/otherInfoEdt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:gravity="top|left"
+                                android:hint="Type Here..."
+                                android:includeFontPadding="false"
+                                android:inputType="textMultiLine"
+                                android:lines="8"
+                                android:maxLines="10"
+                                android:minLines="5"
+                                android:scrollbars="vertical"
+
+                                android:textColor="@color/colorEditText"
+                                android:textSize="@dimen/_12sdp" />
+
+
+                        </LinearLayout>
+
 
                         <include
                             android:id="@+id/includeBtn"

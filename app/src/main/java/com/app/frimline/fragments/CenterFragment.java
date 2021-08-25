@@ -36,6 +36,13 @@ public class CenterFragment extends BaseFragment {
         });
         if (API_MODE) {
             HELPER.LOAD_HTML(binding.description, new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class).getDescriptions());
+            String[] wordList = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class).getCategoryName().split(" ");
+            if (wordList.length > 1) {
+                binding.textTop.setText(wordList[0]);
+                binding.textBottom.setText(wordList[1]);
+            } else {
+                binding.textTop.setText(wordList[0]);
+            }
 
         }
         return binding.getRoot();

@@ -40,19 +40,36 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DrawerMenuForRoot {
-    private Activity activity;
-    private ExpandableListAdapter expandableListAdapter;
-    private ExpandableListView expandableListView;
-    //    private Animation animationUp, animationDown;
-    private List<MenuModel> headerList = new ArrayList<>();
-    private HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
-    private ImageView proflie_img_navigation;
-    DrawerLayout drawer;
-
     public static int CATEGORY_ROOT_FRAGMENT = 0;
     public static int HOME_FRAGMENT = 1;
+    public String currentMenuItem;
+    DrawerLayout drawer;
+    RelativeLayout HomePageLayout;
+    TextView titleTxt;
+    LinearLayout orderHistoryTab;
+    LinearLayout myAccountTab;
+    LinearLayout myCartTab;
+    ImageView searchAction;
+    RelativeLayout profileView;
+    RelativeLayout cartActionLayout;
+    private final Activity activity;
+    private ExpandableListAdapter expandableListAdapter;
+    private final ExpandableListView expandableListView;
+    //    private Animation animationUp, animationDown;
+    private final List<MenuModel> headerList = new ArrayList<>();
+    private final HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
+    private ImageView proflie_img_navigation;
     private int defaultFragmentFlag = HOME_FRAGMENT;
-
+    private AppBarConfiguration mAppBarConfiguration;
+    private Fragment fragmentCurrent;
+    private final HomeFragment homeFragment = new HomeFragment();
+    private final ShopFragment shopFragment = new ShopFragment();
+    private final BlogsFragment blogsFragment = new BlogsFragment();
+    private final OrderHistoryFragment orderHistoryFragment = new OrderHistoryFragment();
+    private final MyAccountFragment myAccountFragment = new MyAccountFragment();
+    private final CategoryProfileFragment profileFragment = new CategoryProfileFragment();
+    private final CategoryRootFragment categoryRootFragment = new CategoryRootFragment();
+    private final CommonFragment commonFragment = new CommonFragment();
     public DrawerMenuForRoot(Activity activity, int flag) {
         this.activity = activity;
         drawer = activity.findViewById(R.id.drawer_layout);
@@ -142,15 +159,6 @@ public class DrawerMenuForRoot {
         menuModel = new MenuModel("Shipping Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_ic_menu_shipping_policy)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
     }
-
-    RelativeLayout HomePageLayout;
-    TextView titleTxt;
-    LinearLayout orderHistoryTab;
-    LinearLayout myAccountTab;
-    LinearLayout myCartTab;
-    ImageView searchAction;
-    RelativeLayout profileView;
-    RelativeLayout cartActionLayout;
 
     public void populateExpandableList() {
         MyAccountFragment.OnDrawerAction onDrawerAction = new MyAccountFragment.OnDrawerAction() {
@@ -324,19 +332,6 @@ public class DrawerMenuForRoot {
         });
 
     }
-
-
-    private AppBarConfiguration mAppBarConfiguration;
-    private Fragment fragmentCurrent;
-    private HomeFragment homeFragment = new HomeFragment();
-    private ShopFragment shopFragment = new ShopFragment();
-    private BlogsFragment blogsFragment = new BlogsFragment();
-    private OrderHistoryFragment orderHistoryFragment = new OrderHistoryFragment();
-    private MyAccountFragment myAccountFragment = new MyAccountFragment();
-    private CategoryProfileFragment profileFragment = new CategoryProfileFragment();
-    private CategoryRootFragment categoryRootFragment = new CategoryRootFragment();
-    private CommonFragment commonFragment = new CommonFragment();
-    public String currentMenuItem;
 
     private void addFragment(Fragment fragment) {
         fragmentCurrent = fragment;

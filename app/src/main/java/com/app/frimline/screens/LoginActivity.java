@@ -37,6 +37,22 @@ import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.google.android.material.tabs.TabLayout;
 
 public class LoginActivity extends BaseActivity {
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        if (data.hasExtra("success")) {
+                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                            onBackPressed();
+                        }
+
+                    }
+                }
+            });
     private ActivityLoginBinding binding;
     private int indicatorWidth;
     private LoginVMobileFragment loginFragment;
@@ -190,23 +206,6 @@ public class LoginActivity extends BaseActivity {
 
 
     }
-
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        if (data.hasExtra("success")) {
-                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
-                            onBackPressed();
-                        }
-
-                    }
-                }
-            });
 
     public void openSomeActivityForResult() {
         Intent intent = new Intent(this, SignupActivity.class);

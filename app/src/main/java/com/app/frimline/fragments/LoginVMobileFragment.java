@@ -1,6 +1,8 @@
 package com.app.frimline.fragments;
 
 import android.animation.LayoutTransition;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,6 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -39,6 +45,7 @@ import com.app.frimline.models.ProfileModel;
 import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.ForgotPasswordActivity;
 import com.app.frimline.screens.OtpVerificationActivity;
+import com.app.frimline.screens.SignupActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -90,14 +97,12 @@ public class LoginVMobileFragment extends BaseFragment {
                     HELPER.SIMPLE_ROUTE(getActivity(), OtpVerificationActivity.class);
                 } else {
                     if (binding.nameEdt.getText().toString().length() == 10) {
-//                        if (CONSTANT.API_MODE) {
-//                            signIn();
-//                        } else {
-//                            HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
-//                            getActivity().finish();
-//                        }
-                        HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
-                        getActivity().finish();
+                        if (CONSTANT.API_MODE) {
+                            signIn();
+                        } else {
+                            HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
+                            act.finish();
+                        }
                     } else if (binding.nameEdt.getText().toString().trim().length() == 0) {
                         binding.nameEdt.requestFocus();
                         binding.nameEdtLayout.setError("Enter Mobile No.");
@@ -134,20 +139,11 @@ public class LoginVMobileFragment extends BaseFragment {
             public void onResponse(String response) {
                 Log.e("Login", response);
                 isLoading = false;
-
+                HELPER.dismissLoadingTran();
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-                if (jsonObject != null && !jsonObject.has("code")) {
-//                    if (binding.shipToDiffCheck.isChecked()) {
-//                        pref.addRememberMe(binding.nameEdt.getText().toString(), binding.nameEdt.getText().toString());
-//                    }
-//                    ProfileModel model = new ProfileModel();
-//                    model.setToken(ResponseHandler.getString(jsonObject, "token"));
-//                    model.setEmail(ResponseHandler.getString(jsonObject, "email"));
-//                    model.setDisplayName(ResponseHandler.getString(jsonObject, "user_display_name"));
-//                    pref.setUser(model);
-//                    pref.setLogin(true);
-//                    pref.setUserToken(model.getToken());
-//                    loadProfile();
+                if (jsonObject != null && ResponseHandler.getString(jsonObject, "status").equals("OK")) {
+                    openSomeActivityForResult();
+
 
                 } else {
                     HELPER.dismissLoadingTran();
@@ -238,6 +234,28 @@ public class LoginVMobileFragment extends BaseFragment {
         alertDialog.show();
     }
 
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent data = result.getData();
+                        if (data.hasExtra("success")) {
+                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                            act.onBackPressed();
+                        }
+
+                    }
+                }
+            });
+
+    public void openSomeActivityForResult() {
+        Intent intent = new Intent(act, OtpVerificationActivity.class);
+        intent.putExtra("mobileNo",binding.nameEdt.getText().toString());
+        someActivityResultLauncher.launch(intent);
+    }
 
     private void loadProfile() {
 

@@ -7,21 +7,26 @@ import android.widget.Filter;
 import java.util.List;
 
 public class ListAdapter<T>
-        extends ArrayAdapter<T>
-{
-    private Filter filter = new KNoFilter();
+        extends ArrayAdapter<T> {
     public List<T> items;
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
+    private final Filter filter = new KNoFilter();
 
     public ListAdapter(Context context, int textViewResourceId,
                        List<T> objects) {
         super(context, textViewResourceId, objects);
 
         items = objects;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void updateReceiptsList(List<T> newlist) {
+        items.clear();
+        items.addAll(newlist);
+        this.notifyDataSetChanged();
     }
 
     private class KNoFilter extends Filter {
@@ -38,10 +43,5 @@ public class ListAdapter<T>
         protected void publishResults(CharSequence arg0, FilterResults arg1) {
             notifyDataSetChanged();
         }
-    }
-    public void updateReceiptsList(List<T> newlist) {
-        items.clear();
-        items.addAll(newlist);
-        this.notifyDataSetChanged();
     }
 }

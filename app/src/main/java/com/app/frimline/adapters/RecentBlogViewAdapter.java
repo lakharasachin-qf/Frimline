@@ -31,9 +31,9 @@ import java.util.List;
 
 public class RecentBlogViewAdapter extends PagerAdapter {
 
-    private Activity context;
+    private final Activity context;
     private LayoutInflater layoutInflater;
-    private List<BlogModel> sliderImg;
+    private final List<BlogModel> sliderImg;
 
 
     public RecentBlogViewAdapter(List<BlogModel> sliderImg, Activity context) {

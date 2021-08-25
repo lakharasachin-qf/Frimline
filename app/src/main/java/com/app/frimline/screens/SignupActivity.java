@@ -48,7 +48,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignupActivity extends BaseActivity {
+    DialogDiscardImageBinding discardImageBinding;
     private ActivitySignupBinding binding;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -167,8 +169,7 @@ public class SignupActivity extends BaseActivity {
             binding.emailEdtLayout.setError("Enter email id");
             binding.emailEdtLayout.setErrorEnabled(true);
 
-        }
-       else if (!Validators.Companion.isEmailValid(binding.emailEdt.getText().toString())) {
+        } else if (!Validators.Companion.isEmailValid(binding.emailEdt.getText().toString())) {
             isError = true;
             if (!isFocus) {
                 isFocus = true;
@@ -187,8 +188,7 @@ public class SignupActivity extends BaseActivity {
             }
             binding.phoneNoEdtLayout.setError("Enter phone no.");
             binding.phoneNoEdtLayout.setErrorEnabled(true);
-        }
-       else if (binding.phoneNoEdt.getText().toString().length() < 10) {
+        } else if (binding.phoneNoEdt.getText().toString().length() < 10) {
             isError = true;
             if (!isFocus) {
                 isFocus = true;
@@ -205,8 +205,7 @@ public class SignupActivity extends BaseActivity {
             }
             binding.newPasswordLayout.setError("Enter password");
             binding.newPasswordLayout.setErrorEnabled(true);
-        }
-        else if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
+        } else if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
             isError = true;
             if (!isFocus) {
                 isFocus = true;
@@ -222,9 +221,6 @@ public class SignupActivity extends BaseActivity {
         return isError;
 
     }
-
-
-    private boolean isLoading = false;
 
     private void signUp() {
 
@@ -298,8 +294,6 @@ public class SignupActivity extends BaseActivity {
 
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
-
-    DialogDiscardImageBinding discardImageBinding;
 
     public void errorDialog(String title, String msg) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);

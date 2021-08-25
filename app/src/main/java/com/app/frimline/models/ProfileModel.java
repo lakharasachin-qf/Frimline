@@ -4,6 +4,15 @@ public class ProfileModel {
     private String token;
     private String email;
     private String displayName;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private String role;
+    private String userName;
+    private String avatar;
+    private Billing billingAddress;
+    private Billing shippingAddress;
+    private String phoneNo;
 
     public String getToken() {
         return token;
@@ -28,17 +37,6 @@ public class ProfileModel {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-
-
-    private String userId;
-    private String firstName;
-    private String lastName;
-    private String role;
-    private String userName;
-    private String avatar;
-    private Billing billingAddress;
-    private Billing shippingAddress;
-    private String phoneNo;
 
     public String getPhoneNo() {
         return phoneNo;

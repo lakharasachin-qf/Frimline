@@ -41,6 +41,11 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
 
     CustomViewPager customViewPager;
     DrawerLayout drawerLayout;
+    DrawerMenu drawerMenu;
+    Handler handler;
+    Runnable r;
+    ShimmerFrameLayout shimmer_view_container;
+    private int CurrentPosition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,15 +90,12 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
 
     }
 
-
     @Override
     public void onBackPressed() {
         if (shimmer_view_container != null)
             shimmer_view_container.stopShimmer();
         drawerMenu.onBackPressed();
     }
-
-    DrawerMenu drawerMenu;
 
     private void setUpToolbar() {
         FrameLayout frameLayout = findViewById(R.id.content_frame);
@@ -167,10 +169,6 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
 
     }
 
-    Handler handler;
-    Runnable r;
-    private int CurrentPosition;
-
     public void launch() {
         handler = new Handler();
         if (r != null)
@@ -200,8 +198,6 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
 
         handler.postDelayed(r, 200);
     }
-
-    ShimmerFrameLayout shimmer_view_container;
 
     private void startAnimation() {
         if (!isDestroyed()) {

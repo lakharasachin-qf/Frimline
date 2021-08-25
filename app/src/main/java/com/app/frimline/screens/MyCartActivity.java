@@ -27,12 +27,14 @@ import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
+import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityMyCartBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +49,10 @@ public class MyCartActivity extends BaseActivity {
     DialogDiscardImageBinding discardImageBinding;
     private ActivityMyCartBinding binding;
     private boolean isCouponCodeApplied = false;
+    private String promoCode;
+    private String discount = "0";
+    private String discountType = "";
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,10 +64,10 @@ public class MyCartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (prefManager.isLogin()) {
-
-                    // HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
-                } else
+                    HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
+                } else {
                     HELPER.SIMPLE_ROUTE(act, LoginActivity.class);
+                }
             }
         });
         binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
@@ -78,27 +84,16 @@ public class MyCartActivity extends BaseActivity {
         binding.applyCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
-//                    HELPER.showLoadingTran(act);
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            HELPER.dismissLoadingTran();
-//                            applyCouponCalculation(true);
-//                            Toast.makeText(act, "Coupon Code Applied Successfully.", Toast.LENGTH_SHORT).show();
-//                            binding.promoCodeContainer.setVisibility(View.GONE);
-//                            binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
-//                        }
-//                    }, 1000);
-//                }
+                if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
+                    verifyCouponCode();
+                }
 
             }
         });
         binding.removePromo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmationDialog("Coupon Code", "Are you sure to remove coupon code.");
-
+                confirmationDialog("Coupon Code", "Are you sure to remove coupon code.", CONSTANT.ACTION_2);
             }
         });
 
@@ -132,7 +127,7 @@ public class MyCartActivity extends BaseActivity {
                             cartAdapter.notifyItemRemoved(position);
                             cartAdapter.notifyItemRangeChanged(position, cartItemList.size());
 
-                            applyCouponCalculation(false);
+                            applyCouponCalculation(isCouponCodeApplied);
                             setState();
 
                             if (cartItemList.size() == 0) {
@@ -145,7 +140,7 @@ public class MyCartActivity extends BaseActivity {
 
                 @Override
                 public void onCartUpdate(int position, ProductModel model) {
-                    applyCouponCalculation(false);
+                    applyCouponCalculation(isCouponCodeApplied);
                     setState();
 
                 }
@@ -164,18 +159,9 @@ public class MyCartActivity extends BaseActivity {
         }
     }
 
-    public void priceCalculation() {
-        double totalPrice = 0; // sum of all product calculated price [ qty * actual price]
-        for (ProductModel productModel : cartItemList) {
-            totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
-        }
-        binding.totalPrice.setText(act.getString(R.string.Rs) + totalPrice);
-
-    }
-
     public void applyCouponCalculation(boolean apply) {
         double finalAmount = 0;
-        double couponDiscount = 10;
+        double couponDiscount = Double.parseDouble(discount);
         double totalPrice = 0; // sum of all product calculated price [ qty * actual price]
         isCouponCodeApplied = apply;
 
@@ -188,15 +174,26 @@ public class MyCartActivity extends BaseActivity {
 
 
         if (apply) {
-            double promoDiscount = (totalPrice * couponDiscount) / 100;
-            finalAmount = totalPrice - promoDiscount;
-            Log.e("Final Apply Code", String.valueOf(finalAmount));
-            binding.promoCodeContainer.setVisibility(View.GONE);
-            binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
-            binding.successAppliedCode.setText(binding.promoCodeEdt.getText().toString() + " Code has Applied.");
+            double promoDiscount = 0;
+            if (discountType.contains("flat")) {
+                promoDiscount = (totalPrice - couponDiscount);
+                finalAmount = totalPrice - promoDiscount;
+                Log.e("Final Apply Code", String.valueOf(finalAmount));
+
+            } else if (discountType.contains("percent")) {
+                promoDiscount = (totalPrice * couponDiscount) / 100;
+                finalAmount = totalPrice - promoDiscount;
+                Log.e("Final Apply Code", String.valueOf(finalAmount));
+
+            }
+            HELPER.LOAD_HTML(binding.successAppliedCode, "<font color = '" + prefManager.getThemeColor() + "'><b>" + binding.promoCodeEdt.getText().toString() + "</b></font> Code has applied.");
+
+            HELPER.LOAD_HTML(binding.couponHeading, "Coupon Discount <b>(" + binding.promoCodeEdt.getText().toString() + ")<b>");
             binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
             binding.couponHeading.setText("Coupon Discount (" + binding.promoCodeEdt.getText().toString() + ")");
             binding.couponAmountLayer.setVisibility(View.VISIBLE);
+            binding.promoCodeContainer.setVisibility(View.GONE);
+            binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
         } else {
             binding.promoCodeContainer.setVisibility(View.VISIBLE);
             binding.appliedCodeSuccess.setVisibility(View.GONE);
@@ -225,6 +222,7 @@ public class MyCartActivity extends BaseActivity {
     }
 
     public void setAdapter() {
+
         ArrayList<ProductModel> arrayList = new ArrayList<>();
         ProductModel homeModel = new ProductModel();
         homeModel.setName("0");
@@ -284,9 +282,10 @@ public class MyCartActivity extends BaseActivity {
         HELPER.backgroundTint(act, binding.removePromo, true);
         HELPER.backgroundTint(act, binding.bottomSlider, true);
         HELPER.backgroundTint(act, binding.scrollView, true);
+        //binding.successAppliedCode.setTextColor(Color.parseColor(prefManager.getThemeColor()));
     }
 
-    public void confirmationDialog(String title, String msg) {
+    public void confirmationDialog(String title, String msg, int action) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
@@ -310,11 +309,16 @@ public class MyCartActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        HELPER.dismissLoadingTran();
-                        applyCouponCalculation(false);
-                        Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
-                        binding.promoCodeContainer.setVisibility(View.VISIBLE);
-                        binding.appliedCodeSuccess.setVisibility(View.GONE);
+                        if (action == CONSTANT.NO_ACTION) {
+
+                        } else if (action == CONSTANT.ACTION_2) {
+                            HELPER.dismissLoadingTran();
+                            isCouponCodeApplied = false;
+                            applyCouponCalculation(false);
+                            Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
+                            binding.promoCodeContainer.setVisibility(View.VISIBLE);
+                            binding.appliedCodeSuccess.setVisibility(View.GONE);
+                        }
                     }
                 }, 1000);
 
@@ -325,19 +329,35 @@ public class MyCartActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    private boolean isLoading = false;
-
     private void verifyCouponCode() {
         if (!isLoading)
             isLoading = true;
         HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEARCH, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VALIDATE_CODE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("Respoons", response);
                 isLoading = false;
                 HELPER.dismissLoadingTran();
-
-
+                try {
+                    JSONArray jArray = new JSONArray(response);
+                    if (jArray.length() != 0) {
+                        discount = ResponseHandler.getString(jArray.getJSONObject(0), "amount");
+                        promoCode = ResponseHandler.getString(jArray.getJSONObject(0), "code");
+                        discountType = ResponseHandler.getString(jArray.getJSONObject(0), "discount_type");
+                        isCouponCodeApplied = true;
+                        applyCouponCalculation(isCouponCodeApplied);
+                    } else {
+                        confirmationDialog("Coupon Code", "", CONSTANT.NO_ACTION);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//
+//                applyCouponCalculation(true);
+//                Toast.makeText(act, "Coupon Code Applied Successfully.", Toast.LENGTH_SHORT).show();
+//                binding.promoCodeContainer.setVisibility(View.GONE);
+//                binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
             }
         },
                 new Response.ErrorListener() {
@@ -351,7 +371,7 @@ public class MyCartActivity extends BaseActivity {
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
-
+                                confirmationDialog("Coupon Code", ResponseHandler.getString(jsonObject, "message"), CONSTANT.NO_ACTION);
                             } catch (UnsupportedEncodingException | JSONException e) {
                                 e.printStackTrace();
                             }
@@ -374,12 +394,14 @@ public class MyCartActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
+                params.put("coupon_code", binding.promoCodeEdt.getText().toString());
+                Log.e("param", params.toString());
                 return params;
             }
         };
 
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
+
 
 }

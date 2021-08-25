@@ -35,6 +35,8 @@ public class BlogDetailsActivity extends BaseActivity {
     private ActivityBlogDetailsBinding binding;
     private BlogModel model;
     private RecentBlogViewAdapter blogsAdapter;
+    private ArrayList<BlogModel> rootModel;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,6 @@ public class BlogDetailsActivity extends BaseActivity {
         binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
     }
 
-
     public void startShimmer() {
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.shimmerViewContainer.startShimmer();
@@ -107,10 +108,6 @@ public class BlogDetailsActivity extends BaseActivity {
         binding.shimmerViewContainer.stopShimmer();
         binding.recentContainer.setVisibility(View.VISIBLE);
     }
-
-
-    private ArrayList<BlogModel> rootModel;
-    private boolean isLoading = false;
 
     private void loadBlog() {
 

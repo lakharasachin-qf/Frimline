@@ -1,7 +1,6 @@
 package com.app.frimline.models;
 
 
-
 public class UserListModel {
     private String id;
     private String firstName;
@@ -9,12 +8,12 @@ public class UserListModel {
     private String phoneNo;
     private String emailId;
     private String firebaseToken;
-    private boolean isSelected=false;
+    private boolean isSelected = false;
 
     public UserListModel() {
     }
 
-    public UserListModel(String id, String firstName,String lastName,String emailId,String phoneNo) {
+    public UserListModel(String id, String firstName, String lastName, String emailId, String phoneNo) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

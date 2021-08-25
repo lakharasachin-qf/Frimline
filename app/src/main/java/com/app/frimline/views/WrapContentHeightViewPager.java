@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.viewpager.widget.ViewPager;
 
 public class WrapContentHeightViewPager extends ViewPager {
-    private int mCurrentPagePosition = 0;
+    private final int mCurrentPagePosition = 0;
 
     public WrapContentHeightViewPager(Context context) {
         super(context);
@@ -57,7 +57,6 @@ public class WrapContentHeightViewPager extends ViewPager {
             heightMeasureSpec = (MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
 
 
     }

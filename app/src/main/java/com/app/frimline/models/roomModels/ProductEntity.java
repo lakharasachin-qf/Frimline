@@ -3,7 +3,6 @@ package com.app.frimline.models.roomModels;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.app.frimline.models.HomeFragements.Attribute;
@@ -70,6 +69,7 @@ public class ProductEntity {
 
     @ColumnInfo(name = "rating")
     private String rating;
+    private boolean isAddedToCart = false;
 
     public String getRating() {
         return rating;
@@ -79,7 +79,6 @@ public class ProductEntity {
         this.rating = rating;
     }
 
-
     public String getCalculatedAmount() {
         return calculatedAmount;
     }
@@ -87,7 +86,6 @@ public class ProductEntity {
     public void setCalculatedAmount(String calculatedAmount) {
         this.calculatedAmount = calculatedAmount;
     }
-
 
     public String getQty() {
         return qty;
@@ -101,6 +99,9 @@ public class ProductEntity {
         return attribute;
     }
 
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
+    }
 
     public int getCartId() {
         return cartId;
@@ -109,11 +110,6 @@ public class ProductEntity {
     public void setCartId(int cartId) {
         this.cartId = cartId;
     }
-
-    public void setAttribute(Attribute attribute) {
-        this.attribute = attribute;
-    }
-
 
     public String getCategoryId() {
         return categoryId;
@@ -130,9 +126,6 @@ public class ProductEntity {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
-
-    private boolean isAddedToCart = false;
 
     public boolean isAddedToCart() {
         return isAddedToCart;

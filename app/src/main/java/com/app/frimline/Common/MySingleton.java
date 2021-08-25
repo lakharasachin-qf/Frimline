@@ -12,9 +12,9 @@ import com.android.volley.toolbox.Volley;
 
 public class MySingleton {
     private static MySingleton instance;
-    private RequestQueue requestQueue;
-    private ImageLoader imageLoader;
     private static Context ctx;
+    private RequestQueue requestQueue;
+    private final ImageLoader imageLoader;
 
     private MySingleton(Context context) {
         ctx = context;

@@ -1,7 +1,6 @@
 package com.app.frimline.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,10 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class SlideOffersBannerrAdapter extends RecyclerView.Adapter<SlideOffersBannerrAdapter.SliderViewHolder> {
-    private List<OutCategoryModel> sliderItems;
-    private ViewPager2 viewPager2;
     Activity activity;
-
-
     Gson gson;
+    private final List<OutCategoryModel> sliderItems;
+    private ViewPager2 viewPager2;
 
     public SlideOffersBannerrAdapter(List<OutCategoryModel> sliderItems, Activity activity) {
         this.sliderItems = sliderItems;

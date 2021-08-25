@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private final ArrayList<CategorySingleModel> frameItems;
     Activity activity;
-    private PREF pref;
+    private final PREF pref;
 
     public CategoryAdapter(ArrayList<CategorySingleModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
@@ -53,7 +53,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             public void onClick(View v) {
                 new PREF(activity).setConfiguration(pref.getThemeColor(), model.getCatColor());
                 Intent i = new Intent(activity, CategoryLandingActivity.class);
-                i.putExtra("model",new Gson().toJson(model));
+                i.putExtra("model", new Gson().toJson(model));
                 activity.startActivity(i);
             }
         });

@@ -16,12 +16,11 @@ import com.app.frimline.databinding.FragmentHowToUseBinding;
 import com.app.frimline.fragments.BaseFragment;
 import com.app.frimline.models.HomeFragements.ProductModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class HowToUseFragment extends BaseFragment {
 
     private FragmentHowToUseBinding binding;
+    private ProductModel productModel;
+
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -39,18 +38,16 @@ public class HowToUseFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    private ProductModel productModel;
-
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        if (productModel!=null) {
+        if (productModel != null) {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getHowToUse());
         }
     }
 
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
-        if (productModel!=null) {
+        if (productModel != null) {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getHowToUse());
         }
     }

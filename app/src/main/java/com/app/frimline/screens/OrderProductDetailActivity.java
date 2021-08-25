@@ -60,7 +60,7 @@ import java.util.Objects;
 public class OrderProductDetailActivity extends BaseActivity {
 
 
-    private boolean redShoeVisible = true;
+    private final boolean redShoeVisible = true;
     private ActivityProductDetailBinding binding;
     private boolean isAddedToCart = false;
     private int observableId;
@@ -69,6 +69,15 @@ public class OrderProductDetailActivity extends BaseActivity {
     private CartRoomDatabase cartRoomDatabase;
     private boolean isSameProductEdit = false;
     private String productId;
+    private final DescriptionFragment descriptionFragment = new DescriptionFragment();
+    private final HowToUseFragment howToUseFragment = new HowToUseFragment();
+    private final IngredientsFragment ingredientsFragment = new IngredientsFragment();
+    private final AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
+    private final ReviewsFragment reviewsFragment = new ReviewsFragment();
+    private final QnAFragment qnAFragment = new QnAFragment();
+    private int indicatorWidth;
+    private ProductModel productModel;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -234,7 +243,6 @@ public class OrderProductDetailActivity extends BaseActivity {
         });
 
 
-
         if (CONSTANT.API_MODE) {
             productId = getIntent().getStringExtra("productId");
             loadProductDetails();
@@ -288,14 +296,6 @@ public class OrderProductDetailActivity extends BaseActivity {
         HELPER.ON_BACK_PRESS_ANIM(act);
     }
 
-    private DescriptionFragment descriptionFragment = new DescriptionFragment();
-    private HowToUseFragment howToUseFragment = new HowToUseFragment();
-    private IngredientsFragment ingredientsFragment = new IngredientsFragment();
-    private AdditionalInfoFragment additionalInfoFragment = new AdditionalInfoFragment();
-    private ReviewsFragment reviewsFragment = new ReviewsFragment();
-    private QnAFragment qnAFragment = new QnAFragment();
-    private int indicatorWidth;
-
     private void setupTabIcons() {
         WrapContentHeightViewPager wrapContentHeightViewPager = findViewById(R.id.viewPager);
         ProductDetailsTabAdapter adapter = new ProductDetailsTabAdapter(getSupportFragmentManager());
@@ -328,9 +328,6 @@ public class OrderProductDetailActivity extends BaseActivity {
         });
     }
 
-
-    private ProductModel productModel;
-
     public void loadData() {
 
 
@@ -340,7 +337,6 @@ public class OrderProductDetailActivity extends BaseActivity {
         additionalInfoFragment.setProductModel(productModel);
         reviewsFragment.setProductModel(productModel);
         qnAFragment.setProductModel(productModel);
-
 
 
         ArrayList<String> productImages = productModel.getProductImagesList();
@@ -395,9 +391,6 @@ public class OrderProductDetailActivity extends BaseActivity {
         binding.addTextTxt.setTextColor(Color.parseColor(defaultColor));
     }
 
-
-    private boolean isLoading = false;
-
     private void loadProductDetails() {
 
         if (!isLoading)
@@ -412,7 +405,7 @@ public class OrderProductDetailActivity extends BaseActivity {
 
                 JSONObject object = ResponseHandler.createJsonObject(response);
                 productModel = ResponseHandler.getProductDetails(object);
-                Log.e("print",gson.toJson(productModel));
+                Log.e("print", gson.toJson(productModel));
                 if (productModel != null) {
                     binding.screenLoader.setVisibility(View.GONE);
                     binding.NoDataFound.setVisibility(View.GONE);

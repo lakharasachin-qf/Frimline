@@ -207,31 +207,11 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         return false;
     }
 
-    public void changeBottomNavigationColor() {
-        getWindow().setNavigationBarColor(ContextCompat.getColor(act, R.color.bottomNavbar));
-    }
 
-
-    public void setStatusBarTransparent() {
-        Window w = getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-    }
-
-    public void changeStatusBarColor(int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(color);
-        }
-    }
 
     protected void makeStatusBarSemiTranspenret() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            Toolbar toolbar = act.findViewById(R.id.toolbar_Navigation);
-            toolbar.setPadding(0, HELPER.getStatusBarHeight(act), 0, 0);
-        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        Toolbar toolbar = act.findViewById(R.id.toolbar_Navigation);
+        toolbar.setPadding(0, HELPER.getStatusBarHeight(act), 0, 0);
     }
 }

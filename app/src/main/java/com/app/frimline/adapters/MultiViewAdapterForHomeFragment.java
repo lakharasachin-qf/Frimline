@@ -29,22 +29,20 @@ import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 
 public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
-    private ArrayList<HomeModel> dashBoardItemList;
     private final Gson gson;
     Activity activity;
+    String colorCode = "";
+    int parentLayoutPosition;
+    private final ArrayList<HomeModel> dashBoardItemList;
     private boolean applyThemeColor = false;
-    private CartRoomDatabase cartRoomDatabase;
+    private final CartRoomDatabase cartRoomDatabase;
 
-    public void setApplyThemeColor(boolean applyThemeColor) {
-        this.applyThemeColor = applyThemeColor;
-    }
 
     public MultiViewAdapterForHomeFragment(ArrayList<HomeModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
@@ -53,6 +51,9 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         cartRoomDatabase = CartRoomDatabase.getAppDatabase(activity);
     }
 
+    public void setApplyThemeColor(boolean applyThemeColor) {
+        this.applyThemeColor = applyThemeColor;
+    }
 
     @NonNull
     @Override
@@ -120,8 +121,6 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         }
     }
 
-    String colorCode = "";
-
     private void loadDataForOneLayout(ItemProductSectionOneLayoutBinding binding, HomeModel model, int position) {
         if (applyThemeColor) {
             colorCode = new PREF(activity).getThemeColor();
@@ -139,11 +138,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
         //check cart db
         ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(0).getId());
-        if (entity != null) {
-            productList.get(0).setAddedToCart(true);
-        }else {
-            productList.get(0).setAddedToCart(false);
-        }
+        productList.get(0).setAddedToCart(entity != null);
 
         if (productList.get(0).isAddedToCart()) {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
@@ -193,7 +188,6 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
     }
 
-
     public void loadDataForLayoutThree(ItemProductSectionThreeLayoutBinding binding, HomeModel position, int adapterPosition) {
 
         if (applyThemeColor) {
@@ -231,23 +225,11 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
             //check cart db
             ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(0).getId());
-            if (entity != null) {
-                productList.get(0).setAddedToCart(true);
-            }else {
-                productList.get(0).setAddedToCart(false);
-            }
+            productList.get(0).setAddedToCart(entity != null);
             entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(1).getId());
-            if (entity != null) {
-                productList.get(1).setAddedToCart(true);
-            }else{
-                productList.get(1).setAddedToCart(false);
-            }
+            productList.get(1).setAddedToCart(entity != null);
             entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(2).getId());
-            if (entity != null) {
-                productList.get(2).setAddedToCart(true);
-            }else{
-                productList.get(2).setAddedToCart(false);
-            }
+            productList.get(2).setAddedToCart(entity != null);
 
 
             if (productList.get(0).isAddedToCart()) {
@@ -462,16 +444,8 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         HELPER.LOAD_HTML(binding.productPrice2, activity.getString(R.string.Rs) + productList.get(1).getPrice());
 
         ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(0).getId());
-        if (entity != null) {
-            productList.get(0).setAddedToCart(true);
-        }else {
-            productList.get(0).setAddedToCart(false);
-        }
-        if (entity != null) {
-            productList.get(1).setAddedToCart(true);
-        }else {
-            productList.get(1).setAddedToCart(false);
-        }
+        productList.get(0).setAddedToCart(entity != null);
+        productList.get(1).setAddedToCart(entity != null);
 
 
         if (productList.get(0).isAddedToCart()) {
@@ -557,8 +531,6 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             }
         });
     }
-
-    int parentLayoutPosition;
 
     public void setPosition(int position) {
         parentLayoutPosition = position;

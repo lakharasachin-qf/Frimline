@@ -13,9 +13,9 @@ import java.util.HashMap;
 public class PREF {
     private static final String PREF_NAME = "frimline";
     private static final String USER_TOKEN = "user_token";
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    private final SharedPreferences pref;
+    private final SharedPreferences.Editor editor;
 
     @SuppressLint("CommitPrefEdits")
     public PREF(Context context) {
@@ -28,7 +28,7 @@ public class PREF {
     public void Logout() {
         String themeColor = getThemeColor();
         String catColor = getCategoryColor();
-        String rememberList =getRememberedList();
+        String rememberList = getRememberedList();
         editor.clear();
         editor.commit();
         editor.putBoolean(IS_FIRST_TIME_LAUNCH, false);
@@ -60,13 +60,12 @@ public class PREF {
         return pref.getString("categoryColor", "#EF7F1B");
     }
 
+    public boolean isLogin() {
+        return pref.getBoolean("isLogin", false);
+    }
 
     public void setLogin(boolean isLogin) {
         pref.edit().putBoolean("isLogin", isLogin).apply();
-    }
-
-    public boolean isLogin() {
-        return pref.getBoolean("isLogin", false);
     }
 
     public void setUserToken(String token) {
@@ -77,12 +76,12 @@ public class PREF {
         return pref.getString("token", "");
     }
 
-    public void setUser(ProfileModel token) {
-        pref.edit().putString("user", new Gson().toJson(token)).apply();
-    }
-
     public ProfileModel getUser() {
         return new Gson().fromJson(pref.getString("user", null), ProfileModel.class);
+    }
+
+    public void setUser(ProfileModel token) {
+        pref.edit().putString("user", new Gson().toJson(token)).apply();
     }
 
     public String getPassword(String email) {
@@ -95,8 +94,9 @@ public class PREF {
             return null;
 
     }
-    public String getRememberedList(){
-        return  pref.getString("emails", null);
+
+    public String getRememberedList() {
+        return pref.getString("emails", null);
     }
 
     public void addRememberMe(String email, String password) {
@@ -115,9 +115,9 @@ public class PREF {
             rememberMeList = new HashMap<>();
         }
 
-       // if (!isAlreadyExist) {
-            rememberMeList.put(email, password);
-       // }
+        // if (!isAlreadyExist) {
+        rememberMeList.put(email, password);
+        // }
 
         pref.edit().putString("emails", new Gson().toJson(rememberMeList)).apply();
     }

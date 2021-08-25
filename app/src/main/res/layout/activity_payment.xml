@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorScreenBackground"
+        android:orientation="vertical"
+        tools:context=".screens.cart.CheckoutAddressActivity">
+
+        <include
+            android:id="@id/toolbar_Navigation"
+            layout="@layout/include_activity_toolbar_layout" />
+
+        <ImageView
+            android:id="@+id/backgroundLayar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_screen_bottom_background"
+            app:tint="@color/orange" />
+
+    </RelativeLayout>
+</layout>

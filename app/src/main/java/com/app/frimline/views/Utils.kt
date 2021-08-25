@@ -6,7 +6,11 @@ import android.util.TypedValue
 object Utils {
     internal fun getPixels(context: Context, valueInDp: Int): Int {
         val r = context.resources
-        val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp.toFloat(), r.displayMetrics)
+        val px = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            valueInDp.toFloat(),
+            r.displayMetrics
+        )
         return px.toInt()
     }
 
@@ -18,7 +22,11 @@ object Utils {
 
     internal fun getPixelsSp(context: Context, valueInSp: Int): Int {
         val r = context.resources
-        val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, valueInSp.toFloat(), r.displayMetrics)
+        val px = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            valueInSp.toFloat(),
+            r.displayMetrics
+        )
         return px.toInt()
     }
 

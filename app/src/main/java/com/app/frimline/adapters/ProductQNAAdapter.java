@@ -25,13 +25,13 @@ public class ProductQNAAdapter extends RecyclerView.Adapter<ProductQNAAdapter.Vi
 
     private boolean isThemeColor = false;
 
-    public void setThemeColor(boolean themeColor) {
-        isThemeColor = themeColor;
-    }
-
     public ProductQNAAdapter(ArrayList<QAModel> frameItems, Activity activity) {
         this.frameItems = frameItems;
         this.activity = activity;
+    }
+
+    public void setThemeColor(boolean themeColor) {
+        isThemeColor = themeColor;
     }
 
     @NonNull
@@ -49,7 +49,7 @@ public class ProductQNAAdapter extends RecyclerView.Adapter<ProductQNAAdapter.Vi
         if (CONSTANT.API_MODE) {
             holder.binding.question.setText(model.getQuestion());
             holder.binding.answer.setText(model.getAnswer());
-            if (model.getAnswer()==null || model.getAnswer().isEmpty()){
+            if (model.getAnswer() == null || model.getAnswer().isEmpty()) {
                 holder.binding.answer.setText("Not Answered Yet.");
             }
         }

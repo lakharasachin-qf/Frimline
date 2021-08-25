@@ -22,13 +22,14 @@
             android:scaleType="fitEnd"
             android:src="@drawable/ic_screen_bottom_background"
             app:tint="@color/orange" />
+
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
-            android:clipToPadding="false"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_Navigation"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="true"
             android:scrollbars="none">
 
             <LinearLayout
@@ -67,48 +68,6 @@
                         android:background="@drawable/shape_billing_border"
                         android:orientation="vertical"
                         android:padding="@dimen/_15sdp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_12sdp"
-
-                            android:layout_marginBottom="@dimen/_7sdp"
-                            android:fontFamily="@font/proxima_nova_regular"
-                            android:text="Order Notes (Optional)"
-                            android:textSize="@dimen/_10sdp" />
-
-                        <LinearLayout
-                            android:id="@+id/otherNoteEdtLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/shape__address_editext_background"
-                            android:paddingStart="@dimen/_20sdp"
-                            android:paddingTop="@dimen/_15sdp"
-                            android:paddingEnd="@dimen/_20sdp"
-                            android:paddingBottom="@dimen/_15sdp">
-
-                            <EditText
-                                android:id="@+id/otherInfoEdt"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:fontFamily="@font/proxinova_semi_bold"
-                                android:gravity="top|left"
-                                android:hint="Type Here..."
-                                android:includeFontPadding="false"
-                                android:inputType="textMultiLine"
-                                android:lines="8"
-                                android:maxLines="10"
-                                android:minLines="5"
-                                android:scrollbars="vertical"
-
-                                android:textColor="@color/colorEditText"
-                                android:textSize="@dimen/_11sdp" />
-
-
-                        </LinearLayout>
-
 
                         <LinearLayout
                             android:id="@+id/otherInfo"
@@ -230,19 +189,39 @@
                                 style="@style/EditTextTitleForLargeScreen"
                                 android:layout_marginTop="@dimen/_12sdp"
                                 android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Street Address" />
+                                android:text="Street Address 1*" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/streetEdtLayout"
                                 style="@style/TextInputLayoutStyleForTabletScreen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:errorEnabled="true">
+                                app:errorEnabled="false">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/streetEdt"
-                                    style="@style/textInputEditTextForTablet"
-                                    android:hint="Street Address"
+                                    style="@style/textInputEditTextForTabletWithoutIcon"
+                                    android:hint="Street Address 1"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                style="@style/EditTextTitleForLargeScreen"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="Street Address 2*" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/streetEdtLayout2"
+                                style="@style/TextInputLayoutStyleForTabletScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/streetEdt2"
+                                    style="@style/textInputEditTextForTabletWithoutIcon"
+                                    android:hint="Street Address 2"
                                     android:inputType="text" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -267,7 +246,25 @@
                                     android:inputType="text" />
                             </com.google.android.material.textfield.TextInputLayout>
 
+                            <TextView
+                                style="@style/EditTextTitle"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:text="State*" />
 
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/stateEdtLayout"
+                                style="@style/TextInputLayoutStyleForMediumScreen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="false">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/stateEdt"
+                                    style="@style/textInputEditTextForMediumScreen"
+                                    android:hint="State"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
                             <TextView
                                 style="@style/EditTextTitleForLargeScreen"
                                 android:layout_marginTop="@dimen/_12sdp"
@@ -290,46 +287,87 @@
                             </com.google.android.material.textfield.TextInputLayout>
 
 
-                            <TextView
-                                style="@style/EditTextTitleForLargeScreen"
-                                android:layout_marginTop="@dimen/_12sdp"
-                                android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Phone No" />
+<!--                            <TextView-->
+<!--                                style="@style/EditTextTitleForLargeScreen"-->
+<!--                                android:layout_marginTop="@dimen/_12sdp"-->
+<!--                                android:layout_marginBottom="@dimen/_7sdp"-->
+<!--                                android:text="Phone No" />-->
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/phoneNoEdtLayout"
-                                style="@style/TextInputLayoutStyleForTabletScreen"
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
+<!--                                android:id="@+id/phoneNoEdtLayout"-->
+<!--                                style="@style/TextInputLayoutStyleForTabletScreen"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                app:errorEnabled="true">-->
+
+<!--                                <com.google.android.material.textfield.TextInputEditText-->
+<!--                                    android:id="@+id/phoneNoEdt"-->
+<!--                                    style="@style/textInputEditTextForTablet"-->
+<!--                                    android:hint="Phone no."-->
+<!--                                    android:inputType="number"-->
+<!--                                    android:maxLength="10" />-->
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                            <TextView-->
+<!--                                style="@style/EditTextTitleForLargeScreen"-->
+<!--                                android:layout_marginTop="@dimen/_12sdp"-->
+<!--                                android:layout_marginBottom="@dimen/_7sdp"-->
+<!--                                android:text="Email Address" />-->
+
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
+<!--                                android:id="@+id/emailEdtLayout"-->
+<!--                                style="@style/TextInputLayoutStyleForTabletScreen"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                app:errorEnabled="true">-->
+
+<!--                                <com.google.android.material.textfield.TextInputEditText-->
+<!--                                    android:id="@+id/emailEdt"-->
+<!--                                    style="@style/textInputEditTextForTablet"-->
+<!--                                    android:hint="Email Id"-->
+<!--                                    android:inputType="textEmailAddress" />-->
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_12sdp"
+
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:text="Order Notes (Optional)"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <LinearLayout
+                            android:id="@+id/otherNoteEdtLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape__address_editext_background"
+                            android:paddingStart="@dimen/_20sdp"
+                            android:paddingTop="@dimen/_15sdp"
+                            android:paddingEnd="@dimen/_20sdp"
+                            android:paddingBottom="@dimen/_15sdp">
+
+                            <EditText
+                                android:id="@+id/otherInfoEdt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:errorEnabled="true">
+                                android:background="@null"
+                                android:fontFamily="@font/proxinova_semi_bold"
+                                android:gravity="top|left"
+                                android:hint="Type Here..."
+                                android:includeFontPadding="false"
+                                android:inputType="textMultiLine"
+                                android:lines="8"
+                                android:maxLines="10"
+                                android:minLines="5"
+                                android:scrollbars="vertical"
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/phoneNoEdt"
-                                    style="@style/textInputEditTextForTablet"
-                                    android:hint="Phone no."
-                                    android:inputType="number"
-                                    android:maxLength="10" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <TextView
-                                style="@style/EditTextTitleForLargeScreen"
-                                android:layout_marginTop="@dimen/_12sdp"
-                                android:layout_marginBottom="@dimen/_7sdp"
-                                android:text="Email Address" />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/emailEdtLayout"
-                                style="@style/TextInputLayoutStyleForTabletScreen"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:errorEnabled="true">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/emailEdt"
-                                    style="@style/textInputEditTextForTablet"
-                                    android:hint="Email Id"
-                                    android:inputType="textEmailAddress" />
-                            </com.google.android.material.textfield.TextInputLayout>
+                                android:textColor="@color/colorEditText"
+                                android:textSize="@dimen/_11sdp" />
 
 
                         </LinearLayout>

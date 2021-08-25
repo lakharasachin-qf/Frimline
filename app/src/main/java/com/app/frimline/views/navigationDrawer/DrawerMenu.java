@@ -42,20 +42,39 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DrawerMenu {
-    private Activity activity;
-    private ExpandableListAdapter expandableListAdapter;
-    private ExpandableListView expandableListView;
-    //    private Animation animationUp, animationDown;
-    private List<MenuModel> headerList = new ArrayList<>();
-    private HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
-    private ImageView proflie_img_navigation;
-    DrawerLayout drawer;
-
     public static int CATEGORY_ROOT_FRAGMENT = 0;
     public static int SHOP_FRAGMENT = 2;
     public static int HOME_FRAGMENT = 1;
+    public String currentMenuItem;
+    DrawerLayout drawer;
+    RelativeLayout HomePageLayout;
+    TextView titleTxt;
+    LinearLayout orderHistoryTab;
+    LinearLayout myAccountTab;
+    LinearLayout myCartTab;
+    ImageView searchAction;
+    ImageView searchAction2;
+    RelativeLayout profileView;
+    RelativeLayout cartActionLayout;
+    RelativeLayout OtherScreenLayout;
+    private final Activity activity;
+    private ExpandableListAdapter expandableListAdapter;
+    private final ExpandableListView expandableListView;
+    //    private Animation animationUp, animationDown;
+    private final List<MenuModel> headerList = new ArrayList<>();
+    private final HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
+    private ImageView proflie_img_navigation;
     private int defaultFragmentFlag = HOME_FRAGMENT;
-
+    private AppBarConfiguration mAppBarConfiguration;
+    private Fragment fragmentCurrent;
+    private final HomeFragment homeFragment = new HomeFragment();
+    private final ShopFragment shopFragment = new ShopFragment();
+    private final BlogsFragment blogsFragment = new BlogsFragment();
+    private final OrderHistoryFragment orderHistoryFragment = new OrderHistoryFragment();
+    private final MyAccountFragment myAccountFragment = new MyAccountFragment();
+    private final CategoryProfileFragment profileFragment = new CategoryProfileFragment();
+    private final CategoryRootFragment categoryRootFragment = new CategoryRootFragment();
+    private final CommonFragment commonFragment = new CommonFragment();
     public DrawerMenu(Activity activity, int flag) {
         this.activity = activity;
         drawer = activity.findViewById(R.id.drawer_layout);
@@ -76,7 +95,6 @@ public class DrawerMenu {
             currentMenuItem = "Shop";
         }
     }
-
 
     public void prepareMenuData() {
         //first menu
@@ -106,18 +124,6 @@ public class DrawerMenu {
         menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
     }
-
-    RelativeLayout HomePageLayout;
-    TextView titleTxt;
-    LinearLayout orderHistoryTab;
-    LinearLayout myAccountTab;
-    LinearLayout myCartTab;
-    ImageView searchAction;
-    ImageView searchAction2;
-
-    RelativeLayout profileView;
-    RelativeLayout cartActionLayout;
-    RelativeLayout OtherScreenLayout;
 
     public void populateExpandableList() {
         CategoryProfileFragment.OnNavClick onNavClick = new CategoryProfileFragment.OnNavClick() {
@@ -332,19 +338,6 @@ public class DrawerMenu {
         });
 
     }
-
-
-    private AppBarConfiguration mAppBarConfiguration;
-    private Fragment fragmentCurrent;
-    private HomeFragment homeFragment = new HomeFragment();
-    private ShopFragment shopFragment = new ShopFragment();
-    private BlogsFragment blogsFragment = new BlogsFragment();
-    private OrderHistoryFragment orderHistoryFragment = new OrderHistoryFragment();
-    private MyAccountFragment myAccountFragment = new MyAccountFragment();
-    private CategoryProfileFragment profileFragment = new CategoryProfileFragment();
-    private CategoryRootFragment categoryRootFragment = new CategoryRootFragment();
-    private CommonFragment commonFragment = new CommonFragment();
-    public String currentMenuItem;
 
     private void addFragment(Fragment fragment) {
         fragmentCurrent = fragment;

@@ -22,9 +22,9 @@ import java.util.List;
 
 public class HomeBannerAdapter extends PagerAdapter {
 
-    private Activity context;
+    private final Activity context;
     private LayoutInflater layoutInflater;
-    private List<BannerModel> sliderImg;
+    private final List<BannerModel> sliderImg;
 
 
     public HomeBannerAdapter(List<BannerModel> sliderImg, Activity context) {

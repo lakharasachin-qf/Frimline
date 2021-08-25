@@ -67,12 +67,12 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
                 public void onClick(View v) {
                     Intent i = new Intent(activity, ProductDetailActivity.class);
                     i.putExtra("productPosition", "0");
-                    i.putExtra("layoutType", String.valueOf("111"));
-                    i.putExtra("itemPosition", String.valueOf("111"));
+                    i.putExtra("layoutType", "111");
+                    i.putExtra("itemPosition", "111");
                     i.putExtra("adapterPosition", String.valueOf(position));
                     i.putExtra("model", new Gson().toJson(model));
-                    i.putExtra("addToCartID", String.valueOf("111"));
-                    i.putExtra("removeCartID", String.valueOf("111"));
+                    i.putExtra("addToCartID", "111");
+                    i.putExtra("removeCartID", "111");
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
 

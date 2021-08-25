@@ -1,5 +1,7 @@
 package com.app.frimline.views;
 
+import static android.view.View.LAYER_TYPE_SOFTWARE;
+
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -14,8 +16,6 @@ import androidx.annotation.DimenRes;
 import androidx.core.content.ContextCompat;
 
 import com.app.frimline.R;
-
-import static android.view.View.LAYER_TYPE_SOFTWARE;
 
 class ViewUtils {
     public static Drawable generateBackgroundWithShadow(View view, @ColorRes int backgroundColor,
@@ -45,7 +45,7 @@ class ViewUtils {
         backgroundPaint.setShadowLayer(0, 0, 0, 0);
 
         Rect shapeDrawablePadding = new Rect();
-       // shapeDrawablePadding.left = elevationValue;
+        // shapeDrawablePadding.left = elevationValue;
         //shapeDrawablePadding.right = elevationValue;
 
         int DY;

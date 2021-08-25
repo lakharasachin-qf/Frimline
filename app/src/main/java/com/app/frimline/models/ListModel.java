@@ -1,13 +1,13 @@
 package com.app.frimline.models;
 
 public class ListModel {
-    public  static final String ASC = "asc";
-    public  static final String DESC = "desc";
+    public static final String ASC = "asc";
+    public static final String DESC = "desc";
     private String orderBy;
     private String order;
     private String id;
     private String name;
-    private boolean isSelected=false;
+    private boolean isSelected = false;
 
     public boolean isSelected() {
         return isSelected;

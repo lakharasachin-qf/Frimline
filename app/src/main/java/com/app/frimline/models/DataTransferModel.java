@@ -1,7 +1,5 @@
 package com.app.frimline.models;
 
-import java.util.ArrayList;
-
 public class DataTransferModel {
     private String productPosition;
     private String layoutType;

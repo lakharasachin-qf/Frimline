@@ -14,16 +14,21 @@ public class ApplicationController extends Application {
      * Log or request TAG
      */
     public static final String TAG = "VolleyPatterns";
-
+    /**
+     * A singleton instance of the application class for easy access in other places
+     */
+    private static ApplicationController sInstance;
     /**
      * Global request queue for Volley
      */
     private RequestQueue mRequestQueue;
 
     /**
-     * A singleton instance of the application class for easy access in other places
+     * @return ApplicationController singleton instance
      */
-    private static ApplicationController sInstance;
+    public static synchronized ApplicationController getInstance() {
+        return sInstance;
+    }
 
     @Override
     public void onCreate() {
@@ -31,13 +36,6 @@ public class ApplicationController extends Application {
 
         // initialize the singleton
         sInstance = this;
-    }
-
-    /**
-     * @return ApplicationController singleton instance
-     */
-    public static synchronized ApplicationController getInstance() {
-        return sInstance;
     }
 
     /**

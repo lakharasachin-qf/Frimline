@@ -23,22 +23,12 @@ import java.util.ArrayList;
 
 public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBrandLIstHolder> {
 
-    private int selectedPosition = -1;
-    private ArrayList<ListModel> arrayList;
-    private Activity act;
+    private final int selectedPosition = -1;
+    private final ArrayList<ListModel> arrayList;
+    private final Activity act;
     private setOnCheckedRadioListener radioListener;
-
-    public void setRadioListener(setOnCheckedRadioListener radioListener) {
-        this.radioListener = radioListener;
-    }
-
-    public interface setOnCheckedRadioListener {
-        void onOptionSelect(ListModel listModel, int position);
-    }
-
     private int checkedPosition = -1;
-    private int calledFlag;
-
+    private final int calledFlag;
 
     public SortingAdapter(ArrayList<ListModel> arrayList, Activity act, int calledFlag) {
         this.arrayList = arrayList;
@@ -46,6 +36,17 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
         this.calledFlag = calledFlag;
     }
 
+    public static String convertFirstUpper(String str) {
+
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    public void setRadioListener(setOnCheckedRadioListener radioListener) {
+        this.radioListener = radioListener;
+    }
 
     @Override
     public SortingAdapter.SelecBrandLIstHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -87,6 +88,17 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
         return arrayList.size();
     }
 
+    public ListModel getSelected() {
+        if (checkedPosition != -1) {
+            return arrayList.get(checkedPosition);
+        }
+        return null;
+    }
+
+    public interface setOnCheckedRadioListener {
+        void onOptionSelect(ListModel listModel, int position);
+    }
+
     public class SelecBrandLIstHolder extends RecyclerView.ViewHolder {
         RadioButton radioButton;
 
@@ -100,11 +112,7 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
             if (checkedPosition == -1) {
                 radioButton.setChecked(false);
             } else {
-                if (checkedPosition == getAdapterPosition()) {
-                    radioButton.setChecked(true);
-                } else {
-                    radioButton.setChecked(false);
-                }
+                radioButton.setChecked(checkedPosition == getAdapterPosition());
             }
             radioButton.setText(listModel.getName());
 
@@ -120,20 +128,5 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
                 }
             });
         }
-    }
-
-    public ListModel getSelected() {
-        if (checkedPosition != -1) {
-            return arrayList.get(checkedPosition);
-        }
-        return null;
-    }
-
-    public static String convertFirstUpper(String str) {
-
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }

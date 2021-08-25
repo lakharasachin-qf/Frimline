@@ -1,6 +1,5 @@
 package com.app.frimline.Common
 
-import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
@@ -36,7 +35,7 @@ class DownloadFileFromURLTask(
     init {
         // initialization of ProgressDialog
         progressDialog = ProgressDialog(mContext)
-        progressDialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
         progressDialog!!.setCancelable(false)
         progressDialog!!.setTitle("Downloading")
     }

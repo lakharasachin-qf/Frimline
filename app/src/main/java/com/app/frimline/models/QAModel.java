@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class QAModel {
     private String id;
-    private String date="";
-    private String question="";
-    private String answer="";
-    private ArrayList<QAModel> blogList=new ArrayList<>();
+    private String date = "";
+    private String question = "";
+    private String answer = "";
+    private ArrayList<QAModel> blogList = new ArrayList<>();
 
     public String getId() {
         return id;

@@ -43,6 +43,23 @@ public class AddressesActivity extends BaseActivity {
     private IncludeActivityToolbarLayoutBinding toolbarBinding;
     private boolean isBilling = false;
     private boolean isShipping = false;
+    private boolean isLoading = false;
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        if (data != null && data.hasExtra("success")) {
+                            startShimmer();
+                            loadProfile();
+                        }
+
+                    }
+                }
+            });
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -151,23 +168,6 @@ public class AddressesActivity extends BaseActivity {
 
     }
 
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        if (data != null && data.hasExtra("success")) {
-                            startShimmer();
-                            loadProfile();
-                        }
-
-                    }
-                }
-            });
-
     public void changeTheme() {
         binding.actionAdd1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.actionAdd2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
@@ -199,8 +199,6 @@ public class AddressesActivity extends BaseActivity {
             }
         });
     }
-
-    private boolean isLoading = false;
 
     private void loadProfile() {
 

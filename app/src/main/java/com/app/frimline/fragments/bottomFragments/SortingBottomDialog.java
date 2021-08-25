@@ -12,14 +12,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.adapters.SortingAdapter;
 import com.app.frimline.databinding.FragmentSortingDialogBinding;
 import com.app.frimline.fragments.BaseFragment;
 import com.app.frimline.models.ListModel;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -31,7 +28,7 @@ public class SortingBottomDialog extends BaseFragment {
 
     private FragmentSortingDialogBinding binding;
     private int calledFlag;
-    private SortingBottomDialog  bottomDialog =this;
+    private final SortingBottomDialog bottomDialog = this;
 
     public SortingBottomDialog() {
 

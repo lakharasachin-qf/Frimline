@@ -21,10 +21,13 @@
 
     <TextView
         android:id="@+id/title"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/proxinova_semi_bold"
-        android:text="Oral Hygiene"
+        android:text="Health Supplement"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="14dp" />

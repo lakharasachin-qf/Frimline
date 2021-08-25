@@ -40,7 +40,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditProfileActivity extends BaseActivity {
+    DialogDiscardImageBinding discardImageBinding;
     private ActivityEditProfileBinding binding;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -231,8 +233,6 @@ public class EditProfileActivity extends BaseActivity {
         return isError;
     }
 
-    DialogDiscardImageBinding discardImageBinding;
-
     public void confirmationDialog(String title, String msg) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -262,9 +262,6 @@ public class EditProfileActivity extends BaseActivity {
         alertDialog.show();
     }
 
-
-    private boolean isLoading = false;
-
     public void loadProfile() {
 
         if (!isLoading)
@@ -276,9 +273,9 @@ public class EditProfileActivity extends BaseActivity {
             public void onResponse(String response) {
                 isLoading = false;
                 HELPER.dismissLoadingTran();
-                Log.e("Response",response);
+                Log.e("Response", response);
                 JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null && ResponseHandler.getString(object,"code").equals("200")) {
+                if (object != null && ResponseHandler.getString(object, "code").equals("200")) {
                     ProfileModel model = new ProfileModel();
                     model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
                     model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
@@ -291,9 +288,8 @@ public class EditProfileActivity extends BaseActivity {
                     model.setUserName(ResponseHandler.getString(object, "username"));
                     model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
 
-                    loadUSER(ResponseHandler.getString(object,"message"));
+                    loadUSER(ResponseHandler.getString(object, "message"));
                 }
-
 
 
             }
@@ -344,7 +340,7 @@ public class EditProfileActivity extends BaseActivity {
 
         if (!isLoading)
             isLoading = true;
-HELPER.showLoadingTran(act);
+        HELPER.showLoadingTran(act);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
             @Override

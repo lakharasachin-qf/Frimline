@@ -64,12 +64,16 @@ import java.util.Map;
 import java.util.Observable;
 
 public class SearchActivity extends BaseActivity {
+    ArrayList<ListModel> listModels;
+    SearchAdapter searchAdapter;
     private ActivitySearchBinding binding;
     private ArrayList<SearchModel> searchResult;
     private ListModel sortingOptionSelection;
     private CategorySingleModel selectedCategory;
     private String categoryId;
     private String jsonStr;
+    private SortingAdapter adpt;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -325,9 +329,6 @@ public class SearchActivity extends BaseActivity {
         circularReveal.start();
     }
 
-    ArrayList<ListModel> listModels;
-    private SortingAdapter adpt;
-
     public void fillSortingData() {
 
         listModels = new ArrayList<>();
@@ -444,9 +445,6 @@ public class SearchActivity extends BaseActivity {
 
     }
 
-    private boolean isLoading = false;
-    SearchAdapter searchAdapter;
-
     private void search() {
         if (!isLoading)
             isLoading = true;
@@ -459,7 +457,7 @@ public class SearchActivity extends BaseActivity {
                 stopShimmer();
 
                 searchResult = ResponseHandler.parseSearch(response);
-                Log.e("selectedCategory",gson.toJson(selectedCategory));
+                Log.e("selectedCategory", gson.toJson(selectedCategory));
                 Log.e("jsonStr", gson.toJson(jsonStr));
                 if (searchResult != null && searchResult.size() != 0) {
                     binding.containerRecycler.setVisibility(View.VISIBLE);
@@ -592,7 +590,7 @@ public class SearchActivity extends BaseActivity {
                     @Override
                     public void run() {
                         selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
-                        jsonStr = new String(frimline.getObserver().getData());
+                        jsonStr = frimline.getObserver().getData();
                         categoryId = selectedCategory.getCategoryId();
                         Log.e("selectedCategory", gson.toJson(selectedCategory));
                         Log.e("jsonStr", gson.toJson(jsonStr));
@@ -607,7 +605,7 @@ public class SearchActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        selectedCategory =null;
+                        selectedCategory = null;
                         search();
                     }
                 });

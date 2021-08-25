@@ -48,6 +48,12 @@
             android:screenOrientation="${screenOrientation}"
             android:windowSoftInputMode="adjustResize" />
 
+
+        <activity
+            android:name=".screens.PaymentActivity"
+            android:screenOrientation="${screenOrientation}"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="${screenOrientation}">

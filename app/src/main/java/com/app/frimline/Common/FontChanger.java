@@ -9,7 +9,6 @@ public class FontChanger {
 
     /**
      * Method used to override the default fonts with custom fonts.
-     *
      */
     public static void overrideDefaultFont(Context context,
                                            String staticTypefaceFieldName, String fontAssetName) {

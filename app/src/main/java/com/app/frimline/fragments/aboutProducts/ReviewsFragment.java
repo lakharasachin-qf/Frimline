@@ -39,9 +39,14 @@ import java.util.Map;
 
 public class ReviewsFragment extends BaseFragment {
 
+    ProductModel model;
     private FragmentReviewsBinding binding;
     private String defaultColor = "#EF7F1A";
     private boolean applyThemeColor = false;
+    private boolean isLoading = false;
+    private ReviewRootModel reviewRootModel;
+    private AlertDialog alertDialog;
+    private DialogAddReviewBinding reqBinding;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle
@@ -107,10 +112,6 @@ public class ReviewsFragment extends BaseFragment {
         binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
 
     }
-
-    private boolean isLoading = false;
-    private ReviewRootModel reviewRootModel;
-    ProductModel model;
 
     private void loadReview() {
 
@@ -187,10 +188,6 @@ public class ReviewsFragment extends BaseFragment {
 
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
-
-
-    private AlertDialog alertDialog;
-    private DialogAddReviewBinding reqBinding;
 
     public void showAddReviewDialog() {
         if (alertDialog != null && alertDialog.isShowing())

@@ -79,7 +79,7 @@ public class HomeFragment extends BaseFragment {
                 if (CONSTANT.API_MODE) {
                     startShimmer();
                     loadHomeScreen();
-                }else {
+                } else {
                     binding.swipeContainer.setRefreshing(false);
                 }
             }
@@ -121,6 +121,7 @@ public class HomeFragment extends BaseFragment {
 
 
     }
+
     private static final String BANNER = "banner";
     private static final String CATEGORY_PRODUCT = "categoryProduct";
     private static final String OFFERS = "Offers";
@@ -128,6 +129,7 @@ public class HomeFragment extends BaseFragment {
     private static final String TOP_RATTED = "topRatted";
     private static final String ALERT_COVID = "alertCovid";
     private static final String CATEGORY = "category";
+
     public void loadIndexedApi() {
 
         JSONObject jsonObject = new JSONObject();
@@ -229,7 +231,9 @@ public class HomeFragment extends BaseFragment {
         }
 
     }
+
     ArrayList<HomeModel> homeArray = new ArrayList<>();
+
     public void loadBanner(int position) {
         int lastPos = homeArray.size();
 

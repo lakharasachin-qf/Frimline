@@ -14,7 +14,17 @@ public class HomeModel {
     private String name;
     private String apiUrl;
     private ArrayList<ProductModel> productModels;
-    private boolean isAddedToCart=false;
+    private boolean isAddedToCart = false;
+    private ArrayList<OutCategoryModel> productList = new ArrayList<>();
+    private ArrayList<HomeModel> categoryProduct = new ArrayList<>();
+    private ArrayList<CategorySingleModel> categoryArrayList = new ArrayList<>();
+    /**
+     * API MODE VARIABLES
+     */
+    private ArrayList<com.app.frimline.models.HomeFragements.ProductModel> apiProductModel;
+    private ArrayList<TradingStoriesModel> tradingStoriesList;
+    private ArrayList<BannerModel> bannerList;
+    private ArrayList<CouponCodeModel> couponCodeBannerList;
 
     public boolean isAddedToCart() {
         return isAddedToCart;
@@ -72,9 +82,6 @@ public class HomeModel {
         this.name = name;
     }
 
-
-    private ArrayList<OutCategoryModel> productList=new ArrayList<>();
-
     public ArrayList<OutCategoryModel> getProductList() {
         return productList;
     }
@@ -82,9 +89,6 @@ public class HomeModel {
     public void setProductList(ArrayList<OutCategoryModel> productList) {
         this.productList = productList;
     }
-
-
-    private ArrayList<HomeModel> categoryProduct=new ArrayList<>();
 
     public ArrayList<HomeModel> getCategoryProduct() {
         return categoryProduct;
@@ -94,10 +98,6 @@ public class HomeModel {
         this.categoryProduct = categoryProduct;
     }
 
-
-
-    private ArrayList<CategorySingleModel> categoryArrayList=new ArrayList<>();
-
     public ArrayList<CategorySingleModel> getCategoryArrayList() {
         return categoryArrayList;
     }
@@ -106,11 +106,6 @@ public class HomeModel {
         this.categoryArrayList = categoryArrayList;
     }
 
-    /**
-     * API MODE VARIABLES
-     * */
-    private ArrayList<com.app.frimline.models.HomeFragements.ProductModel> apiProductModel;
-
     public ArrayList<com.app.frimline.models.HomeFragements.ProductModel> getApiProductModel() {
         return apiProductModel;
     }
@@ -118,7 +113,6 @@ public class HomeModel {
     public void setApiProductModel(ArrayList<com.app.frimline.models.HomeFragements.ProductModel> apiProductModel) {
         this.apiProductModel = apiProductModel;
     }
-    private ArrayList<TradingStoriesModel> tradingStoriesList;
 
     public ArrayList<TradingStoriesModel> getTradingStoriesList() {
         return tradingStoriesList;
@@ -127,7 +121,6 @@ public class HomeModel {
     public void setTradingStoriesList(ArrayList<TradingStoriesModel> tradingStoriesList) {
         this.tradingStoriesList = tradingStoriesList;
     }
-    private ArrayList<BannerModel> bannerList;
 
     public ArrayList<BannerModel> getBannerList() {
         return bannerList;
@@ -136,9 +129,6 @@ public class HomeModel {
     public void setBannerList(ArrayList<BannerModel> bannerList) {
         this.bannerList = bannerList;
     }
-
-
-    private ArrayList<CouponCodeModel> couponCodeBannerList;
 
     public ArrayList<CouponCodeModel> getCouponCodeBannerList() {
         return couponCodeBannerList;

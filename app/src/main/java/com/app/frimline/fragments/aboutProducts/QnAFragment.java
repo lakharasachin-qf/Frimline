@@ -38,11 +38,15 @@ import java.util.Map;
 
 public class QnAFragment extends BaseFragment {
 
+    ProductModel model;
     private FragmentQNABinding binding;
     private boolean isThemColor = false;
-
     private boolean applyThemeColor = false;
     private String defaultColor = "#EF7F1A";
+    private boolean isLoading = false;
+    private QAModel reviewRootModel;
+    private AlertDialog alertDialog;
+    private DialogAskQuestionBinding reqBinding;
 
     public void setThemColor(boolean themColor) {
         isThemColor = themColor;
@@ -103,13 +107,8 @@ public class QnAFragment extends BaseFragment {
         binding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(defaultColor), android.graphics.PorterDuff.Mode.MULTIPLY);
         binding.tryAgainBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-        HELPER.LOAD_HTML(binding.askNowTxt,"Do you have any question? <bold><fonts color='"+defaultColor+"'><u>Ask Now!</u></fonts></bold>");
+        HELPER.LOAD_HTML(binding.askNowTxt, "Do you have any question? <bold><fonts color='" + defaultColor + "'><u>Ask Now!</u></fonts></bold>");
     }
-
-
-    private boolean isLoading = false;
-    private QAModel reviewRootModel;
-    ProductModel model;
 
     private void loadReview() {
 
@@ -123,7 +122,7 @@ public class QnAFragment extends BaseFragment {
         binding.screenLoader.setVisibility(View.VISIBLE);
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_QA+model.getId(), new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_QA + model.getId(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("QA", response);
@@ -186,10 +185,6 @@ public class QnAFragment extends BaseFragment {
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
-
-    private AlertDialog alertDialog;
-    private DialogAskQuestionBinding reqBinding;
-
     public void showAddReviewDialog() {
         if (alertDialog != null && alertDialog.isShowing())
             alertDialog.dismiss();
@@ -214,9 +209,9 @@ public class QnAFragment extends BaseFragment {
         reqBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CONSTANT.API_MODE){
+                if (CONSTANT.API_MODE) {
                     addQuestion();
-                }else {
+                } else {
                     alertDialog.dismiss();
                 }
 
@@ -262,8 +257,8 @@ public class QnAFragment extends BaseFragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("product_id",model.getId());
-                params.put("question",reqBinding.otherInfoEdt.getText().toString());
+                params.put("product_id", model.getId());
+                params.put("question", reqBinding.otherInfoEdt.getText().toString());
 
                 return params;
             }

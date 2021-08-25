@@ -17,6 +17,7 @@ class Validators {
                         + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"
             ).matcher(email).matches()
         }
+
         fun isValidPassword(password: String?): Boolean {
             val pattern: Pattern
             val PASSWORD_PATTERN =

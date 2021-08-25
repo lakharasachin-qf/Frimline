@@ -82,7 +82,7 @@
                                 android:background="@drawable/shape_ovel_green"
                                 android:backgroundTint="@color/colorGreen"
                                 android:padding="@dimen/_26sdp"
-                                android:src="@drawable/ic_mobile_password" />
+                                android:src="@drawable/ic_otp_verified" />
 
 
                             <TextView

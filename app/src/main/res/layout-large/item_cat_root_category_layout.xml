@@ -26,6 +26,8 @@
         android:fontFamily="@font/proxinova_semi_bold"
         android:text="Oral Hygine"
         android:textAlignment="center"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/black"
         android:textSize="@dimen/_8sdp" />
 </LinearLayout>

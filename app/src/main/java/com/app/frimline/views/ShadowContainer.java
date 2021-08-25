@@ -87,8 +87,8 @@ public class ShadowContainer extends ViewGroup {
         super.dispatchDraw(canvas);
     }
 
-    public void setDrawShadow(boolean drawShadow){
-        if (this.drawShadow == drawShadow){
+    public void setDrawShadow(boolean drawShadow) {
+        if (this.drawShadow == drawShadow) {
             return;
         }
         this.drawShadow = drawShadow;
@@ -115,10 +115,10 @@ public class ShadowContainer extends ViewGroup {
         int widthMeasureSpecSize;
         int heightMeasureSpecMode;
         int heightMeasureSpecSize;
-        if (widthMode == MeasureSpec.UNSPECIFIED){
+        if (widthMode == MeasureSpec.UNSPECIFIED) {
             widthMeasureSpecMode = MeasureSpec.UNSPECIFIED;
             widthMeasureSpecSize = MeasureSpec.getSize(widthMeasureSpec);
-        }else {
+        } else {
             if (layoutParams.width == LayoutParams.MATCH_PARENT) {
                 widthMeasureSpecMode = MeasureSpec.EXACTLY;
                 widthMeasureSpecSize = measuredWidth - childLeftMargin - childRightMargin;
@@ -130,10 +130,10 @@ public class ShadowContainer extends ViewGroup {
                 widthMeasureSpecSize = layoutParams.width;
             }
         }
-        if (heightMode == MeasureSpec.UNSPECIFIED){
+        if (heightMode == MeasureSpec.UNSPECIFIED) {
             heightMeasureSpecMode = MeasureSpec.UNSPECIFIED;
             heightMeasureSpecSize = MeasureSpec.getSize(heightMeasureSpec);
-        }else {
+        } else {
             if (layoutParams.height == LayoutParams.MATCH_PARENT) {
                 heightMeasureSpecMode = MeasureSpec.EXACTLY;
                 heightMeasureSpecSize = measuredHeight - childBottomMargin - childTopMargin;
@@ -152,39 +152,20 @@ public class ShadowContainer extends ViewGroup {
         int width = measuredWidth;
         int childHeight = child.getMeasuredHeight();
         int childWidth = child.getMeasuredWidth();
-        if (parentHeightMeasureSpec == MeasureSpec.AT_MOST){
+        if (parentHeightMeasureSpec == MeasureSpec.AT_MOST) {
             height = childHeight + childTopMargin + childBottomMargin;
         }
-        if (parentWidthMeasureSpec == MeasureSpec.AT_MOST){
+        if (parentWidthMeasureSpec == MeasureSpec.AT_MOST) {
             width = childWidth + childRightMargin + childLeftMargin;
         }
-        if (width < childWidth + 2 * deltaLength){
+        if (width < childWidth + 2 * deltaLength) {
             width = (int) (childWidth + 2 * deltaLength);
         }
-        if (height < childHeight + 2 * deltaLength){
+        if (height < childHeight + 2 * deltaLength) {
             height = (int) (childHeight + 2 * deltaLength);
         }
-        if (height != measuredHeight || width != measuredWidth){
+        if (height != measuredHeight || width != measuredWidth) {
             setMeasuredDimension(width, height);
-        }
-    }
-
-    static class LayoutParams extends MarginLayoutParams{
-
-        public LayoutParams(Context c, AttributeSet attrs) {
-            super(c, attrs);
-        }
-
-        public LayoutParams(int width, int height) {
-            super(width, height);
-        }
-
-        public LayoutParams(MarginLayoutParams source) {
-            super(source);
-        }
-
-        public LayoutParams(ViewGroup.LayoutParams source) {
-            super(source);
         }
     }
 
@@ -211,5 +192,24 @@ public class ShadowContainer extends ViewGroup {
         int childMeasureWidth = child.getMeasuredWidth();
         int childMeasureHeight = child.getMeasuredHeight();
         child.layout((measuredWidth - childMeasureWidth) / 2, (measuredHeight - childMeasureHeight) / 2, (measuredWidth + childMeasureWidth) / 2, (measuredHeight + childMeasureHeight) / 2);
+    }
+
+    static class LayoutParams extends MarginLayoutParams {
+
+        public LayoutParams(Context c, AttributeSet attrs) {
+            super(c, attrs);
+        }
+
+        public LayoutParams(int width, int height) {
+            super(width, height);
+        }
+
+        public LayoutParams(MarginLayoutParams source) {
+            super(source);
+        }
+
+        public LayoutParams(ViewGroup.LayoutParams source) {
+            super(source);
+        }
     }
 }

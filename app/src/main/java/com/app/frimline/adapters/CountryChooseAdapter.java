@@ -18,10 +18,10 @@ import java.util.ArrayList;
 
 public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdapter.SelecBrandLIstHolder> {
 
-    private ArrayList<CountryModel> arrayList;
-    private Activity act;
+    private final ArrayList<CountryModel> arrayList;
+    private final Activity act;
     private int checkedPosition = -1;
-    private int calledFlag;
+    private final int calledFlag;
 
 
     public CountryChooseAdapter(ArrayList<CountryModel> arrayList, Activity act, int calledFlag) {
@@ -30,6 +30,13 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         this.calledFlag = calledFlag;
     }
 
+    public static String convertFirstUpper(String str) {
+
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
 
     @Override
     public CountryChooseAdapter.SelecBrandLIstHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,8 +71,6 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         });
     }
 
-
-
     @Override
     public int getItemCount() {
         return arrayList.size();
@@ -78,13 +83,5 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
             super(itemView);
             radioButton = itemView.findViewById(R.id.radioButton);
         }
-    }
-
-    public static String convertFirstUpper(String str) {
-
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }

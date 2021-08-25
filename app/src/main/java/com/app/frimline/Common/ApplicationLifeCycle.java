@@ -14,10 +14,10 @@ public class ApplicationLifeCycle implements Application.ActivityLifecycleCallba
 
     private static final String TAG = ApplicationLifeCycle.class.getName();
     private static ApplicationLifeCycle instance;
+    private final List<Listener> listeners = new CopyOnWriteArrayList<>();
     NetworkUtil networkChangeReceiver;
     Date dtLastDate;
     private int refs;
-    private final List<Listener> listeners = new CopyOnWriteArrayList<>();
 
     /**
      * Its not strictly necessary to use this method - _usually_ invoking
