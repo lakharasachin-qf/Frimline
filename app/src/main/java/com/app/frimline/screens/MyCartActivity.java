@@ -1,5 +1,6 @@
 package com.app.frimline.screens;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityMyCartBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
+import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 
 import org.json.JSONArray;
@@ -64,7 +66,11 @@ public class MyCartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (prefManager.isLogin()) {
-                    HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
+                    if (CONSTANT.API_MODE) {
+                        proceedToPay();
+                    } else {
+                        HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
+                    }
                 } else {
                     HELPER.SIMPLE_ROUTE(act, LoginActivity.class);
                 }
@@ -104,6 +110,24 @@ public class MyCartActivity extends BaseActivity {
         }
     }
 
+    public void proceedToPay() {
+        try {
+            Intent intent = new Intent(act, BillingAddressActivity.class);
+            JSONObject couponObject = new JSONObject();
+            if (isCouponCodeApplied) {
+                couponObject.put("code", promoCode);
+                couponObject.put("discount", discount);
+                couponObject.put("discountType", discountType);
+                intent.putExtra("promoCode", couponObject.toString());
+            }
+            act.startActivity(intent);
+            act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -114,7 +138,7 @@ public class MyCartActivity extends BaseActivity {
         int count = db.productEntityDao().getAll().size();
         if (count != 0) {
             cartItemList = HELPER.getCartList(db.productEntityDao().getAll());
-            cartAdapter = new MyCartAdapter(cartItemList, act);
+            cartAdapter = new MyCartAdapter(cartItemList, act,"cart");
             cartAdapter.setActionsListener(new MyCartAdapter.setActionsListener() {
                 @Override
                 public void onDeleteAction(int position, ProductModel model) {
@@ -129,7 +153,10 @@ public class MyCartActivity extends BaseActivity {
 
                             applyCouponCalculation(isCouponCodeApplied);
                             setState();
-
+                            if (getIntent().hasExtra("dataModel")) {
+                                DataTransferModel dataTransferModel = gson.fromJson(getIntent().getStringExtra("dataModel"), DataTransferModel.class);
+                                FRIMLINE.getInstance().getObserver().setValue(Integer.parseInt(dataTransferModel.getCartRemovedId()), dataTransferModel);
+                            }
                             if (cartItemList.size() == 0) {
                                 setNoDataFound();
                             }
@@ -239,7 +266,7 @@ public class MyCartActivity extends BaseActivity {
         arrayList.add(homeModel);
 
 
-        MyCartAdapter shopFilterAdapter = new MyCartAdapter(arrayList, act);
+        MyCartAdapter shopFilterAdapter = new MyCartAdapter(arrayList, act,"cart");
         shopFilterAdapter.setActionsListener(new MyCartAdapter.setActionsListener() {
             @Override
             public void onDeleteAction(int position, ProductModel model) {

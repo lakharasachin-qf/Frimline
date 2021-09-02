@@ -196,14 +196,19 @@ public class LoginActivity extends BaseActivity {
         path1.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
         logo.invalidate();
 
-        binding.signupTxt.setOnClickListener(new View.OnClickListener() {
+        binding.label.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSomeActivityForResult();
+                binding.signupTxtTXT.performClick();
 
             }
         });
-
+        binding.signupTxtTXT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSomeActivityForResult();
+            }
+        });
 
     }
 

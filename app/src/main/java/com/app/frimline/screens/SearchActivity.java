@@ -29,11 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.APIs;
@@ -54,10 +52,6 @@ import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.models.ListModel;
 import com.app.frimline.models.SearchModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -336,20 +330,21 @@ public class SearchActivity extends BaseActivity {
             ListModel popularityModel = new ListModel();
             popularityModel.setName("Sort by popularity");
             popularityModel.setOrderBy("popularity");
-            popularityModel.setOrder(ListModel.ASC);
+            popularityModel.setOrder(ListModel.DESC);
             listModels.add(popularityModel);
 
             ListModel ratingModel = new ListModel();
             ratingModel.setName("Sort by average rating");
             ratingModel.setOrderBy("rating");
-            ratingModel.setOrder(ListModel.ASC);
+            ratingModel.setOrder(ListModel.DESC);
             listModels.add(ratingModel);
 
             ListModel dateModel = new ListModel();
             dateModel.setName("Sort by latest");
             dateModel.setOrderBy("date");
-            dateModel.setOrder(ListModel.ASC);
+            dateModel.setOrder(ListModel.DESC);
             listModels.add(dateModel);
+
 
             ListModel priceModelLowToHigh = new ListModel();
             priceModelLowToHigh.setName("Sort by price : Low to High");
@@ -482,18 +477,19 @@ public class SearchActivity extends BaseActivity {
                         binding.emptyData.setVisibility(View.VISIBLE);
                         binding.containerRecycler.setVisibility(View.GONE);
                         binding.sortAction.setVisibility(View.GONE);
-                        NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
-                        }
+//                        NetworkResponse response = error.networkResponse;
+//                        if (response.statusCode == 400 && response.data!=null) {
+//                            try {
+//
+//                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+//                                JSONObject jsonObject = new JSONObject(jsonString);
+//
+//                            } catch (UnsupportedEncodingException | JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            Log.e("Error", gson.toJson(response.headers));
+//                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+//                        }
 
                     }
                 }

@@ -75,6 +75,8 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
 
         if (model.isAddedToCart()) {
             binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+        }else{
+            binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
 
         Glide.with(activity).load(model.getProductImagesList().get(0))
@@ -100,6 +102,7 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
                 activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
             }
         });
+        binding.actionAddCart.setVisibility(View.GONE);
         binding.actionAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

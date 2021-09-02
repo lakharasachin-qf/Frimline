@@ -26,7 +26,10 @@ public class APIs {
     public static final String PRODUCT_DETAILS = BASE + "/wp-json/wc/v3/product-details/";
     public static final String VALIDATE_CODE = BASE + "/wp-json/wc/v3/coupons/validate";
     public static final String CREATE_ORDER = BASE + "/wp-json/wc/v3/validate_order/create";
-    public static final String ORDER_DONE = BASE + "/wp-json/wc/v3/order/create";
+    public static final String COMPLETE_ORDER = BASE + "/wp-json/wc/v3/order/create";
+    public static final String VERIFY_POSTCODE = BASE + "/wp-json/wc/v3/validate/pincode";
+    public static final String GET_COUNTRY_STATE = BASE + "/wp-json/wc/v3/country/list";
+    public static final String COD_CHARGES = BASE + "/wp-json/wc/v3/cod/charge";
 
 
 }

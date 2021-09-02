@@ -75,6 +75,7 @@ public class DrawerMenu {
     private final CategoryProfileFragment profileFragment = new CategoryProfileFragment();
     private final CategoryRootFragment categoryRootFragment = new CategoryRootFragment();
     private final CommonFragment commonFragment = new CommonFragment();
+
     public DrawerMenu(Activity activity, int flag) {
         this.activity = activity;
         drawer = activity.findViewById(R.id.drawer_layout);
@@ -121,8 +122,11 @@ public class DrawerMenu {
         headerList.add(menuModel);
         menuModel = new MenuModel("Shipping Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_ic_menu_shipping_policy)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
-        menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
+
+        if (new PREF(activity).isLogin()) {
+            menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+        }
     }
 
     public void populateExpandableList() {
@@ -242,6 +246,9 @@ public class DrawerMenu {
                                 new PREF(activity).Logout();
                                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                                 drawer.closeDrawer(GravityCompat.START);
+                                headerList.remove(headerList.size() - 1);
+                                expandableListAdapter.notifyDataSetChanged();
+
                                 break;
                         }
                     }
@@ -259,14 +266,27 @@ public class DrawerMenu {
         orderHistoryTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                HomePageLayout.setVisibility(View.GONE);
+//                OtherScreenLayout.setVisibility(View.VISIBLE);
+//                searchAction2.setVisibility(View.GONE);
+//                titleTxt.setText("Orders");
+//                currentMenuItem = "Order History";
+//                Fragment fragmentSelected = orderHistoryFragment;
+//                replaceFragment(fragmentSelected);
+//                drawer.closeDrawer(GravityCompat.START);
+
+                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+                toolbar_Navigation.setVisibility(View.VISIBLE);
                 HomePageLayout.setVisibility(View.GONE);
-                OtherScreenLayout.setVisibility(View.VISIBLE);
                 searchAction2.setVisibility(View.GONE);
+                OtherScreenLayout.setVisibility(View.VISIBLE);
                 titleTxt.setText("Orders");
                 currentMenuItem = "Order History";
                 Fragment fragmentSelected = orderHistoryFragment;
                 replaceFragment(fragmentSelected);
                 drawer.closeDrawer(GravityCompat.START);
+
+
             }
         });
 
@@ -411,6 +431,13 @@ public class DrawerMenu {
         Fragment fragmentSelected = profileFragment;
         replaceFragment(fragmentSelected);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public void addLogoutBtn() {
+        MenuModel menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        expandableListAdapter.notifyDataSetChanged();
+
     }
 }
 

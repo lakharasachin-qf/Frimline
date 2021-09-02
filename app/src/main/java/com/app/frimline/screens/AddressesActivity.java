@@ -125,6 +125,7 @@ public class AddressesActivity extends BaseActivity {
         if (!billingAddress.isEmpty()) {
             isBilling = true;
             binding.billingTxt.setText(billingAddress);
+            binding.billingTxt.setVisibility(View.VISIBLE);
             binding.actionAdd1.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_edit_black_24dp));
         } else {
             binding.billingTxt.setVisibility(View.GONE);

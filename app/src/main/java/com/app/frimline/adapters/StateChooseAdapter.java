@@ -15,19 +15,20 @@ import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.intefaces.OnItemSelectListener;
 import com.app.frimline.models.CountryModel;
+import com.app.frimline.models.StateModel;
 
 import java.util.ArrayList;
 
 
-public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdapter.SelecBrandLIstHolder> {
+public class StateChooseAdapter extends RecyclerView.Adapter<StateChooseAdapter.SelecBrandLIstHolder> {
 
-    private ArrayList<CountryModel> arrayList;
-    private final Activity act;
+    private ArrayList<StateModel> arrayList;
+    private Activity act;
     private int checkedPosition = -1;
     private final int calledFlag;
 
 
-    public CountryChooseAdapter(ArrayList<CountryModel> arrayList, Activity act, int calledFlag) {
+    public StateChooseAdapter(ArrayList<StateModel> arrayList, Activity act, int calledFlag) {
         this.arrayList = arrayList;
         this.act = act;
         this.calledFlag = calledFlag;
@@ -42,7 +43,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
     }
 
     @Override
-    public CountryChooseAdapter.SelecBrandLIstHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StateChooseAdapter.SelecBrandLIstHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_list_layout, parent, false);
         return new SelecBrandLIstHolder(view);
@@ -50,9 +51,9 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
 
     @Override
     public void onBindViewHolder(@NonNull SelecBrandLIstHolder holder, int position) {
-        CountryModel listModel = arrayList.get(position);
+        StateModel listModel = arrayList.get(position);
 
-        holder.radioButton.setText(convertFirstUpper(listModel.getName()));
+        holder.radioButton.setText(convertFirstUpper(listModel.getStateName()));
         holder.radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +65,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
             public void onClick(View view) {
                 holder.radioButton.setChecked(true);
                 checkedPosition = position;
-                ((OnItemSelectListener) act).onItemSelect(listModel, position,calledFlag);
+                ((OnItemSelectListener) act).onItemSelect(listModel, position, calledFlag);
                 notifyDataSetChanged();
             }
         });
@@ -75,7 +76,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         return arrayList.size();
     }
 
-    public class SelecBrandLIstHolder extends RecyclerView.ViewHolder {
+    public  class SelecBrandLIstHolder extends RecyclerView.ViewHolder {
         RadioButton radioButton;
 
         public SelecBrandLIstHolder(@NonNull View itemView) {
@@ -84,7 +85,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
             radioButton.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         }
     }
-    public void updateList(ArrayList<CountryModel> list){
+    public void updateList(ArrayList<StateModel> list){
         arrayList = list;
         notifyDataSetChanged();
     }

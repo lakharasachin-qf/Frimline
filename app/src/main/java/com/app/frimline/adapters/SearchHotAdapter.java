@@ -72,6 +72,8 @@ public class SearchHotAdapter extends RecyclerView.Adapter<SearchHotAdapter.View
 
         if (model.isAddedToCart()) {
             binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+        }else{
+            binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
 
 

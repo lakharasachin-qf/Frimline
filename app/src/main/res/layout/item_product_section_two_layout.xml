@@ -15,10 +15,10 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/productLayout1"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="@dimen/_2sdp"
@@ -31,7 +31,7 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/productSectionLeft"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_130sdp"
+                        android:layout_height="@dimen/_140sdp"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
@@ -42,7 +42,7 @@
                             android:id="@+id/productImage1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/product_one" />
                     </androidx.cardview.widget.CardView>
 
@@ -57,19 +57,20 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:includeFontPadding="false"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="Dente91 Lactoferrin Mouthwash"
                         android:textColor="@color/colorToolbarHeader"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/_12sdp" />
+
                     <View
                         android:id="@+id/underLine1"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="2dp"
                         android:layout_below="@+id/productName1"
-                        android:alpha="0.2"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginBottom="@dimen/_3sdp"
+                        android:alpha="0.2"
                         android:background="@drawable/shape_underline"
                         android:backgroundTint="@color/colorGreen" />
 
@@ -93,7 +94,7 @@
                             android:includeFontPadding="false"
                             android:text="₹199.00"
                             android:textColor="@color/colorToolbarHeader"
-                            android:textSize="@dimen/_13sdp" />
+                            android:textSize="@dimen/_14sdp" />
 
 
                         <ImageView
@@ -122,10 +123,10 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/productLayout2"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="@dimen/_2sdp"
@@ -138,7 +139,7 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/productImageContainer2"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_130sdp"
+                        android:layout_height="@dimen/_140sdp"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
@@ -149,7 +150,7 @@
                             android:id="@+id/productImage2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/product_one" />
                     </androidx.cardview.widget.CardView>
 
@@ -164,19 +165,20 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:includeFontPadding="false"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="Dente91 Lactoferrin Mouthwash"
                         android:textColor="@color/colorToolbarHeader"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/_12sdp" />
+
                     <View
                         android:id="@+id/underLine2"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="2dp"
                         android:layout_below="@+id/productName2"
-                        android:alpha="0.2"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginBottom="@dimen/_3sdp"
+                        android:alpha="0.2"
                         android:background="@drawable/shape_underline"
                         android:backgroundTint="@color/colorGreen" />
 
@@ -200,7 +202,7 @@
                             android:includeFontPadding="false"
                             android:text="₹199.00"
                             android:textColor="@color/colorToolbarHeader"
-                            android:textSize="@dimen/_13sdp" />
+                            android:textSize="@dimen/_14sdp" />
 
 
                         <ImageView

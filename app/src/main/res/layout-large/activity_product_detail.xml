@@ -49,6 +49,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="-10dp"
+                        android:layout_marginBottom="50dp"
                         app:dotsColor="#DDDDDD"
                         app:dotsCornerRadius="8dp"
                         app:dotsSize="8dp"
@@ -114,7 +115,8 @@
 
 
                         <TextView
-                            android:id="@+id/shortDescription"                            android:layout_width="wrap_content"
+                            android:id="@+id/shortDescription"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:fontFamily="@font/proxima_nova_regular"
@@ -210,6 +212,7 @@
                                 android:src="@drawable/ic_not_returnable" />
 
                             <TextView
+                                android:id="@+id/returnAbleLAbel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"

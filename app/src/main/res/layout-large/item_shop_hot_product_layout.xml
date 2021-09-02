@@ -60,7 +60,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:includeFontPadding="false"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="Dente91 Lactoferrin Mouthwash"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
@@ -96,13 +96,13 @@
                             android:includeFontPadding="false"
                             android:text="₹199.00"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_11sdp" />
+                            android:textSize="@dimen/_12sdp" />
 
 
                         <ImageView
                             android:id="@+id/actionAddCart"
-                            android:layout_width="@dimen/_18sdp"
-                            android:layout_height="@dimen/_18sdp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_gravity="end"

@@ -198,7 +198,7 @@
                                     android:id="@+id/newPasswordEdt"
                                     style="@style/textInputEditTextForTablet"
                                     android:drawableStart="@drawable/edt_lock_icon"
-                                    android:hint="New Password"
+                                    android:hint="Password"
                                     android:inputType="textPassword"
                                     app:passwordToggleEnabled="true" />
                             </com.google.android.material.textfield.TextInputLayout>

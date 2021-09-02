@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -68,6 +69,73 @@ public class OtpVerificationActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+
+        HELPER.LOAD_HTML(binding.mobileNoLabel, "Enter the OTP sent to <b>" + getIntent().getStringExtra("mobileNo") + "</b>");
+
+    }
+
+    private void signIn() {
+        if (!isLoading)
+            isLoading = true;
+        HELPER.showLoadingTran(act);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN_MOBILE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Login", response);
+                isLoading = false;
+                HELPER.dismissLoadingTran();
+                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+                if (jsonObject != null && ResponseHandler.getString(jsonObject, "status").equals("OK")) {
+                    Toast.makeText(act, "Otp Send to your number", Toast.LENGTH_SHORT).show();
+                } else {
+                    HELPER.dismissLoadingTran();
+                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        isLoading = false;
+                        HELPER.dismissLoadingTran();
+                        NetworkResponse response = error.networkResponse;
+                        if (response.statusCode == 400) {
+                            try {
+                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                                JSONObject jsonObject = new JSONObject(jsonString);
+                                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                            } catch (UnsupportedEncodingException | JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.e("Error", gson.toJson(response.headers));
+                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                        }
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("mobile", getIntent().getStringExtra("mobileNo"));
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 
     public void changeTheme() {
@@ -90,6 +158,7 @@ public class OtpVerificationActivity extends BaseActivity {
         binding.otpVerfiedIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
         binding.otpTitle.setTextColor((Color.parseColor(pref.getThemeColor())));
         binding.verifiedTxt.setTextColor((Color.parseColor(pref.getThemeColor())));
+        binding.resend.setTextColor((Color.parseColor(pref.getThemeColor())));
 
         VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_mobile_password, binding.otpIcon);
         VectorDrawableCompat.VFullPath path1 = vector.findPathByName("colorGreen");
@@ -123,6 +192,13 @@ public class OtpVerificationActivity extends BaseActivity {
                 binding.containerVerified.setVisibility(View.GONE);
 
 
+            }
+        });
+
+        binding.resendLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
             }
         });
 
@@ -327,9 +403,15 @@ public class OtpVerificationActivity extends BaseActivity {
                     model.setShippingAddress(billingAddress);
                     prefManager.setUser(model);
                     FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
-                    binding.container.setVisibility(View.GONE);
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.containerVerified.setVisibility(View.VISIBLE);
+
+                    Intent data = new Intent();
+                    data.putExtra("success", "1");
+                    setResult(RESULT_OK, data);
+                    finish();
+//
+//                    binding.container.setVisibility(View.GONE);
+//                    binding.progressBar.setVisibility(View.GONE);
+//                    binding.containerVerified.setVisibility(View.VISIBLE);
 
                 }
 

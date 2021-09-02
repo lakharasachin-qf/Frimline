@@ -255,6 +255,17 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                     }
 
                 }
+                if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
+                    TextView userNameTxt = findViewById(R.id.userNameTxt);
+                    pref = new PREF(act);
+                    if (pref.isLogin()) {
+                        userNameTxt.setText(pref.getUser().getDisplayName());
+                        drawerMenu.addLogoutBtn();
+                    } else {
+                        userNameTxt.setText("Sign In");
+                    }
+
+                }
             }
         });
 

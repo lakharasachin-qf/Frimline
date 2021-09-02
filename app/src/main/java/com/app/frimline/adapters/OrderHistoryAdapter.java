@@ -48,37 +48,55 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         final OrderModel model = frameItems.get(position);
         if (CONSTANT.API_MODE) {
 
-            //            if (model.getStatus().equalsIgnoreCase("completed")) {
-//                holder.binding.deliveredTxt.setText("Canceled");
-//                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
-//                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
-//                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
-//            }
-//            if (position == 1 || position == 5) {
-//                holder.binding.deliveredTxt.setText("Pending");
-//                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
-//                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
-//                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
-//            }
-//
-//            if (position == 2) {
-//                holder.binding.deliveredTxt.setText("Delivered");
-//                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliverySuccess));
-//                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_delivery_icon));
-//                holder.binding.delivaryIcon.setImageTintList(null);
-//            }
 
-            if (model.getStatus().equalsIgnoreCase("processing")) {
-                holder.binding.deliveredTxt.setText("Pending");
+
+            if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PENDING)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_PENDING_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
             }
-            if (model.getStatus().equalsIgnoreCase("completed")) {
-                holder.binding.deliveredTxt.setText("Delivered");
+            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PROCESSING)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_PROCESSING_LABEL);
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
+                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
+            }
+            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_ON_HOLD)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_ON_HOLD_LABEL);
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
+                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
+            }
+            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_COMPLETED)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_COMPLETED_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliverySuccess));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_delivery_icon));
                 holder.binding.delivaryIcon.setImageTintList(null);
+            }
+            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_CANCELLED_LABEL);
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
+                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
+            }
+            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_REFUNDED)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_REFUNDED_LABEL);
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
+                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
+            }
+            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_FAILED)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_FAILED_LABEL);
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
+                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
+            }
+            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED_SALES_RETURN)) {
+                holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_CANCELLED_SALES_RETURN_LABEL);
+                holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
+                holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
+                holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
             }
 
             HELPER.LOAD_HTML(holder.binding.orderId, "Order Id : " + model.getOrderKey());

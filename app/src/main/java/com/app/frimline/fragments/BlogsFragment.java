@@ -58,22 +58,14 @@ public class BlogsFragment extends BaseFragment {
             homeModel = new BlogModel();
             homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
             arrayList.add(homeModel);
-            homeModel = new BlogModel();
-            homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_RIGHT_BLOG);
-            arrayList.add(homeModel);
-            homeModel = new BlogModel();
-            homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
-            arrayList.add(homeModel);
-            homeModel = new BlogModel();
-            homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_RIGHT_BLOG);
-            arrayList.add(homeModel);
-            homeModel = new BlogModel();
-            homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
-            arrayList.add(homeModel);
+
 
             BlogsAdapter adaptertop = new BlogsAdapter(arrayList, getActivity());
             binding.blogsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             binding.blogsRecycler.setAdapter(adaptertop);
+            binding.blogsRecycler.setVisibility(View.VISIBLE);
+            binding.shimmerViewContainer.setVisibility(View.GONE);
+            binding.shimmerViewContainer.stopShimmer();
             binding.blogsRecycler.setVisibility(View.VISIBLE);
         }
         return binding.getRoot();

@@ -24,6 +24,7 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.RecentBlogViewAdapter;
 import com.app.frimline.databinding.ActivityBlogDetailsBinding;
 import com.app.frimline.models.BlogModel;
+import com.app.frimline.models.LAYOUT_TYPE;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -62,9 +63,11 @@ public class BlogDetailsActivity extends BaseActivity {
         } else {
             List<BlogModel> outCategoryModels = new ArrayList<>();
             outCategoryModels.add(new BlogModel());
-            outCategoryModels.add(new BlogModel());
-            outCategoryModels.add(new BlogModel());
-            outCategoryModels.add(new BlogModel());
+            BlogModel model =new BlogModel();
+            model.setLayoutType(LAYOUT_TYPE.LAYOUT_ONE_BLOG);
+            outCategoryModels.add(model);
+            binding.shimmerViewContainer.setVisibility(View.GONE);
+
             RecentBlogViewAdapter sliderAdapter = new RecentBlogViewAdapter(outCategoryModels, act);
             binding.viewPager.setAdapter(sliderAdapter);
             binding.dotsIndicator.setViewPager(binding.viewPager);

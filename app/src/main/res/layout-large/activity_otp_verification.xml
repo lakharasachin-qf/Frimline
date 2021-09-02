@@ -179,8 +179,10 @@
                                 android:textSize="@dimen/_16sdp" />
 
                             <TextView
+                                android:id="@+id/mobileNoLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/black"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_marginBottom="@dimen/_5sdp"
@@ -232,16 +234,31 @@
                             <!--                    app:text_typeface="bold"-->
                             <!--                    app:width="70sp" />-->
 
-
-                            <TextView
+                            <LinearLayout
+                                android:layout_marginTop="@dimen/_7sdp"
+                                android:id="@+id/resendLayout"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="@dimen/_7sdp"
-                                android:fontFamily="@font/proxima_nova_regular"
-                                android:text="Don't receive the OTP? Resend OTP"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_8sdp" />
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/proxima_nova_regular"
+                                    android:text="Don't receive the OTP? "
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_8sdp" />
+                                <TextView
+                                    android:id="@+id/resend"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/proxima_nova_regular"
+                                    android:text="Resend OTP"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_8sdp" />
+                            </LinearLayout>
+
+
 
                             <include
 

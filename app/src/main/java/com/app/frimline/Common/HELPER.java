@@ -567,9 +567,10 @@ public class HELPER {
                 result = df.parse(dateStr);
                 System.out.println("date:" + result);
                 // @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+           //     @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
                 // sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-                System.out.println(sdf.format(result)); //prints date in the format sdf
+                System.out.println(sdf.format(result)); // prints date in the format sdf
                 convertedDate = sdf.format(result);
             } catch (ParseException e) {
                 e.printStackTrace();

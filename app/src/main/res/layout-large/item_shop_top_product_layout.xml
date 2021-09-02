@@ -5,10 +5,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/product"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:layout_width="@dimen/_140sdp"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_7sdp"
         app:cardElevation="@dimen/_3sdp"
@@ -16,12 +16,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/productSectionLeft"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_110sdp"
+                android:layout_height="@dimen/_130sdp"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginEnd="@dimen/_4sdp"
@@ -47,10 +47,10 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/proxima_nova_regular"
                 android:includeFontPadding="false"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:text="Dente91 Lactoferrin Mouthwash"
                 android:textColor="@color/colorToolbarHeader"
-                android:textSize="@dimen/_10sdp" />
+                android:textSize="@dimen/_11sdp" />
 
             <View
                 android:id="@+id/underLine"
@@ -89,8 +89,8 @@
                 <ImageView
                     android:id="@+id/actionAddCart"
 
-                    android:layout_width="@dimen/_18sdp"
-                    android:layout_height="@dimen/_18sdp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="end"

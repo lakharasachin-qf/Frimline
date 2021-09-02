@@ -71,7 +71,7 @@
                         android:fontFamily="@font/proxima_nova_bold"
                         android:text="Orders"
                         android:textColor="@color/black"
-                        android:textSize="35dp" />
+                        android:textSize="34sp" />
 
                     <ImageView
                         android:id="@+id/searchAction2"

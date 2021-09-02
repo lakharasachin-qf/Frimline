@@ -36,6 +36,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
@@ -170,11 +171,13 @@
                                 android:textSize="@dimen/_18sdp" />
 
                             <TextView
+                                android:id="@+id/mobileNoLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_marginBottom="@dimen/_5sdp"
+                                android:textColor="@color/black"
                                 android:fontFamily="@font/proxima_nova_regular"
                                 android:text="Enter the OTP sent to +91-8805678943"
                                 android:textAlignment="center"
@@ -199,16 +202,33 @@
                                 app:otp_text_size="@dimen/_16sdp"
                                 app:text_typeface="bold" />
 
-                            <TextView
+                            <LinearLayout
+                                android:layout_gravity="center_horizontal"
+                                android:id="@+id/resendLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:layout_marginBottom="20dp"
-                                android:fontFamily="@font/proxima_nova_regular"
-                                android:text="Don't receive the OTP? Resend OTP"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_10sdp" />
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20dp"
+                                    android:fontFamily="@font/proxima_nova_regular"
+                                    android:text="Don't receive the OTP? "
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_10sdp" />
+
+                                <TextView
+                                    android:id="@+id/resend"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20dp"
+                                    android:fontFamily="@font/proxima_nova_regular"
+                                    android:text="Resend OTP"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_10sdp" />
+                            </LinearLayout>
 
 
                             <include
@@ -226,7 +246,6 @@
 
 
         </androidx.core.widget.NestedScrollView>
-
 
 
         <TextView

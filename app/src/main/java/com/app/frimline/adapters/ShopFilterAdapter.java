@@ -3,6 +3,7 @@ package com.app.frimline.adapters;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,14 +62,18 @@ public class ShopFilterAdapter extends RecyclerView.Adapter<ShopFilterAdapter.Vi
                         holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
                         FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER, new Gson().toJson(frameItems.get(position)));
                     }
-                    if (selectedCategory != null) {
-                        if (selectedCategory.getCategoryId().equalsIgnoreCase(frameItems.get(position).getCategoryId())) {
-                            frameItems.get(position).setActive(true);
-                            holder.chip.setTextColor(Color.WHITE);
-                            holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-                            holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-                        }
-                    }
+
+
+//                    if (frameItems.get(position).isSelectedModelForShopFiler()) {
+//                        Log.e("Selected", new Gson().toJson(selectedCategory));
+//                        Log.e("frameItems", new Gson().toJson(frameItems.get(position)));
+//                        frameItems.get(position).setActive(true);
+//                        // FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER, new Gson().toJson(frameItems.get(position)));
+//                        holder.chip.setTextColor(Color.WHITE);
+//                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
+//                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
+//                    }
+
 
 //                    if (holder.chip.getTag().toString().equalsIgnoreCase("Y")) {
 //                        holder.chip.setTag("N");
@@ -84,6 +89,17 @@ public class ShopFilterAdapter extends RecyclerView.Adapter<ShopFilterAdapter.Vi
 
                 }
             });
+
+            if (selectedCategory != null) {
+                if (selectedCategory.getCategoryId().equalsIgnoreCase(frameItems.get(position).getCategoryId())) {
+
+                    frameItems.get(position).setActive(true);
+                    // FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER, new Gson().toJson(frameItems.get(position)));
+                    holder.chip.setTextColor(Color.WHITE);
+                    holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
+                    holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
+                }
+            }
         } else {
             holder.chip.setOnClickListener(new View.OnClickListener() {
                 @Override

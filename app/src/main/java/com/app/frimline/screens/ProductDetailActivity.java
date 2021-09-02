@@ -2,10 +2,12 @@ package com.app.frimline.screens;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -101,7 +103,10 @@ public class ProductDetailActivity extends BaseActivity {
         binding.cartActionLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(act, MyCartActivity.class);
+                Intent i = new Intent(act, MyCartActivity.class);
+                i.putExtra("dataModel",gson.toJson(createCartEvent()));
+                act.startActivity(i);
+                act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
             }
         });
         binding.counter.setText("1");
@@ -246,6 +251,20 @@ public class ProductDetailActivity extends BaseActivity {
         }
     }
 
+    public DataTransferModel createCartEvent() {
+        DataTransferModel model = new DataTransferModel();
+        model.setAdapterPosition(getIntent().getStringExtra("adapterPosition"));
+        model.setProductId(getIntent().getStringExtra("productId"));
+        model.setItemPosition(getIntent().getStringExtra("itemPosition"));
+        model.setProductPosition(getIntent().getStringExtra("productPosition"));
+        model.setLayoutType(getIntent().getStringExtra("layoutType"));
+
+        model.setCartAddedId(getIntent().getStringExtra("addToCartID"));
+        model.setCartRemovedId(getIntent().getStringExtra("removeCartID"));
+
+        return model;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -347,7 +366,12 @@ public class ProductDetailActivity extends BaseActivity {
             }
             HELPER.LOAD_HTML(binding.tagsLabel, "<b>Tags : <b>" + tagsStr);
         }
-
+        Log.e("isReturnable", String.valueOf(productModel.isReturnAble())+"ss");
+        if (productModel.isReturnAble()){
+            binding.returnAbleLAbel.setText("Returnable");
+        }else{
+            binding.returnAbleLAbel.setText("Non-Returnable");
+        }
         ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId());
         if (entity != null) {
             productModel.setAddedToCart(true);

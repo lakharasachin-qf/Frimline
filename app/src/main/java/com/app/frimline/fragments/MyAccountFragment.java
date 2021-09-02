@@ -182,10 +182,7 @@ public class MyAccountFragment extends BaseFragment {
                 }
 
                 if (model.getPhoneNo() !=null && !model.getPhoneNo().isEmpty()) {
-                    if (model.getPhoneNo().startsWith("+91"))
-                        binding.mobileNo.setText(model.getPhoneNo());
-                    else
-                        binding.mobileNo.setText("+91 " + model.getPhoneNo());
+                    binding.mobileNo.setText(model.getPhoneNo());
                 } else {
                     binding.mobileNo.setVisibility(View.GONE);
 
@@ -374,8 +371,7 @@ public class MyAccountFragment extends BaseFragment {
                 binding.emailTxt.setVisibility(View.GONE);
             }
 
-
-            if (!model.getPhoneNo().isEmpty()) {
+            if (model.getPhoneNo() !=null && !model.getPhoneNo().isEmpty()) {
                 binding.mobileNo.setText(model.getPhoneNo());
             } else {
                 binding.mobileNo.setVisibility(View.GONE);

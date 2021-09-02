@@ -34,10 +34,11 @@ public class ShopAdapter extends RecyclerView.Adapter {
     private final ArrayList<HomeModel> dashBoardItemList;
 
 
-    public ShopAdapter(ArrayList<HomeModel> dashBoardItemList, Activity activity) {
+    public ShopAdapter(ArrayList<HomeModel> dashBoardItemList, Activity activity, CategorySingleModel selectedCategory) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson = new Gson();
+        this.selectedCategory = selectedCategory;
     }
 
     @NonNull
@@ -129,8 +130,9 @@ public class ShopAdapter extends RecyclerView.Adapter {
                     if (CONSTANT.API_MODE) {
 
                         ShopHotProductAdapter productAdapte3r = new ShopHotProductAdapter(model.getApiProductModel(), activity);
+
                         productAdapte3r.setParentPosition(position);
-                        ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                        ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new GridLayoutManager(activity, 2));
                         ((HotProductHolder) holder).binding.productRecycler.setAdapter(productAdapte3r);
                     } else {
                         ArrayList<ProductModel> hitModels = new ArrayList<>();

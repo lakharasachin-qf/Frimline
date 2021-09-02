@@ -4,6 +4,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -147,6 +148,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void loadData() {
         ViewPager productImagesSlider = findViewById(R.id.productImagesSlider);
         DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
@@ -157,21 +159,57 @@ public class OrderHistoryViewActivity extends BaseActivity {
         TextView orderId = findViewById(R.id.orderId);
         HELPER.LOAD_HTML(orderId, "Order Id : " + model.getOrderKey());
 
-        if (model.getProductsList().size() != 0) {
-
-        }
 
         CardView deliveredCardview = findViewById(R.id.deliveredCardview);
         TextView innerTxt = findViewById(R.id.innerTxt);
         ImageView deliveryCheckIcon = findViewById(R.id.deliveryCheckIcon);
-        if (model.getStatus().equalsIgnoreCase("processing")) {
-            innerTxt.setText("Pending");
+
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_COMPLETED) || model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PROCESSING)) {
+            binding.toolbarNavigation.downloadPDf.setVisibility(View.VISIBLE);
+        } else {
+            binding.toolbarNavigation.downloadPDf.setVisibility(View.GONE);
+        }
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PENDING)) {
+            innerTxt.setText(CONSTANT.PAYMENT_PENDING_LABEL + " " + HELPER.convertDate(model.getOrderDate()));
             deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_pending_icon_white));
         }
-        if (model.getStatus().equalsIgnoreCase("completed")) {
-            HELPER.LOAD_HTML(innerTxt, "<font><b>Delivered</b></font>");
-            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_delivered_order));
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PROCESSING)) {
+            innerTxt.setText(CONSTANT.PAYMENT_PROCESSING_LABEL + " " + HELPER.convertDate(model.getOrderDate()));
+            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_pending_icon_white));
+        }
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_ON_HOLD)) {
+            innerTxt.setText(CONSTANT.PAYMENT_ON_HOLD_LABEL + " " + HELPER.convertDate(model.getOrderDate()));
+            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_pending_icon_white));
+        }
 
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_COMPLETED)) {
+            HELPER.LOAD_HTML(innerTxt, "<font><b>" + CONSTANT.PAYMENT_COMPLETED_LABEL + "</b></font> " + HELPER.convertDate(model.getOrderDate()));
+            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_delivered_order));
+        }
+
+
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED)) {
+            innerTxt.setText(CONSTANT.PAYMENT_CANCELLED_LABEL + " " + HELPER.convertDate(model.getOrderDate()));
+            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_cancel_black_24dp));
+            deliveryCheckIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+        }
+
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_REFUNDED)) {
+            innerTxt.setText(CONSTANT.PAYMENT_REFUNDED_LABEL + " " + HELPER.convertDate(model.getOrderDate()));
+            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_cancel_black_24dp));
+            deliveryCheckIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+        }
+
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_FAILED)) {
+            innerTxt.setText(CONSTANT.PAYMENT_FAILED_LABEL + " " + HELPER.convertDate(model.getOrderDate()));
+            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_cancel_black_24dp));
+            deliveryCheckIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+        }
+
+        if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED_SALES_RETURN)) {
+            innerTxt.setText(CONSTANT.PAYMENT_CANCELLED_SALES_RETURN_LABEL + " " + HELPER.convertDate(model.getOrderDate()));
+            deliveryCheckIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_cancel_black_24dp));
+            deliveryCheckIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
         }
 
         TextView deliName = findViewById(R.id.deliName);
@@ -243,6 +281,8 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView trackingId = findViewById(R.id.trackingId);
         TextView tracklink = findViewById(R.id.trackingLink);
+        Log.e("TrackingId", model.getTrackingId() + "-");
+        Log.e("TrackingLink", model.getTrackingLink() + "-");
         if (!model.getTrackingId().isEmpty()) {
             trackingId.setText(model.getTrackingId());
 
@@ -251,7 +291,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         }
         if (!model.getTrackingLink().isEmpty()) {
             tracklink.setText(model.getTrackingLink());
-
         } else {
             tracklink.setVisibility(View.GONE);
         }

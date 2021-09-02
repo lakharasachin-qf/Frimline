@@ -130,6 +130,11 @@ public class CategoryProfileFragment extends BaseFragment {
             binding.text1.setText(wordList[0]);
         }
 
+        binding.titleTxt.setText(model.getCategoryName());
+
+        binding.shortDescription.setText("");
+
+        binding.descTXt.setText("");
         HELPER.LOAD_HTML(binding.shortDescription, model.getDescriptions());
         HELPER.LOAD_HTML(binding.descTXt, model.getLongDescription());
 

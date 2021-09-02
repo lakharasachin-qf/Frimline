@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/blog1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="340dp"
         android:layout_gravity="center_horizontal"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_7sdp"
@@ -75,8 +75,14 @@
                 android:layout_marginBottom="@dimen/_30sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/proxima_nova_regular"
-                android:maxLines="2"
+                android:maxLines="4"
+                android:lines="4"
                 android:text="Your oral health is more important
+than you might realize! It impacts
+than you might realize! It impacts
+than you might realize! It impacts
+than you might realize! It impacts
+than you might realize! It impacts
 than you might realize! It impacts
 various aspects of your lives..."
                 android:textColor="@color/colorToolbarHeader"

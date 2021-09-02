@@ -150,6 +150,7 @@ public class OrderHistoryFragment extends BaseFragment {
                         OrderHistoryAdapter productAdapter = new OrderHistoryAdapter(arrayList, getActivity());
                         binding.orderHistoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                         binding.orderHistoryRecycler.setAdapter(productAdapter);
+                        binding.orderHistoryRecycler.setHasFixedSize(true);
                     } else {
                         binding.button.setVisibility(View.GONE);
                         binding.errorText.setText("No order found yet.");

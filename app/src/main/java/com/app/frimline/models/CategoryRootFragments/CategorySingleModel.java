@@ -14,6 +14,16 @@ public class CategorySingleModel {
     private String detailImage;
     private String longDescription;
 
+    private boolean selectedModelForShopFiler=false;
+
+    public boolean isSelectedModelForShopFiler() {
+        return selectedModelForShopFiler;
+    }
+
+    public void setSelectedModelForShopFiler(boolean selectedModelForShopFiler) {
+        this.selectedModelForShopFiler = selectedModelForShopFiler;
+    }
+
     private boolean isActive = false;
 
     public boolean isActive() {

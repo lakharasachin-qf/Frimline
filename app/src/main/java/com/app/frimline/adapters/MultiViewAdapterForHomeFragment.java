@@ -142,19 +142,21 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
         if (productList.get(0).isAddedToCart()) {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+        }else{
+            binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
 
 
         binding.addCart1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!model.getProductList().get(0).isAddedToCart()) {
-                    model.getProductList().get(0).setAddedToCart(true);
+                if (!productList.get(0).isAddedToCart()) {
+                    productList.get(0).setAddedToCart(true);
                     Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                     binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
                     cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productList.get(0)));
                 } else {
-                    model.getProductList().get(0).setAddedToCart(false);
+                    productList.get(0).setAddedToCart(false);
                     Toast.makeText(activity, "Removed from cart", Toast.LENGTH_SHORT).show();
                     binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
                     cartRoomDatabase.productEntityDao().deleteProduct(productList.get(0).getId());
@@ -234,12 +236,18 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
             if (productList.get(0).isAddedToCart()) {
                 binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+            }else{
+                binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
             }
             if (productList.get(1).isAddedToCart()) {
                 binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+            }else{
+                binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
             }
             if (productList.get(2).isAddedToCart()) {
                 binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+            }else{
+                binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
             }
 
             //first product
@@ -443,17 +451,26 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         HELPER.LOAD_HTML(binding.productPrice1, activity.getString(R.string.Rs) + productList.get(0).getPrice());
         HELPER.LOAD_HTML(binding.productPrice2, activity.getString(R.string.Rs) + productList.get(1).getPrice());
 
+
+        //check cart db
         ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(0).getId());
         productList.get(0).setAddedToCart(entity != null);
+        entity = cartRoomDatabase.productEntityDao().findProductByProductId(productList.get(1).getId());
         productList.get(1).setAddedToCart(entity != null);
+
 
 
         if (productList.get(0).isAddedToCart()) {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+        }else{
+            binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
         if (productList.get(1).isAddedToCart()) {
             binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+        }else{
+            binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
+
         //load data
         Glide.with(activity).load(productList.get(0).getProductImagesList().get(0))
                 .placeholder(R.drawable.ic_square_place_holder)
@@ -560,6 +577,18 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         public TwoProductViewHolder(ItemProductSectionTwoLayoutBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+            changeColor();
+        }
+        public void changeColor(){
+            PREF pref = new PREF(activity);
+            String colorCode = "";
+            if (applyThemeColor) {
+                colorCode = pref.getThemeColor();
+            } else {
+                colorCode = pref.getCategoryColor();
+            }
+            binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
+            binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
     }
 

@@ -240,6 +240,21 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:background="@drawable/shape_button_second"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:includeFontPadding="false"
+                android:text="Apply"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -312,8 +327,8 @@
             android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="vertical"
+            android:visibility="visible"
             shimmer:shimmer_duration="800">
 
             <include layout="@layout/shimmer_fragment_shop" />

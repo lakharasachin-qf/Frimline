@@ -9,8 +9,9 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/blog1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="540dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/_12sdp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_7sdp"
         app:cardElevation="@dimen/_2sdp"
@@ -35,7 +36,7 @@
                     android:id="@+id/productImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/product_place" />
             </androidx.cardview.widget.CardView>
 
@@ -77,8 +78,11 @@
                 android:layout_marginBottom="@dimen/_30sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/proxima_nova_regular"
-                android:maxLines="2"
+                android:lines="4"
+                android:maxLines="4"
                 android:text="Your oral health is more important
+than you might realize! It impacts
+than you might realize! It impacts
 than you might realize! It impacts
 various aspects of your lives..."
                 android:textColor="@color/colorToolbarHeader"
@@ -90,10 +94,8 @@ various aspects of your lives..."
         android:id="@+id/chip1"
         style="@style/ChipStyleForTab"
         android:layout_height="@dimen/_30sdp"
-        android:layout_below="@id/blog1"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="-45dp"
+        android:layout_marginTop="-70dp"
         android:layout_marginBottom="5dp"
         android:elevation="@dimen/_4sdp"
         android:fontFamily="@font/proxima_nova_bold"

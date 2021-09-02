@@ -49,11 +49,13 @@ public class HomeBannerAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.item_home_banner_child_layout, null);
         if (CONSTANT.API_MODE) {
             ImageView productImages = view.findViewById(R.id.banner);
-            //Glide.with(context).load(sliderImg.get(position).getUrl()).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
-            Glide.with(context).load(R.drawable.ic_banner_place_holder).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
+            Glide.with(context).load(sliderImg.get(position).getUrl()).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
+            //Glide.with(context).load(R.drawable.ic_banner_place_holder).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
         } else {
+
             LinearLayout dummyContainer = view.findViewById(R.id.dummyContainer);
             dummyContainer.setVisibility(View.VISIBLE);
+
         }
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);

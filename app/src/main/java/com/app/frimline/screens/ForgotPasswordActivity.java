@@ -122,12 +122,15 @@ public class ForgotPasswordActivity extends BaseActivity {
         binding.backgroundLayar2.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
         binding.otpIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
         binding.otpTitle.setTextColor((Color.parseColor(pref.getThemeColor())));
+        binding.verifiedTxt.setTextColor((Color.parseColor(pref.getThemeColor())));
+        binding.otpVerfiedIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 
         VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_mobile_password, binding.otpIcon);
         VectorDrawableCompat.VFullPath path1 = vector.findPathByName("colorGreen");
         path1.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
         path1 = vector.findPathByName("colorGreen1");
         path1.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
+
 
 
         vector = new VectorChildFinder(act, R.drawable.ic_otp_verified, binding.otpVerfiedIcon);
@@ -165,6 +168,8 @@ public class ForgotPasswordActivity extends BaseActivity {
                 if (jsonObject != null && jsonObject.has("code")) {
                     if (ResponseHandler.getString(jsonObject, "code").equals("200")) {
                         //errorDialog("Forgot Password", ResponseHandler.getString(jsonObject, "msg"), true);
+                        binding.verifiedTxt.setText("Email Sent");
+                        binding.msgSent.setText("We sent you a reset password link on entered email id. Click on the link and reset your password");
                         binding.resetPasswordContainer.setVisibility(View.GONE);
                         binding.containerVerified.setVisibility(View.VISIBLE);
                     } else {

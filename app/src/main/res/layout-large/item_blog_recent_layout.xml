@@ -20,7 +20,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/blog1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="540dp"
                 android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/_7sdp"
@@ -46,7 +46,7 @@
                             android:id="@+id/productImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/product_place" />
                     </androidx.cardview.widget.CardView>
 
@@ -105,7 +105,7 @@ various aspects of your lives..."
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="-45dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="25dp"
                 android:elevation="@dimen/_3sdp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:shadowColor="@color/orange"
@@ -122,14 +122,14 @@ various aspects of your lives..."
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="550dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/blog2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="540dp"
                 android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/_7sdp"
@@ -155,7 +155,7 @@ various aspects of your lives..."
                             android:id="@+id/productImage2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/product_place" />
                     </androidx.cardview.widget.CardView>
 
@@ -216,7 +216,7 @@ various aspects of your lives..."
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="-45dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="25dp"
                 android:elevation="@dimen/_3sdp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:shadowColor="@color/orange"

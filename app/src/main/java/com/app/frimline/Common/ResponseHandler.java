@@ -8,6 +8,7 @@ import com.app.frimline.models.BlogModel;
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.CategoryRootFragments.ReviewRootModel;
+import com.app.frimline.models.CountryModel;
 import com.app.frimline.models.HomeFragements.Attribute;
 import com.app.frimline.models.HomeFragements.BannerModel;
 import com.app.frimline.models.HomeFragements.CouponCodeModel;
@@ -22,6 +23,8 @@ import com.app.frimline.models.OrderedProductModel;
 import com.app.frimline.models.ProfileModel;
 import com.app.frimline.models.QAModel;
 import com.app.frimline.models.SearchModel;
+import com.app.frimline.models.StateModel;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -151,6 +154,9 @@ public class ResponseHandler {
                 model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
                 model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
                 model.setStockStatus(getString(productObj, "stock_status"));
+
+
+
                 ArrayList<Tags> tagsArrayList = new ArrayList<>();
                 for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {
                     Tags tags = new Tags();
@@ -169,7 +175,9 @@ public class ResponseHandler {
                 Attribute attribute = new Attribute();
                 JSONArray metaDataArra = getJSONArray(productObj, "meta_data");
                 for (int md = 0; md < metaDataArra.length(); md++) {
-
+                    if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("ch_returnable")) {
+                        model.setReturnAble(metaDataArra.getJSONObject(md).getString("value").equalsIgnoreCase("returnable"));
+                    }
                     if (metaDataArra.getJSONObject(md).getString("key").equalsIgnoreCase("how_touse")) {
                         attribute.setHowToUse(metaDataArra.getJSONObject(md).getString("value"));
                     }
@@ -262,17 +270,26 @@ public class ResponseHandler {
 
 
     public static HomeModel getBannerList(JSONObject jsonObject) {
-
-
         ArrayList<BannerModel> categoryList = new ArrayList<>();
+        JSONArray bannerArray = getJSONArray(jsonObject, "banner");
 
-        BannerModel singleModel = new BannerModel();
-        singleModel.setUrl(getString(jsonObject, "banner_1"));
-        categoryList.add(singleModel);
+        for (int i = 0; i < bannerArray.length(); i++) {
+            try {
+                BannerModel singleModel = new BannerModel();
+                singleModel.setUrl(bannerArray.getString(i));
+                categoryList.add(singleModel);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
-        singleModel = new BannerModel();
-        singleModel.setUrl(getString(jsonObject, "banner_2"));
-        categoryList.add(singleModel);
+//        BannerModel singleModel = new BannerModel();
+//        singleModel.setUrl(getString(jsonObject, "banner_1"));
+//        categoryList.add(singleModel);
+//
+//        singleModel = new BannerModel();
+//        singleModel.setUrl(getString(jsonObject, "banner_2"));
+//        categoryList.add(singleModel);
 
 
         HomeModel categoryModel = new HomeModel();
@@ -551,6 +568,7 @@ public class ResponseHandler {
 
             HomeModel hotProductModel = getHotProducts(jsonObject);
             if (hotProductModel.getApiProductModel().size() != 0) {
+                Log.e("Data", new Gson().toJson(hotProductModel.getApiProductModel()));
                 rootArrayList.add(hotProductModel);
                 count++;
             }
@@ -885,6 +903,7 @@ public class ResponseHandler {
                 for (int i = 0; i < categoryArr.length(); i++) {
                     CategorySingleModel singleModel = new CategorySingleModel();
                     try {
+
                         singleModel.setCategoryId(getString(categoryArr.getJSONObject(i), "id"));
                         singleModel.setCategoryName(getString(categoryArr.getJSONObject(i), "name"));
                         singleModel.setSlug(getString(categoryArr.getJSONObject(i), "slug"));
@@ -897,6 +916,8 @@ public class ResponseHandler {
                         singleModel.setCatColor(getString(categoryArr.getJSONObject(i), "cat_color"));
                         singleModel.setDetailImage(getString(categoryArr.getJSONObject(i), "details_image"));
                         singleModel.setLongDescription(getString(categoryArr.getJSONObject(i), "long_description"));
+
+
                         categoryList.add(singleModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -911,7 +932,7 @@ public class ResponseHandler {
                 SearchModel hotSearchModel = new SearchModel();
                 hotSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
                 hotSearchModel.setHotProduct(new ArrayList<>(HotProduct));
-                if (new ArrayList<>(HotProduct).size() != 0)
+                if (hotSearchModel.getHotProduct().size() != 0)
                     searchListResult.add(hotSearchModel);
 
                 if (new ArrayList<>(HotProduct).size() == 0 && tempArray.size() == 0) {
@@ -996,6 +1017,49 @@ public class ResponseHandler {
         }
 
         return model;
+    }
+
+    public static ArrayList<CountryModel> parseCountryState(String response) {
+        ArrayList<CountryModel> countryList = new ArrayList<>();
+        JSONArray responseObj = null;
+        try {
+            responseObj = new JSONArray(response);
+            for (int i = 0; i < responseObj.length(); i++) {
+                CountryModel countryModel = new CountryModel();
+                countryModel.setName(responseObj.getJSONObject(i).getString("name"));
+                ArrayList<StateModel> stateList = new ArrayList<StateModel>();
+                for (int k = 0; k < responseObj.getJSONObject(i).getJSONArray("states").length(); k++) {
+                    StateModel stateModel = new StateModel();
+                    stateModel.setStateName(responseObj.getJSONObject(i).getJSONArray("states").getJSONObject(k).getString("name"));
+                    stateList.add(stateModel);
+                }
+                countryModel.setModels(stateList);
+
+                countryList.add(countryModel);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return countryList;
+        /*{
+        "code": "AF",
+        "name": "Afghanistan",
+        "states": [],
+        "_links": {
+            "self": [
+                {
+                    "href": "https://frimline.queryfinders.com/wp-json/wc/v3/data/countries/af"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https://frimline.queryfinders.com/wp-json/wc/v3/data/countries"
+                }
+            ]
+        }
+    },*/
     }
 
 }

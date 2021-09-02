@@ -29,7 +29,7 @@
             android:fontFamily="@font/proxima_nova_bold"
             android:includeFontPadding="false"
             android:textColor="@color/colorToolbarHeader"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="34sp" />
 
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>

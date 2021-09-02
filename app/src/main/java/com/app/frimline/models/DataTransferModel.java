@@ -7,6 +7,24 @@ public class DataTransferModel {
     private String adapterPosition;
     private String productId;
 
+    private String cartAddedId;
+    private String cartRemovedId;
+
+    public String getCartAddedId() {
+        return cartAddedId;
+    }
+
+    public void setCartAddedId(String cartAddedId) {
+        this.cartAddedId = cartAddedId;
+    }
+
+    public String getCartRemovedId() {
+        return cartRemovedId;
+    }
+
+    public void setCartRemovedId(String cartRemovedId) {
+        this.cartRemovedId = cartRemovedId;
+    }
 
     public String getAdapterPosition() {
         return adapterPosition;

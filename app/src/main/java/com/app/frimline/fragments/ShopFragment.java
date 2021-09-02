@@ -93,7 +93,7 @@ public class ShopFragment extends BaseFragment {
             homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
             arrayList.add(homeModel);
 
-            ShopAdapter shopAdapter = new ShopAdapter(arrayList, getActivity());
+            ShopAdapter shopAdapter = new ShopAdapter(arrayList, getActivity(), selectedCategory);
             binding.containerRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             binding.containerRecycler.setNestedScrollingEnabled(false);
             binding.containerRecycler.setAdapter(shopAdapter);
@@ -144,6 +144,7 @@ public class ShopFragment extends BaseFragment {
 
     public void changeTheme() {
 
+        binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.closeView.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.closeFilterView.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
@@ -233,19 +234,19 @@ public class ShopFragment extends BaseFragment {
             ListModel popularityModel = new ListModel();
             popularityModel.setName("Sort by popularity");
             popularityModel.setOrderBy("popularity");
-            popularityModel.setOrder(ListModel.ASC);
+            popularityModel.setOrder(ListModel.DESC);
             listModels.add(popularityModel);
 
             ListModel ratingModel = new ListModel();
             ratingModel.setName("Sort by average rating");
             ratingModel.setOrderBy("rating");
-            ratingModel.setOrder(ListModel.ASC);
+            ratingModel.setOrder(ListModel.DESC);
             listModels.add(ratingModel);
 
             ListModel dateModel = new ListModel();
             dateModel.setName("Sort by latest");
             dateModel.setOrderBy("date");
-            dateModel.setOrder(ListModel.ASC);
+            dateModel.setOrder(ListModel.DESC);
             listModels.add(dateModel);
 
             ListModel priceModelLowToHigh = new ListModel();
@@ -389,11 +390,18 @@ public class ShopFragment extends BaseFragment {
             }
         });
 
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.PRICE_FILTER);
+            }
+        });
+
         binding.maxPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 maxPricePosition = position;
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.PRICE_FILTER);
+                //FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.PRICE_FILTER);
             }
         });
 
@@ -425,13 +433,14 @@ public class ShopFragment extends BaseFragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Response",response);
+
                 binding.swipeContainer.setRefreshing(false);
                 stopShimmer();
                 isLoading = false;
                 rootModel = ResponseHandler.handleShopFragmentData(response);
 
-                shopAdapter = new ShopAdapter(rootModel, getActivity());
+                Log.e("select-Category",gson.toJson(selectedCategory));
+                shopAdapter = new ShopAdapter(rootModel, getActivity(),selectedCategory);
                 shopAdapter.setCategoryFilter(selectedCategory);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
                 binding.containerRecycler.setHasFixedSize(true);
@@ -535,12 +544,14 @@ public class ShopFragment extends BaseFragment {
 
                 if (frimline.getObserver().getValue() == ObserverActionID.SHOP_ADDED_TO_CART) {
                     if (shopAdapter != null) {
+                        //shopAdapter.notifyDataSetChanged();
                         relaodData(frimline.getObserver().getModel(), true);
                     }
                 }
                 if (frimline.getObserver().getValue() == ObserverActionID.SHOP_REMOVE_FROM_CART) {
                     if (shopAdapter != null) {
-                        relaodData(frimline.getObserver().getModel(), false);
+                        //shopAdapter.notifyDataSetChanged();
+                         relaodData(frimline.getObserver().getModel(), false);
                     }
                 }
                 if (frimline.getObserver().getValue() == ObserverActionID.PRICE_FILTER) {
@@ -560,10 +571,6 @@ public class ShopFragment extends BaseFragment {
                         selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
                         jsonStr = new String(frimline.getObserver().getData());
                         categoryID = selectedCategory.getCategoryId();
-
-
-
-
                         startShimmer();
                         loadShopData();
                     }
@@ -579,6 +586,10 @@ public class ShopFragment extends BaseFragment {
                 }
             }
         });
+
+    }
+
+    public void allReload() {
 
     }
 

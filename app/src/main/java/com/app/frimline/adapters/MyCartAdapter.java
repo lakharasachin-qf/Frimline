@@ -33,7 +33,10 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     private final CartRoomDatabase db;
     private final Activity activity;
     private setActionsListener actionsListener;
-    public MyCartAdapter(ArrayList<ProductModel> frameItems, Activity activity) {
+    String mode="";
+    // cart
+    // payment
+    public MyCartAdapter(ArrayList<ProductModel> frameItems, Activity activity,String mode) {
         this.frameItems = frameItems;
         this.activity = activity;
         db = CartRoomDatabase.getAppDatabase(activity);
@@ -148,6 +151,11 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                     }
                 }
             });
+        }
+
+        if (mode.equalsIgnoreCase("payment")){
+            holder.binding.actionDelete.setVisibility(View.GONE);
+            holder.binding.incrementorContainer.setVisibility(View.GONE);
         }
     }
 

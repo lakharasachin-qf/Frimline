@@ -21,6 +21,16 @@ public class ProductModel {
     private String calculatedAmount;
     private String rating;
     private Attribute attribute;
+    private boolean isReturnAble=false;
+
+    public boolean isReturnAble() {
+        return isReturnAble;
+    }
+
+    public void setReturnAble(boolean returnAble) {
+        isReturnAble = returnAble;
+    }
+
     //for cart
     private boolean isAddedToCart = false;
 

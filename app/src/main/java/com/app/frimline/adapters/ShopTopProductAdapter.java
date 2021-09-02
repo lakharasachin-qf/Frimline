@@ -72,6 +72,8 @@ public class ShopTopProductAdapter extends RecyclerView.Adapter<ShopTopProductAd
 
         if (model.isAddedToCart()) {
             binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
+        }else{
+            binding.actionAddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
 
 

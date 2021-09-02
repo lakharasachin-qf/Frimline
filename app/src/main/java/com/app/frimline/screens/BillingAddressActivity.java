@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.APIs;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.PREF;
@@ -34,11 +36,13 @@ import com.app.frimline.fragments.ChooseListBottomFragment;
 import com.app.frimline.intefaces.OnItemSelectListener;
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.CountryModel;
+import com.app.frimline.models.StateModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +56,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
     private int flag = -1;  // 0 = for billings add or edit ,  1 = for shipping add or edit
     private boolean isEdit = false;
     private boolean isLoading = false;
+    private ArrayList<StateModel> stateModelArrayList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,13 +64,14 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         binding = DataBindingUtil.setContentView(act, R.layout.activity_billing_address);
         makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
         binding.toolbarNavigation.title.setText("Checkout");
-
+        getCountryState();
         if (getIntent().hasExtra("isBilling")) {
             flag = 0;
             binding.toolbarNavigation.title.setText("Add Billing Address");
             if (getIntent().getBooleanExtra("isBilling", false)) {
                 isEdit = true; //comes for edit billing address
                 binding.toolbarNavigation.title.setText("Edit Billing Address");
+                binding.label.setText("Billing Address");
                 Billing model = prefManager.getUser().getBillingAddress();
                 binding.nameEdt.setText(model.getFirstName());
                 binding.lnameEdt.setText(model.getLastName());
@@ -79,12 +85,15 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.phoneNoEdt.setText(model.getPhone());
                 binding.emailEdt.setText(model.getEmail());
             }
+            binding.includeBtn.button.setText("Submit");
+
             binding.billingSectionOther.setVisibility(View.VISIBLE);
         } else if (getIntent().hasExtra("isShipping")) {
             flag = 1;
             binding.toolbarNavigation.title.setText("Add Shipping Address");
             if (getIntent().getBooleanExtra("isShipping", false)) {
                 isEdit = true; //comes for edit billing address
+                binding.label.setText("Shipping Address");
                 binding.toolbarNavigation.title.setText("Edit Shipping Address");
                 Billing model = prefManager.getUser().getShippingAddress();
                 binding.nameEdt.setText(model.getFirstName());
@@ -96,9 +105,9 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.cityEdt.setText(model.getCity());
                 binding.postalCodeEdt.setText(model.getPostCode());
                 binding.stateEdt.setText(model.getState());
-
-
             }
+            binding.includeBtn.button.setText("Submit");
+
             binding.billingSectionOther.setVisibility(View.GONE);
         } else {
             Billing model = prefManager.getUser().getBillingAddress();
@@ -114,6 +123,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             binding.phoneNoEdt.setText(model.getPhone());
             binding.emailEdt.setText(model.getEmail());
             binding.billingSectionOther.setVisibility(View.VISIBLE);
+            binding.includeBtn.button.setText("Continue");
         }
 
         binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
@@ -131,21 +141,15 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                     if (!validations()) {
                         if (flag == 0) {
                             //edit or add billing address
-                            update(APIs.UPDATE_BILLING_ADDRESS);
+                            verifyPostcode(binding.postalCodeEdt.getText().toString());
                         } else if (flag == 1) {
                             //edit or add shipping address
-                            update(APIs.UPDATE_SHIPPING_ADDRESS);
+
+                            verifyPostcode(binding.postalCodeEdt.getText().toString());
                         } else {
-                            orderParam = new JSONObject();
-                            try {
-                                orderParam.put("billing", getBillingAddress());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Intent i = new Intent(act, CheckoutAddressActivity.class);
-                            i.putExtra("orderParam", orderParam.toString());
-                            act.startActivity(i);
-                            act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+
+                            verifyPostcode(binding.postalCodeEdt.getText().toString());
+
                         }
                     }
                 }
@@ -153,11 +157,12 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             }
 
         });
-        binding.includeBtn.button.setText("Next");
+
         ((ViewGroup) findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
-
         changeTheme();
+        if (!CONSTANT.API_MODE){
+            binding.includeBtn.button.setText("Next");
+        }
     }
 
     private JSONObject getBillingAddress() {
@@ -228,7 +233,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         binding.countryEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragmentList();
+                showFragmentList(CONSTANT.COUNTRY, "Country");
             }
         });
     }
@@ -357,20 +362,56 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         return isError;
     }
 
-    public void showFragmentList() {
-        bottomSheetFragment = new ChooseListBottomFragment();
+    public void showFragmentList(int flag, String title) {
+        bottomSheetFragment = new ChooseListBottomFragment(title, countryList, flag, stateModelArrayList);
+
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
         }
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
-        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+        if (!bottomSheetFragment.isVisible()) {
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        }
     }
 
     @Override
-    public void onItemSelect(CountryModel model, int postion) {
-        binding.countryEdt.setText(model.getName());
+    public void onItemSelect(CountryModel model, int postion, int flag) {
+        if (flag == CONSTANT.COUNTRY) {
+            binding.countryEdt.setText(model.getName());
+            if (model.getModels() != null && model.getModels().size() != 0) {
+                stateModelArrayList = model.getModels();
+                binding.stateEdt.setClickable(true);
+                binding.stateEdt.setFocusable(false);
+                binding.stateEdt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_dropdown, 0);
+                binding.stateEdt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showFragmentList(CONSTANT.STATE,"State");
+                    }
+                });
+            } else {
+                binding.stateEdt.setClickable(false);
+                binding.stateEdt.setFocusable(true);
+                binding.stateEdt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                binding.stateEdt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
+        }
+        bottomSheetFragment.dismiss();
+    }
+
+    @Override
+    public void onItemSelect(StateModel model, int postion, int flag) {
+        if (flag == CONSTANT.STATE) {
+            binding.stateEdt.setText(model.getStateName());
+        }
         bottomSheetFragment.dismiss();
     }
 
@@ -474,15 +515,17 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent data = new Intent();
-                if (title.equalsIgnoreCase("Error")) {
-                    data.putExtra("failed", "1");
-                    setResult(RESULT_CANCELED, data);
-                } else {
-                    data.putExtra("success", "1");
-                    setResult(RESULT_OK, data);
+                if (flag != -1) {
+                    Intent data = new Intent();
+                    if (title.equalsIgnoreCase("Error")) {
+                        data.putExtra("failed", "1");
+                        setResult(RESULT_CANCELED, data);
+                    } else {
+                        data.putExtra("success", "1");
+                        setResult(RESULT_OK, data);
+                    }
+                    finish();
                 }
-                finish();
 
 
             }
@@ -491,4 +534,132 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
+
+    private ArrayList<CountryModel> countryList;
+
+    private void getCountryState() {
+
+        if (!isLoading)
+            isLoading = true;
+        HELPER.showLoadingTran(act);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Response", response);
+                HELPER.dismissLoadingTran();
+                countryList = ResponseHandler.parseCountryState(response);
+                Log.e("Response", String.valueOf(countryList.size()));
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        HELPER.dismissLoadingTran();
+                        isLoading = false;
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = getHeader();
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+    private void verifyPostcode(String postCode) {
+
+        if (!isLoading)
+            isLoading = true;
+        HELPER.showLoadingTran(act);
+
+        //HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Response", response);
+                HELPER.dismissLoadingTran();
+                JSONObject object = ResponseHandler.createJsonObject(response);
+                if (object != null) {
+                    if (ResponseHandler.getString(object, "status").equals("1")) {
+                        if (flag == 0){
+                            update(APIs.UPDATE_BILLING_ADDRESS);
+                        }else if(flag ==1){
+                            update(APIs.UPDATE_SHIPPING_ADDRESS);
+                        }else {
+                            orderParam = new JSONObject();
+                            try {
+                                orderParam.put("billing", getBillingAddress());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Intent i = new Intent(act, CheckoutAddressActivity.class);
+                            i.putExtra("countryList", gson.toJson(countryList));
+                            i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
+                            i.putExtra("orderParam", orderParam.toString());
+                            act.startActivity(i);
+                            act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                        }
+                    } else {
+                        infoAlert("Error", ResponseHandler.getString(object, "msg"));
+                    }
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        HELPER.dismissLoadingTran();
+                        isLoading = false;
+                        NetworkResponse response = error.networkResponse;
+                        if (response.statusCode == 400) {
+                            try {
+                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                                JSONObject jsonObject = new JSONObject(jsonString);
+                                Log.e("jsosnErir", jsonString);
+                                infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
+                            } catch (UnsupportedEncodingException | JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.e("Error", gson.toJson(response.headers));
+                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                        }
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = getHeader();
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("shipping_postcode", postCode);
+
+                return params;
+            }
+        };
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
 }

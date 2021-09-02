@@ -33,7 +33,7 @@
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/productImagesSlider"
-
+android:layout_marginBottom="@dimen/_10sdp"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_300sdp"
                         android:layout_marginTop="60dp"
@@ -48,8 +48,8 @@
                         android:layout_below="@+id/productImagesSlider"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="-20dp"
-                        android:layout_marginBottom="30dp"
+                        android:layout_marginTop="-25dp"
+                        android:layout_marginBottom="45dp"
                         app:dotsColor="#B78C8C8C"
                         app:dotsCornerRadius="8dp"
                         app:dotsSize="8dp"
@@ -206,6 +206,7 @@
                                 android:src="@drawable/ic_not_returnable" />
 
                             <TextView
+                                android:id="@+id/returnAbleLAbel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"

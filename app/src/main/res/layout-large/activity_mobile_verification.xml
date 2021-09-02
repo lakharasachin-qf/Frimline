@@ -97,7 +97,7 @@
                                 android:textSize="@dimen/_16sdp" />
 
                             <TextView
-
+                                android:id="@+id/msgSent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
