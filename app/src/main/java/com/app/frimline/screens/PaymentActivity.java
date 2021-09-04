@@ -67,10 +67,15 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         ((ViewGroup) findViewById(R.id.bottomSlider)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         binding.boottomFooter.setOnClickListener(v -> {
             //generateRazorpayOrderId();
-            if (binding.payOnlineRadioBtn.isChecked()) {
-                createPayment();
-            } else {
-                finalOrderDone();
+            if (binding.acceptTerms.isChecked()) {
+
+                if (binding.payOnlineRadioBtn.isChecked()) {
+                    createPayment();
+                } else {
+                    finalOrderDone();
+                }
+            }else{
+                errorDialog("Error", "Please accept terms & conditions for further process.", 1);
             }
         });
         binding.toolbarNavigation.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
@@ -412,7 +417,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
             binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
             binding.couponHeading.setText("Coupon Discount (" + ResponseHandler.getString(promoCodeObject, "code") + ")");
-
+            binding.couponLayout.setVisibility(View.VISIBLE);
         } else {
 
             binding.couponHeading.setText("Coupon");
@@ -426,6 +431,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             double codCharges = Double.parseDouble(codChargesAmount);
             finalAmount = finalAmount + codCharges;
             binding.CODAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(codCharges));
+            binding.codLayout.setVisibility(View.VISIBLE);
         } else {
             binding.codLayout.setVisibility(View.GONE);
         }
@@ -442,7 +448,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             double afterRoundOff = Double.parseDouble(HELPER.format.format(Math.round(finalAmount)));
             roundedOffValue = afterRoundOff - finalAmount;
             finalAmount = afterRoundOff;
-
+            binding.shippingLayout.setVisibility(View.VISIBLE);
         } else {
 
             binding.shippingLayout.setVisibility(View.GONE);
@@ -472,7 +478,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         final Activity activity = this;
         try {
             JSONObject options = new JSONObject();
-            options.put("name", "Brand Mania");
+            options.put("name", "Frimline");
             options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
             //options.put("orderId", razorpayOrderId);
             options.put("theme.color", prefManager.getThemeColor());
@@ -509,7 +515,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
     public void onPaymentError(int i, String s, PaymentData paymentData) {
         Log.e("Payment Fail", s);
         isOnlinePaymentSuccess = false;
-        finalOrderDone();
+        errorDialog("Order Fail!", "Your order payment is cancel", 1);
+       // finalOrderDone();
     }
 
     boolean isOnlinePaymentSuccess = false;
@@ -530,15 +537,19 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 orderParam.put("payment_method", "cod");
                 orderParam.put("cod_charges", codChargesAmount);
                 orderParam.put("status", "1");
-
             }
             if (binding.payOnlineRadioBtn.isChecked()) {
+
                 orderParam.put("payment_method", "razorpay");
                 orderParam.put("transaction_id", transactionId);
+
+
                 if (isOnlinePaymentSuccess)
                     orderParam.put("status", "1");
                 else
                     orderParam.put("status", "0");
+
+
             }
 
         } catch (JSONException e) {
@@ -606,8 +617,9 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             public void onClick(View v) {
                 alertDialog.dismiss();
 
-                Intent i = new Intent(act, CategoryRootActivity.class);
+                Intent i = new Intent(act, CategoryLandingActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                i.putExtra("targetCategory","order");
                 startActivity(i);
 
             }

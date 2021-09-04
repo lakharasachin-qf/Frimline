@@ -145,8 +145,9 @@ public class MyAccountFragment extends BaseFragment {
 
                 if (model.getPhoneNo() != null && !model.getPhoneNo().isEmpty()) {
                     binding.mobileNo.setText(model.getPhoneNo());
+                    binding.mobileNo.setVisibility(View.VISIBLE);
+
                 } else {
-                    binding.mobileNo.setVisibility(View.GONE);
 
                 }
                 //binding..setText(model.getDisplayName());
@@ -184,7 +185,7 @@ public class MyAccountFragment extends BaseFragment {
                 if (model.getPhoneNo() !=null && !model.getPhoneNo().isEmpty()) {
                     binding.mobileNo.setText(model.getPhoneNo());
                 } else {
-                    binding.mobileNo.setVisibility(View.GONE);
+                //    binding.mobileNo.setVisibility(View.GONE);
 
                 }
                 //binding..setText(model.getDisplayName());
@@ -374,7 +375,7 @@ public class MyAccountFragment extends BaseFragment {
             if (model.getPhoneNo() !=null && !model.getPhoneNo().isEmpty()) {
                 binding.mobileNo.setText(model.getPhoneNo());
             } else {
-                binding.mobileNo.setVisibility(View.GONE);
+               // binding.mobileNo.setVisibility(View.GONE);
 
             }
         }

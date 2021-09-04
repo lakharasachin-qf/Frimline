@@ -88,6 +88,7 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         }
 
 
+
     }
 
     @Override
@@ -116,6 +117,10 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             if (getIntent().getStringExtra("fragment").equalsIgnoreCase("Checkout")) {
                 defaultLoad = DrawerMenu.HOME_FRAGMENT;
             }
+        }
+
+        if (getIntent().hasExtra("targetCategory")) {
+            defaultLoad = DrawerMenu.ORDER_HISTORY;
         }
 
 

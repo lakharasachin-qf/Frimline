@@ -91,7 +91,11 @@ public class QnAFragment extends BaseFragment {
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddReviewDialog();
+                if (pref.isLogin()) {
+                    showAddReviewDialog();
+                }else{
+                    confirmationDialog("Ask Question","You must be logged in to ask question.",011);
+                }
             }
         });
         binding.askNowTxt.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +197,7 @@ public class QnAFragment extends BaseFragment {
     }
 
     public void showAddReviewDialog() {
+
         if (alertDialog != null && alertDialog.isShowing())
             alertDialog.dismiss();
 
@@ -203,6 +208,7 @@ public class QnAFragment extends BaseFragment {
         reqBinding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         alertDialog = builder.create();
         alertDialog.setContentView(reqBinding.getRoot());
+        reqBinding.titleTxt.setText("Ask Question");
         reqBinding.dialogCloseImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,21 +216,22 @@ public class QnAFragment extends BaseFragment {
 
             }
         });
+
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
         reqBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (CONSTANT.API_MODE) {
                     addQuestion();
                 } else {
                     alertDialog.dismiss();
                 }
-
             }
         });
+
     }
 
     private void addQuestion() {

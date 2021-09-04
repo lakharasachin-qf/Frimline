@@ -4,7 +4,6 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CatBannerAdapter;
 import com.app.frimline.adapters.CategoryAdapter;
+import com.app.frimline.adapters.ParentHomeAdapter;
 import com.app.frimline.adapters.TodaysTomorrowAdapter;
 import com.app.frimline.databinding.FragmentCategoryRootBinding;
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class CategoryRootFragment extends BaseFragment {
@@ -214,6 +216,7 @@ public class CategoryRootFragment extends BaseFragment {
                 binding.todaysRecycler.setLayoutManager(mLayoutManager);
                 binding.todaysRecycler.setAdapter(adapter);
 
+
                 CategoryAdapter categoryAdapter = new CategoryAdapter(rootModel.getCategoryList(), act);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(act, RecyclerView.HORIZONTAL, false);
                 binding.categoryRecycler.setNestedScrollingEnabled(false);
@@ -229,10 +232,25 @@ public class CategoryRootFragment extends BaseFragment {
     }
 
     public void loadBanner() {
-            CatBannerAdapter sliderAdapter = new CatBannerAdapter(rootModel.getBannerList(), getActivity());
-            binding.viewPager.setAdapter(sliderAdapter);
-            binding.dot.setViewPager(binding.viewPager);
-            binding.dot.setSelectedDotColor(Color.parseColor(new PREF(act).getThemeColor()));
+        CatBannerAdapter sliderAdapter = new CatBannerAdapter(rootModel.getBannerList(), getActivity());
+        binding.viewPager.setAdapter(sliderAdapter);
+        binding.dot.setViewPager(binding.viewPager);
+        binding.dot.setSelectedDotColor(Color.parseColor(new PREF(act).getThemeColor()));
+        Timer timer;
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                binding.viewPager.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.viewPager.setCurrentItem((binding.viewPager.getCurrentItem() + 1) % sliderAdapter.getCount(), true);
+                    }
+                });
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(timerTask, 7000, 7000);
     }
 
     public ArrayList<TodaysModel> prepareData() {

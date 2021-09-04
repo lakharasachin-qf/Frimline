@@ -517,14 +517,12 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 alertDialog.dismiss();
                 if (flag != -1) {
                     Intent data = new Intent();
-                    if (title.equalsIgnoreCase("Error")) {
-                        data.putExtra("failed", "1");
-                        setResult(RESULT_CANCELED, data);
-                    } else {
+                    if (!title.equalsIgnoreCase("Error")) {
                         data.putExtra("success", "1");
                         setResult(RESULT_OK, data);
+                        finish();
                     }
-                    finish();
+
                 }
 
 

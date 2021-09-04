@@ -52,6 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 new PREF(activity).setConfiguration(pref.getThemeColor(), model.getCatColor());
+                new PREF(activity).setCurrentCategory(model);
                 Intent i = new Intent(activity, CategoryLandingActivity.class);
                 i.putExtra("model", new Gson().toJson(model));
                 activity.startActivity(i);

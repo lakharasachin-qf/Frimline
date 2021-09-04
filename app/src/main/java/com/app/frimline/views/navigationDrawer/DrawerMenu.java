@@ -33,6 +33,8 @@ import com.app.frimline.fragments.MyAccountFragment;
 import com.app.frimline.fragments.OrderHistoryFragment;
 import com.app.frimline.fragments.ShopFragment;
 import com.app.frimline.screens.BillingAddressActivity;
+import com.app.frimline.screens.CategoryLandingActivity;
+import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.LoginActivity;
 import com.app.frimline.screens.MyCartActivity;
 import com.app.frimline.screens.SearchActivity;
@@ -45,6 +47,7 @@ public class DrawerMenu {
     public static int CATEGORY_ROOT_FRAGMENT = 0;
     public static int SHOP_FRAGMENT = 2;
     public static int HOME_FRAGMENT = 1;
+    public static int ORDER_HISTORY = 3;
     public String currentMenuItem;
     DrawerLayout drawer;
     RelativeLayout HomePageLayout;
@@ -94,6 +97,24 @@ public class DrawerMenu {
         else if (defaultFragmentFlag == SHOP_FRAGMENT) {
             addFragment(shopFragment);
             currentMenuItem = "Shop";
+        }
+        else if (defaultFragmentFlag == ORDER_HISTORY) {
+            HomePageLayout = activity.findViewById(R.id.HomePageLayout);
+            searchAction = activity.findViewById(R.id.searchAction);
+            searchAction2 = activity.findViewById(R.id.searchAction2);
+            titleTxt = activity.findViewById(R.id.titleTxt);
+            OtherScreenLayout = activity.findViewById(R.id.OtherScreenLayout);
+            addFragment(orderHistoryFragment);
+            Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+
+            toolbar_Navigation.setVisibility(View.VISIBLE);
+            HomePageLayout.setVisibility(View.GONE);
+            searchAction2.setVisibility(View.GONE);
+            OtherScreenLayout.setVisibility(View.VISIBLE);
+            titleTxt.setText("Orders");
+            currentMenuItem = "Order History";
+
+
         }
     }
 
@@ -188,8 +209,14 @@ public class DrawerMenu {
                         switch (headerList.get(groupPosition).menuName) {
                             case "Dashboard":
                                 drawer.closeDrawer(GravityCompat.START);
-                                ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                                HELPER.ON_BACK_PRESS(activity);
+                                if (defaultFragmentFlag == ORDER_HISTORY){
+                                    Intent i = new Intent(activity, CategoryRootActivity.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    activity.startActivity(i);
+                                }else {
+                                    ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                    HELPER.ON_BACK_PRESS(activity);
+                                }
                                 break;
                             case "Home":
                                 fragmentSelected = homeFragment;
@@ -212,26 +239,12 @@ public class DrawerMenu {
                             case "Checkout":
                                 // fragmentSelected = blogsFragment;
                                 drawer.closeDrawer(GravityCompat.START);
-
                                 HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
                                 break;
                             case "About us":
-                                fragmentSelected = commonFragment;
-                                HomePageLayout.setVisibility(View.VISIBLE);
-                                OtherScreenLayout.setVisibility(View.GONE);
-                                break;
-
-                            case "Contact us":
-                                fragmentSelected = commonFragment;
-                                HomePageLayout.setVisibility(View.VISIBLE);
-                                OtherScreenLayout.setVisibility(View.GONE);
-                                break;
-                            case "Privacy Policy":
-                                fragmentSelected = commonFragment;
-                                HomePageLayout.setVisibility(View.VISIBLE);
-                                OtherScreenLayout.setVisibility(View.GONE);
-                                break;
                             case "Shipping Policy":
+                            case "Privacy Policy":
+                            case "Contact us":
                                 fragmentSelected = commonFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 OtherScreenLayout.setVisibility(View.GONE);
@@ -246,14 +259,13 @@ public class DrawerMenu {
                                 break;
 
                             case "Logout":
-
+                                toolbar_Navigation.setVisibility(View.GONE);
                                 new PREF(activity).Logout();
                                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                                 drawer.closeDrawer(GravityCompat.START);
                                 headerList.remove(headerList.size() - 1);
                                 headerList.remove(3);
                                 expandableListAdapter.notifyDataSetChanged();
-
                                 break;
                         }
                     }
@@ -266,6 +278,8 @@ public class DrawerMenu {
                 return true;
             }
         });
+
+
 
 
         orderHistoryTab.setOnClickListener(new View.OnClickListener() {

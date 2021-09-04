@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.ProfileModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -82,6 +83,17 @@ public class PREF {
 
     public void setUser(ProfileModel token) {
         pref.edit().putString("user", new Gson().toJson(token)).apply();
+    }
+
+
+
+
+    public CategorySingleModel getCurrentCategory() {
+        return new Gson().fromJson(pref.getString("currentCat", null), CategorySingleModel.class);
+    }
+
+    public void setCurrentCategory(CategorySingleModel token) {
+        pref.edit().putString("currentCat", new Gson().toJson(token)).apply();
     }
 
     public String getPassword(String email) {

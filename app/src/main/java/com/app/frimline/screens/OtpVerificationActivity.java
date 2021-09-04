@@ -280,6 +280,10 @@ public class OtpVerificationActivity extends BaseActivity {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
                                 errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                                binding.container.setVisibility(View.VISIBLE);
+                                binding.progressBar.setVisibility(View.GONE);
+                                binding.containerVerified.setVisibility(View.GONE);
+
                             } catch (UnsupportedEncodingException | JSONException e) {
                                 e.printStackTrace();
                             }

@@ -33,6 +33,8 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ParentHomeAdapter extends RecyclerView.Adapter {
     private final Gson gson;
@@ -125,11 +127,27 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.BANNER:
                     if (CONSTANT.API_MODE) {
+                        Timer timer;
+
                         HomeBannerAdapter sliderAdapter = new HomeBannerAdapter(model.getBannerList(), activity);
                         ((Banner) holder).binding.viewPager.setAdapter(sliderAdapter);
 
                         ((Banner) holder).binding.dot.setViewPager(((Banner) holder).binding.viewPager);
                         ((Banner) holder).binding.dot.setSelectedDotColor(Color.parseColor(new PREF(activity).getCategoryColor()));
+                        TimerTask timerTask = new TimerTask() {
+                            @Override
+                            public void run() {
+                                ((Banner) holder).binding.viewPager.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((Banner) holder).binding.viewPager.setCurrentItem((((Banner) holder).binding.viewPager.getCurrentItem() + 1) % sliderAdapter.getCount(), true);
+                                    }
+                                });
+                            }
+                        };
+
+                        timer = new Timer();
+                        timer.schedule(timerTask, 7000, 7000);
                     } else {
                         List<BannerModel> outCategoryModels = new ArrayList<>();
                         outCategoryModels.add(new BannerModel());

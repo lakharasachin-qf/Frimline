@@ -313,6 +313,7 @@ public class MyCartActivity extends BaseActivity {
     }
 
     public void confirmationDialog(String title, String msg, int action) {
+        HELPER.dismissLoadingTran();
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
@@ -328,18 +329,18 @@ public class MyCartActivity extends BaseActivity {
 
             }
         });
+        discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                if (CONSTANT.API_MODE){
 
-                }else {
                     HELPER.showLoadingTran(act);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (action == CONSTANT.NO_ACTION) {
+                                HELPER.dismissLoadingTran();
 
                             } else if (action == CONSTANT.ACTION_2) {
                                 HELPER.dismissLoadingTran();
@@ -351,7 +352,7 @@ public class MyCartActivity extends BaseActivity {
                             }
                         }
                     }, 1000);
-                }
+
 
             }
         });

@@ -159,7 +159,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         TextView orderId = findViewById(R.id.orderId);
         HELPER.LOAD_HTML(orderId, "Order Id : " + model.getOrderKey());
 
-
         CardView deliveredCardview = findViewById(R.id.deliveredCardview);
         TextView innerTxt = findViewById(R.id.innerTxt);
         ImageView deliveryCheckIcon = findViewById(R.id.deliveryCheckIcon);
@@ -297,12 +296,12 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
 
         TextView shippingChargePrice = findViewById(R.id.shippingChargePrice);
-        if (model.getShippingTotal().isEmpty()){
+        if (model.getShippingTotal()!=null && model.getShippingTotal().isEmpty()){
             shippingChargePrice.setText(model.getShippingTotal());
         }
 
         RelativeLayout couponLayout =findViewById(R.id.couponLayout);
-        if (!model.getCouponCode().isEmpty()) {
+        if (model.getCouponCode()!=null && !model.getCouponCode().isEmpty()) {
             TextView couponAmoutTxt = findViewById(R.id.couponAmoutTxt);
             couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getCouponDiscount())));
             couponLayout.setVisibility(View.VISIBLE);

@@ -257,6 +257,7 @@
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:visibility="gone"
                                 android:id="@+id/couponLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -290,7 +291,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/shippingLabel"
@@ -320,7 +321,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/CODLabel"
