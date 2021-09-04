@@ -90,6 +90,7 @@
                 android:fontFamily="@font/proxima_nova_regular"
                 android:includeFontPadding="false"
                 android:maxLines="2"
+                android:lines="2"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Crasin facilisis ligula, sed commodo nisl."
 

@@ -273,10 +273,10 @@ public class OrderHistoryViewActivity extends BaseActivity {
         }
         totalPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(actualPrice));
 
-        TextView couponAmoutTxt = findViewById(R.id.couponAmoutTxt);
-        couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getDiscountTotal())));
+
 
         TextView finalAmoutPrice = findViewById(R.id.finalAmoutPrice);
+
         finalAmoutPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getTotal())));
 
         TextView trackingId = findViewById(R.id.trackingId);
@@ -293,6 +293,21 @@ public class OrderHistoryViewActivity extends BaseActivity {
             tracklink.setText(model.getTrackingLink());
         } else {
             tracklink.setVisibility(View.GONE);
+        }
+
+
+        TextView shippingChargePrice = findViewById(R.id.shippingChargePrice);
+        if (model.getShippingTotal().isEmpty()){
+            shippingChargePrice.setText(model.getShippingTotal());
+        }
+
+        RelativeLayout couponLayout =findViewById(R.id.couponLayout);
+        if (!model.getCouponCode().isEmpty()) {
+            TextView couponAmoutTxt = findViewById(R.id.couponAmoutTxt);
+            couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getCouponDiscount())));
+            couponLayout.setVisibility(View.VISIBLE);
+        }else{
+            couponLayout.setVisibility(View.GONE);
         }
 
     }

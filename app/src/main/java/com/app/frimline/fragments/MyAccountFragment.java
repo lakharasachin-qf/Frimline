@@ -400,6 +400,7 @@ public class MyAccountFragment extends BaseFragment {
                 @Override
                 public void run() {
                     if (!new PREF(act).isLogin()) {
+
                         binding.loginContent.setVisibility(View.GONE);
                         binding.NoDataFound.setVisibility(View.VISIBLE);
                         binding.screenLoader.setVisibility(View.GONE);

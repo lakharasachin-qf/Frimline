@@ -14,19 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
@@ -40,12 +36,9 @@ import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.databinding.FragmentLoginVMobileBinding;
-import com.app.frimline.models.Billing;
-import com.app.frimline.models.ProfileModel;
 import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.ForgotPasswordActivity;
 import com.app.frimline.screens.OtpVerificationActivity;
-import com.app.frimline.screens.SignupActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -76,7 +69,6 @@ public class LoginVMobileFragment extends BaseFragment {
     }
 
     public void changeTheme() {
-        //binding.scrollView.setNestedScrollingEnabled(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             binding.hint.setText(Html.fromHtml("Please Sign in with <b>Mobile</b> to continue using<br>our app", Html.FROM_HTML_MODE_COMPACT));
         } else {
@@ -153,33 +145,27 @@ public class LoginVMobileFragment extends BaseFragment {
 
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        HELPER.dismissLoadingTran();
-                        NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    HELPER.dismissLoadingTran();
+                    NetworkResponse response = error.networkResponse;
+                    if (response.statusCode == 400) {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
                         }
-
+                        Log.e("Error", gson.toJson(response.headers));
+                        Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
+
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 return params;
             }
@@ -212,21 +198,12 @@ public class LoginVMobileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-
             }
         });
         discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-//                if (!title.equalsIgnoreCase("Error")) {
-//                    Intent data = new Intent();
-//                    data.putExtra("success", "1");
-//                    setResult(RESULT_OK, data);
-//                    finish();
-//
-//                }
-
             }
         });
         alertDialog.setCancelable(true);
@@ -236,113 +213,22 @@ public class LoginVMobileFragment extends BaseFragment {
 
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
 
-                        Intent data = result.getData();
-                        if (data.hasExtra("success")) {
-                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
-                            act.onBackPressed();
-                        }
-
+                    Intent data = result.getData();
+                    if (data.hasExtra("success")) {
+                        FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                        act.onBackPressed();
                     }
+
                 }
             });
 
     public void openSomeActivityForResult() {
         Intent intent = new Intent(act, OtpVerificationActivity.class);
-        intent.putExtra("mobileNo",binding.nameEdt.getText().toString());
+        intent.putExtra("mobileNo", binding.nameEdt.getText().toString());
         someActivityResultLauncher.launch(intent);
     }
 
-    private void loadProfile() {
-
-        if (!isLoading)
-            isLoading = true;
-        HELPER.showLoadingTran(act);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                HELPER.dismissLoadingTran();
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
-
-                    ProfileModel model = new ProfileModel();
-                    model.setUserId(ResponseHandler.getString(object, "id"));
-                    model.setEmail(ResponseHandler.getString(object, "email"));
-                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
-                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
-                    model.setFirstName(ResponseHandler.getString(object, "first_name"));
-                    model.setLastName(ResponseHandler.getString(object, "last_name"));
-                    model.setRole(ResponseHandler.getString(object, "role"));
-                    model.setUserName(ResponseHandler.getString(object, "username"));
-                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
-                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
-
-                    Billing billingAddress = new Billing();
-                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
-                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
-                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
-                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
-                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
-                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
-                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
-                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
-                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
-                    billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
-                    billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
-                    model.setBillingAddress(billingAddress);
-
-                    billingAddress = new Billing();
-                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
-                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
-                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
-                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
-                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
-                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
-                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
-                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
-                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
-                    model.setShippingAddress(billingAddress);
-                    pref.setUser(model);
-                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
-                    act.onBackPressed();
-
-                }
-
-            }
-
-
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                Log.e("Header", params.toString());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
-            }
-        };
-
-        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
-    }
 }

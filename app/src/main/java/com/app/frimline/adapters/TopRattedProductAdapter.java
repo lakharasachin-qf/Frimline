@@ -59,7 +59,7 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
                     .error(R.drawable.ic_square_place_holder).into(holder.binding.image);
 
             holder.binding.productNameTxt.setText(model.getName());
-            HELPER.LOAD_HTML(holder.binding.descriptionTxt, model.getDescription());
+            HELPER.LOAD_HTML(holder.binding.descriptionTxt, model.getShortDescription());
             holder.binding.price.setText(activity.getString(R.string.Rs) + model.getPrice());
 
             holder.binding.ExploreMoreTxt.setOnClickListener(new View.OnClickListener() {

@@ -108,9 +108,11 @@ public class DrawerMenu {
         menuModel = new MenuModel("Shop", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_shop)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
+        if (new PREF(activity).isLogin()) {
+            menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+        }
 
-        menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
         menuModel = new MenuModel("About us", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_about_us)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
         menuModel = new MenuModel("Blogs", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_blog)); //Menu of Android Tutorial. No sub menus
@@ -210,6 +212,7 @@ public class DrawerMenu {
                             case "Checkout":
                                 // fragmentSelected = blogsFragment;
                                 drawer.closeDrawer(GravityCompat.START);
+
                                 HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
                                 break;
                             case "About us":
@@ -243,10 +246,12 @@ public class DrawerMenu {
                                 break;
 
                             case "Logout":
+
                                 new PREF(activity).Logout();
                                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                                 drawer.closeDrawer(GravityCompat.START);
                                 headerList.remove(headerList.size() - 1);
+                                headerList.remove(3);
                                 expandableListAdapter.notifyDataSetChanged();
 
                                 break;
@@ -434,8 +439,13 @@ public class DrawerMenu {
     }
 
     public void addLogoutBtn() {
-        MenuModel menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
+
+        MenuModel menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
+        headerList.set(3, menuModel);
+
+        menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
+
         expandableListAdapter.notifyDataSetChanged();
 
     }

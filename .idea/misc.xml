@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable-140dpi/logo_demo.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/bg_pin.xml" value="0.2305921052631579" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/ic_attach_file.xml" value="0.2305921052631579" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/ic_blog.xml" value="0.3651041666666667" />
@@ -118,13 +119,14 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_reset_password.xml" value="0.25" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_search.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/activity_signup.xml" value="0.26171875" />
-        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/bottom_sheet_order_price_layout.xml" value="0.3489583333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/bottom_sheet_order_price_layout.xml" value="0.23783783783783785" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/common_button_match_width_layout.xml" value="0.23157894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/content_order_details.xml" value="0.2182410423452769" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/custom_navigation.xml" value="0.1" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/dialog_add_review.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/dialog_ask_question.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/dialog_no_internet_connection.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/dialog_order_success.xml" value="0.23783783783783785" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_additional_info.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_blogs.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/layout/fragment_category_profile_layout.xml" value="0.22039473684210525" />

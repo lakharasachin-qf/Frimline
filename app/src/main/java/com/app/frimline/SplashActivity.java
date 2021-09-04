@@ -39,6 +39,8 @@ public class SplashActivity extends AppCompatActivity {
         animatorSet1 = new AnimatorSet();
         animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
         animatorSet1.setDuration(3000);
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -332,22 +332,26 @@ public class MyCartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                HELPER.showLoadingTran(act);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (action == CONSTANT.NO_ACTION) {
+                if (CONSTANT.API_MODE){
 
-                        } else if (action == CONSTANT.ACTION_2) {
-                            HELPER.dismissLoadingTran();
-                            isCouponCodeApplied = false;
-                            applyCouponCalculation(false);
-                            Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
-                            binding.promoCodeContainer.setVisibility(View.VISIBLE);
-                            binding.appliedCodeSuccess.setVisibility(View.GONE);
+                }else {
+                    HELPER.showLoadingTran(act);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (action == CONSTANT.NO_ACTION) {
+
+                            } else if (action == CONSTANT.ACTION_2) {
+                                HELPER.dismissLoadingTran();
+                                isCouponCodeApplied = false;
+                                applyCouponCalculation(false);
+                                Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
+                                binding.promoCodeContainer.setVisibility(View.VISIBLE);
+                                binding.appliedCodeSuccess.setVisibility(View.GONE);
+                            }
                         }
-                    }
-                }, 1000);
+                    }, 1000);
+                }
 
             }
         });
@@ -375,16 +379,12 @@ public class MyCartActivity extends BaseActivity {
                         isCouponCodeApplied = true;
                         applyCouponCalculation(isCouponCodeApplied);
                     } else {
-                        confirmationDialog("Coupon Code", "", CONSTANT.NO_ACTION);
+                        confirmationDialog("Coupon Code", "Coupon code is not applicable", CONSTANT.NO_ACTION);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//
-//                applyCouponCalculation(true);
-//                Toast.makeText(act, "Coupon Code Applied Successfully.", Toast.LENGTH_SHORT).show();
-//                binding.promoCodeContainer.setVisibility(View.GONE);
-//                binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
+
             }
         },
                 new Response.ErrorListener() {

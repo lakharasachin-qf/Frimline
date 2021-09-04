@@ -42,4 +42,6 @@ public class CONSTANT {
     public static final String PAYMENT_FAILED_LABEL="Failed";
     public static final String PAYMENT_CANCELLED_SALES_RETURN_LABEL="Order Returned";
 
+    public static final String CURRENCY = "INR";
+
 }

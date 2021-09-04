@@ -1,19 +1,26 @@
 package com.app.frimline.screens;
 
+import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
@@ -26,17 +33,23 @@ import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityPaymentBinding;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
+import com.app.frimline.databinding.DialogOrderSuccessBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentData;
+import com.razorpay.PaymentResultWithDataListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PaymentActivity extends BaseActivity {
+public class PaymentActivity extends BaseActivity implements PaymentResultWithDataListener {
     MyCartAdapter cartAdapter;
     ArrayList<ProductModel> cartItemList;
     private ActivityPaymentBinding binding;
@@ -44,17 +57,20 @@ public class PaymentActivity extends BaseActivity {
 
     private JSONObject orderParam;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Checkout.preload(getApplicationContext());
         binding = DataBindingUtil.setContentView(act, R.layout.activity_payment);
         makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
-
+        ((ViewGroup) findViewById(R.id.bottomSlider)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         binding.boottomFooter.setOnClickListener(v -> {
-            if (prefManager.isLogin()) {
-                HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
+            //generateRazorpayOrderId();
+            if (binding.payOnlineRadioBtn.isChecked()) {
+                createPayment();
             } else {
-                HELPER.SIMPLE_ROUTE(act, LoginActivity.class);
+                finalOrderDone();
             }
         });
         binding.toolbarNavigation.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
@@ -75,14 +91,15 @@ public class PaymentActivity extends BaseActivity {
 
         binding.paymentModeGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == binding.payCodRadioBtn.getId()) {
+                isCodAvailable = true;
                 if (codChargesAmount.isEmpty()) {
                     getCODCharges();
                 } else {
-                    isCodAvailable = true;
                     calculateCart();
                 }
             } else {
                 isCodAvailable = false;
+                calculateCart();
             }
         });
 
@@ -110,12 +127,14 @@ public class PaymentActivity extends BaseActivity {
                     object.put("quantity", cartItemList.get(i).getQty());
                     productArray.put(object);
                 }
-                orderParam.put("line_items",productArray);
+                orderParam.put("line_items", productArray);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            binding.payOnlineRadioBtn.setChecked(true);
             createOrder();
+
+
             setState();
         } else {
             setNoDataFound();
@@ -202,29 +221,30 @@ public class PaymentActivity extends BaseActivity {
         }
     }
 
+    private JSONObject orderCreated;
 
     private void createOrder() {
         if (!isLoading)
             isLoading = true;
         HELPER.showLoadingTran(act);
-        Log.e("orderPosting",orderParam.toString());
+        Log.e("orderPosting", orderParam.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, APIs.CREATE_ORDER, orderParam, response -> {
+            Log.e("Response", response.toString());
             HELPER.dismissLoadingTran();
-            if (response != null) {
-                isCodAvailable = true;
-                calculateCart();
-            }
+            orderCreated = response;
+            isShippingChargeAvailable = true;
+            calculateCart();
         }, error -> {
             error.printStackTrace();
             HELPER.dismissLoadingTran();
             isLoading = false;
-            NetworkResponse response = error.networkResponse;
         }) {
             @Override
             public Map<String, String> getHeaders() {
-                return getHeaders();
+                return getHeader();
             }
         };
+        //9938
         MySingleton.getInstance(act).addToRequestQueue(request);
     }
 
@@ -236,21 +256,19 @@ public class PaymentActivity extends BaseActivity {
             HELPER.dismissLoadingTran();
             JSONObject object = ResponseHandler.createJsonObject(response);
             if (object != null) {
-                isCodAvailable = true;
+                if (ResponseHandler.getString(object, "status").equalsIgnoreCase("200")) {
+                    isCodAvailable = true;
+                    codChargesAmount = ResponseHandler.getString(object, "cod_charge");
+                }
                 calculateCart();
             }
 
-        },
-                error -> {
-                    error.printStackTrace();
-                    HELPER.dismissLoadingTran();
-                    isLoading = false;
-                    NetworkResponse response = error.networkResponse;
-                }
+        }, error -> {
+            error.printStackTrace();
+            HELPER.dismissLoadingTran();
+            isLoading = false;
+        }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() {
                 return getHeader();
@@ -265,22 +283,106 @@ public class PaymentActivity extends BaseActivity {
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 
+    private String razorpayOrderId;
+
+    private void generateRazorpayOrderId() {
+        if (!isLoading)
+            isLoading = true;
+        HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.COD_CHARGES, response -> {
+            HELPER.dismissLoadingTran();
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (object != null) {
+                if (object.has("id")) {
+                    razorpayOrderId = ResponseHandler.getString(object, "id");
+                    createPayment();
+                }
+            }
+
+        }, error -> {
+            error.printStackTrace();
+            HELPER.dismissLoadingTran();
+            isLoading = false;
+            NetworkResponse response = error.networkResponse;
+            if (response.statusCode == 400) {
+                try {
+                    String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"), 0);
+                } catch (UnsupportedEncodingException | JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("Error", gson.toJson(response.headers));
+                Log.e("allHeaders", gson.toJson(response.allHeaders));
+            }
+
+        }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                return new HashMap<>();
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
+    DialogDiscardImageBinding discardImageBinding;
+
+    public void errorDialog(String title, String msg, int action) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.titleTxt.setText(title);
+        HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
+        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
     boolean isCodAvailable = false;
     boolean isShippingChargeAvailable = false;
     JSONObject promoCodeObject;
-    String codChargesAmount = "10";
-    String shippingChargesAmount = "10";
+    String codChargesAmount = "";
 
     public void init() {
         try {
-            promoCodeObject = new JSONObject(getIntent().getStringExtra("promoCode"));
+            if (getIntent().hasExtra("promoCode") && getIntent().getStringExtra("promoCode") != null && !getIntent().getStringExtra("promoCode").isEmpty())
+                promoCodeObject = new JSONObject(getIntent().getStringExtra("promoCode"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        calculateCart();
+
     }
 
-    @SuppressLint("SetTextI18n")
+
+    double finalAmountToPay;
+    String roundedOFFAmount;
+    String finalAmountAfterRoundOFF;
+
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     public void calculateCart() {
 
         double finalAmount;
@@ -295,50 +397,225 @@ public class PaymentActivity extends BaseActivity {
         binding.subTotal.setText(act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
 
 
-        if (getIntent().hasExtra("promoCode")) {
+        if (promoCodeObject != null) {
             double couponDiscount = Double.parseDouble(ResponseHandler.getString(promoCodeObject, "discount"));
             double promoDiscount = 0;
             if (ResponseHandler.getString(promoCodeObject, "discountType").contains("flat")) {
                 promoDiscount = (totalPrice - couponDiscount);
                 finalAmount = totalPrice - promoDiscount;
-                Log.e("Final Apply Code", String.valueOf(finalAmount));
 
             } else if (ResponseHandler.getString(promoCodeObject, "discountType").contains("percent")) {
                 promoDiscount = (totalPrice * couponDiscount) / 100;
                 finalAmount = totalPrice - promoDiscount;
-                Log.e("Final Apply Code", String.valueOf(finalAmount));
 
             }
 
             binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
             binding.couponHeading.setText("Coupon Discount (" + ResponseHandler.getString(promoCodeObject, "code") + ")");
-            binding.promoCodeContainer.setVisibility(View.GONE);
+
         } else {
-            binding.promoCodeContainer.setVisibility(View.VISIBLE);
+
             binding.couponHeading.setText("Coupon");
             binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
-
             binding.couponLayout.setVisibility(View.GONE);
         }
 
         if (isCodAvailable) {
             binding.codLayout.setVisibility(View.VISIBLE);
-            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(codChargesAmount));
+            Log.e("codChargesAmount", codChargesAmount + "_");
             double codCharges = Double.parseDouble(codChargesAmount);
             finalAmount = finalAmount + codCharges;
+            binding.CODAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(codCharges));
         } else {
             binding.codLayout.setVisibility(View.GONE);
         }
 
+        double shippingCharges;
+        double roundedOffValue = 0;
+        if (isShippingChargeAvailable) {
 
-        binding.totalTopMRP.setText("Total : " + act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
-        binding.finalAmoutPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
+            String shippingChargesStr = (ResponseHandler.getString(orderCreated, "shipping_total").isEmpty() ? "0" : ResponseHandler.getString(orderCreated, "shipping_total"));
+            shippingCharges = Double.parseDouble(shippingChargesStr);
+            finalAmount = finalAmount + shippingCharges;
+            binding.shippingChargeAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(shippingCharges));
+            binding.shippingLayout.setVisibility(View.VISIBLE);
+            double afterRoundOff = Double.parseDouble(HELPER.format.format(Math.round(finalAmount)));
+            roundedOffValue = afterRoundOff - finalAmount;
+            finalAmount = afterRoundOff;
+
+        } else {
+
+            binding.shippingLayout.setVisibility(View.GONE);
+
+        }
+
+        binding.roundedAmount.setText(String.format("%.2f", roundedOffValue));
+        binding.totalTopMRP.setText("Total : " + act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
+        binding.finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         binding.headingSection.setText("Price Details (" + cartItemList.size() + ")");
 
         if (cartItemList.size() == 1)
             binding.headingSection.setText("Price Details (" + cartItemList.size() + " Item)");
         else
             binding.headingSection.setText("Price Details (" + cartItemList.size() + " Items)");
+
+        roundedOFFAmount = String.format("%.2f", roundedOffValue);
+        finalAmountAfterRoundOFF = String.format("%.2f", finalAmount);
+
+
     }
+
+
+    public void createPayment() {
+        Checkout checkout = new Checkout();
+        checkout.setImage(R.drawable.logo_demo);
+        final Activity activity = this;
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", "Brand Mania");
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            //options.put("orderId", razorpayOrderId);
+            options.put("theme.color", prefManager.getThemeColor());
+            options.put("currency", "INR");
+            int finalAmount = (int) (Double.parseDouble(finalAmountAfterRoundOFF) * 100);
+            options.put("amount", String.valueOf(finalAmount));
+            // options.put("prefill.email", prefManager.getUser().getEmail());
+            // options.put("prefill.contact", "Enter Mobile Number");
+
+            Log.e("Param : ", options.toString());
+            checkout.open(activity, options);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("TAG", "Error in starting Razorpay Checkout", e);
+        }
+    }
+
+
+    String transactionId;
+
+    @Override
+    public void onPaymentSuccess(String s, PaymentData paymentData) {
+        try {
+            isOnlinePaymentSuccess = true;
+            transactionId = paymentData.getPaymentId();
+            Log.e("Payment By Razorpay", gson.toJson(paymentData));
+            finalOrderDone();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPaymentError(int i, String s, PaymentData paymentData) {
+        Log.e("Payment Fail", s);
+        isOnlinePaymentSuccess = false;
+        finalOrderDone();
+    }
+
+    boolean isOnlinePaymentSuccess = false;
+
+    private void finalOrderDone() {
+        if (!isLoading)
+            isLoading = true;
+        HELPER.showLoadingTran(act);
+        try {
+
+            orderParam.put("order_id", ResponseHandler.getString(orderCreated, "id"));
+            orderParam.put("shipping_charges", ResponseHandler.getString(orderCreated, "shipping_total"));
+            orderParam.put("round_off", roundedOFFAmount);
+            orderParam.put("round_total", finalAmountAfterRoundOFF);
+            orderParam.put("cart_discount", ResponseHandler.getString(orderCreated, "discount_total"));
+
+            if (binding.payCodRadioBtn.isChecked()) {
+                orderParam.put("payment_method", "cod");
+                orderParam.put("cod_charges", codChargesAmount);
+                orderParam.put("status", "1");
+
+            }
+            if (binding.payOnlineRadioBtn.isChecked()) {
+                orderParam.put("payment_method", "razorpay");
+                orderParam.put("transaction_id", transactionId);
+                if (isOnlinePaymentSuccess)
+                    orderParam.put("status", "1");
+                else
+                    orderParam.put("status", "0");
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        Log.e("orderPosting", orderParam.toString());
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, APIs.COMPLETE_ORDER, orderParam, response -> {
+            Log.e("order created", response.toString());
+            HELPER.dismissLoadingTran();
+
+            if (binding.payCodRadioBtn.isChecked()) {
+                paymentSuccess();
+                db.productEntityDao().deleteAll();
+            }
+            if (binding.payOnlineRadioBtn.isChecked()) {
+
+                if (isOnlinePaymentSuccess) {
+                    paymentSuccess();
+                    db.productEntityDao().deleteAll();
+                } else {
+                    errorDialog("Order Fail!", "your order payment is cancel", 1);
+                }
+            }
+
+        }, error -> {
+            error.printStackTrace();
+            HELPER.dismissLoadingTran();
+            isLoading = false;
+            NetworkResponse response = error.networkResponse;
+            if (response.statusCode == 400) {
+                try {
+                    String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"), 0);
+                } catch (UnsupportedEncodingException | JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("Error", gson.toJson(response.headers));
+                Log.e("allHeaders", gson.toJson(response.allHeaders));
+            }
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeader();
+            }
+        };
+        MySingleton.getInstance(act).addToRequestQueue(request);
+    }
+
+    DialogOrderSuccessBinding orderSuccessBinding;
+
+    public void paymentSuccess() {
+        orderSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_order_success, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(orderSuccessBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(orderSuccessBinding.getRoot());
+
+
+        orderSuccessBinding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+                Intent i = new Intent(act, CategoryRootActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
 
 }

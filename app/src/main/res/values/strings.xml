@@ -16,4 +16,7 @@
 
     <string name="Rs">\u20B9</string>
     <string name="Multiplication">\u00D7</string>
+    
+    <string name="razorpay_key_id">rzp_test_WBQrVQz0EsLDRJ</string>
+    <string name="razorpay_secret_key">70xTILSzLISTcc1L30dxqfPp</string>
 </resources>

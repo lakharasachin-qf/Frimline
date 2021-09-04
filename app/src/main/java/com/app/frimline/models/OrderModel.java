@@ -25,6 +25,33 @@ public class OrderModel {
     private String trackingLink;
     private String trackingId;
     private ArrayList<OrderedProductModel> productsList;
+    private String couponCode;
+    private String couponDiscount;
+    private String counponDiscountType;
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
+
+    public String getCouponDiscount() {
+        return couponDiscount;
+    }
+
+    public void setCouponDiscount(String couponDiscount) {
+        this.couponDiscount = couponDiscount;
+    }
+
+    public String getCounponDiscountType() {
+        return counponDiscountType;
+    }
+
+    public void setCounponDiscountType(String counponDiscountType) {
+        this.counponDiscountType = counponDiscountType;
+    }
 
     public String getTrackingLink() {
         return trackingLink;

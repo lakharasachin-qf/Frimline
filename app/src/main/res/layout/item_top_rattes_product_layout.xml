@@ -92,6 +92,7 @@
 Crasin facilisis ligula, sed commodo nisl."
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:lines="2"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10sdp" />
 

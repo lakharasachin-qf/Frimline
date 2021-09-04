@@ -26,10 +26,12 @@ import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductQNAAdapter;
 import com.app.frimline.databinding.DialogAskQuestionBinding;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.databinding.FragmentQNABinding;
 import com.app.frimline.fragments.BaseFragment;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.QAModel;
+import com.app.frimline.screens.LoginActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -95,7 +97,12 @@ public class QnAFragment extends BaseFragment {
         binding.askNowTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddReviewDialog();
+                if (pref.isLogin()) {
+                    showAddReviewDialog();
+                }else{
+                    confirmationDialog("Ask Question","You must be logged in to ask question.",011);
+                }
+
             }
         });
         changeTheme();
@@ -209,6 +216,7 @@ public class QnAFragment extends BaseFragment {
         reqBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (CONSTANT.API_MODE) {
                     addQuestion();
                 } else {
@@ -272,5 +280,41 @@ public class QnAFragment extends BaseFragment {
         if (model != null) {
             loadReview();
         }
+    }
+
+    DialogDiscardImageBinding discardImageBinding;
+    public void confirmationDialog(String title, String msg, int action) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+        discardImageBinding.titleTxt.setText(title);
+        discardImageBinding.subTitle.setText(msg);
+
+        if (action == 011){
+            discardImageBinding.yesTxt.setText("Sign In");
+            discardImageBinding.noTxt.setText("Cancel");
+            discardImageBinding.noTxt.setVisibility(View.VISIBLE);
+        }
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                if (action == 011){
+                    HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
+                }
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 }

@@ -27,8 +27,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.Common.Validators;
@@ -227,55 +229,45 @@ public class SignupActivity extends BaseActivity {
         if (!isLoading)
             isLoading = true;
         HELPER.showLoadingTran(act);
-//        binding.screenLoader.setVisibility(View.VISIBLE);
-//        binding.scrollView.setVisibility(View.GONE);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_UP, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_UP, response -> {
 
-                Log.e("Sign up - Response", response);
-                isLoading = false;
-                binding.screenLoader.setVisibility(View.GONE);
-                binding.scrollView.setVisibility(View.VISIBLE);
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (ResponseHandler.getString(object, "code").equalsIgnoreCase("200")) {
-                    ProfileModel model = ResponseHandler.parseSignUpResponse(response);
-                    if (model != null) {
-                        prefManager.setUserToken(model.getToken());
-                        prefManager.setUser(model);
-                        prefManager.setLogin(true);
-                        loadProfile();
-                    }
-                } else {
-                    HELPER.dismissLoadingTran();
-                    errorDialog("Error", ResponseHandler.getString(object, "message"));
+            Log.e("Sign up - Response", response);
+            isLoading = false;
+            binding.screenLoader.setVisibility(View.GONE);
+            binding.scrollView.setVisibility(View.VISIBLE);
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (ResponseHandler.getString(object, "code").equalsIgnoreCase("200")) {
+                ProfileModel model = ResponseHandler.parseSignUpResponse(response);
+                if (model != null) {
+                    prefManager.setUserToken(model.getToken());
+                    prefManager.setUser(model);
+                    prefManager.setLogin(true);
+                    loadProfile();
                 }
+            } else {
+                HELPER.dismissLoadingTran();
+                errorDialog("Error", ResponseHandler.getString(object, "message"));
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        HELPER.dismissLoadingTran();
-                        NetworkResponse response = error.networkResponse;
-                        error.printStackTrace();
-                        if (response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
-                            //errorDialog("Error", ResponseHandler.getString(, "message"));
-                        }
-                        isLoading = false;
-                        binding.screenLoader.setVisibility(View.GONE);
-                        binding.scrollView.setVisibility(View.VISIBLE);
-                    }
+        }, error -> {
+            HELPER.dismissLoadingTran();
+            NetworkResponse response = error.networkResponse;
+            error.printStackTrace();
+            if (response.statusCode == 400) {
+                try {
+                    String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                } catch (UnsupportedEncodingException | JSONException e) {
+                    e.printStackTrace();
                 }
+                Log.e("Error", gson.toJson(response.headers));
+                Log.e("allHeaders", gson.toJson(response.allHeaders));
+
+            }
+            isLoading = false;
+            binding.screenLoader.setVisibility(View.GONE);
+            binding.scrollView.setVisibility(View.VISIBLE);
+        }
         ) {
             /**
              * Passing some request headers*
@@ -318,11 +310,11 @@ public class SignupActivity extends BaseActivity {
             public void onClick(View v) {
                 alertDialog.dismiss();
                 if (!title.equalsIgnoreCase("Error")) {
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
                     Intent data = new Intent();
                     data.putExtra("success", "1");
                     setResult(RESULT_OK, data);
                     finish();
-
                 }
 
             }

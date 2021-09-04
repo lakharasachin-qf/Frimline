@@ -13,8 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
@@ -22,7 +20,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
@@ -36,42 +33,22 @@ import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.google.android.material.tabs.TabLayout;
 
-public class LoginActivity extends BaseActivity {
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        if (data.hasExtra("success")) {
-                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
-                            onBackPressed();
-                        }
+import java.util.Observable;
 
-                    }
-                }
-            });
+public class LoginActivity extends BaseActivity {
+
     private ActivityLoginBinding binding;
     private int indicatorWidth;
-    private LoginVMobileFragment loginFragment;
-    private LoginVEmailFragment vEmailFragment;
+    boolean pendingBackPress = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_login);
-
         changeTheme();
         setupTabIcons();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        binding.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        binding.backPress.setOnClickListener(v -> onBackPressed());
 
         RelativeLayout.LayoutParams layoutParams =
                 (RelativeLayout.LayoutParams) binding.backPress.getLayoutParams();
@@ -99,28 +76,33 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (pendingBackPress) {
+            act.onBackPressed();
+        }
+    }
+
     private void setupTabIcons() {
-        loginFragment = new LoginVMobileFragment();
-        vEmailFragment = new LoginVEmailFragment();
+        LoginVMobileFragment loginFragment = new LoginVMobileFragment();
+        LoginVEmailFragment vEmailFragment = new LoginVEmailFragment();
         WrapContentHeightViewPager wrapContentHeightViewPager = findViewById(R.id.viewPager);
+        wrapContentHeightViewPager.setOffscreenPageLimit(3);
         LoginTabAdapter adapter = new LoginTabAdapter(getSupportFragmentManager());
         adapter.addFragment(loginFragment, "Sign In");
         adapter.addFragment(vEmailFragment, "Sign In");
 
         wrapContentHeightViewPager.setAdapter(adapter);
         binding.tab.setupWithViewPager(wrapContentHeightViewPager);
-        wrapContentHeightViewPager.setOffscreenPageLimit(3);
         wrapContentHeightViewPager.setNestedScrollingEnabled(false);
-        //Determine indicator width at runtime
-        binding.tab.post(new Runnable() {
-            @Override
-            public void run() {
-                indicatorWidth = binding.tab.getWidth() / binding.tab.getTabCount();
-                FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) binding.indicator.getLayoutParams();
-                indicatorParams.width = indicatorWidth;
-                binding.indicator.setLayoutParams(indicatorParams);
-                //binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height;
-            }
+        /* Determine indicator width at runtime */
+        binding.tab.post(() -> {
+            indicatorWidth = binding.tab.getWidth() / binding.tab.getTabCount();
+            FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) binding.indicator.getLayoutParams();
+            indicatorParams.width = indicatorWidth;
+            binding.indicator.setLayoutParams(indicatorParams);
+            /* binding.helper.getLayoutParams().height=binding.indicator.getLayoutParams().height; */
         });
 
         wrapContentHeightViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -140,7 +122,6 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int i) {
-                //Log.e("PAge", i + "d");
             }
         });
 
@@ -212,9 +193,16 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+
     public void openSomeActivityForResult() {
-        Intent intent = new Intent(this, SignupActivity.class);
-        someActivityResultLauncher.launch(intent);
+        HELPER.SIMPLE_ROUTE(act, SignupActivity.class);
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
+            pendingBackPress = true;
+        }
+    }
 }
