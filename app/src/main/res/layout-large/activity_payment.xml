@@ -246,7 +246,7 @@
                                     android:layout_alignParentStart="true"
                                     android:fontFamily="@font/proxima_nova_regular"
                                     android:includeFontPadding="false"
-                                    android:text="Total MRP"
+                                    android:text="Subtotal"
                                     android:textColor="@color/white"
 
                                     android:textSize="@dimen/_12sdp" />
@@ -264,6 +264,7 @@
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:visibility="gone"
                                 android:id="@+id/couponLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -294,11 +295,10 @@
 
                             <RelativeLayout
                                 android:id="@+id/shippingLayout"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/shippingLabel"
@@ -328,7 +328,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/CODLabel"
@@ -337,7 +337,7 @@
                                     android:layout_alignParentStart="true"
                                     android:fontFamily="@font/proxima_nova_regular"
                                     android:includeFontPadding="false"
-                                    android:text="Round Off"
+                                    android:text="COD Charges"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_12sdp" />
 

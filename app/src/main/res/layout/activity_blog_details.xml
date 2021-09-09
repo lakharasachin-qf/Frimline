@@ -67,8 +67,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Oral Health: An Investment In Your
-Overall Health"
+                                android:text="Oral Health: An Investment In Your\nOverall Health"
                                 android:textColor="@color/colorToolbarHeader"
                                 android:textSize="@dimen/_14sdp" />
 

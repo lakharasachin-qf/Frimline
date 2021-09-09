@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,7 +20,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
@@ -273,7 +272,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         totalPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(actualPrice));
 
 
-
         TextView finalAmoutPrice = findViewById(R.id.finalAmoutPrice);
 
         finalAmoutPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getTotal())));
@@ -296,18 +294,29 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
 
         TextView shippingChargePrice = findViewById(R.id.shippingChargePrice);
-        if (model.getShippingTotal()!=null && model.getShippingTotal().isEmpty()){
-            shippingChargePrice.setText(model.getShippingTotal());
+        if (model.getShippingTotal() != null && !model.getShippingTotal().isEmpty()) {
+            shippingChargePrice.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getShippingTotal())));
         }
 
-        RelativeLayout couponLayout =findViewById(R.id.couponLayout);
-        if (model.getCouponCode()!=null && !model.getCouponCode().isEmpty()) {
+        RelativeLayout couponLayout = findViewById(R.id.couponLayout);
+        if (model.getCouponCode() != null && !model.getCouponCode().isEmpty()) {
             TextView couponAmoutTxt = findViewById(R.id.couponAmoutTxt);
             couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getCouponDiscount())));
             couponLayout.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             couponLayout.setVisibility(View.GONE);
         }
+
+        double finalAmount = Double.parseDouble(model.getTotal());
+        double afterRoundOff = Double.parseDouble(HELPER.format.format(Math.round(Double.parseDouble(model.getTotal()))));
+        double roundedOffValue = afterRoundOff - finalAmount;
+        finalAmount = afterRoundOff;
+
+
+        TextView roundedAmount = findViewById(R.id.roundedAmount);
+        roundedAmount.setText(act.getString(R.string.Rs) + String.format("%.2f", roundedOffValue));
+        finalAmoutPrice1.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
+        finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
 
     }
 
@@ -316,9 +325,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         deliveredCardview.setCardBackgroundColor(Color.parseColor(new PREF(act).getThemeColor()));
         LinearLayout priceSection = findViewById(R.id.priceSection);
         priceSection.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
-//        ImageView deliveryCheckIcon = findViewById(R.id.deliveryCheckIcon);
-//        deliveryCheckIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(prefManager.getThemeColor())));
-//        deliveryCheckIcon.setBackgroundTintList(ColorStateList.valueOf((Color.WHITE)));
         binding.toolbarNavigation.downloadPDf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -332,35 +338,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         dotsIndicator.setSelectedDotColor(Color.parseColor(prefManager.getThemeColor()));
     }
 
-    public void confirmationDialog() {
-        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
-        builder.setView(discardImageBinding.getRoot());
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
-        alertDialog.setContentView(discardImageBinding.getRoot());
-
-        discardImageBinding.titleTxt.setText("Report Download");
-        discardImageBinding.subTitle.setText("Order report downloaded.");
-
-        discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
-    }
 
     public void toggleBottomSheet() {
         if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
@@ -419,7 +396,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
             ActivityCompat.requestPermissions(act,
                     new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                     REQUESTED_STORAGE);
-            Toast.makeText(act, "permission", Toast.LENGTH_SHORT).show();
+
         } else {
 
             new DownloadFileFromURL().execute(model.getInvoiceLink());
@@ -479,7 +456,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                     intent.setData(uri);
-                    startActivityForResult(intent, REQUEST_SETTINGS);
+                    act.startActivityForResult(intent, REQUEST_SETTINGS);
                 }
             });
         }
@@ -530,7 +507,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         public void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -603,8 +579,21 @@ public class OrderHistoryViewActivity extends BaseActivity {
             // Reading filepath from sdcard
             String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
             Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
+            Log.v("file_url", "" + file_url);
             Log.v("FilePath", "" + FilePath);
+            File file = new File(Environment.getExternalStorageDirectory() + "/" + filename);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri apkURI = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", file);
+            intent.setDataAndType(apkURI, "application/pdf");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            act.startActivity(intent);
         }
 
+    }
+
+    public void intentTo(String file_url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(file_url));
+        act.startActivity(browserIntent);
     }
 }

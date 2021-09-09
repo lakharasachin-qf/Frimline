@@ -117,11 +117,11 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             if (getIntent().getStringExtra("fragment").equalsIgnoreCase("Checkout")) {
                 defaultLoad = DrawerMenu.HOME_FRAGMENT;
             }
+            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("order")) {
+                defaultLoad = DrawerMenu.ORDER_HISTORY;
+            }
         }
 
-        if (getIntent().hasExtra("targetCategory")) {
-            defaultLoad = DrawerMenu.ORDER_HISTORY;
-        }
 
 
         drawerMenu = new DrawerMenu(act, defaultLoad);
@@ -265,11 +265,16 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                     pref = new PREF(act);
                     if (pref.isLogin()) {
                         userNameTxt.setText(pref.getUser().getDisplayName());
-                        drawerMenu.addLogoutBtn();
-                    } else {
+                     } else {
                         userNameTxt.setText("Sign In");
                     }
+                }
 
+                if (frimline.getObserver().getValue() == ObserverActionID.ADD_MENU) {
+                    pref = new PREF(act);
+                    if (pref.isLogin()) {
+                        drawerMenu.addLogoutBtn();
+                    }
                 }
             }
         });

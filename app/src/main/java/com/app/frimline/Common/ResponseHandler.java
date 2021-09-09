@@ -794,6 +794,13 @@ public class ResponseHandler {
                 orderModel.setTrackingLink(getString(object, "tracking_link"));
 
 
+                JSONArray objectCoupon = getJSONArray(object,"coupon_lines");
+                JSONObject couponCodeObject = objectCoupon.getJSONObject(0);
+                if (couponCodeObject!=null) {
+                    orderModel.setCouponCode(ResponseHandler.getString(couponCodeObject, "code"));
+                    orderModel.setCouponDiscount(ResponseHandler.getString(couponCodeObject, "discount"));
+                }
+
                 Billing billingAddress = new Billing();
                 billingAddress.setFirstName(getString(getJSONObject(object, "billing"), "first_name"));
                 billingAddress.setLastName(getString(getJSONObject(object, "billing"), "last_name"));

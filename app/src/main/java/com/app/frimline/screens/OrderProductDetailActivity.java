@@ -13,6 +13,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
@@ -117,7 +118,7 @@ public class OrderProductDetailActivity extends BaseActivity {
         });
 
 
-        binding.titleToolbar.setText("Product");
+        binding.titleToolbar.setText("");
         HELPER.changeCartCounterToolbar(act);
         binding.cartActionLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,6 +248,11 @@ public class OrderProductDetailActivity extends BaseActivity {
             productId = getIntent().getStringExtra("productId");
             loadProductDetails();
         }
+
+        binding.screenLoader.setProgressTintList(ColorStateList.valueOf(Color.parseColor(prefManager.getThemeColor())));
+        binding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(prefManager.getThemeColor()), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+
     }
 
     @Override
@@ -280,7 +286,6 @@ public class OrderProductDetailActivity extends BaseActivity {
         binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         GradientDrawable drawable = (GradientDrawable) binding.addCartContainer.getBackground();
         drawable.setStroke(2, Color.parseColor(defaultColor));
-
 
         VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_not_returnable, binding.nonReturnIcon);
         VectorDrawableCompat.VFullPath path1 = vector.findPathByName("colorGreen");

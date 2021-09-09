@@ -1,10 +1,13 @@
 package com.app.frimline.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.Common.FRIMLINE;
@@ -42,6 +45,27 @@ public class CenterFragment extends BaseFragment {
                 binding.textBottom.setText(wordList[1]);
             } else {
                 binding.textTop.setText(wordList[0]);
+            }
+            CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
+
+            if (model != null) {
+                binding.layout1.setBackgroundColor(Color.parseColor(pref.getCategoryColor()));
+                binding.layout2.setBackgroundColor(Color.parseColor(pref.getThemeColor()));
+                if (model.getCategoryName().contains("Health")) {
+                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place));
+                }
+                if (model.getCategoryName().contains("Oral")) {
+                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_twoo));
+                }
+                if (model.getCategoryName().contains("Skin")) {
+                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_two));
+                }
+
+                binding.text1.setTextColor(Color.parseColor(pref.getThemeColor()));
+                binding.icon2.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+
+                binding.text.setTextColor(Color.parseColor(pref.getCategoryColor()));
+                binding.icon.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
             }
 
         }

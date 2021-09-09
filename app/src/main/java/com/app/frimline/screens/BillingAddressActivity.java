@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -67,6 +66,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         getCountryState();
         if (getIntent().hasExtra("isBilling")) {
             flag = 0;
+            binding.label.setText("Billing Address");
             binding.toolbarNavigation.title.setText("Add Billing Address");
             if (getIntent().getBooleanExtra("isBilling", false)) {
                 isEdit = true; //comes for edit billing address
@@ -90,6 +90,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             binding.billingSectionOther.setVisibility(View.VISIBLE);
         } else if (getIntent().hasExtra("isShipping")) {
             flag = 1;
+            binding.label.setText("Shipping Address");
             binding.toolbarNavigation.title.setText("Add Shipping Address");
             if (getIntent().getBooleanExtra("isShipping", false)) {
                 isEdit = true; //comes for edit billing address
@@ -160,7 +161,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         ((ViewGroup) findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         changeTheme();
-        if (!CONSTANT.API_MODE){
+        if (!CONSTANT.API_MODE) {
             binding.includeBtn.button.setText("Next");
         }
     }
@@ -389,7 +390,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.stateEdt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showFragmentList(CONSTANT.STATE,"State");
+                        showFragmentList(CONSTANT.STATE, "State");
                     }
                 });
             } else {
@@ -417,8 +418,9 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
     private void update(String url) {
 
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+        isLoading = true;
         HELPER.showLoadingTran(act);
 
 
@@ -427,7 +429,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             @Override
             public void onResponse(String response) {
                 Log.e("Response", response);
-
+                isLoading = false;
                 HELPER.dismissLoadingTran();
 // {"code":200,"message":"Billing Info Update Successfully","data":{"status":200}}
                 JSONObject object = ResponseHandler.createJsonObject(response);
@@ -446,7 +448,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         HELPER.dismissLoadingTran();
                         isLoading = false;
                         NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
+                        if (response != null && response.statusCode == 400) {
+
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
@@ -537,13 +540,16 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
     private void getCountryState() {
 
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+        isLoading = true;
+
         HELPER.showLoadingTran(act);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                isLoading = false;
                 Log.e("Response", response);
                 HELPER.dismissLoadingTran();
                 countryList = ResponseHandler.parseCountryState(response);
@@ -578,26 +584,30 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         };
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
+
     private void verifyPostcode(String postCode) {
 
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+
+        isLoading = true;
         HELPER.showLoadingTran(act);
 
         //HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                isLoading = false;
                 Log.e("Response", response);
                 HELPER.dismissLoadingTran();
                 JSONObject object = ResponseHandler.createJsonObject(response);
                 if (object != null) {
                     if (ResponseHandler.getString(object, "status").equals("1")) {
-                        if (flag == 0){
+                        if (flag == 0) {
                             update(APIs.UPDATE_BILLING_ADDRESS);
-                        }else if(flag ==1){
+                        } else if (flag == 1) {
                             update(APIs.UPDATE_SHIPPING_ADDRESS);
-                        }else {
+                        } else {
                             orderParam = new JSONObject();
                             try {
                                 orderParam.put("billing", getBillingAddress());
@@ -625,7 +635,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         HELPER.dismissLoadingTran();
                         isLoading = false;
                         NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
+                        if (response != null && response.statusCode == 400) {
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);

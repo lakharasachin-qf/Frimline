@@ -81,7 +81,14 @@ public class AddressesActivity extends BaseActivity {
         if (CONSTANT.API_MODE) {
             stopShimmer();
             loadData();
+        } else {
+            loadDataForProtoType();
         }
+    }
+
+    public void loadDataForProtoType() {
+        binding.shippingTxt.setText("A-1 ,11, Ground Floor, Green Feild, Jogeshwari Vikroli Link Rd, Opp Fantasi Land, Andheri (west)");
+        binding.billingTxt.setText("A-1 ,11, Ground Floor, Green Feild, Jogeshwari Vikroli Link Rd, Opp Fantasi Land, Andheri (west)");
     }
 
     public void startShimmer() {
@@ -203,8 +210,9 @@ public class AddressesActivity extends BaseActivity {
 
     private void loadProfile() {
 
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+        isLoading = true;
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
@@ -217,7 +225,8 @@ public class AddressesActivity extends BaseActivity {
                 if (object != null) {
                     ProfileModel model = new ProfileModel();
                     model.setUserId(ResponseHandler.getString(object, "id"));
-                    model.setDisplayName(prefManager.getUser().getDisplayName());
+                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
+                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
                     model.setEmail(ResponseHandler.getString(object, "email"));
                     model.setFirstName(ResponseHandler.getString(object, "first_name"));
                     model.setLastName(ResponseHandler.getString(object, "last_name"));

@@ -27,6 +27,7 @@
                 android:background="@color/blue">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/oralHealthCareImage1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -47,6 +48,7 @@
                 android:background="@color/orange">
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitEnd"
@@ -54,6 +56,15 @@
                     android:tintMode="multiply"
                     app:tint="@color/orange" />
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/commonImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.5"
+                android:scaleType="centerCrop"
+                android:src="@drawable/test_place_two"
+                android:tintMode="multiply" />
 
             <!--        <ImageView-->
             <!--            android:id="@+id/healthCareImage1"-->

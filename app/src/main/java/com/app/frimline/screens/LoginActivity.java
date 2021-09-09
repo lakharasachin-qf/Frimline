@@ -1,31 +1,49 @@
 package com.app.frimline.screens;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.RECEIVE_SMS;
+import static android.Manifest.permission.SEND_SMS;
+
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.LoginTabAdapter;
 import com.app.frimline.databinding.ActivityLoginBinding;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.fragments.LoginVEmailFragment;
 import com.app.frimline.fragments.LoginVMobileFragment;
 import com.app.frimline.views.WrapContentHeightViewPager;
@@ -56,6 +74,68 @@ public class LoginActivity extends BaseActivity {
         binding.backPress.setLayoutParams(layoutParams);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         loginWidth();
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean targetSetting = false;
+        if (requestCode == CONSTANT.REQUEST_CODE_READ_SMS) {
+            if (grantResults.length > 0){
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    loginFragment.callApi(true);
+                }else if (grantResults[0] == PackageManager.PERMISSION_DENIED){
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(act, RECEIVE_SMS)) {
+                        loginFragment.callApi(true);
+                    }else{
+                        prefManager.AskOTP(false);
+                    }
+                }
+            }else{
+
+                loginFragment.callApi(true);
+            }
+        }
+
+
+
+    }
+
+    DialogDiscardImageBinding discardImageBinding;
+    public void askDialogForPermission(String title, String msg,int code) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.titleTxt.setText(title);
+        HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
+        discardImageBinding.yesTxt.setText("Allow");
+        discardImageBinding.noTxt.setText("Cancel");
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                if (code == 0){
+                    ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
+                }else {
+                    ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
+                }
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
     public void loginWidth() {
@@ -83,10 +163,11 @@ public class LoginActivity extends BaseActivity {
             act.onBackPressed();
         }
     }
-
+    LoginVMobileFragment loginFragment;
+    LoginVEmailFragment vEmailFragment;
     private void setupTabIcons() {
-        LoginVMobileFragment loginFragment = new LoginVMobileFragment();
-        LoginVEmailFragment vEmailFragment = new LoginVEmailFragment();
+          loginFragment = new LoginVMobileFragment();
+          vEmailFragment = new LoginVEmailFragment();
         WrapContentHeightViewPager wrapContentHeightViewPager = findViewById(R.id.viewPager);
         wrapContentHeightViewPager.setOffscreenPageLimit(3);
         LoginTabAdapter adapter = new LoginTabAdapter(getSupportFragmentManager());

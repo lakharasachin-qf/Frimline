@@ -26,8 +26,12 @@ public class ObserverActionID {
     public static final int SEARCH_HOT_REMOVED_FROM_CART = 15;
     public static final int LOGIN = 16;
 
+
     public static final int CATEGORY_FILTER = 17;
     public static final int CATEGORY_FILTER_REMOVE = 19;
 
     public static final int PRICE_FILTER = 18;
+    public static final int ADD_MENU = 21;
+    public static final int SMS_PERMISSION_ACCEPTED = 22;
+    public static final int SMS_PERMISSION_CANCELLED = 23;
 }

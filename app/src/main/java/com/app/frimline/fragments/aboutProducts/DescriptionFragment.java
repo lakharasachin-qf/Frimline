@@ -72,7 +72,7 @@ public class DescriptionFragment extends BaseFragment {
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
         if (this.productModel != null) {
-            Log.e("print", gson.toJson(productModel));
+            Log.e("print", gson.toJson(this.productModel));
             HELPER.LOAD_HTML(binding.text, this.productModel.getAttribute().getDescription());
         }
     }

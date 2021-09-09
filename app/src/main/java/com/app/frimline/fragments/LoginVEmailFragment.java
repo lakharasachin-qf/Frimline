@@ -193,11 +193,11 @@ public class LoginVEmailFragment extends BaseFragment {
 
                 } else {
                     HELPER.dismissLoadingTran();
-                    if (jsonObject != null && ResponseHandler.getString(jsonObject, "code").contains("email")) {
+                    if (jsonObject != null && ResponseHandler.getString(jsonObject, "code").contains("invalid_username") || ResponseHandler.getString(jsonObject, "code").contains("invalid_email") ) {
                         errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
                     }
-                    if (jsonObject != null && ResponseHandler.getString(jsonObject, "code").contains("password")) {
-                        errorDialog("Error", "The password you entered for the email address <strong>" + binding.userNameEdt.getText().toString() + "</strong> is incorrect.");
+                    if (ResponseHandler.getString(jsonObject, "code").contains("password")) {
+                        errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
                     }
                 }
 
@@ -210,7 +210,7 @@ public class LoginVEmailFragment extends BaseFragment {
                         isLoading = false;
                         HELPER.dismissLoadingTran();
                         NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
+                        if (response!=null && response.statusCode == 400) {
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
@@ -270,19 +270,14 @@ public class LoginVEmailFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-//                if (!title.equalsIgnoreCase("Error")) {
-//                    Intent data = new Intent();
-//                    data.putExtra("success", "1");
-//                    setResult(RESULT_OK, data);
-//                    finish();
-//
-//                }
 
             }
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
+        if (!act.isDestroyed() && !act.isFinishing()) {
+            alertDialog.show();
+        }
     }
 
 
@@ -339,6 +334,7 @@ public class LoginVEmailFragment extends BaseFragment {
                     model.setShippingAddress(billingAddress);
                     pref.setUser(model);
                     FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.ADD_MENU);
                     act.onBackPressed();
 
                 }

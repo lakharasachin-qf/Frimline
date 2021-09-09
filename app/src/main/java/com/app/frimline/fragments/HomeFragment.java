@@ -363,9 +363,8 @@ public class HomeFragment extends BaseFragment {
         if (!isLoading)
             isLoading = true;
         CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
-        if (act.getIntent().hasExtra("targetCategory")) {
+        if (act.getIntent().hasExtra("targetCategory") && act.getIntent().hasExtra("fragment") && act.getIntent().getStringExtra("fragment").equalsIgnoreCase("order")) {
             model = pref.getCurrentCategory();
-
         }
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.CATEGORY_HOME + model.getCategoryId(), new Response.Listener<String>() {

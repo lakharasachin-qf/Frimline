@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,8 +100,8 @@ public class ReviewsFragment extends BaseFragment {
             public void onClick(View v) {
                 if (pref.isLogin()) {
                     showAddReviewDialog();
-                }else{
-                    confirmationDialog("Add Review","You must be logged in to post a review.",011);
+                } else {
+                    confirmationDialog("Add Review", "You must be logged in to post a review.", 011);
                 }
             }
         });
@@ -122,8 +121,10 @@ public class ReviewsFragment extends BaseFragment {
 
     private void loadReview() {
 
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+
+        isLoading = true;
 
         binding.errorContainer.setVisibility(View.GONE);
         binding.dataDisplayContainer.setVisibility(View.GONE);
@@ -205,6 +206,7 @@ public class ReviewsFragment extends BaseFragment {
         builder.setView(reqBinding.getRoot());
         reqBinding.dialogCloseImg.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         reqBinding.companyEdtLayout.setBoxStrokeColor(Color.parseColor(defaultColor));
+        HELPER.ERROR_HELPER(reqBinding.reviewEdt, reqBinding.companyEdtLayout);
         reqBinding.icon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         reqBinding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
         alertDialog = builder.create();
@@ -224,42 +226,53 @@ public class ReviewsFragment extends BaseFragment {
             public void onClick(View v) {
 
                 if (CONSTANT.API_MODE) {
-                    addReview();
+                    boolean isError = false;
+                    boolean isFocus = false;
+                    reqBinding.companyEdtLayout.setError("");
+                    reqBinding.companyEdtLayout.setErrorEnabled(false);
+
+                    if (reqBinding.rate.getRating() == 0) {
+                        isError = true;
+
+                    }
+
+                    if (reqBinding.reviewEdt.getText().toString().trim().length() == 0) {
+
+                        isError = true;
+                        reqBinding.companyEdtLayout.setError("Please enter review");
+                        reqBinding.reviewEdt.requestFocus();
+                    }
+
+                    if (!isError) {
+                        addReview();
+                    }
                 } else {
                     alertDialog.dismiss();
-
                 }
             }
         });
-
-
     }
-
 
     private void addReview() {
 
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+
+        isLoading = true;
 
         HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_REVIEW, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("add-review", response);
-                HELPER.dismissLoadingTran();
-                isLoading = false;
-                alertDialog.dismiss();
-                loadReview();
-            }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_REVIEW, response -> {
+            Log.e("add-review", response);
+            HELPER.dismissLoadingTran();
+            isLoading = false;
+            alertDialog.dismiss();
+            loadReview();
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        HELPER.dismissLoadingTran();
-                        alertDialog.dismiss();
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    HELPER.dismissLoadingTran();
+                    alertDialog.dismiss();
                 }
         ) {
             /**
@@ -294,6 +307,7 @@ public class ReviewsFragment extends BaseFragment {
 
 
     DialogDiscardImageBinding discardImageBinding;
+
     public void confirmationDialog(String title, String msg, int action) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -303,7 +317,7 @@ public class ReviewsFragment extends BaseFragment {
         discardImageBinding.titleTxt.setText(title);
         discardImageBinding.subTitle.setText(msg);
 
-        if (action == 011){
+        if (action == 011) {
             discardImageBinding.yesTxt.setText("Sign In");
             discardImageBinding.noTxt.setText("Cancel");
             discardImageBinding.noTxt.setVisibility(View.VISIBLE);
@@ -319,7 +333,7 @@ public class ReviewsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                if (action == 011){
+                if (action == 011) {
                     HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
                 }
             }

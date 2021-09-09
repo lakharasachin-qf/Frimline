@@ -33,6 +33,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
     private static View view;
+    private static Activity actt;
     public Activity act;
     public PREF prefManager;
     public FRIMLINE frimline;
@@ -46,18 +47,22 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     }
 
     private static void showNoConnectionDialog() {
-        if (!noconnectionAlertDialog.isShowing()) {
+        if (!actt.isDestroyed() && !actt.isFinishing()) {
+            if (!noconnectionAlertDialog.isShowing()) {
 
-            noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
-            noconnectionAlertDialog.setCancelable(false);
-            noconnectionAlertDialog.show();
+                noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
+                noconnectionAlertDialog.setCancelable(false);
+                noconnectionAlertDialog.show();
+            }
         }
     }
 
     public static void InternetError(boolean value) {
         if (value) {
-            if (noconnectionAlertDialog.isShowing()) {
-                noconnectionAlertDialog.dismiss();
+            if (!actt.isDestroyed() && !actt.isFinishing()) {
+                if (noconnectionAlertDialog.isShowing()) {
+                    noconnectionAlertDialog.dismiss();
+                }
             }
         } else {
             showNoConnectionDialog();
@@ -67,6 +72,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        actt = this;
         act = this;
         db = CartRoomDatabase.getAppDatabase(this);
         Window window = this.getWindow();

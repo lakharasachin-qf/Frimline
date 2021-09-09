@@ -1,7 +1,9 @@
 package com.app.frimline.fragments;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,10 +30,12 @@ import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.databinding.FragmentMyAccountBinding;
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.ProfileModel;
 import com.app.frimline.screens.AddressesActivity;
+import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.EditProfileActivity;
 import com.app.frimline.screens.LoginActivity;
 import com.app.frimline.screens.SignupActivity;
@@ -95,17 +99,7 @@ public class MyAccountFragment extends BaseFragment {
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pref.Logout();
-
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
-                if (CONSTANT.API_MODE) {
-                    binding.NoDataFound.setVisibility(View.VISIBLE);
-                    binding.loginContent.setVisibility(View.GONE);
-
-                } else {
-                    HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
-                }
-
+                confirmationDialog();
             }
         });
 
@@ -113,8 +107,6 @@ public class MyAccountFragment extends BaseFragment {
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                 HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
             }
@@ -160,6 +152,10 @@ public class MyAccountFragment extends BaseFragment {
                 binding.screenLoader.setVisibility(View.VISIBLE);
                 loadProfile();
             }
+        } else {
+            binding.nameTxt.setText("Alen");
+            binding.mobileNo.setText("+91 9348 3403 34");
+            binding.emailTxt.setText("frimline@gmail.com");
         }
         return binding.getRoot();
     }
@@ -182,10 +178,10 @@ public class MyAccountFragment extends BaseFragment {
 
                 }
 
-                if (model.getPhoneNo() !=null && !model.getPhoneNo().isEmpty()) {
+                if (model.getPhoneNo() != null && !model.getPhoneNo().isEmpty()) {
                     binding.mobileNo.setText(model.getPhoneNo());
                 } else {
-                //    binding.mobileNo.setVisibility(View.GONE);
+                    //    binding.mobileNo.setVisibility(View.GONE);
 
                 }
                 //binding..setText(model.getDisplayName());
@@ -372,13 +368,58 @@ public class MyAccountFragment extends BaseFragment {
                 binding.emailTxt.setVisibility(View.GONE);
             }
 
-            if (model.getPhoneNo() !=null && !model.getPhoneNo().isEmpty()) {
+            if (model.getPhoneNo() != null && !model.getPhoneNo().isEmpty()) {
                 binding.mobileNo.setText(model.getPhoneNo());
+                binding.mobileNo.setVisibility(View.VISIBLE);
             } else {
-               // binding.mobileNo.setVisibility(View.GONE);
+                // binding.mobileNo.setVisibility(View.GONE);
 
             }
         }
+    }
+
+    DialogDiscardImageBinding discardImageBinding;
+
+    public void confirmationDialog() {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+        discardImageBinding.titleTxt.setText("Confirm");
+        discardImageBinding.subTitle.setText("Are you really want to logout?");
+        discardImageBinding.yesTxt.setText("Logout");
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                pref.Logout();
+
+                //  FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
+//                if (CONSTANT.API_MODE) {
+//                    binding.NoDataFound.setVisibility(View.VISIBLE);
+//                    binding.loginContent.setVisibility(View.GONE);
+//
+//                } else {
+//                    HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
+//                }
+
+                Intent i = new Intent(act, CategoryRootActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                act.startActivity(i);
+
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
     @Override

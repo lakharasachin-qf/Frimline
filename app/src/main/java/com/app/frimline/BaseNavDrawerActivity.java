@@ -41,6 +41,7 @@ import java.util.Observer;
 public class BaseNavDrawerActivity extends AppCompatActivity implements Observer, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = BaseNavDrawerActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
+    private static Activity actt;
     private static View view;
     public Activity act;
     public PREF pref;
@@ -56,16 +57,20 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
 
     private static void showNoConnectionDialog() {
         if (!noconnectionAlertDialog.isShowing()) {
-            noconnectionAlertDialog.setContentView(view);
-            noconnectionAlertDialog.setCancelable(false);
-            noconnectionAlertDialog.show();
+            if (!actt.isDestroyed() && !actt.isFinishing()) {
+                noconnectionAlertDialog.setContentView(view);
+                noconnectionAlertDialog.setCancelable(false);
+                noconnectionAlertDialog.show();
+            }
         }
     }
 
     public static void InternetError(boolean value) {
         if (value) {
-            if (noconnectionAlertDialog.isShowing()) {
-                noconnectionAlertDialog.dismiss();
+            if (!actt.isDestroyed() && !actt.isFinishing()) {
+                if (noconnectionAlertDialog.isShowing()) {
+                    noconnectionAlertDialog.dismiss();
+                }
             }
         } else {
             showNoConnectionDialog();
@@ -85,6 +90,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         frimline.getObserver().addObserver(this);
 
         cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
+        actt =this;
         noconnectionAlertDialog = new Dialog(this, R.style.MyAlertDialogStyle_extend);
         view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
         AppCompatButton appCompatButton = view.findViewById(R.id.button);

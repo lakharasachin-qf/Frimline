@@ -36,6 +36,8 @@ import com.app.frimline.databinding.ActivityPaymentBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.databinding.DialogOrderSuccessBinding;
 import com.app.frimline.models.HomeFragements.ProductModel;
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
@@ -137,6 +139,19 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 e.printStackTrace();
             }
             binding.payOnlineRadioBtn.setChecked(true);
+
+            if(promoCodeObject!=null){
+                JSONObject couponCode = new JSONObject();
+                try {
+                    couponCode.put("code",promoCodeObject.getString("code"));
+                    couponCode.put("amount",promoCodeObject.getString("discount"));
+                    couponCode.put("type",promoCodeObject.getString("discountType"));
+                    orderParam.put("coupon_apply",couponCode);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             createOrder();
 
 
@@ -309,7 +324,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             HELPER.dismissLoadingTran();
             isLoading = false;
             NetworkResponse response = error.networkResponse;
-            if (response.statusCode == 400) {
+            if (response!=null && response.statusCode == 400) {
                 try {
                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -572,7 +587,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                     paymentSuccess();
                     db.productEntityDao().deleteAll();
                 } else {
-                    errorDialog("Order Fail!", "your order payment is cancel", 1);
+                   // errorDialog("Order Fail!", "your order payment is cancel", 1);
                 }
             }
 
@@ -581,7 +596,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             HELPER.dismissLoadingTran();
             isLoading = false;
             NetworkResponse response = error.networkResponse;
-            if (response.statusCode == 400) {
+            if (response!=null && response.statusCode == 400) {
                 try {
                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -611,6 +626,11 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(orderSuccessBinding.getRoot());
 
+        VectorChildFinder vector = new VectorChildFinder(act, R.drawable.ic_order_confirmed, orderSuccessBinding.illustation);
+        VectorDrawableCompat.VFullPath path1 = vector.findPathByName("primary");
+        path1.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
+        path1 = vector.findPathByName("primary1");
+        path1.setFillColor(Color.parseColor(new PREF(act).getThemeColor()));
 
         orderSuccessBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -619,7 +639,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
                 Intent i = new Intent(act, CategoryLandingActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                i.putExtra("targetCategory","order");
+                i.putExtra("targetCategory","yes");
+                i.putExtra("fragment", "order");
                 startActivity(i);
 
             }

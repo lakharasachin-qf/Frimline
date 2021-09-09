@@ -43,5 +43,6 @@ public class CONSTANT {
     public static final String PAYMENT_CANCELLED_SALES_RETURN_LABEL="Order Returned";
 
     public static final String CURRENCY = "INR";
+    public static final int REQUEST_CODE_READ_SMS = 1;
 
 }

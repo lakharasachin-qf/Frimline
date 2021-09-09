@@ -84,7 +84,13 @@ public class PREF {
     public void setUser(ProfileModel token) {
         pref.edit().putString("user", new Gson().toJson(token)).apply();
     }
+    public boolean isAskOTP() {
+        return pref.getBoolean("otp", true);
+    }
 
+    public void AskOTP(boolean isLogin) {
+        pref.edit().putBoolean("otp", isLogin).apply();
+    }
 
 
 

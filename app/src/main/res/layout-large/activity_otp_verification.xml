@@ -187,7 +187,7 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_marginBottom="@dimen/_5sdp"
                                 android:fontFamily="@font/proxima_nova_regular"
-                                android:text="Enter the OTP sent to +91-8805678943"
+                                android:text="Enter the OTP sent to "
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_8sdp" />
 
@@ -206,7 +206,7 @@
                                 app:box_margin_bottom="@dimen/_2sdp"
                                 app:height="70sp"
                                 app:length="4"
-                                app:otp="1234"
+
                                 app:otp_box_background="@drawable/shape_otp"
                                 app:otp_text_size="@dimen/_14sdp"
                                 app:text_typeface="bold"

@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:background="@color/colorScreenBackground"
-        android:theme="@style/Theme.Frimline.GREENSHADE"
         android:layout_height="match_parent"
+        android:background="@color/colorScreenBackground"
+        android:orientation="vertical"
+        android:theme="@style/Theme.Frimline.GREENSHADE"
         tools:context=".AddressesActivity">
-       <include
-           android:id="@+id/toolbar"
-           layout="@layout/include_activity_toolbar_layout"/>
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/include_activity_toolbar_layout" />
 
         <ImageView
             android:id="@+id/backgroundLayar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:scaleType="fitEnd"
-            android:src="@drawable/ic_screen_bottom_background"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:src="@drawable/ic_screen_bottom_background" />
+
         <ScrollView
             android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
             android:scrollbars="none"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:visibility="gone">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_marginTop="@dimen/_7sdp"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="@dimen/_5sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
 
                     <RelativeLayout
-                        android:background="@drawable/shape_for_my_account"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_for_my_account">
 
                         <ImageView
                             android:id="@+id/actionAdd1"
@@ -58,14 +62,12 @@
                             android:background="@drawable/shape_ovel"
                             android:backgroundTint="@color/colorGreen"
                             android:padding="@dimen/_3sdp"
-                            android:src="@drawable/ic_edit_black_24dp" />
-
+                            android:src="@drawable/ic_add_black_24dp" />
 
                         <TextView
                             android:id="@+id/titleTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
@@ -76,7 +78,6 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
-                            android:visibility="visible"
                             android:id="@+id/billingTxt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -85,28 +86,28 @@
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:layout_marginBottom="@dimen/_15sdp"
                             android:fontFamily="@font/proxima_nova_regular"
-                            android:text="A-1 ,11, Ground Floor, Green Feild, Jogeshwari Vikroli Link
-Rd, Opp Fantasi Land, Andheri (west)"
-                            android:textSize="@dimen/_10sdp" />
+                            android:text=""
+                            android:textSize="@dimen/_10sdp"
+                            android:visibility="gone" />
 
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_marginTop="@dimen/_7sdp"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="@dimen/_5sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
 
                     <RelativeLayout
-                        android:background="@drawable/shape_for_my_account"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_for_my_account">
 
                         <ImageView
                             android:id="@+id/actionAdd2"
@@ -138,17 +139,16 @@ Rd, Opp Fantasi Land, Andheri (west)"
 
                         <TextView
                             android:id="@+id/shippingTxt"
-                            android:visibility="gone"
-                            android:textSize="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/title2Txt"
-                            android:fontFamily="@font/proxima_nova_regular"
                             android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
-                            android:text="A-1 ,11, Ground Floor, Green Feild, Jogeshwari Vikroli Link
-Rd, Opp Fantasi Land, Andheri (west)"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
+
+                            android:textSize="@dimen/_10sdp"
+                            android:visibility="gone" />
 
                     </RelativeLayout>
 
@@ -156,11 +156,12 @@ Rd, Opp Fantasi Land, Andheri (west)"
             </LinearLayout>
 
         </ScrollView>
+
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:layout_below="@+id/toolbar"
             android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
 
             android:orientation="vertical"
             shimmer:shimmer_duration="800">

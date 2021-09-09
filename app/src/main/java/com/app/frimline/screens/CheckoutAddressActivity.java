@@ -487,15 +487,6 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent data = new Intent();
-                if (title.equalsIgnoreCase("Error")) {
-
-                } else {
-
-                }
-                finish();
-
-
             }
         });
         alertDialog.setCancelable(true);
@@ -538,7 +529,8 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                         HELPER.dismissLoadingTran();
                         isLoading = false;
                         NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
+                        if (response!=null && response.statusCode == 400) {
+
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);

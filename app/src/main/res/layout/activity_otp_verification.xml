@@ -179,7 +179,7 @@
                                 android:layout_marginBottom="@dimen/_5sdp"
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/proxima_nova_regular"
-                                android:text="Enter the OTP sent to +91-8805678943"
+                                android:text="Enter the OTP sent to "
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_10sdp" />
 

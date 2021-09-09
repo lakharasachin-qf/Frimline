@@ -106,7 +106,6 @@
                                     android:layout_marginEnd="@dimen/_18sdp"
                                     android:fontFamily="@font/proxima_nova_bold"
                                     android:includeFontPadding="false"
-                                    android:text="Miky Alene"
                                     android:textAlignment="center"
                                     android:textColor="@color/colorToolbarHeader"
                                     android:textSize="@dimen/_13sdp" />
@@ -119,7 +118,6 @@
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:fontFamily="@font/proxima_nova_regular"
                                     android:includeFontPadding="false"
-                                    android:text="xyz@gmail.com"
                                     android:textAlignment="center"
                                     android:textColor="@color/colorEditText"
                                     android:textSize="@dimen/_10sdp" />
@@ -132,7 +130,6 @@
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:fontFamily="@font/proxima_nova_regular"
                                     android:includeFontPadding="false"
-                                    android:text="+51 3453 3454 34"
                                     android:textAlignment="center"
                                     android:textColor="@color/colorToolbarHeader"
                                     android:textSize="@dimen/_10sdp" />

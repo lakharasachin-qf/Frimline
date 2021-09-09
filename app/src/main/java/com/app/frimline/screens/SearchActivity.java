@@ -323,6 +323,7 @@ public class SearchActivity extends BaseActivity {
         circularReveal.start();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void fillSortingData() {
 
         listModels = new ArrayList<>();
@@ -464,6 +465,7 @@ public class SearchActivity extends BaseActivity {
                     binding.sortAction.setVisibility(View.VISIBLE);
                 } else {
                     binding.emptyData.setVisibility(View.VISIBLE);
+                    binding.emptyData.setText("No Search found");
                     binding.containerRecycler.setVisibility(View.GONE);
                     binding.sortAction.setVisibility(View.GONE);
                 }

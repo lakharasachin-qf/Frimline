@@ -13,6 +13,7 @@
       android:pathData="M382,542h-381a1,1 0,0 1,0 -2h381a1,1 0,0 1,0 2Z"
       android:fillColor="#cbcbcb"/>
   <path
+      android:name="primary"
       android:pathData="M191.5,261.234m-84.446,0a84.446,84.446 0,1 1,168.892 0a84.446,84.446 0,1 1,-168.892 0"
       android:fillColor="#6c63ff"/>
   <path
@@ -78,6 +79,7 @@
       android:pathData="M618.567,287.682l0,74.835l8.807,108.404l44,82l-21,15l-60,-78l-23.731,-77.449l-37.269,171.449l-28,-2l19.446,-237.711l36.901,-66.91l60.846,10.382z"
       android:fillColor="#2f2e41"/>
   <path
+      android:name="primary1"
       android:pathData="M573.358,215.3c-14,14 -1,29 -1,29l-16,36 63,17 22.016,-98.378 -15,-16c-30,-1 -30.016,-1.622 -30.016,-1.622C591.101,186.444 573.358,215.3 573.358,215.3Z"
       android:fillColor="#6c63ff"/>
   <path

@@ -1,11 +1,18 @@
 package com.app.frimline.screens;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.RECEIVE_SMS;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +20,9 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
@@ -24,17 +34,21 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.APIs;
+import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.Common.SMSListener;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityOtpVerificationBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
+import com.app.frimline.intefaces.Common;
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.ProfileModel;
+import com.app.frimline.views.OTPListener;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 
@@ -70,8 +84,38 @@ public class OtpVerificationActivity extends BaseActivity {
             }
         });
 
+
         HELPER.LOAD_HTML(binding.mobileNoLabel, "Enter the OTP sent to <b>" + getIntent().getStringExtra("mobileNo") + "</b>");
 
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+//            if (prefManager.isAskOTP()) {
+//                askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 0);
+//            }
+        } else {
+            SMSListener.bindListener(new Common.OTPListener() {
+                @Override
+                public void onOTPReceived(String extractedOTP) {
+                    binding.otpView.setOTP(extractedOTP);
+                }
+            });
+        }
+        binding.otpView.setOtpListener(new OTPListener() {
+            @Override
+            public void onInteractionListener() {
+
+            }
+
+            @Override
+            public void onOTPComplete(@NonNull String otp) {
+                    HELPER.closeKeyboard(binding.otpView,act);
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        SMSListener.unbindListener();
+        super.onDestroy();
     }
 
     private void signIn() {
@@ -91,7 +135,6 @@ public class OtpVerificationActivity extends BaseActivity {
                 } else {
                     HELPER.dismissLoadingTran();
                     errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-
                 }
 
             }
@@ -103,7 +146,7 @@ public class OtpVerificationActivity extends BaseActivity {
                         isLoading = false;
                         HELPER.dismissLoadingTran();
                         NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
+                        if (response!=null && response.statusCode == 400) {
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
@@ -275,7 +318,7 @@ public class OtpVerificationActivity extends BaseActivity {
                         error.printStackTrace();
                         isLoading = false;
                         NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
+                        if (response!=null && response.statusCode == 400) {
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
@@ -407,7 +450,7 @@ public class OtpVerificationActivity extends BaseActivity {
                     model.setShippingAddress(billingAddress);
                     prefManager.setUser(model);
                     FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
-
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.ADD_MENU);
                     Intent data = new Intent();
                     data.putExtra("success", "1");
                     setResult(RESULT_OK, data);
@@ -450,4 +493,65 @@ public class OtpVerificationActivity extends BaseActivity {
 
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean targetSetting = false;
+        if (requestCode == CONSTANT.REQUEST_CODE_READ_SMS) {
+            if (grantResults.length > 0) {
+                boolean cameraGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                if (!cameraGrant) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale(CAMERA)) {
+                            askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp",1);
+                        } else {
+                            targetSetting = true;
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
+     public void askDialogForPermission(String title, String msg,int code) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.titleTxt.setText(title);
+        HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
+        discardImageBinding.yesTxt.setText("Allow");
+        discardImageBinding.noTxt.setText("Cancel");
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                if (code == 0){
+                    ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
+                }else {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    act.startActivityForResult(intent, CONSTANT.REQUEST_CODE_READ_SMS);
+                }
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
 }

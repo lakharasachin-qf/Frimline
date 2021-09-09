@@ -32,9 +32,9 @@
 
                 <ImageView
                     android:id="@+id/illustation"
-                    android:src="@drawable/ic_order_confirmed"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_130sdp"/>
+                    android:layout_height="@dimen/_130sdp"
+                    android:src="@drawable/ic_order_confirmed" />
 
                 <TextView
                     android:layout_below="@+id/illustation"

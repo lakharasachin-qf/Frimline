@@ -242,7 +242,7 @@ public class SignupActivity extends BaseActivity {
                     prefManager.setUserToken(model.getToken());
                     prefManager.setUser(model);
                     prefManager.setLogin(true);
-                    loadProfile();
+                    loadProfile(ResponseHandler.getString(object, "message"));
                 }
             } else {
                 HELPER.dismissLoadingTran();
@@ -252,7 +252,7 @@ public class SignupActivity extends BaseActivity {
             HELPER.dismissLoadingTran();
             NetworkResponse response = error.networkResponse;
             error.printStackTrace();
-            if (response.statusCode == 400) {
+            if (response!=null && response.statusCode == 400) {
                 try {
                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -311,6 +311,8 @@ public class SignupActivity extends BaseActivity {
                 alertDialog.dismiss();
                 if (!title.equalsIgnoreCase("Error")) {
                     FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.ADD_MENU);
+
                     Intent data = new Intent();
                     data.putExtra("success", "1");
                     setResult(RESULT_OK, data);
@@ -324,7 +326,7 @@ public class SignupActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    private void loadProfile() {
+    private void loadProfile(String message) {
 
         if (!isLoading)
             isLoading = true;
@@ -378,7 +380,7 @@ public class SignupActivity extends BaseActivity {
                     model.setShippingAddress(billingAddress);
 
                     prefManager.setUser(model);
-                    errorDialog("Sign Up", "Your account is registered now.");
+                    errorDialog("Sign Up", message);
 
                 }
 

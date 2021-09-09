@@ -93,8 +93,8 @@ public class QnAFragment extends BaseFragment {
             public void onClick(View v) {
                 if (pref.isLogin()) {
                     showAddReviewDialog();
-                }else{
-                    confirmationDialog("Ask Question","You must be logged in to ask question.",011);
+                } else {
+                    confirmationDialog("Ask Question", "You must be logged in to ask question.", 011);
                 }
             }
         });
@@ -103,8 +103,8 @@ public class QnAFragment extends BaseFragment {
             public void onClick(View v) {
                 if (pref.isLogin()) {
                     showAddReviewDialog();
-                }else{
-                    confirmationDialog("Ask Question","You must be logged in to ask question.",011);
+                } else {
+                    confirmationDialog("Ask Question", "You must be logged in to ask question.", 011);
                 }
 
             }
@@ -225,7 +225,20 @@ public class QnAFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (CONSTANT.API_MODE) {
-                    addQuestion();
+                    boolean isError = false;
+
+                    reqBinding.otherInfoEdt.setError("");
+
+                    if (reqBinding.otherInfoEdt.getText().toString().trim().length() == 0) {
+                        isError = true;
+                        reqBinding.otherInfoEdt.setError("Please enter your question");
+                        reqBinding.otherInfoEdt.requestFocus();
+                    }
+
+                    if (!isError) {
+                        addQuestion();
+                    }
+
                 } else {
                     alertDialog.dismiss();
                 }
@@ -290,6 +303,7 @@ public class QnAFragment extends BaseFragment {
     }
 
     DialogDiscardImageBinding discardImageBinding;
+
     public void confirmationDialog(String title, String msg, int action) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -299,7 +313,7 @@ public class QnAFragment extends BaseFragment {
         discardImageBinding.titleTxt.setText(title);
         discardImageBinding.subTitle.setText(msg);
 
-        if (action == 011){
+        if (action == 011) {
             discardImageBinding.yesTxt.setText("Sign In");
             discardImageBinding.noTxt.setText("Cancel");
             discardImageBinding.noTxt.setVisibility(View.VISIBLE);
@@ -315,7 +329,7 @@ public class QnAFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                if (action == 011){
+                if (action == 011) {
                     HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
                 }
             }

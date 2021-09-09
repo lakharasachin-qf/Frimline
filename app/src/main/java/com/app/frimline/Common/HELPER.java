@@ -58,6 +58,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HELPER {
 
@@ -317,6 +319,10 @@ public class HELPER {
         if (dialog != null && dialog.isShowing())
             return;
 
+        if (act.isDestroyed() || act.isFinishing())
+            return;
+
+
         dialog = new Dialog(act);
         dialog.getWindow().setBackgroundDrawableResource(
                 R.color.colorProgressBackground);
@@ -567,7 +573,7 @@ public class HELPER {
                 result = df.parse(dateStr);
                 System.out.println("date:" + result);
                 // @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-           //     @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                //     @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
                 // sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
                 System.out.println(sdf.format(result)); // prints date in the format sdf
@@ -579,5 +585,18 @@ public class HELPER {
         return convertedDate;
     }
 
+    public static String getConsecutiveOTP(String message) {
+        String otp = "";
+        Pattern p = Pattern.compile("\\d+");
+        Matcher m = p.matcher(message);
+        while (m.find()) {
+
+            if (m.group().length() == 4) {
+                otp = m.group();
+            }
+            break;
+        }
+        return otp;
+    }
 
 }

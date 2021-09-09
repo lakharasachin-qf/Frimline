@@ -3,27 +3,32 @@ package com.app.frimline.views.navigationDrawer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 
-import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.fragments.BlogsFragment;
 import com.app.frimline.fragments.CategoryProfileFragment;
 import com.app.frimline.fragments.CategoryRootFragment;
@@ -33,7 +38,6 @@ import com.app.frimline.fragments.MyAccountFragment;
 import com.app.frimline.fragments.OrderHistoryFragment;
 import com.app.frimline.fragments.ShopFragment;
 import com.app.frimline.screens.BillingAddressActivity;
-import com.app.frimline.screens.CategoryLandingActivity;
 import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.LoginActivity;
 import com.app.frimline.screens.MyCartActivity;
@@ -85,6 +89,7 @@ public class DrawerMenu {
         expandableListView = activity.findViewById(R.id.expandableListView);
         defaultFragmentFlag = flag;
         loadDefaultFragment();
+
     }
 
     public void setDefaultFragment(int flag) {
@@ -97,8 +102,7 @@ public class DrawerMenu {
         else if (defaultFragmentFlag == SHOP_FRAGMENT) {
             addFragment(shopFragment);
             currentMenuItem = "Shop";
-        }
-        else if (defaultFragmentFlag == ORDER_HISTORY) {
+        } else if (defaultFragmentFlag == ORDER_HISTORY) {
             HomePageLayout = activity.findViewById(R.id.HomePageLayout);
             searchAction = activity.findViewById(R.id.searchAction);
             searchAction2 = activity.findViewById(R.id.searchAction2);
@@ -132,6 +136,7 @@ public class DrawerMenu {
         if (new PREF(activity).isLogin()) {
             menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
             headerList.add(menuModel);
+
         }
 
         menuModel = new MenuModel("About us", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_about_us)); //Menu of Android Tutorial. No sub menus
@@ -149,6 +154,7 @@ public class DrawerMenu {
         if (new PREF(activity).isLogin()) {
             menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
             headerList.add(menuModel);
+            isLogined = true;
         }
     }
 
@@ -209,21 +215,23 @@ public class DrawerMenu {
                         switch (headerList.get(groupPosition).menuName) {
                             case "Dashboard":
                                 drawer.closeDrawer(GravityCompat.START);
-                                if (defaultFragmentFlag == ORDER_HISTORY){
+                                if (defaultFragmentFlag == ORDER_HISTORY) {
                                     Intent i = new Intent(activity, CategoryRootActivity.class);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     activity.startActivity(i);
-                                }else {
+                                } else {
                                     ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                                     HELPER.ON_BACK_PRESS(activity);
                                 }
                                 break;
                             case "Home":
+                                currentMenuItem = "Home";
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 OtherScreenLayout.setVisibility(View.GONE);
                                 break;
                             case "Shop":
+                                currentMenuItem = "Shop";
 //                                fragmentSelected = shopFragment;
 //                                HomePageLayout.setVisibility(View.VISIBLE);
 //                                OtherScreenLayout.setVisibility(View.GONE);
@@ -237,14 +245,19 @@ public class DrawerMenu {
 
                                 break;
                             case "Checkout":
-                                // fragmentSelected = blogsFragment;
+
                                 drawer.closeDrawer(GravityCompat.START);
-                                HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
+                                if (CartRoomDatabase.getAppDatabase(activity).productEntityDao().getAll().size() != 0) {
+                                    HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
+                                } else {
+                                    checkoutProcess();
+                                }
                                 break;
                             case "About us":
                             case "Shipping Policy":
                             case "Privacy Policy":
                             case "Contact us":
+                                currentMenuItem = "About us";
                                 fragmentSelected = commonFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 OtherScreenLayout.setVisibility(View.GONE);
@@ -259,13 +272,12 @@ public class DrawerMenu {
                                 break;
 
                             case "Logout":
-                                toolbar_Navigation.setVisibility(View.GONE);
-                                new PREF(activity).Logout();
-                                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
                                 drawer.closeDrawer(GravityCompat.START);
-                                headerList.remove(headerList.size() - 1);
-                                headerList.remove(3);
-                                expandableListAdapter.notifyDataSetChanged();
+
+                                if (currentMenuItem != null && currentMenuItem.equalsIgnoreCase("Category Profile")) {
+                                    toolbar_Navigation.setVisibility(View.GONE);
+                                }
+                                confirmationDialog();
                                 break;
                         }
                     }
@@ -278,8 +290,6 @@ public class DrawerMenu {
                 return true;
             }
         });
-
-
 
 
         orderHistoryTab.setOnClickListener(new View.OnClickListener() {
@@ -452,16 +462,96 @@ public class DrawerMenu {
         drawer.closeDrawer(GravityCompat.START);
     }
 
+    boolean isLogined = false;
+
     public void addLogoutBtn() {
+        if (!isLogined) {
+            MenuModel menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
+            headerList.add(3, menuModel);
 
-        MenuModel menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
-        headerList.set(3, menuModel);
+            menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            isLogined = true;
+            expandableListAdapter.notifyDataSetChanged();
+        }
 
-        menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
+    }
 
-        expandableListAdapter.notifyDataSetChanged();
+    public void removeLogout() {
+        if (!isLogined) {
+            MenuModel menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
+            headerList.add(3, menuModel);
 
+            menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            isLogined = true;
+            expandableListAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    DialogDiscardImageBinding discardImageBinding;
+
+    public void confirmationDialog() {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+        discardImageBinding.titleTxt.setText("Confirm");
+        discardImageBinding.subTitle.setText("Are you really want to logout?");
+        discardImageBinding.yesTxt.setText("Logout");
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Toast.makeText(activity, "You are Logout!", Toast.LENGTH_SHORT).show();
+                isLogined = false;
+                new PREF(activity).Logout();
+                Intent i = new Intent(activity, CategoryRootActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(i);
+
+
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
+    public void checkoutProcess() {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+        discardImageBinding.titleTxt.setText("Cart");
+        discardImageBinding.subTitle.setText("Your cart is empty. Please add products.");
+        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 }
 

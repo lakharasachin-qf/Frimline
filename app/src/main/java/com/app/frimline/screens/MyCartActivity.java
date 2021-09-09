@@ -92,6 +92,8 @@ public class MyCartActivity extends BaseActivity {
             public void onClick(View v) {
                 if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
                     verifyCouponCode();
+                }else{
+                    confirmationDialog("Coupon Code", "Please enter coupon code first", CONSTANT.ACTION_3);
                 }
 
             }
@@ -138,7 +140,7 @@ public class MyCartActivity extends BaseActivity {
         int count = db.productEntityDao().getAll().size();
         if (count != 0) {
             cartItemList = HELPER.getCartList(db.productEntityDao().getAll());
-            cartAdapter = new MyCartAdapter(cartItemList, act,"cart");
+            cartAdapter = new MyCartAdapter(cartItemList, act, "cart");
             cartAdapter.setActionsListener(new MyCartAdapter.setActionsListener() {
                 @Override
                 public void onDeleteAction(int position, ProductModel model) {
@@ -266,7 +268,7 @@ public class MyCartActivity extends BaseActivity {
         arrayList.add(homeModel);
 
 
-        MyCartAdapter shopFilterAdapter = new MyCartAdapter(arrayList, act,"cart");
+        MyCartAdapter shopFilterAdapter = new MyCartAdapter(arrayList, act, "cart");
         shopFilterAdapter.setActionsListener(new MyCartAdapter.setActionsListener() {
             @Override
             public void onDeleteAction(int position, ProductModel model) {
@@ -335,23 +337,29 @@ public class MyCartActivity extends BaseActivity {
             public void onClick(View v) {
                 alertDialog.dismiss();
 
+
+                if (action == CONSTANT.NO_ACTION) {
+
+                } else if (action == CONSTANT.ACTION_2) {
                     HELPER.showLoadingTran(act);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (action == CONSTANT.NO_ACTION) {
-                                HELPER.dismissLoadingTran();
 
-                            } else if (action == CONSTANT.ACTION_2) {
-                                HELPER.dismissLoadingTran();
-                                isCouponCodeApplied = false;
-                                applyCouponCalculation(false);
-                                Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
-                                binding.promoCodeContainer.setVisibility(View.VISIBLE);
-                                binding.appliedCodeSuccess.setVisibility(View.GONE);
-                            }
+                            HELPER.dismissLoadingTran();
+                            isCouponCodeApplied = false;
+                            applyCouponCalculation(false);
+                            Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
+                            binding.promoCodeContainer.setVisibility(View.VISIBLE);
+                            binding.appliedCodeSuccess.setVisibility(View.GONE);
                         }
                     }, 1000);
+
+                }else if (action == CONSTANT.ACTION_3){
+
+                }
+
+
 
 
             }
@@ -362,8 +370,11 @@ public class MyCartActivity extends BaseActivity {
     }
 
     private void verifyCouponCode() {
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+
+        isLoading = true;
+
         HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VALIDATE_CODE, new Response.Listener<String>() {
             @Override
@@ -380,6 +391,7 @@ public class MyCartActivity extends BaseActivity {
                         isCouponCodeApplied = true;
                         applyCouponCalculation(isCouponCodeApplied);
                     } else {
+                        JSONObject object = ResponseHandler.createJsonObject(response);
                         confirmationDialog("Coupon Code", "Coupon code is not applicable", CONSTANT.NO_ACTION);
                     }
                 } catch (JSONException e) {
@@ -395,7 +407,7 @@ public class MyCartActivity extends BaseActivity {
                         isLoading = false;
                         HELPER.dismissLoadingTran();
                         NetworkResponse response = error.networkResponse;
-                        if (response.statusCode == 400) {
+                        if (response != null && response.statusCode == 400) {
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
