@@ -241,6 +241,7 @@ public class ResponseHandler {
                 for (int i = 0; i < dataArr.length(); i++) {
                     CategorySingleModel singleModel = new CategorySingleModel();
                     try {
+                        singleModel.setCategorySliderImage(getString(dataArr.getJSONObject(i), "category_slider_image"));
                         singleModel.setCategoryId(getString(dataArr.getJSONObject(i), "id"));
                         singleModel.setCategoryName(getString(dataArr.getJSONObject(i), "name"));
                         singleModel.setSlug(getString(dataArr.getJSONObject(i), "slug"));
@@ -795,10 +796,12 @@ public class ResponseHandler {
 
 
                 JSONArray objectCoupon = getJSONArray(object,"coupon_lines");
-                JSONObject couponCodeObject = objectCoupon.getJSONObject(0);
-                if (couponCodeObject!=null) {
-                    orderModel.setCouponCode(ResponseHandler.getString(couponCodeObject, "code"));
-                    orderModel.setCouponDiscount(ResponseHandler.getString(couponCodeObject, "discount"));
+                if (objectCoupon.length() != 0) {
+                    JSONObject couponCodeObject = objectCoupon.getJSONObject(0);
+                    if (couponCodeObject != null) {
+                        orderModel.setCouponCode(ResponseHandler.getString(couponCodeObject, "code"));
+                        orderModel.setCouponDiscount(ResponseHandler.getString(couponCodeObject, "discount"));
+                    }
                 }
 
                 Billing billingAddress = new Billing();

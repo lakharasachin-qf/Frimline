@@ -13,6 +13,15 @@ public class CategorySingleModel {
     private String catColor;
     private String detailImage;
     private String longDescription;
+    private String categorySliderImage;
+
+    public String getCategorySliderImage() {
+        return categorySliderImage;
+    }
+
+    public void setCategorySliderImage(String categorySliderImage) {
+        this.categorySliderImage = categorySliderImage;
+    }
 
     private boolean selectedModelForShopFiler=false;
 

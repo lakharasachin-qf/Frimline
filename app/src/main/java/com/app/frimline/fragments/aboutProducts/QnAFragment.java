@@ -4,6 +4,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ResponseHandler;
@@ -193,8 +196,9 @@ public class QnAFragment extends BaseFragment {
             }
         };
 
-        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+        FRIMLINE.getInstance().addToRequestQueue(stringRequest,"QA");
     }
+
 
     public void showAddReviewDialog() {
 
@@ -220,14 +224,28 @@ public class QnAFragment extends BaseFragment {
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+        reqBinding.otherInfoEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                reqBinding.otherInfoEdt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         reqBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (CONSTANT.API_MODE) {
                     boolean isError = false;
 
-                    reqBinding.otherInfoEdt.setError("");
 
                     if (reqBinding.otherInfoEdt.getText().toString().trim().length() == 0) {
                         isError = true;
@@ -291,8 +309,8 @@ public class QnAFragment extends BaseFragment {
                 return params;
             }
         };
-
-        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+        FRIMLINE.getInstance().addToRequestQueue(stringRequest,"QA");
+        //MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
     public void setProductModel(ProductModel productModel) {

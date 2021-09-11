@@ -16,6 +16,9 @@ import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCenterBinding;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.gson.Gson;
 
 public class CenterFragment extends BaseFragment {
@@ -51,16 +54,18 @@ public class CenterFragment extends BaseFragment {
             if (model != null) {
                 binding.layout1.setBackgroundColor(Color.parseColor(pref.getCategoryColor()));
                 binding.layout2.setBackgroundColor(Color.parseColor(pref.getThemeColor()));
-                if (model.getCategoryName().contains("Health")) {
-                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place));
-                }
-                if (model.getCategoryName().contains("Oral")) {
-                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_twoo));
-                }
-                if (model.getCategoryName().contains("Skin")) {
-                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_two));
-                }
-
+//                if (model.getCategoryName().contains("Health")) {
+//
+//                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place));
+//                }
+//                if (model.getCategoryName().contains("Oral")) {
+//                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_twoo));
+//                }
+//                if (model.getCategoryName().contains("Skin")) {
+//                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_two));
+//                }
+                binding.commonImage.setImageDrawable(null);
+                Glide.with(act).load(model.getCategorySliderImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.commonImage);
                 binding.text1.setTextColor(Color.parseColor(pref.getThemeColor()));
                 binding.icon2.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
 

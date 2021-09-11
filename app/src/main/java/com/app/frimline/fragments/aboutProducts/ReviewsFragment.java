@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ResponseHandler;
@@ -119,6 +120,7 @@ public class ReviewsFragment extends BaseFragment {
 
     }
 
+
     private void loadReview() {
 
         if (isLoading)
@@ -129,10 +131,9 @@ public class ReviewsFragment extends BaseFragment {
         binding.errorContainer.setVisibility(View.GONE);
         binding.dataDisplayContainer.setVisibility(View.GONE);
         binding.reviewContainer.setVisibility(View.GONE);
-
         binding.screenLoader.setVisibility(View.VISIBLE);
 
-        Log.e("Review-URL", APIs.PRODUCT_REVIEW + "9659");
+        Log.e("Review-URL", APIs.PRODUCT_REVIEW + model.getId());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_REVIEW + model.getId(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -194,7 +195,7 @@ public class ReviewsFragment extends BaseFragment {
             }
         };
 
-        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+        FRIMLINE.getInstance().addToRequestQueue(stringRequest,"Reviews");
     }
 
     public void showAddReviewDialog() {

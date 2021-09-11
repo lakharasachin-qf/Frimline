@@ -103,7 +103,7 @@ public class ResetPasswordActivity extends BaseActivity {
         }
         if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
             isError = true;
-            binding.newPasswordLayout.setError("Password should be at least 12 characters, at least one uppercase and one lowercase letter, one number and one special character.");
+            binding.newPasswordLayout.setError("Password should be at least 8 characters, at least one uppercase and one lowercase letter, one number and one special character.");
             if (!isFocus) {
                 isFocus = true;
                 binding.newPasswordEdt.requestFocus();

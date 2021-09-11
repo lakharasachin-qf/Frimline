@@ -89,7 +89,6 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         appCompatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                finish();
 //                startActivity(getIntent());
             }
         });

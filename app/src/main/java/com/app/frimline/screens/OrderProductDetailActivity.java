@@ -37,6 +37,7 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.adapters.ProductImageSliderAdpater;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
+import com.app.frimline.databinding.ActivityOrderProductDetailBinding;
 import com.app.frimline.databinding.ActivityProductDetailBinding;
 import com.app.frimline.fragments.aboutProducts.AdditionalInfoFragment;
 import com.app.frimline.fragments.aboutProducts.DescriptionFragment;
@@ -46,10 +47,12 @@ import com.app.frimline.fragments.aboutProducts.QnAFragment;
 import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
 import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.OrderedProductModel;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.views.WrapContentHeightViewPager;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -62,7 +65,7 @@ public class OrderProductDetailActivity extends BaseActivity {
 
 
     private final boolean redShoeVisible = true;
-    private ActivityProductDetailBinding binding;
+    private ActivityOrderProductDetailBinding binding;
     private boolean isAddedToCart = false;
     private int observableId;
     private boolean applyThemeColor = false;
@@ -79,11 +82,11 @@ public class OrderProductDetailActivity extends BaseActivity {
     private int indicatorWidth;
     private ProductModel productModel;
     private boolean isLoading = false;
-
+    private OrderedProductModel adpaterData;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(act, R.layout.activity_product_detail);
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_order_product_detail);
         defaultColor = "#EF7F1A";
 
         cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
@@ -96,9 +99,10 @@ public class OrderProductDetailActivity extends BaseActivity {
         } else {
             defaultColor = prefManager.getCategoryColor();
         }
+        adpaterData =new Gson().fromJson(getIntent().getStringExtra("model"),OrderedProductModel.class);
 
         binding.counterLayout.setVisibility(View.INVISIBLE);
-        binding.addCartContainer.setVisibility(View.INVISIBLE);
+
         binding.cartActionLayout.setVisibility(View.GONE);
 
         makeStatusBarSemiTranspenret(binding.toolbar);
@@ -119,129 +123,9 @@ public class OrderProductDetailActivity extends BaseActivity {
 
 
         binding.titleToolbar.setText("");
-        HELPER.changeCartCounterToolbar(act);
-        binding.cartActionLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(act, MyCartActivity.class);
-            }
-        });
-        binding.counter.setText("1");
-        binding.incrementAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentCounter = Integer.parseInt(binding.counter.getText().toString());
-                currentCounter++;
-                binding.counter.setText(String.valueOf(currentCounter));
-                if (CONSTANT.API_MODE) {
-                    if (cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId()) != null) {
-                        isSameProductEdit = true;
-                        ProductEntity entity = db.productEntityDao().findProductByProductId(productModel.getId());
-                        productModel.setQty(binding.counter.getText().toString());
-                        entity.setQty(binding.counter.getText().toString());
-                        entity.setCalculatedAmount(HELPER.incrementAction(productModel));
-                        productModel.setCalculatedAmount(entity.getCalculatedAmount());
-                        db.productEntityDao().updateSpecificProduct((entity));
-                        HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-                    } else {
-                        productModel.setQty(binding.counter.getText().toString());
-                        productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
-                        HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-                    }
-                }
-            }
-        });
 
-        binding.decrementAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentCounter = Integer.parseInt(binding.counter.getText().toString());
-                if (currentCounter > 1) {
-                    currentCounter--;
-                    binding.counter.setText(String.valueOf(currentCounter));
-                    if (CONSTANT.API_MODE) {
-                        if (cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId()) != null) {
-                            isSameProductEdit = true;
-                            ProductEntity entity = db.productEntityDao().findProductByProductId(productModel.getId());
-                            productModel.setQty(binding.counter.getText().toString());
-                            entity.setQty(binding.counter.getText().toString());
-                            entity.setCalculatedAmount(HELPER.incrementAction(productModel));
-                            productModel.setCalculatedAmount(entity.getCalculatedAmount());
-                            db.productEntityDao().updateSpecificProduct((entity));
-                            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-                        } else {
-                            productModel.setQty(binding.counter.getText().toString());
-                            productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
-                            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-                        }
-                    }
-                } else {
-                    Toast.makeText(act, "At least one quantity required", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
-        binding.addCartContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isAddedToCart) {
-                    binding.addTextTxt.setText("Add to cart");
-                    isAddedToCart = false;
-                    binding.addCartContainer.setBackgroundTintList(null);
-                    binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-                    binding.addTextTxt.setTextColor((Color.BLACK));
-                    if (CONSTANT.API_MODE) {
 
-                        cartRoomDatabase.productEntityDao().deleteProduct(productModel.getId());
-
-                        observableId = Integer.parseInt(getIntent().getStringExtra("removeCartID"));
-                        DataTransferModel model = new DataTransferModel();
-                        model.setAdapterPosition(getIntent().getStringExtra("adapterPosition"));
-                        model.setProductId(getIntent().getStringExtra("productId"));
-                        model.setItemPosition(getIntent().getStringExtra("itemPosition"));
-                        model.setProductPosition(getIntent().getStringExtra("productPosition"));
-                        model.setLayoutType(getIntent().getStringExtra("layoutType"));
-                        FRIMLINE.getInstance().getObserver().setValue(observableId, model);
-                        HELPER.changeCartCounterToolbar(act);
-                    }
-                } else {
-                    binding.addTextTxt.setText("Added to cart");
-                    isAddedToCart = true;
-                    binding.addCartContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-                    binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-                    binding.addTextTxt.setTextColor(Color.WHITE);
-                    if (CONSTANT.API_MODE) {
-                        productModel.setQty(binding.counter.getText().toString());
-                        productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
-                        HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-                        cartRoomDatabase.productEntityDao().insert(HELPER.convertToCartObject(productModel));
-                        observableId = Integer.parseInt(getIntent().getStringExtra("addToCartID"));
-                        DataTransferModel model = new DataTransferModel();
-                        model.setAdapterPosition(getIntent().getStringExtra("adapterPosition"));
-                        model.setProductId(getIntent().getStringExtra("productId"));
-                        model.setItemPosition(getIntent().getStringExtra("itemPosition"));
-                        model.setProductPosition(getIntent().getStringExtra("productPosition"));
-                        model.setLayoutType(getIntent().getStringExtra("layoutType"));
-                        FRIMLINE.getInstance().getObserver().setValue(observableId, model);
-                        HELPER.changeCartCounterToolbar(act);
-
-                    }
-                }
-
-            }
-        });
-
-        binding.counter.setAnimationDuration(150L);
-        binding.counter.setTextFontFamily(Objects.requireNonNull(ResourcesCompat.getFont(act, R.font.proxinova_semi_bold)));
-        binding.counter.setCharStrategy(Strategy.NormalAnimation());
-        binding.counter.addCharOrder(CharOrder.Number);
-        binding.counter.setAnimationInterpolator(new AccelerateDecelerateInterpolator());
-        binding.counter.addAnimatorListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-        });
 
 
         if (CONSTANT.API_MODE) {
@@ -335,13 +219,13 @@ public class OrderProductDetailActivity extends BaseActivity {
 
     public void loadData() {
 
-
-        descriptionFragment.setProductModel(productModel);
-        howToUseFragment.setProductModel(productModel);
-        ingredientsFragment.setProductModel(productModel);
-        additionalInfoFragment.setProductModel(productModel);
-        reviewsFragment.setProductModel(productModel);
-        qnAFragment.setProductModel(productModel);
+//        qnAFragment.setProductModel(productModel);
+//
+//        descriptionFragment.setProductModel(productModel);
+//        howToUseFragment.setProductModel(productModel);
+//        ingredientsFragment.setProductModel(productModel);
+//        additionalInfoFragment.setProductModel(productModel);
+//        reviewsFragment.setProductModel(productModel);
 
 
         ArrayList<String> productImages = productModel.getProductImagesList();
@@ -351,11 +235,17 @@ public class OrderProductDetailActivity extends BaseActivity {
         binding.dotsIndicator.setViewPager(binding.productImagesSlider);
         int rate = Integer.parseInt(productModel.getRating());
         binding.ratting.setRating((float) rate);
+
         HELPER.LOAD_HTML(binding.nameTxt, productModel.getName());
         HELPER.LOAD_HTML(binding.shortDescription, productModel.getShortDescription());
         HELPER.LOAD_HTML(binding.categoryLabel, "<b>Category : </b>" + productModel.getCategoryName());
         HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getPrice());
 
+        if (productModel.isReturnAble()){
+            binding.returnAbleLAbel.setText("Returnable");
+        }else{
+            binding.returnAbleLAbel.setText("Non-Returnable");
+        }
         StringBuilder tagsStr = new StringBuilder();
         if (productModel.getTagsModel() != null && productModel.getTagsModel().size() != 0) {
             for (int i = 0; i < productModel.getTagsModel().size(); i++) {
@@ -363,29 +253,8 @@ public class OrderProductDetailActivity extends BaseActivity {
             }
             HELPER.LOAD_HTML(binding.tagsLabel, "<b>Tags : <b>" + tagsStr);
         }
-
-        ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId());
-        if (entity != null) {
-            productModel.setAddedToCart(true);
-            productModel.setQty(entity.getQty());
-            binding.addTextTxt.setText("Added to cart");
-            isAddedToCart = true;
-            binding.addCartContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-            binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-            binding.addTextTxt.setTextColor(Color.WHITE);
-            binding.counter.setText(productModel.getQty());
-            productModel.setCalculatedAmount(entity.getCalculatedAmount());
-            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-        } else {
-
-            binding.addTextTxt.setText("Add to cart");
-            isAddedToCart = false;
-            binding.addCartContainer.setBackgroundTintList(null);
-            binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-            binding.addTextTxt.setTextColor((Color.BLACK));
-            binding.counter.setText("1");
-
-        }
+        binding.boottomFooter.setVisibility(View.GONE);
+      //  binding.addTextTxt.setText("Qty : "+adpaterData.getQty());
 
     }
 
@@ -416,6 +285,7 @@ public class OrderProductDetailActivity extends BaseActivity {
                     binding.NoDataFound.setVisibility(View.GONE);
                     binding.scrollView.setVisibility(View.VISIBLE);
                     binding.boottomFooter.setVisibility(View.VISIBLE);
+                    getIntent().putExtra("model",gson.toJson(productModel));
                     setupTabIcons();
                     changeTheme();
                     setImageSlide();
@@ -424,7 +294,7 @@ public class OrderProductDetailActivity extends BaseActivity {
                     binding.screenLoader.setVisibility(View.GONE);
                     binding.NoDataFound.setVisibility(View.VISIBLE);
                     binding.scrollView.setVisibility(View.GONE);
-                    binding.boottomFooter.setVisibility(View.GONE);
+                   binding.boottomFooter.setVisibility(View.GONE);
                     Toast.makeText(act, "No Product Found", Toast.LENGTH_SHORT).show();
                 }
 
@@ -439,7 +309,7 @@ public class OrderProductDetailActivity extends BaseActivity {
                         binding.screenLoader.setVisibility(View.GONE);
                         binding.NoDataFound.setVisibility(View.VISIBLE);
                         binding.scrollView.setVisibility(View.GONE);
-                        binding.boottomFooter.setVisibility(View.GONE);
+                       binding.boottomFooter.setVisibility(View.GONE);
                         isLoading = false;
                     }
                 }

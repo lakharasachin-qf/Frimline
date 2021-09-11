@@ -19,6 +19,7 @@ import com.app.frimline.R;
 import com.app.frimline.models.OrderedProductModel;
 import com.app.frimline.screens.OrderProductDetailActivity;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -66,14 +67,17 @@ public class OrderImageSliderAdpater extends PagerAdapter {
                     Intent i = new Intent(context, OrderProductDetailActivity.class);
                     i.putExtra("themeColor", "themeColor");
                     i.putExtra("productId", sliderImg.get(position).getProductId());
+                    i.putExtra("model", new Gson().toJson(sliderImg.get(position)));
                     context.startActivity(i);
                     context.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                 }
             });
 
             TextView productName = view.findViewById(R.id.productName);
+            TextView price = view.findViewById(R.id.price);
             TextView qty = view.findViewById(R.id.qty);
             HELPER.LOAD_HTML(productName, sliderImg.get(position).getName());
+            HELPER.LOAD_HTML(price, "Price : "+context.getString(R.string.Rs)+sliderImg.get(position).getTotal());
             HELPER.LOAD_HTML(qty, "Quantity : " + sliderImg.get(position).getQty());
         }
         ViewPager vp = (ViewPager) container;

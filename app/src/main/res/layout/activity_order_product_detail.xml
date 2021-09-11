@@ -33,10 +33,10 @@
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/productImagesSlider"
-                        android:layout_marginBottom="@dimen/_10sdp"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_300sdp"
                         android:layout_marginTop="60dp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:clipToPadding="false"
                         android:paddingStart="@dimen/_12sdp"
                         android:paddingEnd="@dimen/_12sdp" />
@@ -131,7 +131,6 @@
                         android:id="@+id/other_product"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_marginTop="@dimen/_15sdp"
                         android:orientation="horizontal"
                         android:paddingStart="@dimen/_15sdp"
@@ -146,6 +145,7 @@
 
 
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/decrementAction"
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_25sdp"
@@ -162,6 +162,8 @@
 
                             <com.app.cartcounter.RollingTextView
                                 android:id="@+id/counter"
+                                android:visibility="gone"
+
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_30sdp"
                                 android:layout_gravity="center_vertical"
@@ -175,6 +177,8 @@
 
 
                             <TextView
+                                android:visibility="gone"
+
                                 android:id="@+id/incrementAction"
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_25sdp"
@@ -426,6 +430,7 @@
                 android:paddingBottom="@dimen/_7sdp">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/cartIcon"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
@@ -438,13 +443,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_toEndOf="@+id/cartIcon"
-                    android:fontFamily="@font/proxima_nova_regular"
+                    android:fontFamily="@font/proxinova_semi_bold"
                     android:includeFontPadding="false"
-                    android:text="Add to Cart"
+                    android:text="Qty : 2"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textSize="@dimen/_11sdp" />
             </RelativeLayout>
         </RelativeLayout>
 

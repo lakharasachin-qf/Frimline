@@ -213,7 +213,7 @@ public class SignupActivity extends BaseActivity {
                 isFocus = true;
                 binding.newPasswordEdt.requestFocus();
             }
-            binding.newPasswordLayout.setError("Password should be at least 12 characters, at least one uppercase and one lowercase letter, one number and one special character.");
+            binding.newPasswordLayout.setError("Password should be at least 8 characters, at least one uppercase and one lowercase letter, one number and one special character.");
 
             //  binding.newPasswordLayout.setError("Enter valid password");
             binding.newPasswordLayout.setErrorEnabled(true);

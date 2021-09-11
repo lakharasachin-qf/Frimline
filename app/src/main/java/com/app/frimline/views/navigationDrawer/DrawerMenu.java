@@ -208,7 +208,6 @@ public class DrawerMenu {
                 Fragment fragmentSelected = null;
                 Intent intent;
                 Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
-                toolbar_Navigation.setVisibility(View.VISIBLE);
                 if (headerList.get(groupPosition).isGroup) {
 
                     if (!headerList.get(groupPosition).hasChildren) {
@@ -229,28 +228,31 @@ public class DrawerMenu {
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 OtherScreenLayout.setVisibility(View.GONE);
+                                toolbar_Navigation.setVisibility(View.VISIBLE);
+
                                 break;
                             case "Shop":
                                 currentMenuItem = "Shop";
-//                                fragmentSelected = shopFragment;
-//                                HomePageLayout.setVisibility(View.VISIBLE);
-//                                OtherScreenLayout.setVisibility(View.GONE);
-//                                searchActionSecond.setVisibility(View.GONE);
                                 searchAction2.setVisibility(View.VISIBLE);
                                 fragmentSelected = shopFragment;
                                 HomePageLayout.setVisibility(View.GONE);
                                 OtherScreenLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setText("Shop");
                                 currentMenuItem = "Shop";
+                                toolbar_Navigation.setVisibility(View.VISIBLE);
 
                                 break;
                             case "Checkout":
-
+//                                if (currentMenuItem != null && currentMenuItem.equalsIgnoreCase("Category Profile")) {
+//                                    toolbar_Navigation.setVisibility(View.GONE);
+//                                }
                                 drawer.closeDrawer(GravityCompat.START);
                                 if (CartRoomDatabase.getAppDatabase(activity).productEntityDao().getAll().size() != 0) {
                                     HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
+
                                 } else {
                                     checkoutProcess();
+
                                 }
                                 break;
                             case "About us":
@@ -261,6 +263,8 @@ public class DrawerMenu {
                                 fragmentSelected = commonFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 OtherScreenLayout.setVisibility(View.GONE);
+                                toolbar_Navigation.setVisibility(View.VISIBLE);
+
                                 break;
                             case "Blogs":
                                 fragmentSelected = blogsFragment;
@@ -269,6 +273,8 @@ public class DrawerMenu {
                                 titleTxt.setText("Blogs");
                                 searchAction2.setVisibility(View.VISIBLE);
                                 currentMenuItem = "Blogs";
+                                toolbar_Navigation.setVisibility(View.VISIBLE);
+
                                 break;
 
                             case "Logout":
@@ -400,8 +406,7 @@ public class DrawerMenu {
 
     private void replaceFragment(Fragment fragment) {
         fragmentCurrent = fragment;
-        if (!activity.isFinishing()) {
-
+        if ( !activity.isDestroyed() && !activity.isFinishing()) {
             ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
                     .addToBackStack(null).commit();
         }
@@ -490,8 +495,8 @@ public class DrawerMenu {
 
     }
 
+    
     DialogDiscardImageBinding discardImageBinding;
-
     public void confirmationDialog() {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend);
@@ -553,6 +558,7 @@ public class DrawerMenu {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
+
 }
 
 

@@ -60,7 +60,7 @@ public class IngredientsFragment extends BaseFragment {
 
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        if (productModel != null) {
+        if (productModel != null && productModel.getAttribute()!=null) {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getIngredients());
         }
     }

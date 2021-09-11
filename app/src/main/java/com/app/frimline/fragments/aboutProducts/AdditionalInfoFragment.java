@@ -54,7 +54,7 @@ public class AdditionalInfoFragment extends BaseFragment {
 
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        if (productModel != null) {
+        if (productModel != null && productModel.getAttribute()!=null) {
             if (!productModel.getAttribute().getDimWeight().isEmpty()) {
                 HELPER.LOAD_HTML(binding.weightTxt, productModel.getAttribute().getDimWeight());
                 binding.weightLayout.setVisibility(View.VISIBLE);

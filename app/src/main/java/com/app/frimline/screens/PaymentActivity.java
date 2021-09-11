@@ -144,7 +144,11 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 JSONObject couponCode = new JSONObject();
                 try {
                     couponCode.put("code",promoCodeObject.getString("code"));
-                    couponCode.put("amount",promoCodeObject.getString("discount"));
+                    if (promoCodeObject.getString("discountType").equalsIgnoreCase("percent"))
+                        couponCode.put("amount",promoCodeObject.getString("discount")+"%");
+                    else
+                        couponCode.put("amount",promoCodeObject.getString("discount"));
+
                     couponCode.put("type",promoCodeObject.getString("discountType"));
                     orderParam.put("coupon_apply",couponCode);
 
@@ -465,12 +469,16 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             finalAmount = afterRoundOff;
             binding.shippingLayout.setVisibility(View.VISIBLE);
         } else {
-
-            binding.shippingLayout.setVisibility(View.GONE);
+            binding.shippingLayout.setVisibility(View.VISIBLE);
+            binding.shippingChargeAmount.setText("FREE");
 
         }
 
         binding.roundedAmount.setText(String.format("%.2f", roundedOffValue));
+        if ( roundedOffValue!= 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
+            binding.roundedAmount.setText( "+" + String.format("%.2f", roundedOffValue));
+        }
+
         binding.totalTopMRP.setText("Total : " + act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         binding.finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         binding.headingSection.setText("Price Details (" + cartItemList.size() + ")");
@@ -580,6 +588,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             if (binding.payCodRadioBtn.isChecked()) {
                 paymentSuccess();
                 db.productEntityDao().deleteAll();
+                prefManager.setCouponCode("");
             }
             if (binding.payOnlineRadioBtn.isChecked()) {
 

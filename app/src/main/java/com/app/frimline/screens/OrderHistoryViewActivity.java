@@ -295,7 +295,11 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView shippingChargePrice = findViewById(R.id.shippingChargePrice);
         if (model.getShippingTotal() != null && !model.getShippingTotal().isEmpty()) {
-            shippingChargePrice.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getShippingTotal())));
+            if (Double.parseDouble(model.getShippingTotal()) ==0){
+                shippingChargePrice.setText("FREE");
+            }else {
+                shippingChargePrice.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getShippingTotal())));
+            }
         }
 
         RelativeLayout couponLayout = findViewById(R.id.couponLayout);
@@ -314,7 +318,10 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
 
         TextView roundedAmount = findViewById(R.id.roundedAmount);
-        roundedAmount.setText(act.getString(R.string.Rs) + String.format("%.2f", roundedOffValue));
+        roundedAmount.setText(String.format("%.2f", roundedOffValue));
+        if ( roundedOffValue!= 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
+            roundedAmount.setText( "+" + String.format("%.2f", roundedOffValue));
+        }
         finalAmoutPrice1.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
 
@@ -527,7 +534,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 URL url = new URL(f_url[0]);
                 URLConnection conection = url.openConnection();
                 conection.connect();
-                // this will be useful so that you can show a tipical 0-100% progress bar
+
                 int lenghtOfFile = conection.getContentLength();
                 String depo = conection.getHeaderField("Content-Disposition");
                 String[] depoSplit = depo.split("filename=");
@@ -545,11 +552,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
                 while ((count = input.read(data)) != -1) {
                     total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
                     publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-
-                    // writing data to file
                     output.write(data, 0, count);
                 }
 

@@ -92,7 +92,7 @@ public class MyCartActivity extends BaseActivity {
             public void onClick(View v) {
                 if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
                     verifyCouponCode();
-                }else{
+                } else {
                     confirmationDialog("Coupon Code", "Please enter coupon code first", CONSTANT.ACTION_3);
                 }
 
@@ -109,6 +109,11 @@ public class MyCartActivity extends BaseActivity {
             loadData();
         } else {
             setAdapter();
+        }
+
+        if (prefManager.getCouponCode() != null && !prefManager.getCouponCode().isEmpty()) {
+            binding.promoCodeEdt.setText(prefManager.getCouponCode());
+            verifyCouponCode();
         }
     }
 
@@ -191,7 +196,7 @@ public class MyCartActivity extends BaseActivity {
     public void applyCouponCalculation(boolean apply) {
         double finalAmount = 0;
         double couponDiscount = Double.parseDouble(discount);
-        double totalPrice = 0; // sum of all product calculated price [ qty * actual price]
+        double totalPrice = 0;
         isCouponCodeApplied = apply;
 
 
@@ -352,14 +357,13 @@ public class MyCartActivity extends BaseActivity {
                             Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
                             binding.promoCodeContainer.setVisibility(View.VISIBLE);
                             binding.appliedCodeSuccess.setVisibility(View.GONE);
+                            prefManager.setCouponCode("");
                         }
                     }, 1000);
 
-                }else if (action == CONSTANT.ACTION_3){
+                } else if (action == CONSTANT.ACTION_3) {
 
                 }
-
-
 
 
             }
@@ -390,6 +394,7 @@ public class MyCartActivity extends BaseActivity {
                         discountType = ResponseHandler.getString(jArray.getJSONObject(0), "discount_type");
                         isCouponCodeApplied = true;
                         applyCouponCalculation(isCouponCodeApplied);
+                        prefManager.setCouponCode(binding.promoCodeEdt.getText().toString().trim());
                     } else {
                         JSONObject object = ResponseHandler.createJsonObject(response);
                         confirmationDialog("Coupon Code", "Coupon code is not applicable", CONSTANT.NO_ACTION);
@@ -434,7 +439,8 @@ public class MyCartActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("coupon_code", binding.promoCodeEdt.getText().toString());
+                params.put("coupon_code", binding.promoCodeEdt.getText().toString().trim());
+
                 Log.e("param", params.toString());
                 return params;
             }

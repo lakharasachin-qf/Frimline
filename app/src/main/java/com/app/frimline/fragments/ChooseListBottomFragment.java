@@ -209,7 +209,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
         ArrayList<StateModel> temp = new ArrayList();
         for (StateModel d : stateRootList) {
 
-            if (d.getStateName().contains(text)) {
+            if (d.getStateName().toLowerCase().contains(text.toLowerCase())) {
                 temp.add(d);
             }
         }

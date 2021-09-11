@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.ProfileModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -84,6 +85,7 @@ public class PREF {
     public void setUser(ProfileModel token) {
         pref.edit().putString("user", new Gson().toJson(token)).apply();
     }
+
     public boolean isAskOTP() {
         return pref.getBoolean("otp", true);
     }
@@ -91,7 +93,6 @@ public class PREF {
     public void AskOTP(boolean isLogin) {
         pref.edit().putBoolean("otp", isLogin).apply();
     }
-
 
 
     public CategorySingleModel getCurrentCategory() {
@@ -139,5 +140,14 @@ public class PREF {
 
         pref.edit().putString("emails", new Gson().toJson(rememberMeList)).apply();
     }
+
+    public String getCouponCode() {
+        return pref.getString("couponCode", "");
+    }
+
+    public void setCouponCode(String couponCode) {
+        pref.edit().putString("couponCode", couponCode).apply();
+    }
+
 
 }
