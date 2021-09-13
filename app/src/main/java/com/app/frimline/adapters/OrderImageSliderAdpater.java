@@ -55,6 +55,7 @@ public class OrderImageSliderAdpater extends PagerAdapter {
         ImageView productImages = view.findViewById(R.id.productImage);
         LinearLayout itemLayout = view.findViewById(R.id.itemLayout);
         if (CONSTANT.API_MODE) {
+
             Glide.with(context)
                     .load(sliderImg.get(position).getProductImage())
                     .placeholder(R.drawable.ic_square_place_holder)

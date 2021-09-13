@@ -23,7 +23,6 @@
         android:fontFamily="@font/proxinova_semi_bold"
         android:paddingStart="@dimen/_7sdp"
         android:paddingEnd="@dimen/_7sdp"
-        android:text="Dente91 Lactoferrin MouthwashDente91 Lactoferrin MouthwashDente91 Lactoferrin Mouthwash"
         android:textAlignment="center"
         android:textColor="@color/colorToolbarHeader"
         android:textSize="@dimen/_13sdp" />
@@ -31,6 +30,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
         android:weightSum="2">
 
         <LinearLayout
@@ -44,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/proxima_nova_regular"
                 android:text="Price : 38506"
                 android:textSize="@dimen/_10sdp" />
@@ -62,7 +61,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/proxima_nova_regular"
                 android:text="Quantity : 02"
                 android:textSize="@dimen/_10sdp" />

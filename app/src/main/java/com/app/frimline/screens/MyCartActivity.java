@@ -62,18 +62,15 @@ public class MyCartActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_my_cart);
         makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
 
-        binding.boottomFooter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (prefManager.isLogin()) {
-                    if (CONSTANT.API_MODE) {
-                        proceedToPay();
-                    } else {
-                        HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
-                    }
+        binding.boottomFooter.setOnClickListener(v -> {
+            if (prefManager.isLogin()) {
+                if (CONSTANT.API_MODE) {
+                    proceedToPay();
                 } else {
-                    HELPER.SIMPLE_ROUTE(act, LoginActivity.class);
+                    HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
                 }
+            } else {
+                HELPER.SIMPLE_ROUTE(act, LoginActivity.class);
             }
         });
         binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +220,7 @@ public class MyCartActivity extends BaseActivity {
             HELPER.LOAD_HTML(binding.successAppliedCode, "<font color = '" + prefManager.getThemeColor() + "'><b>" + binding.promoCodeEdt.getText().toString() + "</b></font> Code has applied.");
 
             HELPER.LOAD_HTML(binding.couponHeading, "Coupon Discount <b>(" + binding.promoCodeEdt.getText().toString() + ")<b>");
-            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
+            binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
             binding.couponHeading.setText("Coupon Discount (" + binding.promoCodeEdt.getText().toString() + ")");
             binding.couponAmountLayer.setVisibility(View.VISIBLE);
             binding.promoCodeContainer.setVisibility(View.GONE);

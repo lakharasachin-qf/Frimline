@@ -295,9 +295,9 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView shippingChargePrice = findViewById(R.id.shippingChargePrice);
         if (model.getShippingTotal() != null && !model.getShippingTotal().isEmpty()) {
-            if (Double.parseDouble(model.getShippingTotal()) ==0){
+            if (Double.parseDouble(model.getShippingTotal()) == 0) {
                 shippingChargePrice.setText("FREE");
-            }else {
+            } else {
                 shippingChargePrice.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getShippingTotal())));
             }
         }
@@ -305,7 +305,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
         RelativeLayout couponLayout = findViewById(R.id.couponLayout);
         if (model.getCouponCode() != null && !model.getCouponCode().isEmpty()) {
             TextView couponAmoutTxt = findViewById(R.id.couponAmoutTxt);
-            couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getCouponDiscount())));
+            couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(Double.parseDouble(model.getCouponDiscount())));
             couponLayout.setVisibility(View.VISIBLE);
         } else {
             couponLayout.setVisibility(View.GONE);
@@ -319,8 +319,8 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView roundedAmount = findViewById(R.id.roundedAmount);
         roundedAmount.setText(String.format("%.2f", roundedOffValue));
-        if ( roundedOffValue!= 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
-            roundedAmount.setText( "+" + String.format("%.2f", roundedOffValue));
+        if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
+            roundedAmount.setText("+" + String.format("%.2f", roundedOffValue));
         }
         finalAmoutPrice1.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
