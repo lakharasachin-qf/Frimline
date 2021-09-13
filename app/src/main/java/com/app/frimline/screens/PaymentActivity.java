@@ -434,7 +434,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
             }
 
-            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
+            binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
+
             binding.couponHeading.setText("Coupon Discount (" + ResponseHandler.getString(promoCodeObject, "code") + ")");
             binding.couponLayout.setVisibility(View.VISIBLE);
         } else {
@@ -457,10 +458,12 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
         double shippingCharges;
         double roundedOffValue = 0;
+
         if (isShippingChargeAvailable) {
 
             String shippingChargesStr = (ResponseHandler.getString(orderCreated, "shipping_total").isEmpty() ? "0" : ResponseHandler.getString(orderCreated, "shipping_total"));
             shippingCharges = Double.parseDouble(shippingChargesStr);
+            Log.e("ShippinhCharge",shippingChargesStr);
             finalAmount = finalAmount + shippingCharges;
             binding.shippingChargeAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(shippingCharges));
             binding.shippingLayout.setVisibility(View.VISIBLE);
@@ -468,6 +471,9 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             roundedOffValue = afterRoundOff - finalAmount;
             finalAmount = afterRoundOff;
             binding.shippingLayout.setVisibility(View.VISIBLE);
+            if (shippingCharges == 0){
+                binding.shippingChargeAmount.setText("FREE");
+            }
         } else {
             binding.shippingLayout.setVisibility(View.VISIBLE);
             binding.shippingChargeAmount.setText("FREE");
