@@ -2,12 +2,16 @@ package com.app.frimline.fragments;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,13 +30,17 @@ import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CatBannerAdapter;
 import com.app.frimline.adapters.CategoryAdapter;
-import com.app.frimline.adapters.ParentHomeAdapter;
 import com.app.frimline.adapters.TodaysTomorrowAdapter;
+import com.app.frimline.databinding.DialogOfferBinding;
 import com.app.frimline.databinding.FragmentCategoryRootBinding;
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
 import com.app.frimline.models.CategoryRootFragments.TodaysModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.screens.CategoryLandingActivity;
+import com.bumptech.glide.Glide;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -167,6 +175,8 @@ public class CategoryRootFragment extends BaseFragment {
                 binding.NoDataFound.setVisibility(View.GONE);
                 rootModel = ResponseHandler.handleResponseCategoryRootFragment(response);
                 loadData(rootModel);
+                if (!pref.displayOFFER())
+                    getOFFER();
             }
         },
                 new Response.ErrorListener() {
@@ -283,4 +293,102 @@ public class CategoryRootFragment extends BaseFragment {
         return list;
     }
 
+    public void triggerPopUp(String response) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showOFFER(response);
+            }
+        }, 1000);
+
+    }
+
+
+    private void getOFFER() {
+        if (isLoading)
+            return;
+
+        isLoading = true;
+
+        pref.setOFFER(true);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.POP_OFFER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                isLoading = false;
+                triggerPopUp(response);
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        isLoading = false;
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+    private AlertDialog alertDialog;
+    private DialogOfferBinding reqBinding;
+
+    public void showOFFER(String response) {
+
+        if (alertDialog != null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
+        reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(reqBinding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setContentView(reqBinding.getRoot());
+
+        alertDialog.setCancelable(true);
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        reqBinding.closeView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+        reqBinding.closeLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+        reqBinding.closeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+
+        JSONObject responseObj = ResponseHandler.createJsonObject(response);
+        if (responseObj != null) {
+            if (ResponseHandler.getString(responseObj, "status").equalsIgnoreCase("200")) {
+                try {
+                    if (responseObj.get("data") instanceof JSONObject) {
+                        JSONObject data = ResponseHandler.getJSONObject(responseObj, "data");
+                        if (data.get("options") instanceof JSONObject) {
+                            Glide.with(act).load(ResponseHandler.getString(ResponseHandler.getJSONObject(data, "options"), "sgpb-image-url")).placeholder(R.drawable.ic_square_place_holder).error(R.drawable.ic_square_place_holder).into(reqBinding.offerImage);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (!act.isFinishing() && !act.isDestroyed())
+            alertDialog.show();
+    }
 }

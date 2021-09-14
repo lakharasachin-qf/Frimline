@@ -3,7 +3,10 @@ package com.app.frimline.screens;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,9 +20,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.android.volley.AuthFailureError;
@@ -37,6 +42,7 @@ import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.databinding.CustomNavigationBinding;
+import com.app.frimline.databinding.DialogOfferBinding;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
 import com.app.frimline.views.navigationDrawer.DrawerMenuForRoot;
 import com.google.android.material.navigation.NavigationView;
@@ -58,9 +64,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     private FrameLayout nav_host_fragment;
     private ProgressBar screenLoader;
     private Toolbar toolbar_Navigation;
-    //Boolean variable to mark if the transaction is safe
     private boolean isTransactionSafe;
-    //Boolean variable to mark if there is any transaction pending
     private boolean isTransactionPending;
     private CustomNavigationBinding binding;
 
@@ -69,6 +73,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         super.onCreate(savedInstanceState);
         pref.setConfiguration("#EF7F1A", "#EF7F1A");
         makeStatusBarSemiTranspenret();
+        pref.setOFFER(false);
         setUpToolbar();
         nav_host_fragment = findViewById(R.id.nav_host_fragment);
         screenLoader = findViewById(R.id.screenLoader);
@@ -308,4 +313,8 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         super.onResume();
         HELPER.changeCartCounter(act);
     }
+
+
+
+
 }

@@ -76,7 +76,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 } else {
                     finalOrderDone();
                 }
-            }else{
+            } else {
                 errorDialog("Error", "Please accept terms & conditions for further process.", 1);
             }
         });
@@ -140,17 +140,17 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             }
             binding.payOnlineRadioBtn.setChecked(true);
 
-            if(promoCodeObject!=null){
+            if (promoCodeObject != null) {
                 JSONObject couponCode = new JSONObject();
                 try {
-                    couponCode.put("code",promoCodeObject.getString("code"));
+                    couponCode.put("code", promoCodeObject.getString("code"));
                     if (promoCodeObject.getString("discountType").equalsIgnoreCase("percent"))
-                        couponCode.put("amount",promoCodeObject.getString("discount")+"%");
+                        couponCode.put("amount", promoCodeObject.getString("discount") + "%");
                     else
-                        couponCode.put("amount",promoCodeObject.getString("discount"));
+                        couponCode.put("amount", promoCodeObject.getString("discount"));
 
-                    couponCode.put("type",promoCodeObject.getString("discountType"));
-                    orderParam.put("coupon_apply",couponCode);
+                    couponCode.put("type", promoCodeObject.getString("discountType"));
+                    orderParam.put("coupon_apply", couponCode);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -328,7 +328,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             HELPER.dismissLoadingTran();
             isLoading = false;
             NetworkResponse response = error.networkResponse;
-            if (response!=null && response.statusCode == 400) {
+            if (response != null && response.statusCode == 400) {
                 try {
                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -424,14 +424,13 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         if (promoCodeObject != null) {
             double couponDiscount = Double.parseDouble(ResponseHandler.getString(promoCodeObject, "discount"));
             double promoDiscount = 0;
-            if (ResponseHandler.getString(promoCodeObject, "discountType").contains("flat")) {
-                promoDiscount = (totalPrice - couponDiscount);
-                finalAmount = totalPrice - promoDiscount;
-
-            } else if (ResponseHandler.getString(promoCodeObject, "discountType").contains("percent")) {
+            if (ResponseHandler.getString(promoCodeObject, "discountType").contains("percent")) {
                 promoDiscount = (totalPrice * couponDiscount) / 100;
                 finalAmount = totalPrice - promoDiscount;
 
+            } else {
+                promoDiscount = couponDiscount;
+                 finalAmount = totalPrice - couponDiscount;
             }
 
             binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
@@ -463,7 +462,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
             String shippingChargesStr = (ResponseHandler.getString(orderCreated, "shipping_total").isEmpty() ? "0" : ResponseHandler.getString(orderCreated, "shipping_total"));
             shippingCharges = Double.parseDouble(shippingChargesStr);
-            Log.e("ShippinhCharge",shippingChargesStr);
+            Log.e("ShippinhCharge", shippingChargesStr);
             finalAmount = finalAmount + shippingCharges;
             binding.shippingChargeAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(shippingCharges));
             binding.shippingLayout.setVisibility(View.VISIBLE);
@@ -471,7 +470,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             roundedOffValue = afterRoundOff - finalAmount;
             finalAmount = afterRoundOff;
             binding.shippingLayout.setVisibility(View.VISIBLE);
-            if (shippingCharges == 0){
+            if (shippingCharges == 0) {
                 binding.shippingChargeAmount.setText("FREE");
             }
         } else {
@@ -481,10 +480,12 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         }
 
         binding.roundedAmount.setText(String.format("%.2f", roundedOffValue));
-        if ( roundedOffValue!= 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
-            binding.roundedAmount.setText( "+" + String.format("%.2f", roundedOffValue));
+        if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
+            binding.roundedAmount.setText("+" + String.format("%.2f", roundedOffValue));
         }
-
+        if (roundedOffValue ==0) {
+            binding.roundedAmount.setText("0");
+        }
         binding.totalTopMRP.setText("Total : " + act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         binding.finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         binding.headingSection.setText("Price Details (" + cartItemList.size() + ")");
@@ -545,7 +546,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         Log.e("Payment Fail", s);
         isOnlinePaymentSuccess = false;
         errorDialog("Order Fail!", "Your order payment is cancel", 1);
-       // finalOrderDone();
+        // finalOrderDone();
     }
 
     boolean isOnlinePaymentSuccess = false;
@@ -602,7 +603,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                     paymentSuccess();
                     db.productEntityDao().deleteAll();
                 } else {
-                   // errorDialog("Order Fail!", "your order payment is cancel", 1);
+                    // errorDialog("Order Fail!", "your order payment is cancel", 1);
                 }
             }
 
@@ -611,7 +612,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             HELPER.dismissLoadingTran();
             isLoading = false;
             NetworkResponse response = error.networkResponse;
-            if (response!=null && response.statusCode == 400) {
+            if (response != null && response.statusCode == 400) {
                 try {
                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -654,7 +655,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
                 Intent i = new Intent(act, CategoryLandingActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                i.putExtra("targetCategory","yes");
+                i.putExtra("targetCategory", "yes");
                 i.putExtra("fragment", "order");
                 startActivity(i);
 

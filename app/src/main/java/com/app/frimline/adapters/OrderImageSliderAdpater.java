@@ -78,7 +78,7 @@ public class OrderImageSliderAdpater extends PagerAdapter {
             TextView price = view.findViewById(R.id.price);
             TextView qty = view.findViewById(R.id.qty);
             HELPER.LOAD_HTML(productName, sliderImg.get(position).getName());
-            HELPER.LOAD_HTML(price, "Price : "+context.getString(R.string.Rs)+sliderImg.get(position).getTotal());
+            HELPER.LOAD_HTML(price, "Price : " + context.getString(R.string.Rs) + String.format("%.2f", Double.parseDouble(sliderImg.get(position).getSubTotal())));
             HELPER.LOAD_HTML(qty, "Quantity : " + sliderImg.get(position).getQty());
         }
         ViewPager vp = (ViewPager) container;

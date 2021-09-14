@@ -317,14 +317,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.postalCodeEdt.requestFocus();
             }
         }
-        if (binding.postalCodeEdt.getText().toString().trim().length() < 6) {
-            isError = true;
-            binding.postalCodeEdtLayout.setError("Enter 6 digit pincode");
-            if (!isFocus) {
-                isFocus = true;
-                binding.postalCodeEdt.requestFocus();
-            }
-        }
+
         if (flag != 1) {
             if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
                 isError = true;

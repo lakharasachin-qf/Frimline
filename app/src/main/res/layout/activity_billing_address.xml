@@ -28,13 +28,13 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:clipToPadding="false"
-            android:fitsSystemWindows="true"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_Navigation"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="true"
+            android:scrollbars="none"
 
-            android:scrollbars="none">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,9 +66,9 @@
 
                     <LinearLayout
                         android:id="@+id/containerLinear"
-                        android:animateLayoutChanges="true"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:animateLayoutChanges="true"
                         android:background="@drawable/shape_billing_border"
                         android:orientation="vertical"
                         android:padding="@dimen/_15sdp">
@@ -262,6 +262,7 @@
                                 android:hint="State"
                                 android:inputType="text" />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <TextView
                             style="@style/EditTextTitle"
                             android:layout_marginTop="@dimen/_12sdp"
@@ -279,14 +280,15 @@
                                 android:id="@+id/postalCodeEdt"
                                 style="@style/textInputEditTextForMediumScreen"
                                 android:hint="Postcode / ZIP"
-                                android:maxLength="6"
-                                android:inputType="number" />
+                                 />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <LinearLayout
                             android:id="@+id/billingSectionOther"
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
                             <TextView
                                 style="@style/EditTextTitle"
                                 android:layout_marginTop="@dimen/_12sdp"
@@ -325,14 +327,13 @@
                                     android:id="@+id/emailEdt"
                                     style="@style/textInputEditTextForMediumScreen"
                                     android:hint="Email Id"
-                                    android:scrollbarStyle="insideInset"
-                                    android:scrollbars="vertical"
+                                    android:inputType="textEmailAddress"
                                     android:overScrollMode="always"
+                                    android:scrollbarStyle="insideInset"
 
-                                    android:inputType="textEmailAddress" />
+                                    android:scrollbars="vertical" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
-
 
 
                         <include

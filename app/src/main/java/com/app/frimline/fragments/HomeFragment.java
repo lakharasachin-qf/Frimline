@@ -1,6 +1,9 @@
 package com.app.frimline.fragments;
 
 import android.animation.LayoutTransition;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -8,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +30,7 @@ import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ParentHomeAdapter;
+import com.app.frimline.databinding.DialogOfferBinding;
 import com.app.frimline.databinding.FragmentHomeBinding;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.DataTransferModel;
@@ -360,8 +365,10 @@ public class HomeFragment extends BaseFragment {
     private boolean isLoading = false;
 
     private void loadHomeScreen() {
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+
+        isLoading = true;
         CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
         if (act.getIntent().hasExtra("targetCategory") && act.getIntent().hasExtra("fragment") && act.getIntent().getStringExtra("fragment").equalsIgnoreCase("order")) {
             model = pref.getCurrentCategory();
@@ -386,6 +393,7 @@ public class HomeFragment extends BaseFragment {
                     binding.containerRecycler.setVisibility(View.GONE);
                     binding.emptyData.setVisibility(View.VISIBLE);
                 }
+
             }
         },
                 new Response.ErrorListener() {
@@ -418,6 +426,8 @@ public class HomeFragment extends BaseFragment {
 
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
+
+
 
     @Override
     public void update(Observable observable, Object data) {
@@ -477,4 +487,8 @@ public class HomeFragment extends BaseFragment {
         parentHomeAdapter.notifyItemChanged(refreshingPost);
 
     }
+
+
+
+
 }

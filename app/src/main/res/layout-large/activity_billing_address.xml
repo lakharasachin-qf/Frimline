@@ -278,8 +278,7 @@
                                 android:id="@+id/postalCodeEdt"
                                 style="@style/textInputEditTextForTabletWithoutIcon"
                                 android:hint="Postcode / ZIP"
-                                android:inputType="number"
-                                android:maxLength="6" />
+                                  />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout

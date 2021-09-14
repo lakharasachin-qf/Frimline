@@ -150,4 +150,13 @@ public class PREF {
     }
 
 
+    public boolean displayOFFER() {
+        return pref.getBoolean("offer", false);
+    }
+
+    public void setOFFER(boolean isLogin) {
+        pref.edit().putBoolean("offer", isLogin).apply();
+    }
+
+
 }

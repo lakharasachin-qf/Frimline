@@ -875,79 +875,84 @@ public class ResponseHandler {
 
             try {
                 searchListResult = new ArrayList<>();
-                ArrayList<ProductModel> arrayProduct = commonProductParsing(searchObj.getJSONArray("products"));
-                int totalSize = arrayProduct.size();
-                int firstPartSize = Integer.parseInt(String.valueOf(totalSize / 2));
-                List<ProductModel> topProduct = arrayProduct.subList(0, firstPartSize);
+                if (searchObj.get("products") instanceof JSONArray) {
+                    ArrayList<ProductModel> arrayProduct = commonProductParsing(searchObj.getJSONArray("products"));
+                    int totalSize = arrayProduct.size();
+                    int firstPartSize = Integer.parseInt(String.valueOf(totalSize / 2));
+                    List<ProductModel> topProduct = arrayProduct.subList(0, firstPartSize);
 
-                ArrayList<ArrayList<ProductModel>> chunkArray = chunkArray(topProduct, 3);
-                ArrayList<HomeModel> tempArray = new ArrayList<>();
+                    ArrayList<ArrayList<ProductModel>> chunkArray = chunkArray(topProduct, 3);
+                    ArrayList<HomeModel> tempArray = new ArrayList<>();
 
-                for (int i = 0; i < chunkArray.size(); i++) {
-                    HomeModel model = new HomeModel();
-                    ArrayList<ProductModel> modelArrayList = chunkArray.get(i);
-                    model.setApiProductModel(modelArrayList);
-                    if (modelArrayList.size() == 3)
-                        model.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
-                    else if (modelArrayList.size() == 2)
-                        model.setLayoutType(LAYOUT_TYPE.LAYOUT_TWO_PRODUCT);
-                    else if (modelArrayList.size() == 1)
-                        model.setLayoutType(LAYOUT_TYPE.LAYOUT_ONE_PRODUCT);
-                    tempArray.add(model);
+                    for (int i = 0; i < chunkArray.size(); i++) {
+                        HomeModel model = new HomeModel();
+                        ArrayList<ProductModel> modelArrayList = chunkArray.get(i);
+                        model.setApiProductModel(modelArrayList);
+                        if (modelArrayList.size() == 3)
+                            model.setLayoutType(LAYOUT_TYPE.LAYOUT_THREE_PRODUCT);
+                        else if (modelArrayList.size() == 2)
+                            model.setLayoutType(LAYOUT_TYPE.LAYOUT_TWO_PRODUCT);
+                        else if (modelArrayList.size() == 1)
+                            model.setLayoutType(LAYOUT_TYPE.LAYOUT_ONE_PRODUCT);
+                        tempArray.add(model);
 
-                }
+                    }
 
-                //-----------------------------------------------
+                    //-----------------------------------------------
 
-                SearchModel topSearchModel = new SearchModel();
-                topSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_TOP_PRODUCT);
-                List<ProductModel> HotProduct = arrayProduct.subList(firstPartSize, arrayProduct.size());
-                Log.e("HotProduct", String.valueOf(HotProduct.size()));
-                topSearchModel.setTopProduct(tempArray);
-                if (tempArray.size() != 0)
-                    searchListResult.add(topSearchModel);
+                    SearchModel topSearchModel = new SearchModel();
+                    topSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_TOP_PRODUCT);
+                    List<ProductModel> HotProduct = arrayProduct.subList(firstPartSize, arrayProduct.size());
 
-                //----------------------------------------
-                JSONArray categoryArr = searchObj.getJSONArray("category");
-                ArrayList<CategorySingleModel> categoryList = new ArrayList<>();
-                for (int i = 0; i < categoryArr.length(); i++) {
-                    CategorySingleModel singleModel = new CategorySingleModel();
-                    try {
-
-                        singleModel.setCategoryId(getString(categoryArr.getJSONObject(i), "id"));
-                        singleModel.setCategoryName(getString(categoryArr.getJSONObject(i), "name"));
-                        singleModel.setSlug(getString(categoryArr.getJSONObject(i), "slug"));
-                        singleModel.setParents(getString(categoryArr.getJSONObject(i), "parent"));
-                        singleModel.setDescriptions(getString(categoryArr.getJSONObject(i), "description"));
-                        singleModel.setDisplay(getString(categoryArr.getJSONObject(i), "display"));
-                        singleModel.setImage(getString(getJSONObject(categoryArr.getJSONObject(i), "image"), "src"));
-                        singleModel.setMenuOrder(getString(categoryArr.getJSONObject(i), "menu_order"));
-                        singleModel.setCount(getString(categoryArr.getJSONObject(i), "count"));
-                        singleModel.setCatColor(getString(categoryArr.getJSONObject(i), "cat_color"));
-                        singleModel.setDetailImage(getString(categoryArr.getJSONObject(i), "details_image"));
-                        singleModel.setLongDescription(getString(categoryArr.getJSONObject(i), "long_description"));
+                    topSearchModel.setTopProduct(tempArray);
+                    if (tempArray.size() != 0)
+                        searchListResult.add(topSearchModel);
 
 
-                        categoryList.add(singleModel);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    //----------------------------------------
+                    JSONArray categoryArr = searchObj.getJSONArray("category");
+                    ArrayList<CategorySingleModel> categoryList = new ArrayList<>();
+                    for (int i = 0; i < categoryArr.length(); i++) {
+                        CategorySingleModel singleModel = new CategorySingleModel();
+                        try {
+
+                            singleModel.setCategoryId(getString(categoryArr.getJSONObject(i), "id"));
+                            singleModel.setCategoryName(getString(categoryArr.getJSONObject(i), "name"));
+                            singleModel.setSlug(getString(categoryArr.getJSONObject(i), "slug"));
+                            singleModel.setParents(getString(categoryArr.getJSONObject(i), "parent"));
+                            singleModel.setDescriptions(getString(categoryArr.getJSONObject(i), "description"));
+                            singleModel.setDisplay(getString(categoryArr.getJSONObject(i), "display"));
+                            singleModel.setImage(getString(getJSONObject(categoryArr.getJSONObject(i), "image"), "src"));
+                            singleModel.setMenuOrder(getString(categoryArr.getJSONObject(i), "menu_order"));
+                            singleModel.setCount(getString(categoryArr.getJSONObject(i), "count"));
+                            singleModel.setCatColor(getString(categoryArr.getJSONObject(i), "cat_color"));
+                            singleModel.setDetailImage(getString(categoryArr.getJSONObject(i), "details_image"));
+                            singleModel.setLongDescription(getString(categoryArr.getJSONObject(i), "long_description"));
+
+
+                            categoryList.add(singleModel);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    SearchModel categoryModel = new SearchModel();
+                    categoryModel.setLayoutType(LAYOUT_TYPE.LAYOUT_FILTER_CHIP);
+                    categoryModel.setCategoryList(categoryList);
+                    searchListResult.add(categoryModel);
+
+                    //------------------------------------------
+                    SearchModel hotSearchModel = new SearchModel();
+                    hotSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
+                    hotSearchModel.setHotProduct(new ArrayList<>(HotProduct));
+                    if (hotSearchModel.getHotProduct().size() != 0)
+                        searchListResult.add(hotSearchModel);
+
+                    if (new ArrayList<>(HotProduct).size() == 0 && tempArray.size() == 0) {
+                        searchListResult.clear();
                     }
                 }
-                SearchModel categoryModel = new SearchModel();
-                categoryModel.setLayoutType(LAYOUT_TYPE.LAYOUT_FILTER_CHIP);
-                categoryModel.setCategoryList(categoryList);
-                searchListResult.add(categoryModel);
 
-                //------------------------------------------
-                SearchModel hotSearchModel = new SearchModel();
-                hotSearchModel.setLayoutType(LAYOUT_TYPE.LAYOUT_HOT_PRODUCT);
-                hotSearchModel.setHotProduct(new ArrayList<>(HotProduct));
-                if (hotSearchModel.getHotProduct().size() != 0)
-                    searchListResult.add(hotSearchModel);
 
-                if (new ArrayList<>(HotProduct).size() == 0 && tempArray.size() == 0) {
-                    searchListResult.clear();
-                }
 
 
             } catch (JSONException e) {

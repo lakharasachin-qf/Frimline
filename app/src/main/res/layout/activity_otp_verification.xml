@@ -224,8 +224,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="20dp"
-                                    android:fontFamily="@font/proxima_nova_regular"
-                                    android:text="Resend OTP"
+                                    android:fontFamily="@font/proxima_nova_bold"
+                                    android:text="RESEND OTP"
                                     android:textAlignment="center"
                                     android:textSize="@dimen/_10sdp" />
                             </LinearLayout>

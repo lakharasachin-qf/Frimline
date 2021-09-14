@@ -206,16 +206,15 @@ public class MyCartActivity extends BaseActivity {
 
         if (apply) {
             double promoDiscount = 0;
-            if (discountType.contains("flat")) {
-                promoDiscount = (totalPrice - couponDiscount);
-                finalAmount = totalPrice - promoDiscount;
-                Log.e("Final Apply Code", String.valueOf(finalAmount));
-
-            } else if (discountType.contains("percent")) {
+            if (discountType.contains("percent")) {
                 promoDiscount = (totalPrice * couponDiscount) / 100;
                 finalAmount = totalPrice - promoDiscount;
                 Log.e("Final Apply Code", String.valueOf(finalAmount));
 
+            } else {
+                promoDiscount = couponDiscount;
+                finalAmount = totalPrice - couponDiscount;
+                Log.e("Final Apply Code", String.valueOf(finalAmount));
             }
             HELPER.LOAD_HTML(binding.successAppliedCode, "<font color = '" + prefManager.getThemeColor() + "'><b>" + binding.promoCodeEdt.getText().toString() + "</b></font> Code has applied.");
 

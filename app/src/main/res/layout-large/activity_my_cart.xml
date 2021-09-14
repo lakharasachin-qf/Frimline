@@ -144,7 +144,6 @@
                                     android:includeFontPadding="false"
                                     android:singleLine="true"
                                     android:text="#FGSDH Code has Applied."
-                                    android:textColor="@color/orange"
                                     android:textSize="@dimen/_10sdp" />
 
                                 <RelativeLayout

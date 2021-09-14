@@ -398,14 +398,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                     binding.postalCodeEdt.requestFocus();
                 }
             }
-            if (binding.postalCodeEdt.getText().toString().trim().length() < 6) {
-                isError = true;
-                binding.postalCodeEdtLayout.setError("Enter 6 digit postcode");
-                if (!isFocus) {
-                    isFocus = true;
-                    binding.postalCodeEdt.requestFocus();
-                }
-            }
+
         }
 
         return isError;

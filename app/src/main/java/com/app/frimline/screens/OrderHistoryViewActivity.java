@@ -322,6 +322,9 @@ public class OrderHistoryViewActivity extends BaseActivity {
         if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
             roundedAmount.setText("+" + String.format("%.2f", roundedOffValue));
         }
+        if (roundedOffValue ==0) {
+            roundedAmount.setText("0");
+        }
         finalAmoutPrice1.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
 
