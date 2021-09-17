@@ -192,7 +192,7 @@ public class OrderHistoryFragment extends BaseFragment {
                 if (pref.isLogin())
                     map.put("Authorization", "Bearer " + pref.getToken());
 
-                map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyOTI2NTg2MSwibmJmIjoxNjI5MjY1ODYxLCJleHAiOjE2Mjk4NzA2NjEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.Cy_OUQQNARUX1jPChwHY25xdUOineBkllkN7gulYKZg");
+              //  map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyOTI2NTg2MSwibmJmIjoxNjI5MjY1ODYxLCJleHAiOjE2Mjk4NzA2NjEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.Cy_OUQQNARUX1jPChwHY25xdUOineBkllkN7gulYKZg");
 
                 return getHeader();
             }

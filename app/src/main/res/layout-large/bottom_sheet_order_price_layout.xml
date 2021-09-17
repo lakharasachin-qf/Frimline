@@ -154,6 +154,35 @@
                 android:textSize="@dimen/_11sdp" />
         </RelativeLayout>
         <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/codLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <TextView
+                android:id="@+id/codChargeHeadling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:includeFontPadding="false"
+                android:text="COD Charge"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/codChargePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:includeFontPadding="false"
+                android:text="Free"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11sdp" />
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/roundOffLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

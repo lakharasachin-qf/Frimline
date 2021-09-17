@@ -28,6 +28,15 @@ public class OrderModel {
     private String couponCode;
     private String couponDiscount;
     private String counponDiscountType;
+    private String codCharges;
+
+    public String getCodCharges() {
+        return codCharges;
+    }
+
+    public void setCodCharges(String codCharges) {
+        this.codCharges = codCharges;
+    }
 
     public String getCouponCode() {
         return couponCode;

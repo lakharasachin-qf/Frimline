@@ -2,6 +2,7 @@ package com.app.frimline.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public abstract class BaseFragment extends Fragment implements Observer {
         pref = new PREF(act);
         if (pref.isLogin())
             map.put("Authorization", "Bearer " + pref.getToken());
+
 
 
         //map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyODYxNTEwMSwibmJmIjoxNjI4NjE1MTAxLCJleHAiOjE2MjkyMTk5MDEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.YpZq2d8kP3PLR5UXfEWFa4uqiNL7wQoaHENHjNuJ-98");

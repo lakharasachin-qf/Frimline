@@ -793,6 +793,9 @@ public class ResponseHandler {
                 orderModel.setInvoiceLink(getString(object, "invoice_link"));
                 orderModel.setTrackingId(getString(object, "tracking_id"));
                 orderModel.setTrackingLink(getString(object, "tracking_link"));
+                if (object.has("cod_charges")) {
+                    orderModel.setCodCharges(getString(object, "cod_charges"));
+                }
 
 
                 JSONArray objectCoupon = getJSONArray(object,"coupon_lines");

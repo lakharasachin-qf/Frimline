@@ -196,25 +196,24 @@ public class MyCartActivity extends BaseActivity {
         double totalPrice = 0;
         isCouponCodeApplied = apply;
 
-
         for (ProductModel productModel : cartItemList) {
             totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
         }
         finalAmount = totalPrice;
         binding.totalPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
 
-
         if (apply) {
             double promoDiscount = 0;
             if (discountType.contains("percent")) {
                 promoDiscount = (totalPrice * couponDiscount) / 100;
                 finalAmount = totalPrice - promoDiscount;
-                Log.e("Final Apply Code", String.valueOf(finalAmount));
-
+            } else if (discountType.contains("fixed_cart")) {
+                promoDiscount = couponDiscount;
+                finalAmount = totalPrice - promoDiscount;
             } else {
                 promoDiscount = couponDiscount;
                 finalAmount = totalPrice - couponDiscount;
-                Log.e("Final Apply Code", String.valueOf(finalAmount));
+                //Log.e("Final Apply Code", String.valueOf(finalAmount));
             }
             HELPER.LOAD_HTML(binding.successAppliedCode, "<font color = '" + prefManager.getThemeColor() + "'><b>" + binding.promoCodeEdt.getText().toString() + "</b></font> Code has applied.");
 

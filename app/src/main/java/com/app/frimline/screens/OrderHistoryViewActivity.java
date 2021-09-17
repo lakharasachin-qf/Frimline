@@ -328,6 +328,17 @@ public class OrderHistoryViewActivity extends BaseActivity {
         finalAmoutPrice1.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
 
+        RelativeLayout codLayout =findViewById(R.id.codLayout);
+        if (model.getPaymentMethod().equalsIgnoreCase("cod")){
+            codLayout.setVisibility(View.VISIBLE);
+            double codAmount = Double.parseDouble(model.getCodCharges());
+            TextView codChargePrice =findViewById(R.id.codChargePrice);
+            codChargePrice.setText(act.getString(R.string.Rs) + String.format("%.2f", codAmount));
+            if (codAmount==0) {
+                codChargePrice.setText("FREE");
+            }
+        }
+
     }
 
     public void changeTheme() {

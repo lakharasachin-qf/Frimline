@@ -430,7 +430,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
             } else {
                 promoDiscount = couponDiscount;
-                 finalAmount = totalPrice - couponDiscount;
+                finalAmount = totalPrice - couponDiscount;
             }
 
             binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
@@ -483,7 +483,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
             binding.roundedAmount.setText("+" + String.format("%.2f", roundedOffValue));
         }
-        if (roundedOffValue ==0) {
+        if (roundedOffValue == 0) {
             binding.roundedAmount.setText("0");
         }
         binding.totalTopMRP.setText("Total : " + act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
@@ -565,7 +565,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
             if (binding.payCodRadioBtn.isChecked()) {
                 orderParam.put("payment_method", "cod");
-                orderParam.put("cod_charges", codChargesAmount);
+                double codAmount = Double.parseDouble(codChargesAmount);
+                orderParam.put("cod_charges", String.format("%.2f", codAmount));
                 orderParam.put("status", "1");
             }
             if (binding.payOnlineRadioBtn.isChecked()) {
