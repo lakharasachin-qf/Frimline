@@ -37,6 +37,7 @@ import com.app.frimline.fragments.HomeFragment;
 import com.app.frimline.fragments.MyAccountFragment;
 import com.app.frimline.fragments.OrderHistoryFragment;
 import com.app.frimline.fragments.ShopFragment;
+import com.app.frimline.fragments.WishlistFragment;
 import com.app.frimline.screens.BillingAddressActivity;
 import com.app.frimline.screens.CategoryRootActivity;
 import com.app.frimline.screens.LoginActivity;
@@ -82,6 +83,7 @@ public class DrawerMenu {
     private final CategoryProfileFragment profileFragment = new CategoryProfileFragment();
     private final CategoryRootFragment categoryRootFragment = new CategoryRootFragment();
     private final CommonFragment commonFragment = new CommonFragment();
+    private final WishlistFragment wishlistFragment = new WishlistFragment();
 
     public DrawerMenu(Activity activity, int flag) {
         this.activity = activity;
@@ -136,9 +138,12 @@ public class DrawerMenu {
         if (new PREF(activity).isLogin()) {
             menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
             headerList.add(menuModel);
-
         }
 
+        if (new PREF(activity).isLogin()) {
+            menuModel = new MenuModel("Wishlist", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_wishlist)); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+        }
         menuModel = new MenuModel("About us", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_about_us)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
         menuModel = new MenuModel("Blogs", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_blog)); //Menu of Android Tutorial. No sub menus
@@ -277,6 +282,16 @@ public class DrawerMenu {
 
                                 break;
 
+                            case "Wishlist":
+                                fragmentSelected = wishlistFragment;
+                                HomePageLayout.setVisibility(View.GONE);
+                                OtherScreenLayout.setVisibility(View.VISIBLE);
+                                titleTxt.setText("Wishlist");
+                                searchAction2.setVisibility(View.VISIBLE);
+                                currentMenuItem = "Wishlist";
+                                toolbar_Navigation.setVisibility(View.VISIBLE);
+                                break;
+
                             case "Logout":
                                 drawer.closeDrawer(GravityCompat.START);
 
@@ -406,7 +421,7 @@ public class DrawerMenu {
 
     private void replaceFragment(Fragment fragment) {
         fragmentCurrent = fragment;
-        if ( !activity.isDestroyed() && !activity.isFinishing()) {
+        if (!activity.isDestroyed() && !activity.isFinishing()) {
             ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
                     .addToBackStack(null).commit();
         }
@@ -474,8 +489,12 @@ public class DrawerMenu {
             MenuModel menuModel = new MenuModel("Checkout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_checkout)); //Menu of Android Tutorial. No sub menus
             headerList.add(3, menuModel);
 
+            menuModel = new MenuModel("Wishlist", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_wishlist)); //Menu of Android Tutorial. No sub menus
+            headerList.add(4,menuModel);
+
             menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
             headerList.add(menuModel);
+
             isLogined = true;
             expandableListAdapter.notifyDataSetChanged();
         }
@@ -495,8 +514,9 @@ public class DrawerMenu {
 
     }
 
-    
+
     DialogDiscardImageBinding discardImageBinding;
+
     public void confirmationDialog() {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend);

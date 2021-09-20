@@ -24,6 +24,7 @@ import com.app.frimline.models.ProfileModel;
 import com.app.frimline.models.QAModel;
 import com.app.frimline.models.SearchModel;
 import com.app.frimline.models.StateModel;
+import com.app.frimline.models.roomModels.WishlistEntity;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -761,6 +762,38 @@ public class ResponseHandler {
 
 
         return model;
+
+    }
+    public static ArrayList<WishlistEntity> parseWishlist(String response) {
+        ArrayList<WishlistEntity> arrayList = new ArrayList<>();
+
+
+        try {
+            JSONObject resObj = createJsonObject(response);
+            JSONArray array = resObj.getJSONArray("data");
+
+            for (int i = 0; i < array.length(); i++) {
+                WishlistEntity wishlistEntity = new WishlistEntity();
+                JSONObject object = array.getJSONObject(i);
+
+                wishlistEntity.setProductName(ResponseHandler.getString(object, "product_name"));
+                wishlistEntity.setID(ResponseHandler.getString(object, "ID"));
+                wishlistEntity.setProductId(ResponseHandler.getString(object, "prod_id"));
+                wishlistEntity.setWishlistId(ResponseHandler.getString(object, "wishlist_id"));
+                wishlistEntity.setPrice(ResponseHandler.getString(object, "original_price"));
+
+                arrayList.add(wishlistEntity);
+
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return arrayList;
 
     }
 

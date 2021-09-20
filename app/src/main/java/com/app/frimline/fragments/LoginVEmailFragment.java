@@ -229,7 +229,7 @@ public class LoginVEmailFragment extends BaseFragment {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 return params;
             }

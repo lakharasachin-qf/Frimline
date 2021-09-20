@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -114,6 +115,8 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         Map<String, String> headers = new HashMap<>();
         if (prefManager.isLogin())
             headers.put("Authorization", "Bearer " + prefManager.getToken());
+
+        Log.e("HEADER",headers.toString());
         return headers;
     }
 
