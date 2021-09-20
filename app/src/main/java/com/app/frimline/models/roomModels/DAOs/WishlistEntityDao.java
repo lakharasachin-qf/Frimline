@@ -12,27 +12,22 @@ import com.app.frimline.models.roomModels.WishlistEntity;
 import java.util.List;
 
 @Dao
-public interface ProductEntityDao {
-    @Query("Select * from cart")
-    List<ProductEntity> getAll();
+public interface WishlistEntityDao {
+
+    @Query("Select * from wishlist")
+    List<WishlistEntity> getWishlist();
+
+    @Query("DELETE FROM wishlist")
+    void deleteWishlist();
+
+    @Query("DELETE FROM wishlist WHERE prod_id=:productId")
+    void deleteWishlistItem(String productId);
+
+    @Query("SELECT * FROM wishlist WHERE prod_id = :productId")
+    WishlistEntity getWishlistProduct(String productId);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(ProductEntity entity);
-
-    @Query("DELETE FROM cart")
-    void deleteAll();
-
-    @Query("DELETE FROM cart WHERE id=:productId")
-    void deleteProduct(String productId);
-
-    @Update
-    void updateSpecificProduct(ProductEntity entity);
-
-    @Query("SELECT * FROM cart WHERE id = :productId")
-    ProductEntity findProductByProductId(String productId);
-
-
-
+    void insert(WishlistEntity entity);
         /*{
     "code": "200",
     "data": [

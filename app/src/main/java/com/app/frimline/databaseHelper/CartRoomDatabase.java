@@ -7,20 +7,23 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.app.frimline.models.roomModels.DAOs.ProductEntityDao;
+import com.app.frimline.models.roomModels.DAOs.WishlistEntityDao;
 import com.app.frimline.models.roomModels.ProductEntity;
+import com.app.frimline.models.roomModels.WishlistEntity;
 
-@Database(entities = {ProductEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {ProductEntity.class, WishlistEntity.class}, version = 1, exportSchema = false)
 public abstract class CartRoomDatabase extends RoomDatabase {
 
 
     private static CartRoomDatabase mINSTANCE;
 
+    public abstract WishlistEntityDao wishlistEntityDao();
     public abstract ProductEntityDao productEntityDao();
 
     public static CartRoomDatabase getAppDatabase(Context context) {
         if (mINSTANCE == null) {
             mINSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), CartRoomDatabase.class, "cart")
+                    Room.databaseBuilder(context.getApplicationContext(), CartRoomDatabase.class, "frimline")
                             .allowMainThreadQueries()
                             .build();
         }

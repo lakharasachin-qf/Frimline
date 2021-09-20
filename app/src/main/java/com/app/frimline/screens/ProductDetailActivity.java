@@ -5,31 +5,45 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
 import com.app.cartcounter.CharOrder;
 import com.app.cartcounter.strategy.Strategy;
 import com.app.frimline.BaseActivity;
+import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.adapters.ProductImageSliderAdpater;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ActivityProductDetailBinding;
+import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.fragments.aboutProducts.AdditionalInfoFragment;
 import com.app.frimline.fragments.aboutProducts.DescriptionFragment;
 import com.app.frimline.fragments.aboutProducts.HowToUseFragment;
@@ -39,11 +53,19 @@ import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
 import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.roomModels.ProductEntity;
+import com.app.frimline.models.roomModels.WishlistEntity;
 import com.app.frimline.views.WrapContentHeightViewPager;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ProductDetailActivity extends BaseActivity {
@@ -104,7 +126,7 @@ public class ProductDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, MyCartActivity.class);
-                i.putExtra("dataModel",gson.toJson(createCartEvent()));
+                i.putExtra("dataModel", gson.toJson(createCartEvent()));
                 act.startActivity(i);
                 act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
             }
@@ -366,10 +388,10 @@ public class ProductDetailActivity extends BaseActivity {
             }
             HELPER.LOAD_HTML(binding.tagsLabel, "<b>Tags : <b>" + tagsStr);
         }
-        Log.e("isReturnable", String.valueOf(productModel.isReturnAble())+"ss");
-        if (productModel.isReturnAble()){
+        Log.e("isReturnable", String.valueOf(productModel.isReturnAble()) + "ss");
+        if (productModel.isReturnAble()) {
             binding.returnAbleLAbel.setText("Returnable");
-        }else{
+        } else {
             binding.returnAbleLAbel.setText("Non-Returnable");
         }
         ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId());
@@ -392,15 +414,218 @@ public class ProductDetailActivity extends BaseActivity {
             binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
             binding.addTextTxt.setTextColor((Color.BLACK));
             binding.counter.setText("1");
+        }
 
+        binding.wishlistAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (wishlistAdded) {
+                    actionWishlist(APIs.REMOVE_WISHLIST, "remove");
+                } else {
+                    actionWishlist(APIs.ADD_WISHLIST, "add");
+                }
+
+                if (wishlistAdded) {
+                    binding.wishlistAction.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_wishlist));
+                    wishlistAdded = false;
+                } else {
+                    binding.wishlistAction.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_wishlist_active));
+                    wishlistAdded = true;
+                }
+
+            }
+        });
+
+        WishlistEntity wishlistEntity = db.wishlistEntityDao().getWishlistProduct(productModel.getId());
+        if (wishlistEntity != null) {
+            wishlistAdded = true;
+        }
+
+        if (wishlistAdded) {
+            binding.wishlistAction.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_wishlist_active));
+        } else {
+            binding.wishlistAction.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_wishlist));
         }
 
     }
 
-    public void changeState() {
-        binding.addTextTxt.setText("Add to cart");
-        binding.addCartContainer.setBackgroundTintList(null);
-        binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-        binding.addTextTxt.setTextColor(Color.parseColor(defaultColor));
+    boolean wishlistAdded = false;
+    boolean isLoading = false;
+
+    private void actionWishlist(String apiURL, String sourceIntent) {
+
+        if (isLoading)
+            return;
+
+        isLoading = true;
+        HELPER.showLoadingTran(act);
+        Log.e("APIS", apiURL);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+
+                Log.e(sourceIntent, response);
+                if (sourceIntent.equalsIgnoreCase("remove")) {
+                    db.wishlistEntityDao().deleteWishlistItem(productModel.getId());
+                }
+                loadWishlist(response, sourceIntent);
+
+
+            }
+
+
+        },
+                error -> {
+                    isLoading = false;
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.statusCode == 400) {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            dialogDisplay("Error", ResponseHandler.getString(jsonObject, "msg"));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                if (sourceIntent.equalsIgnoreCase("add")) {
+                    params.put("product_id", productModel.getId());
+                    params.put("quantity", binding.counter.getText().toString());
+                    params.put("original_price", productModel.getPrice());
+                } else {
+                    WishlistEntity wishlistEntity = db.wishlistEntityDao().getWishlistProduct(productModel.getId());
+                    if (wishlistEntity != null)
+                        params.put("wishlist_id", wishlistEntity.getID());
+                }
+                Log.e("PARAM",params.toString());
+                return params;
+            }
+        };
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
+
+    private void loadWishlist(String previousResponse, String sourceIntent) {
+
+        if (isLoading)
+            return;
+
+        isLoading = true;
+        HELPER.showLoadingTran(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.WISHLIST, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                HELPER.dismissLoadingTran();
+                Log.e("Response", response);
+                JSONObject previousJSON = ResponseHandler.createJsonObject(previousResponse);
+                if (previousJSON != null) {
+                    dialogDisplay("Wishlist", ResponseHandler.getString(previousJSON, "msg"));
+                }
+
+                JSONObject wishlistResponse = ResponseHandler.createJsonObject(response);
+                try {
+                    if (wishlistResponse != null && wishlistResponse.get("data") instanceof JSONArray) {
+                        JSONArray arrayWishlist = ResponseHandler.getJSONArray(wishlistResponse, "data");
+                        if (arrayWishlist.length() != 0) {
+                            db.wishlistEntityDao().deleteWishlist();
+                            for (int i = 0; i < arrayWishlist.length(); i++) {
+                                WishlistEntity wishlistEntity = new WishlistEntity();
+                                wishlistEntity.setProductName(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "product_name"));
+                                wishlistEntity.setID(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "ID"));
+                                wishlistEntity.setProductId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "prod_id"));
+                                wishlistEntity.setWishlistId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "wishlist_id"));
+                                wishlistEntity.setPrice(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "original_price"));
+                                db.wishlistEntityDao().insert(wishlistEntity);
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                /*{
+    "code": "200",
+    "data": [
+        {
+            "product_name": "Test Product 5 Dente91 Lactoferrin Mouthwash Pack of 3 (Copy)",
+            "ID": "94",
+            "prod_id": "9905",
+            "quantity": "1",
+            "user_id": "66",
+            "wishlist_id": "33",
+            "original_price": "597.000"
+        }
+    ]
+}*/
+
+
+            }
+
+
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isLoading = false;
+                        error.printStackTrace();
+                        HELPER.dismissLoadingTran();
+
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+        };
+//wishlist_id
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
+    DialogDiscardImageBinding discardImageBinding;
+
+    public void dialogDisplay(String title, String msg) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+        discardImageBinding.titleTxt.setText(title);
+        discardImageBinding.subTitle.setText(msg);
+        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 }

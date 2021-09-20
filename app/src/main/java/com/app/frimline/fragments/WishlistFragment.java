@@ -3,6 +3,7 @@ package com.app.frimline.fragments;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
@@ -28,10 +28,8 @@ import com.app.frimline.adapters.OrderHistoryAdapter;
 import com.app.frimline.adapters.WishlistAdapter;
 import com.app.frimline.databinding.FragmentWishlistBinding;
 import com.app.frimline.models.OrderModel;
+import com.app.frimline.models.roomModels.WishlistEntity;
 import com.app.frimline.screens.LoginActivity;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +49,7 @@ public class WishlistFragment extends BaseFragment {
             binding.shimmerViewContainer.setVisibility(View.VISIBLE);
             binding.swipeContainer.setVisibility(View.GONE);
             if (pref.isLogin()) {
-                loadProfile();
+                wishlist();
             } else {
                 binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.orderHistoryRecycler.setVisibility(View.GONE);
@@ -83,7 +81,7 @@ public class WishlistFragment extends BaseFragment {
             public void onRefresh() {
                 if (CONSTANT.API_MODE) {
                     startShimmer();
-                    loadProfile();
+                    wishlist();
                 } else {
                     binding.swipeContainer.setRefreshing(false);
                 }
@@ -121,61 +119,55 @@ public class WishlistFragment extends BaseFragment {
 
     private boolean isLoading = false;
 
-    ArrayList<OrderModel> arrayList;
+    ArrayList<WishlistEntity> arrayList;
 
-    private void loadProfile() {
+    private void wishlist() {
 
         if (!isLoading)
             isLoading = true;
         startShimmer();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.ORDER_HISTORY, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.WISHLIST, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isLoading = false;
                 binding.swipeContainer.setRefreshing(false);
                 stopShimmer();
-                JSONArray object = null;
-                try {
-                    object = new JSONArray(response);
-                    arrayList = ResponseHandler.parseOrderHistory(response);
 
-                    if (arrayList.size() != 0) {
-                        binding.NoDataFound.setVisibility(View.GONE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        WishlistAdapter productAdapter = new WishlistAdapter(arrayList, getActivity());
-                        binding.orderHistoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        binding.orderHistoryRecycler.setAdapter(productAdapter);
-                        binding.orderHistoryRecycler.setHasFixedSize(true);
-                    } else {
-                        binding.button.setVisibility(View.GONE);
-                        binding.errorText.setText("No Product found yet.");
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.orderHistoryRecycler.setVisibility(View.GONE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                Log.e("RESSS",response);
+
+                arrayList = ResponseHandler.parseWishlist(response);
+
+                if (arrayList.size() != 0) {
+                    binding.NoDataFound.setVisibility(View.GONE);
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
+                    binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
+                    WishlistAdapter productAdapter = new WishlistAdapter(arrayList, getActivity());
+                    binding.orderHistoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    binding.orderHistoryRecycler.setAdapter(productAdapter);
+                    binding.orderHistoryRecycler.setHasFixedSize(true);
+                } else {
+                    binding.button.setVisibility(View.GONE);
+                    binding.errorText.setText("No Product added to wishlist.");
+                    binding.NoDataFound.setVisibility(View.VISIBLE);
+                    binding.orderHistoryRecycler.setVisibility(View.GONE);
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
                 }
+
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.swipeContainer.setRefreshing(false);
-                        stopShimmer();
-                    }
+                error -> {
+                    error.printStackTrace();
+                    binding.button.setVisibility(View.GONE);
+                    binding.errorText.setText("No Product added to wishlist.");
+                    binding.NoDataFound.setVisibility(View.VISIBLE);
+                    binding.orderHistoryRecycler.setVisibility(View.GONE);
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
+                    stopShimmer();
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 
@@ -192,27 +184,27 @@ public class WishlistFragment extends BaseFragment {
     @Override
     public void update(Observable observable, Object data) {
         super.update(observable, data);
-        if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    loadProfile();
-                }
-            });
-        }
-        if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!new PREF(act).isLogin()) {
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        binding.orderHistoryRecycler.setVisibility(View.GONE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.errorText.setText("You are not Signed In.");
-                    }
-                }
-            });
-        }
+//        if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
+//            act.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    wishlist();
+//                }
+//            });
+//        }
+//        if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
+//            act.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (!new PREF(act).isLogin()) {
+//                        binding.shimmerViewContainer.setVisibility(View.GONE);
+//                        binding.orderHistoryRecycler.setVisibility(View.GONE);
+//                        binding.swipeContainer.setVisibility(View.VISIBLE);
+//                        binding.NoDataFound.setVisibility(View.VISIBLE);
+//                        binding.errorText.setText("You are not Signed In.");
+//                    }
+//                }
+//            });
+//        }
     }
 }
