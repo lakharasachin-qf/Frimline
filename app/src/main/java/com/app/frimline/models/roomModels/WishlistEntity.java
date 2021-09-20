@@ -37,6 +37,27 @@ public class WishlistEntity {
     private String price;
 
 
+    @ColumnInfo(name = "product_image")
+    private String image;
+
+    private boolean isAddedToCart = false;
+
+    public boolean isAddedToCart() {
+        return isAddedToCart;
+    }
+
+    public void setAddedToCart(boolean addedToCart) {
+        isAddedToCart = addedToCart;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public int getTableId() {
         return tableId;
     }

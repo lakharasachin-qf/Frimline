@@ -37,6 +37,7 @@ import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
@@ -189,19 +190,6 @@ public class ProductDetailActivity extends BaseActivity {
         binding.addCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (isSameProductEdit) {
-//                    ProductEntity entity = cartRoomDatabase.productEntityDao().findProductByProductId(productModel.getId());
-//                    entity.setQty(binding.counter.getText().toString());
-//                    entity.setCalculatedAmount(HELPER.incrementAction(productModel));
-//                    HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
-//                    cartRoomDatabase.productEntityDao().updateSpecificProduct(entity);
-//                    Toast.makeText(act, "Cart product updated", Toast.LENGTH_SHORT).show();
-//                    binding.addTextTxt.setText("Added to cart");
-//                    binding.addCartContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-//                    binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-//                    binding.addTextTxt.setTextColor(Color.WHITE);
-//                    return;
-//                }
                 if (isAddedToCart) {
                     binding.addTextTxt.setText("Add to cart");
                     isAddedToCart = false;
@@ -220,6 +208,11 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
+                        if (getIntent().hasExtra("fragment")){
+                            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")){
+                                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.WISHLIST_REFRESH);
+                            }
+                        }
                         HELPER.changeCartCounterToolbar(act);
                     }
                 } else {
@@ -241,6 +234,11 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
+                        if (getIntent().hasExtra("fragment")){
+                            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")){
+                                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.WISHLIST_REFRESH);
+                            }
+                        }
                         HELPER.changeCartCounterToolbar(act);
 
                     }
@@ -270,6 +268,9 @@ public class ProductDetailActivity extends BaseActivity {
             binding.boottomFooter.setVisibility(View.VISIBLE);
             binding.screenLoader.setVisibility(View.GONE);
             loadData();
+        }
+        if (getIntent().hasExtra("qty")){
+            binding.counter.setText(getIntent().getStringExtra("qty"));
         }
     }
 
@@ -368,7 +369,6 @@ public class ProductDetailActivity extends BaseActivity {
 
     public void loadData() {
         productModel = gson.fromJson(getIntent().getStringExtra("model"), ProductModel.class);
-
         ArrayList<String> productImages = productModel.getProductImagesList();
         binding.titleToolbar.setText(productModel.getCategoryName());
         ProductImageSliderAdpater sliderAdapter = new ProductImageSliderAdpater(productImages, act);
@@ -447,6 +447,12 @@ public class ProductDetailActivity extends BaseActivity {
             binding.wishlistAction.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_wishlist));
         }
 
+        if (prefManager.isLogin()){
+            binding.wishlistAction.setVisibility(View.VISIBLE);
+        } else{
+            binding.wishlistAction.setVisibility(View.GONE);
+        }
+
     }
 
     boolean wishlistAdded = false;
@@ -469,6 +475,7 @@ public class ProductDetailActivity extends BaseActivity {
                 if (sourceIntent.equalsIgnoreCase("remove")) {
                     db.wishlistEntityDao().deleteWishlistItem(productModel.getId());
                 }
+
                 loadWishlist(response, sourceIntent);
 
 
@@ -548,17 +555,25 @@ public class ProductDetailActivity extends BaseActivity {
                             db.wishlistEntityDao().deleteWishlist();
                             for (int i = 0; i < arrayWishlist.length(); i++) {
                                 WishlistEntity wishlistEntity = new WishlistEntity();
+                                wishlistEntity.setImage(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "product_image"));
                                 wishlistEntity.setProductName(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "product_name"));
                                 wishlistEntity.setID(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "ID"));
+                                wishlistEntity.setQuantity(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "quantity"));
                                 wishlistEntity.setProductId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "prod_id"));
                                 wishlistEntity.setWishlistId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "wishlist_id"));
                                 wishlistEntity.setPrice(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "original_price"));
                                 db.wishlistEntityDao().insert(wishlistEntity);
                             }
+
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                if (getIntent().hasExtra("fragment")){
+                    if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")){
+                        FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.WISHLIST_REFRESH);
+                    }
                 }
                 /*{
     "code": "200",

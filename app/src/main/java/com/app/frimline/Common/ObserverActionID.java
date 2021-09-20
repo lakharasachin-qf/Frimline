@@ -34,4 +34,5 @@ public class ObserverActionID {
     public static final int ADD_MENU = 21;
     public static final int SMS_PERMISSION_ACCEPTED = 22;
     public static final int SMS_PERMISSION_CANCELLED = 23;
+    public static final int WISHLIST_REFRESH = 25;
 }

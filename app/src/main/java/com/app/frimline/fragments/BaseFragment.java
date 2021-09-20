@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.PREF;
+import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,12 +29,12 @@ public abstract class BaseFragment extends Fragment implements Observer {
     public Gson gson;
     public boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
     public boolean API_MODE = CONSTANT.API_MODE;
-
+    public CartRoomDatabase db;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = getActivity();
         gson = new Gson();
-
+        db = CartRoomDatabase.getAppDatabase(act);
         frimline = (FRIMLINE) act.getApplication();
         frimline.getObserver().addObserver(this);
         pref = new PREF(act);

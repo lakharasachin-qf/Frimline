@@ -775,9 +775,10 @@ public class ResponseHandler {
             for (int i = 0; i < array.length(); i++) {
                 WishlistEntity wishlistEntity = new WishlistEntity();
                 JSONObject object = array.getJSONObject(i);
-
+                wishlistEntity.setImage(ResponseHandler.getString(object, "product_image"));
                 wishlistEntity.setProductName(ResponseHandler.getString(object, "product_name"));
                 wishlistEntity.setID(ResponseHandler.getString(object, "ID"));
+                wishlistEntity.setQuantity(ResponseHandler.getString(object, "quantity"));
                 wishlistEntity.setProductId(ResponseHandler.getString(object, "prod_id"));
                 wishlistEntity.setWishlistId(ResponseHandler.getString(object, "wishlist_id"));
                 wishlistEntity.setPrice(ResponseHandler.getString(object, "original_price"));

@@ -176,19 +176,16 @@ public class DrawerMenu {
             }
 
         };
-        MyAccountFragment.OnDrawerAction onDrawerAction = new MyAccountFragment.OnDrawerAction() {
-            @Override
-            public void changeFragment() {
-                HomePageLayout.setVisibility(View.GONE);
-                titleTxt.setText("Orders");
-                OtherScreenLayout.setVisibility(View.VISIBLE);
+        MyAccountFragment.OnDrawerAction onDrawerAction = () -> {
+            HomePageLayout.setVisibility(View.GONE);
+            titleTxt.setText("Orders");
+            OtherScreenLayout.setVisibility(View.VISIBLE);
 
 
-                currentMenuItem = "Order History";
-                Fragment fragmentSelected = orderHistoryFragment;
-                replaceFragment(fragmentSelected);
-                drawer.closeDrawer(GravityCompat.START);
-            }
+            currentMenuItem = "Order History";
+            Fragment fragmentSelected = orderHistoryFragment;
+            replaceFragment(fragmentSelected);
+            drawer.closeDrawer(GravityCompat.START);
         };
         myAccountFragment.setDrawerAction(onDrawerAction);
         profileFragment.setOnNavClick(onNavClick);
@@ -209,7 +206,6 @@ public class DrawerMenu {
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                //parent.smoothScrollToPosition(groupPosition);
                 Fragment fragmentSelected = null;
                 Intent intent;
                 Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
@@ -228,14 +224,15 @@ public class DrawerMenu {
                                     HELPER.ON_BACK_PRESS(activity);
                                 }
                                 break;
+
                             case "Home":
                                 currentMenuItem = "Home";
                                 fragmentSelected = homeFragment;
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 OtherScreenLayout.setVisibility(View.GONE);
                                 toolbar_Navigation.setVisibility(View.VISIBLE);
-
                                 break;
+
                             case "Shop":
                                 currentMenuItem = "Shop";
                                 searchAction2.setVisibility(View.VISIBLE);
@@ -245,21 +242,18 @@ public class DrawerMenu {
                                 titleTxt.setText("Shop");
                                 currentMenuItem = "Shop";
                                 toolbar_Navigation.setVisibility(View.VISIBLE);
-
                                 break;
+
                             case "Checkout":
-//                                if (currentMenuItem != null && currentMenuItem.equalsIgnoreCase("Category Profile")) {
-//                                    toolbar_Navigation.setVisibility(View.GONE);
-//                                }
                                 drawer.closeDrawer(GravityCompat.START);
                                 if (CartRoomDatabase.getAppDatabase(activity).productEntityDao().getAll().size() != 0) {
                                     HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
 
                                 } else {
                                     checkoutProcess();
-
                                 }
                                 break;
+
                             case "About us":
                             case "Shipping Policy":
                             case "Privacy Policy":
@@ -269,8 +263,8 @@ public class DrawerMenu {
                                 HomePageLayout.setVisibility(View.VISIBLE);
                                 OtherScreenLayout.setVisibility(View.GONE);
                                 toolbar_Navigation.setVisibility(View.VISIBLE);
-
                                 break;
+
                             case "Blogs":
                                 fragmentSelected = blogsFragment;
                                 HomePageLayout.setVisibility(View.GONE);
@@ -279,7 +273,6 @@ public class DrawerMenu {
                                 searchAction2.setVisibility(View.VISIBLE);
                                 currentMenuItem = "Blogs";
                                 toolbar_Navigation.setVisibility(View.VISIBLE);
-
                                 break;
 
                             case "Wishlist":
@@ -287,19 +280,19 @@ public class DrawerMenu {
                                 HomePageLayout.setVisibility(View.GONE);
                                 OtherScreenLayout.setVisibility(View.VISIBLE);
                                 titleTxt.setText("Wishlist");
-                                searchAction2.setVisibility(View.VISIBLE);
+                                searchAction2.setVisibility(View.GONE);
                                 currentMenuItem = "Wishlist";
                                 toolbar_Navigation.setVisibility(View.VISIBLE);
                                 break;
 
                             case "Logout":
                                 drawer.closeDrawer(GravityCompat.START);
-
                                 if (currentMenuItem != null && currentMenuItem.equalsIgnoreCase("Category Profile")) {
                                     toolbar_Navigation.setVisibility(View.GONE);
                                 }
                                 confirmationDialog();
                                 break;
+
                         }
                     }
                     if (fragmentSelected != null) {

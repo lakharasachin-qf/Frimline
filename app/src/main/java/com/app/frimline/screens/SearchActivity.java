@@ -467,7 +467,7 @@ public class SearchActivity extends BaseActivity {
                     binding.emptyData.setVisibility(View.VISIBLE);
                     binding.emptyData.setText("No Search found");
                     binding.containerRecycler.setVisibility(View.GONE);
-                    binding.sortAction.setVisibility(View.GONE);
+                 //   binding.sortAction.setVisibility(View.GONE);
                 }
             }
         },
@@ -478,7 +478,7 @@ public class SearchActivity extends BaseActivity {
                         isLoading = false;
                         binding.emptyData.setVisibility(View.VISIBLE);
                         binding.containerRecycler.setVisibility(View.GONE);
-                        binding.sortAction.setVisibility(View.GONE);
+                      //  binding.sortAction.setVisibility(View.GONE);
 //                        NetworkResponse response = error.networkResponse;
 //                        if (response.statusCode == 400 && response.data!=null) {
 //                            try {
