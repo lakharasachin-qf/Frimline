@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -500,6 +501,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
         discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.noTxt.setVisibility(View.GONE);
+        // linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
         discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -529,6 +532,40 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         alertDialog.show();
     }
 
+
+    public void amazonlink(String title, String msg) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.titleTxt.setText(title);
+        HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
+        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+        discardImageBinding.subTitle.setMovementMethod(LinkMovementMethod.getInstance());
+        discardImageBinding.subTitle.setLinkTextColor(Color.parseColor(prefManager.getThemeColor()));
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            if (flag != -1) {
+                Intent data = new Intent();
+                if (!title.equalsIgnoreCase("Error")) {
+                    data.putExtra("success", "1");
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
+
+            }
+
+
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
     private ArrayList<CountryModel> countryList;
 
     private void getCountryState() {
@@ -539,26 +576,19 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         HELPER.showLoadingTran(act);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                Log.e("Response", response);
-                HELPER.dismissLoadingTran();
-                countryList = ResponseHandler.parseCountryState(response);
-                Log.e("Response", String.valueOf(countryList.size()));
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, response -> {
+            isLoading = false;
+            Log.e("Response", response);
+            HELPER.dismissLoadingTran();
+            countryList = ResponseHandler.parseCountryState(response);
+            Log.e("Response", String.valueOf(countryList.size()));
 
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-                        isLoading = false;
+        }, error -> {
+            error.printStackTrace();
+            HELPER.dismissLoadingTran();
+            isLoading = false;
 
-                    }
-                }
+        }
         ) {
             /**
              * Passing some request headers*
@@ -615,7 +645,13 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                             act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                         }
                     } else {
-                        infoAlert("Error", ResponseHandler.getString(object, "msg"));
+                        if (flag == 0) {
+                            infoAlert("Error", ResponseHandler.getString(object, "msg"));
+                        } else if (flag == 1) {
+                            infoAlert("Error", ResponseHandler.getString(object, "msg"));
+                        } else {
+                            amazonlink("Error", ResponseHandler.getString(object, "msg"));
+                        }
                     }
                 }
 

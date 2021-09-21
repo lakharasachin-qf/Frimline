@@ -342,38 +342,34 @@ public class WishlistFragment extends BaseFragment {
             isLoading = true;
 
         HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_DETAILS + selectedEntity.getProductId(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                HELPER.dismissLoadingTran();
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                ProductModel productModel = ResponseHandler.getProductDetails(object);
-                Log.e("print", gson.toJson(productModel));
-                if (productModel != null) {
-                    if (isAddToCart){
-                        productModel.setQty(selectedEntity.getQuantity());
-                        Toast.makeText(act, "Added to cart", Toast.LENGTH_SHORT).show();
-                        db.productEntityDao().insert(HELPER.convertToCartObject(productModel));
-                        HELPER.changeCartCounter(act);
-                    }else {
-                        Intent i = new Intent(act, ProductDetailActivity.class);
-                        i.putExtra("fragment", "wishlist");
-                        i.putExtra("qty", selectedEntity.getQuantity());
-                        i.putExtra("productPosition", "0");
-                        i.putExtra("layoutType", String.valueOf(-1));
-                        i.putExtra("itemPosition", String.valueOf(-1));
-                        i.putExtra("adapterPosition", String.valueOf(-1));
-                        i.putExtra("model", new Gson().toJson(productModel));
-                        i.putExtra("addToCartID", String.valueOf(-1));
-                        i.putExtra("removeCartID", String.valueOf(-1));
-                        act.startActivity(i);
-                        act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
-                    }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_DETAILS + selectedEntity.getProductId(), response -> {
+            isLoading = false;
+            HELPER.dismissLoadingTran();
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            ProductModel productModel = ResponseHandler.getProductDetails(object);
+            Log.e("print", gson.toJson(productModel));
+            if (productModel != null) {
+                if (isAddToCart){
+                    productModel.setQty(selectedEntity.getQuantity());
+                    productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
+                    Toast.makeText(act, "Added to cart", Toast.LENGTH_SHORT).show();
+                    db.productEntityDao().insert(HELPER.convertToCartObject(productModel));
+                    HELPER.changeCartCounter(act);
+                }else {
+                    Intent i = new Intent(act, ProductDetailActivity.class);
+                    i.putExtra("fragment", "wishlist");
+                    i.putExtra("qty", selectedEntity.getQuantity());
+                    i.putExtra("productPosition", "0");
+                    i.putExtra("layoutType", String.valueOf(-1));
+                    i.putExtra("itemPosition", String.valueOf(-1));
+                    i.putExtra("adapterPosition", String.valueOf(-1));
+                    i.putExtra("model", new Gson().toJson(productModel));
+                    i.putExtra("addToCartID", String.valueOf(-1));
+                    i.putExtra("removeCartID", String.valueOf(-1));
+                    act.startActivity(i);
+                    act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                 }
             }
-
-
         },
                 new Response.ErrorListener() {
                     @Override

@@ -779,9 +779,11 @@ public class ResponseHandler {
                 wishlistEntity.setProductName(ResponseHandler.getString(object, "product_name"));
                 wishlistEntity.setID(ResponseHandler.getString(object, "ID"));
                 wishlistEntity.setQuantity(ResponseHandler.getString(object, "quantity"));
+
                 wishlistEntity.setProductId(ResponseHandler.getString(object, "prod_id"));
                 wishlistEntity.setWishlistId(ResponseHandler.getString(object, "wishlist_id"));
-                wishlistEntity.setPrice(ResponseHandler.getString(object, "original_price"));
+                String price = ResponseHandler.getString(object, "original_price");
+                wishlistEntity.setPrice(String.format("%.2f", Double.parseDouble(price)));
 
                 arrayList.add(wishlistEntity);
 

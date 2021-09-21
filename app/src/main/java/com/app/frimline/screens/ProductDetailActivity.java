@@ -561,7 +561,8 @@ public class ProductDetailActivity extends BaseActivity {
                                 wishlistEntity.setQuantity(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "quantity"));
                                 wishlistEntity.setProductId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "prod_id"));
                                 wishlistEntity.setWishlistId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "wishlist_id"));
-                                wishlistEntity.setPrice(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "original_price"));
+                                String price = ResponseHandler.getString(arrayWishlist.getJSONObject(i), "original_price");
+                                wishlistEntity.setPrice(String.format("%.2f", Double.parseDouble(price)));
                                 db.wishlistEntityDao().insert(wishlistEntity);
                             }
 
