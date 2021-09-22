@@ -1,6 +1,6 @@
 @file:Suppress("FunctionName")
 
-package com.app.cartcounter.strategy;
+package com.app.cartcounter.strategy
 
 /**
  * Created by 张宇 on 2018/2/28.

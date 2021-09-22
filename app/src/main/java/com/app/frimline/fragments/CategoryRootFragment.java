@@ -90,54 +90,42 @@ public class CategoryRootFragment extends BaseFragment {
 
         }
 
-        binding.cat1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (API_MODE) {
-                    pref.setConfiguration(pref.getThemeColor(), "#12C0DD");
+        binding.cat1.setOnClickListener(v -> {
+            if (API_MODE) {
+                pref.setConfiguration(pref.getThemeColor(), "#12C0DD");
 
-                } else {
-                    pref.setConfiguration("#EF7F1A", "#12C0DD");
+            } else {
+                pref.setConfiguration("#EF7F1A", "#12C0DD");
 
-                }
-                Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
-                startActivity(intent);
             }
+            Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
+            startActivity(intent);
         });
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.NoDataFound.setVisibility(View.GONE);
-                startShimmer();
-                getTodayTomorrow();
-            }
+        binding.button.setOnClickListener(v -> {
+            binding.NoDataFound.setVisibility(View.GONE);
+            startShimmer();
+            getTodayTomorrow();
         });
-        binding.cat2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (API_MODE) {
-                    pref.setConfiguration(pref.getThemeColor(), "#12C0DD");
-                } else {
-                    pref.setConfiguration("#EF7F1A", "#12C0DD");
-                    //pref.setConfiguration("#EF7F1A","#81B533");
+        binding.cat2.setOnClickListener(v -> {
+            if (API_MODE) {
+                pref.setConfiguration(pref.getThemeColor(), "#12C0DD");
+            } else {
+                pref.setConfiguration("#EF7F1A", "#12C0DD");
+                //pref.setConfiguration("#EF7F1A","#81B533");
 
-                }
-                Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
-                startActivity(intent);
             }
+            Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
+            startActivity(intent);
         });
-        binding.cat3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (API_MODE) {
-                    pref.setConfiguration(pref.getThemeColor(), "#12C0DD");
-                } else {
-                    pref.setConfiguration("#EF7F1A", "#12C0DD");
-                    //pref.setConfiguration("#EF7F1A","#E8AE21");
-                }
-                Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
-                startActivity(intent);
+        binding.cat3.setOnClickListener(v -> {
+            if (API_MODE) {
+                pref.setConfiguration(pref.getThemeColor(), "#12C0DD");
+            } else {
+                pref.setConfiguration("#EF7F1A", "#12C0DD");
+                //pref.setConfiguration("#EF7F1A","#E8AE21");
             }
+            Intent intent = new Intent(getActivity(), CategoryLandingActivity.class);
+            startActivity(intent);
         });
 
         return binding.getRoot();
@@ -166,29 +154,23 @@ public class CategoryRootFragment extends BaseFragment {
         if (!isLoading)
             isLoading = true;
         binding.NoDataFound.setVisibility(View.GONE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.TODAY_TOMORROW, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Log.e("Response", response);
-                stopShimmer();
-                isLoading = false;
-                binding.NoDataFound.setVisibility(View.GONE);
-                rootModel = ResponseHandler.handleResponseCategoryRootFragment(response);
-                loadData(rootModel);
-                if (!pref.displayOFFER())
-                    getOFFER();
-            }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.TODAY_TOMORROW, response -> {
+            //Log.e("Response", response);
+            stopShimmer();
+            isLoading = false;
+            binding.NoDataFound.setVisibility(View.GONE);
+            rootModel = ResponseHandler.handleResponseCategoryRootFragment(response);
+            loadData(rootModel);
+            if (!pref.displayOFFER())
+                getOFFER();
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        binding.shimmerViewContainer.stopShimmer();
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    binding.NoDataFound.setVisibility(View.VISIBLE);
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
+                    binding.shimmerViewContainer.stopShimmer();
 
-                    }
                 }
         ) {
             /**
@@ -250,12 +232,7 @@ public class CategoryRootFragment extends BaseFragment {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                binding.viewPager.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.viewPager.setCurrentItem((binding.viewPager.getCurrentItem() + 1) % sliderAdapter.getCount(), true);
-                    }
-                });
+                binding.viewPager.post(() -> binding.viewPager.setCurrentItem((binding.viewPager.getCurrentItem() + 1) % sliderAdapter.getCount(), true));
             }
         };
 
@@ -294,12 +271,7 @@ public class CategoryRootFragment extends BaseFragment {
     }
 
     public void triggerPopUp(String response) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showOFFER(response);
-            }
-        }, 1000);
+        new Handler().postDelayed(() -> showOFFER(response), 1000);
 
     }
 
@@ -311,20 +283,14 @@ public class CategoryRootFragment extends BaseFragment {
         isLoading = true;
 
         pref.setOFFER(true);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.POP_OFFER, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.POP_OFFER, response -> {
 
-                isLoading = false;
-                triggerPopUp(response);
-            }
+            isLoading = false;
+            triggerPopUp(response);
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
                 }
         ) {
             /**
@@ -347,14 +313,13 @@ public class CategoryRootFragment extends BaseFragment {
     }
 
     private AlertDialog alertDialog;
-    private DialogOfferBinding reqBinding;
 
     public void showOFFER(String response) {
 
         if (alertDialog != null && alertDialog.isShowing())
             alertDialog.dismiss();
 
-        reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
+        com.app.frimline.databinding.DialogOfferBinding reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(reqBinding.getRoot());
         alertDialog = builder.create();
@@ -365,12 +330,7 @@ public class CategoryRootFragment extends BaseFragment {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         reqBinding.closeView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
         reqBinding.closeLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
-        reqBinding.closeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        reqBinding.closeView.setOnClickListener(v -> alertDialog.dismiss());
 
 
         JSONObject responseObj = ResponseHandler.createJsonObject(response);

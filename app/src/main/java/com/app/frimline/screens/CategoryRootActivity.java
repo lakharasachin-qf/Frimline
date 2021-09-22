@@ -79,19 +79,16 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         screenLoader = findViewById(R.id.screenLoader);
         button = findViewById(R.id.button);
         NoDataFound = findViewById(R.id.NoDataFound);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NoDataFound.setVisibility(View.GONE);
-                nav_host_fragment.setVisibility(View.GONE);
-                screenLoader.setVisibility(View.VISIBLE);
-                screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
-                screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+        button.setOnClickListener(v -> {
+            NoDataFound.setVisibility(View.GONE);
+            nav_host_fragment.setVisibility(View.GONE);
+            screenLoader.setVisibility(View.VISIBLE);
+            screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
+            screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
 
-                toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
-                toolbar_Navigation.setVisibility(View.GONE);
-                getThemeColor();
-            }
+            toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
+            toolbar_Navigation.setVisibility(View.GONE);
+            getThemeColor();
         });
         if (API_MODE) {
 
@@ -184,7 +181,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
 
     public void ApplyTheme() {
         ImageView logo = findViewById(R.id.logo);
-        HELPER.changeTheme(act, pref.getCategoryColor());
+        HELPER.changeTheme(act, pref.getThemeColor());
         RelativeLayout cartBackgroundLayar = findViewById(R.id.cartBackgroundLayar);
         RelativeLayout cartBackgroundLayar2 = findViewById(R.id.cartBackgroundLayar2);
 

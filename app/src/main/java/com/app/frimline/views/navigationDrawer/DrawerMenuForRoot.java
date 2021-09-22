@@ -53,7 +53,6 @@ public class DrawerMenuForRoot {
     RelativeLayout profileView;
     RelativeLayout cartActionLayout;
     private final Activity activity;
-    private ExpandableListAdapter expandableListAdapter;
     private final ExpandableListView expandableListView;
     //    private Animation animationUp, animationDown;
     private final List<MenuModel> headerList = new ArrayList<>();
@@ -183,7 +182,7 @@ public class DrawerMenuForRoot {
         orderHistoryTab = activity.findViewById(R.id.orderHistoryTab);
         cartActionLayout = activity.findViewById(R.id.cartActionLayout);
 
-        expandableListAdapter = new ExpandableListAdapter(activity, headerList, childList);
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(activity, headerList, childList);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override

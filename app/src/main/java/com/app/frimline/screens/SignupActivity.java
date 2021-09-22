@@ -71,7 +71,7 @@ public class SignupActivity extends BaseActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
-        int fragmentWidth = (width / 6) + 20;
+        int fragmentWidth;
 
         if (HELPER.isTablet(act)) {
             fragmentWidth = (width / 6) + 30;
@@ -202,7 +202,6 @@ public class SignupActivity extends BaseActivity {
         if (binding.newPasswordEdt.getText().toString().trim().length() == 0) {
             isError = true;
             if (!isFocus) {
-                isFocus = true;
                 binding.newPasswordEdt.requestFocus();
             }
             binding.newPasswordLayout.setError("Enter password");
@@ -210,7 +209,6 @@ public class SignupActivity extends BaseActivity {
         } else if (!Validators.Companion.isValidPassword(binding.newPasswordEdt.getText().toString())) {
             isError = true;
             if (!isFocus) {
-                isFocus = true;
                 binding.newPasswordEdt.requestFocus();
             }
             binding.newPasswordLayout.setError("Password should be at least 8 characters, at least one uppercase and one lowercase letter, one number and one special character.");

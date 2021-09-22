@@ -33,14 +33,13 @@ import java.util.Observer;
 public class BaseActivity extends AppCompatActivity implements Observer {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
-    private static View view;
     private static Activity actt;
     public Activity act;
     public PREF prefManager;
     public FRIMLINE frimline;
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
-    public boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
+    public final boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
     public static final boolean API_MODE = CONSTANT.API_MODE;
     public CartRoomDatabase db;
 
@@ -85,13 +84,10 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         gson = new Gson();
         frimline = (FRIMLINE) this.getApplication();
         frimline.getObserver().addObserver(this);
-        view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
         AppCompatButton appCompatButton = view.findViewById(R.id.button);
-        appCompatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        appCompatButton.setOnClickListener(v -> {
 //                startActivity(getIntent());
-            }
         });
         noconnectionAlertDialog = new Dialog(this, R.style.MyAlertDialogStyle_extend);
         noconnectionAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

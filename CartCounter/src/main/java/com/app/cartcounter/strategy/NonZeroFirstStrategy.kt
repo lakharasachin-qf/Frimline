@@ -1,4 +1,5 @@
-package com.app.cartcounter.strategy;
+package com.app.cartcounter.strategy
+
 import com.app.cartcounter.TextManager
 import com.app.cartcounter.util.ReplaceList
 import com.app.cartcounter.util.CircularList

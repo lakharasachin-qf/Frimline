@@ -1,4 +1,4 @@
-package com.app.cartcounter;
+package com.app.cartcounter
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -21,9 +21,7 @@ internal class TextColumn(
     var currentWidth: Float = 0f
 
     var currentChar: Char = EMPTY
-        private set(value) {
-            field = value
-        }
+        private set
 
     val sourceChar
         get() = if (changeCharList.size < 2) EMPTY else changeCharList.first()

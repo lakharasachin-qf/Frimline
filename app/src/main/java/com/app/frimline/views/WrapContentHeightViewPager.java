@@ -44,7 +44,7 @@ public class WrapContentHeightViewPager extends ViewPager {
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
 
-        int height = 0;
+        int height;
 
         View child = getChildAt(getCurrentItem());
         if (child != null) {

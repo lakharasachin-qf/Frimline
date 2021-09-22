@@ -19,16 +19,14 @@ import com.app.frimline.screens.CategoryRootActivity;
 import com.google.gson.Gson;
 
 public class SplashActivity extends AppCompatActivity {
-    private AnimatorSet animatorSet1;
-    private ActivitySplashBinding binding;
     private Activity act;
-    private Gson gson;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = this;
-        gson =new Gson();
-        binding = DataBindingUtil.setContentView(act, R.layout.activity_splash);
+        Gson gson = new Gson();
+        com.app.frimline.databinding.ActivitySplashBinding binding = DataBindingUtil.setContentView(act, R.layout.activity_splash);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -36,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
 
         final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
         ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
-        animatorSet1 = new AnimatorSet();
+        AnimatorSet animatorSet1 = new AnimatorSet();
         animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
         animatorSet1.setDuration(3000);
 

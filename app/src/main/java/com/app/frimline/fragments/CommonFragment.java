@@ -27,13 +27,12 @@ import java.util.ArrayList;
 
 
 public class CommonFragment extends Fragment {
-    private FragmentCommonBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_common, container, false);
+        com.app.frimline.databinding.FragmentCommonBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_common, container, false);
 
         binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
 

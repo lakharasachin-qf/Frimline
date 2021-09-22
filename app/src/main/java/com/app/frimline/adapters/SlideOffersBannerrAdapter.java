@@ -46,7 +46,7 @@ public class SlideOffersBannerrAdapter extends RecyclerView.Adapter<SlideOffersB
         return sliderItems.size();
     }
 
-    public class SliderViewHolder extends RecyclerView.ViewHolder {
+    public static class SliderViewHolder extends RecyclerView.ViewHolder {
         private TextView priceForPay;
 
         public SliderViewHolder(@NonNull View itemView) {

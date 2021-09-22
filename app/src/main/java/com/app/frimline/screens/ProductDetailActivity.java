@@ -388,7 +388,7 @@ public class ProductDetailActivity extends BaseActivity {
             }
             HELPER.LOAD_HTML(binding.tagsLabel, "<b>Tags : <b>" + tagsStr);
         }
-        Log.e("isReturnable", String.valueOf(productModel.isReturnAble()) + "ss");
+        Log.e("isReturnable", productModel.isReturnAble() + "ss");
         if (productModel.isReturnAble()) {
             binding.returnAbleLAbel.setText("Returnable");
         } else {

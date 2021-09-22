@@ -1,4 +1,4 @@
-package com.app.cartcounter.strategy;
+package com.app.cartcounter.strategy
 
 import com.app.cartcounter.NextProgress
 import com.app.cartcounter.PreviousProgress

@@ -146,6 +146,7 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         ImageView logo = findViewById(R.id.logo);
 
 
+
     }
 
     public void hangeTheme(Activity act, String primaryColor) {
@@ -179,25 +180,23 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         if (r != null)
             handler.removeCallbacks(r);
 
-        r = new Runnable() {
-            public void run() {
+        r = () -> {
 
-                if (CurrentPosition == 2) {
-                    drawerMenu.performCategoryProfile();
-                    drawerLayout.setVisibility(View.VISIBLE);
-                    customViewPager.setVisibility(View.GONE);
-                } else if (CurrentPosition == 0) {
-                    customViewPager.setPagingEnabled(false);
-                    drawerLayout.setVisibility(View.VISIBLE);
-                    // changeStatusBarColor(ContextCompat.getColor(act, R.color.colorScreenBackground));
-                    customViewPager.setVisibility(View.GONE);
-                    Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
-                    toolbar_Navigation.setVisibility(View.VISIBLE);
-                    startAnimation();
-
-
-                    //  changeStatusBarColor(ContextCompat.getColor(act, R.color.transparent));
-                }
+            if (CurrentPosition == 2) {
+                drawerMenu.performCategoryProfile();
+                drawerLayout.setVisibility(View.VISIBLE);
+                customViewPager.setVisibility(View.GONE);
+                setLockDrawer(false);
+            } else if (CurrentPosition == 0) {
+                customViewPager.setPagingEnabled(false);
+                drawerLayout.setVisibility(View.VISIBLE);
+                // changeStatusBarColor(ContextCompat.getColor(act, R.color.colorScreenBackground));
+                customViewPager.setVisibility(View.GONE);
+                Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
+                toolbar_Navigation.setVisibility(View.VISIBLE);
+                startAnimation();
+                setLockDrawer(false);
+                //  changeStatusBarColor(ContextCompat.getColor(act, R.color.transparent));
             }
         };
 
@@ -213,21 +212,19 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             if (r != null)
                 handler.removeCallbacks(r);
 
-            r = new Runnable() {
-                public void run() {
+            r = () -> {
 
-                    if (CurrentPosition == 0) {
-                        customViewPager.setPagingEnabled(false);
-                        drawerLayout.setVisibility(View.VISIBLE);
-                        shimmer_view_container.setVisibility(View.GONE);
-                        Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
-                        toolbar_Navigation.setVisibility(View.VISIBLE);
-                        startAnimation();
-                        makeStatusBarSemiTranspenret();
+                if (CurrentPosition == 0) {
+                    customViewPager.setPagingEnabled(false);
+                    drawerLayout.setVisibility(View.VISIBLE);
+                    shimmer_view_container.setVisibility(View.GONE);
+                    Toolbar toolbar_Navigation = findViewById(R.id.toolbar_Navigation);
+                    toolbar_Navigation.setVisibility(View.VISIBLE);
+                    startAnimation();
+                    makeStatusBarSemiTranspenret();
 
-                    } else if (CurrentPosition == 2) {
+                } else if (CurrentPosition == 2) {
 
-                    }
                 }
             };
 
@@ -238,43 +235,40 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
     @Override
     public void update(Observable observable, Object data) {
         super.update(observable, data);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (frimline.getObserver().getValue() == ObserverActionID.SLIDE_VIEW_RIGHT) {
-                    customViewPager.setCurrentItem(2, true);
-                }
-                if (frimline.getObserver().getValue() == ObserverActionID.SLIDE_VIEW_LEFT) {
-                    customViewPager.setCurrentItem(0, true);
-                }
-                if (frimline.getObserver().getValue() == ObserverActionID.CART_COUNTER_UPDATE) {
-                    HELPER.changeCartCounter(act);
-                }
-                if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
-                    TextView userNameTxt = findViewById(R.id.userNameTxt);
-                    pref = new PREF(act);
-                    if (pref.isLogin()) {
-                        userNameTxt.setText(pref.getUser().getDisplayName());
-                    } else {
-                        userNameTxt.setText("Sign In");
-                    }
-
-                }
-                if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
-                    TextView userNameTxt = findViewById(R.id.userNameTxt);
-                    pref = new PREF(act);
-                    if (pref.isLogin()) {
-                        userNameTxt.setText(pref.getUser().getDisplayName());
-                     } else {
-                        userNameTxt.setText("Sign In");
-                    }
+        runOnUiThread(() -> {
+            if (frimline.getObserver().getValue() == ObserverActionID.SLIDE_VIEW_RIGHT) {
+                customViewPager.setCurrentItem(2, true);
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.SLIDE_VIEW_LEFT) {
+                customViewPager.setCurrentItem(0, true);
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.CART_COUNTER_UPDATE) {
+                HELPER.changeCartCounter(act);
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
+                TextView userNameTxt = findViewById(R.id.userNameTxt);
+                pref = new PREF(act);
+                if (pref.isLogin()) {
+                    userNameTxt.setText(pref.getUser().getDisplayName());
+                } else {
+                    userNameTxt.setText("Sign In");
                 }
 
-                if (frimline.getObserver().getValue() == ObserverActionID.ADD_MENU) {
-                    pref = new PREF(act);
-                    if (pref.isLogin()) {
-                        drawerMenu.addLogoutBtn();
-                    }
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
+                TextView userNameTxt = findViewById(R.id.userNameTxt);
+                pref = new PREF(act);
+                if (pref.isLogin()) {
+                    userNameTxt.setText(pref.getUser().getDisplayName());
+                 } else {
+                    userNameTxt.setText("Sign In");
+                }
+            }
+
+            if (frimline.getObserver().getValue() == ObserverActionID.ADD_MENU) {
+                pref = new PREF(act);
+                if (pref.isLogin()) {
+                    drawerMenu.addLogoutBtn();
                 }
             }
         });

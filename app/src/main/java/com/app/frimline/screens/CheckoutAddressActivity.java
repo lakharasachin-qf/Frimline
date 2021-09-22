@@ -72,12 +72,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         if (countryList == null) {
             getCountryState();
         }
-        binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ON_BACK_PRESS_ANIM(act);
-            }
-        });
+        binding.toolbarNavigation.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
 
         if (getIntent().hasExtra("orderParam"))
             orderParam = ResponseHandler.createJsonObject(getIntent().getStringExtra("orderParam"));
@@ -105,58 +100,52 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         }
 
         binding.toolbarNavigation.title.setText("Checkout");
-        binding.shipToDiffCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    binding.otherInfo.setVisibility(View.VISIBLE);
-                    if (CONSTANT.API_MODE) {
-                        shipToDifferentAddress(true);
-                    }
-                    // shipToDifferentAddress(true);
-                } else {
-                    // shipToDifferentAddress(false);
-                    if (CONSTANT.API_MODE) {
-                        shipToDifferentAddress(false);
-                    }
-                    binding.otherInfo.setVisibility(View.GONE);
+        binding.shipToDiffCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.otherInfo.setVisibility(View.VISIBLE);
+                if (CONSTANT.API_MODE) {
+                    shipToDifferentAddress(true);
                 }
+                // shipToDifferentAddress(true);
+            } else {
+                // shipToDifferentAddress(false);
+                if (CONSTANT.API_MODE) {
+                    shipToDifferentAddress(false);
+                }
+                binding.otherInfo.setVisibility(View.GONE);
             }
         });
         ((ViewGroup) findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         ((ViewGroup) findViewById(R.id.otherInfo)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         binding.includeBtn.button.setText("Proceed");
-        binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PROTOTYPE_MODE) {
-                    Intent i = new Intent(act, CategoryRootActivity.class);
-                    i.putExtra("targetCategory", "Yes");
-                    i.putExtra("fragment", "Home");
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-                } else {
-                    if (CONSTANT.API_MODE) {
-                        if (binding.shipToDiffCheck.isChecked()) {
-                            if (!validations()) {
-                                verifyPostcode(binding.postalCodeEdt.getText().toString());
+        binding.includeBtn.button.setOnClickListener(v -> {
+            if (PROTOTYPE_MODE) {
+                Intent i = new Intent(act, CategoryRootActivity.class);
+                i.putExtra("targetCategory", "Yes");
+                i.putExtra("fragment", "Home");
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+            } else {
+                if (CONSTANT.API_MODE) {
+                    if (binding.shipToDiffCheck.isChecked()) {
+                        if (validations()) {
+                            verifyPostcode(binding.postalCodeEdt.getText().toString());
 
-                            }
-                        } else {
-                            Intent i = new Intent(act, PaymentActivity.class);
-                            i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
-                            i.putExtra("orderParam", getShippingAddress().toString());
-                            startActivity(i);
                         }
                     } else {
-                        if (!validations()) {
-                            Intent i = new Intent(act, CategoryRootActivity.class);
-                            i.putExtra("targetCategory", "Yes");
-                            i.putExtra("fragment", "Home");
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(i);
-                        }
+                        Intent i = new Intent(act, PaymentActivity.class);
+                        i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
+                        i.putExtra("orderParam", getShippingAddress().toString());
+                        startActivity(i);
+                    }
+                } else {
+                    if (validations()) {
+                        Intent i = new Intent(act, CategoryRootActivity.class);
+                        i.putExtra("targetCategory", "Yes");
+                        i.putExtra("fragment", "Home");
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
                     }
                 }
             }
@@ -200,12 +189,12 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         if (shipping.getAddress1().isEmpty()) {
             count++;
         }
-        return count > 2;
+        return count <= 2;
     }
 
     public void setSavedCheckoutAddress() {
         Billing shipping = prefManager.getUser().getShippingAddress();
-        if (shipping != null && !checkIsShippingAddressEmpty()) {
+        if (shipping != null && checkIsShippingAddressEmpty()) {
             binding.nameEdt.setText(shipping.getFirstName());
             binding.lnameEdt.setText(shipping.getLastName());
             binding.companyEdt.setText(shipping.getCompany());
@@ -234,7 +223,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
     public void shipToDifferentAddress(boolean shipToDifferent) {
         if (shipToDifferent) {
             Billing shipping = prefManager.getUser().getShippingAddress();
-            if (shipping != null && !isloadedShippingAddressBeforAnyChange && !checkIsShippingAddressEmpty()) {
+            if (shipping != null && !isloadedShippingAddressBeforAnyChange && checkIsShippingAddressEmpty()) {
                 isloadedShippingAddressBeforAnyChange = true;
                 binding.nameEdt.setText(shipping.getFirstName());
                 binding.lnameEdt.setText(shipping.getLastName());
@@ -283,16 +272,13 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
     }
 
     public void changeTheme() {
-        binding.otherInfo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    binding.otherNoteEdtLayout.setBackground(ContextCompat.getDrawable(act, R.drawable.shape_editext_background_active));
-                    GradientDrawable drawable = (GradientDrawable) binding.otherNoteEdtLayout.getBackground();
-                    drawable.setStroke(2, Color.parseColor(new PREF(act).getThemeColor()));
-                } else {
-                    binding.otherNoteEdtLayout.setBackground(ContextCompat.getDrawable(act, R.drawable.shape_editext_background));
-                }
+        binding.otherInfo.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                binding.otherNoteEdtLayout.setBackground(ContextCompat.getDrawable(act, R.drawable.shape_editext_background_active));
+                GradientDrawable drawable = (GradientDrawable) binding.otherNoteEdtLayout.getBackground();
+                drawable.setStroke(2, Color.parseColor(new PREF(act).getThemeColor()));
+            } else {
+                binding.otherNoteEdtLayout.setBackground(ContextCompat.getDrawable(act, R.drawable.shape_editext_background));
             }
         });
         binding.shipToDiffCheck.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
@@ -328,12 +314,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         binding.cityEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
         binding.postalCodeEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
-        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFragmentList(CONSTANT.COUNTRY, "Country");
-            }
-        });
+        binding.countryEdt.setOnClickListener(v -> showFragmentList(CONSTANT.COUNTRY, "Country"));
     }
 
     public boolean validations() {
@@ -401,7 +382,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
 
         }
 
-        return isError;
+        return !isError;
     }
 
     public void showFragmentList(int flag, String title) {
@@ -429,21 +410,13 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                 binding.stateEdt.setClickable(true);
                 binding.stateEdt.setFocusable(false);
                 binding.stateEdt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_dropdown, 0);
-                binding.stateEdt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showFragmentList(CONSTANT.STATE, "State");
-                    }
-                });
+                binding.stateEdt.setOnClickListener(v -> showFragmentList(CONSTANT.STATE, "State"));
             } else {
                 binding.stateEdt.setClickable(false);
                 binding.stateEdt.setFocusable(true);
                 binding.stateEdt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
-                binding.stateEdt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                binding.stateEdt.setOnClickListener(v -> {
 
-                    }
                 });
             }
         }
@@ -469,19 +442,8 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
         discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
@@ -494,50 +456,44 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         HELPER.showLoadingTran(act);
 
         //HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Response", response);
-                HELPER.dismissLoadingTran();
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
-                    if (ResponseHandler.getString(object, "status").equals("1")) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, response -> {
+            Log.e("Response", response);
+            HELPER.dismissLoadingTran();
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (object != null) {
+                if (ResponseHandler.getString(object, "status").equals("1")) {
 
-                        Intent i = new Intent(act, PaymentActivity.class);
-                        i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
-                        i.putExtra("orderParam", getShippingAddress().toString());
-                        startActivity(i);
+                    Intent i = new Intent(act, PaymentActivity.class);
+                    i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
+                    i.putExtra("orderParam", getShippingAddress().toString());
+                    startActivity(i);
 
-                    } else {
-                        if (object.has("url")) {
-                            amazonlink("Error", ResponseHandler.getString(object, "msg"), ResponseHandler.getString(object, "url"));
-                        } else
-                            infoAlert("Error", ResponseHandler.getString(object, "msg"));
-                    }
+                } else {
+                    if (object.has("url")) {
+                        amazonlink("Error", ResponseHandler.getString(object, "msg"), ResponseHandler.getString(object, "url"));
+                    } else
+                        infoAlert("Error", ResponseHandler.getString(object, "msg"));
                 }
-
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-                        isLoading = false;
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.statusCode == 400) {
 
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                Log.e("jsosnErir", jsonString);
-                                infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+        },
+                error -> {
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+                    isLoading = false;
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.statusCode == 400) {
+
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            Log.e("jsosnErir", jsonString);
+                            infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
                         }
+                        Log.e("Error", gson.toJson(response.headers));
+                        Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
                 }
         ) {
@@ -567,24 +523,18 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
             isLoading = true;
         HELPER.showLoadingTran(act);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Response", response);
-                HELPER.dismissLoadingTran();
-                countryList = ResponseHandler.parseCountryState(response);
-                Log.e("Response", String.valueOf(countryList.size()));
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, response -> {
+            Log.e("Response", response);
+            HELPER.dismissLoadingTran();
+            countryList = ResponseHandler.parseCountryState(response);
+            Log.e("Response", String.valueOf(countryList.size()));
 
-            }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-                        isLoading = false;
+                error -> {
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+                    isLoading = false;
 
-                    }
                 }
         ) {
             /**

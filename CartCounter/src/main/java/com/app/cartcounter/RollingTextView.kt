@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.app.cartcounter;
+package com.app.cartcounter
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

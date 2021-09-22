@@ -87,24 +87,15 @@ public class BlogsAdapter extends RecyclerView.Adapter {
                                 .error(R.drawable.ic_square_place_holder)
                                 .into(((LeftBlog) holder).binding.blogImage);
                     }
-                    ((LeftBlog) holder).binding.layout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                    ((LeftBlog) holder).binding.layout.setOnClickListener(v -> {
 
-                            Intent i = new Intent(activity, BlogDetailsActivity.class);
-                            i.putExtra("model", gson.toJson(model));
-                            activity.startActivity(i);
-                            activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                        Intent i = new Intent(activity, BlogDetailsActivity.class);
+                        i.putExtra("model", gson.toJson(model));
+                        activity.startActivity(i);
+                        activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
 
-                        }
                     });
-                    ((LeftBlog) holder).binding.exploreMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            ((LeftBlog) holder).binding.layout.performClick();
-                        }
-                    });
+                    ((LeftBlog) holder).binding.exploreMore.setOnClickListener(v -> ((LeftBlog) holder).binding.layout.performClick());
 
                     break;
                 case LAYOUT_TYPE.LAYOUT_RIGHT_BLOG:
@@ -117,21 +108,13 @@ public class BlogsAdapter extends RecyclerView.Adapter {
                                 .into(((RightBlog) holder).binding.blogImage);
                     }
 
-                    ((RightBlog) holder).binding.layout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(activity, BlogDetailsActivity.class);
-                            i.putExtra("model", gson.toJson(model));
-                            activity.startActivity(i);
-                            activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
-                        }
+                    ((RightBlog) holder).binding.layout.setOnClickListener(v -> {
+                        Intent i = new Intent(activity, BlogDetailsActivity.class);
+                        i.putExtra("model", gson.toJson(model));
+                        activity.startActivity(i);
+                        activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                     });
-                    ((RightBlog) holder).binding.exploreMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ((RightBlog) holder).binding.layout.performClick();
-                        }
-                    });
+                    ((RightBlog) holder).binding.exploreMore.setOnClickListener(v -> ((RightBlog) holder).binding.layout.performClick());
 
                     break;
 

@@ -14,7 +14,7 @@ public class ReviewRootModel {
         this.reviewsList = reviewsList;
     }
 
-    public class Review {
+    public static class Review {
         private String id;
         private String status;
         private String reviewerEmail;

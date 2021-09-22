@@ -76,7 +76,7 @@ public class ReviewsFragment extends BaseFragment {
             }
         } else {
             ArrayList<ReviewRootModel.Review> modelArrayList = new ArrayList<>();
-            ReviewRootModel.Review outCategoryModel = new ReviewRootModel().new Review();
+            ReviewRootModel.Review outCategoryModel = new ReviewRootModel.Review();
             modelArrayList.add(outCategoryModel);
             modelArrayList.add(outCategoryModel);
             modelArrayList.add(outCategoryModel);

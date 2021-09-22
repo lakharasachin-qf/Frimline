@@ -38,11 +38,6 @@ public class AdditionalInfoFragment extends BaseFragment {
                 "</td>\n" +
                 "\t\t</tr>\n" +
                 "\t</tbody></table>";
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            binding.text.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
-//        } else {
-//            binding.text.setText(Html.fromHtml(data));
-//        }
 
         if (CONSTANT.API_MODE) {
             loadData();

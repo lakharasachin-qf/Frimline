@@ -480,7 +480,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         }
 
         binding.roundedAmount.setText(String.format("%.2f", roundedOffValue));
-        if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
+        if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).contains("-")) {
             binding.roundedAmount.setText("+" + String.format("%.2f", roundedOffValue));
         }
         if (roundedOffValue == 0) {

@@ -44,7 +44,7 @@ public class AddressesActivity extends BaseActivity {
     private boolean isBilling = false;
     private boolean isShipping = false;
     private boolean isLoading = false;
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+    final ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -70,12 +70,7 @@ public class AddressesActivity extends BaseActivity {
         makeStatusBarSemiTranspenret(binding.toolbar.toolbar);
 
         binding.toolbar.title.setText("Addresses");
-        binding.toolbar.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ON_BACK_PRESS_ANIM(act);
-            }
-        });
+        binding.toolbar.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
 
         changeTheme();
         if (CONSTANT.API_MODE) {
@@ -194,16 +189,13 @@ public class AddressesActivity extends BaseActivity {
 
             }
         });
-        binding.actionAdd2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CONSTANT.API_MODE) {
-                    Intent intent = new Intent(act, BillingAddressActivity.class);
-                    intent.putExtra("isShipping", isShipping);
-                    someActivityResultLauncher.launch(intent);
-                } else {
-                    HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
-                }
+        binding.actionAdd2.setOnClickListener(v -> {
+            if (CONSTANT.API_MODE) {
+                Intent intent = new Intent(act, BillingAddressActivity.class);
+                intent.putExtra("isShipping", isShipping);
+                someActivityResultLauncher.launch(intent);
+            } else {
+                HELPER.SIMPLE_ROUTE(act, BillingAddressActivity.class);
             }
         });
     }
@@ -215,68 +207,60 @@ public class AddressesActivity extends BaseActivity {
         isLoading = true;
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                stopShimmer();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, response -> {
+            isLoading = false;
+            stopShimmer();
 
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
-                    ProfileModel model = new ProfileModel();
-                    model.setUserId(ResponseHandler.getString(object, "id"));
-                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
-                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
-                    model.setEmail(ResponseHandler.getString(object, "email"));
-                    model.setFirstName(ResponseHandler.getString(object, "first_name"));
-                    model.setLastName(ResponseHandler.getString(object, "last_name"));
-                    model.setRole(ResponseHandler.getString(object, "role"));
-                    model.setUserName(ResponseHandler.getString(object, "username"));
-                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (object != null) {
+                ProfileModel model = new ProfileModel();
+                model.setUserId(ResponseHandler.getString(object, "id"));
+                model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
+                model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                model.setEmail(ResponseHandler.getString(object, "email"));
+                model.setFirstName(ResponseHandler.getString(object, "first_name"));
+                model.setLastName(ResponseHandler.getString(object, "last_name"));
+                model.setRole(ResponseHandler.getString(object, "role"));
+                model.setUserName(ResponseHandler.getString(object, "username"));
+                model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
 
-                    Billing billingAddress = new Billing();
-                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
-                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
-                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
-                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
-                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
-                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
-                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
-                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
-                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
-                    billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
-                    billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
-                    model.setBillingAddress(billingAddress);
+                Billing billingAddress = new Billing();
+                billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
+                billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
+                billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
+                billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
+                billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
+                billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
+                billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
+                billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
+                billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
+                billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
+                billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
+                model.setBillingAddress(billingAddress);
 
-                    Billing shippingAddress = new Billing();
-                    shippingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
-                    shippingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
-                    shippingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
-                    shippingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
-                    shippingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
-                    shippingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
-                    shippingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
-                    shippingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
-                    shippingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
-                    model.setShippingAddress(shippingAddress);
+                Billing shippingAddress = new Billing();
+                shippingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
+                shippingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
+                shippingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
+                shippingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
+                shippingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
+                shippingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
+                shippingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
+                shippingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
+                shippingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
+                model.setShippingAddress(shippingAddress);
 
-                    prefManager.setUser(model);
-                    loadData();
-
-                }
-
+                prefManager.setUser(model);
+                loadData();
 
             }
 
 
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
 
-                    }
                 }
         ) {
             /**
@@ -290,8 +274,7 @@ public class AddressesActivity extends BaseActivity {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

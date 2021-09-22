@@ -124,7 +124,7 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
         return frameItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         CardView product;
         ItemShopHotProductLayoutBinding binding;

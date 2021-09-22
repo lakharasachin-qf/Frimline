@@ -65,49 +65,33 @@ public class CategoryProfileFragment extends BaseFragment {
     }
 
     public void hideShowView() {
-        binding.icon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNavClick.onNavigationDrawerClick();
-            }
-        });
-        binding.icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNavClick.onNavigationDrawerClick();
-            }
-        });
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //changeStatusBarColor(ContextCompat.getColor(getActivity(),R.color.colorScreenBackground));
-                onNavClick.GoToStore();
-            }
+        binding.icon2.setOnClickListener(v -> onNavClick.onNavigationDrawerClick());
+        binding.icon.setOnClickListener(v -> onNavClick.onNavigationDrawerClick());
+        binding.button.setOnClickListener(v -> {
+            //changeStatusBarColor(ContextCompat.getColor(getActivity(),R.color.colorScreenBackground));
+            onNavClick.GoToStore();
         });
 
-        binding.mainAppbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-                    // If collapsed, then do this
+        binding.mainAppbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                // If collapsed, then do this
 
-                    binding.titleTxt.setVisibility(View.VISIBLE);
-                    binding.icon2.setVisibility(View.VISIBLE);
-                    binding.icon.setVisibility(View.GONE);
+                binding.titleTxt.setVisibility(View.VISIBLE);
+                binding.icon2.setVisibility(View.VISIBLE);
+                binding.icon.setVisibility(View.GONE);
 
-                } else if (verticalOffset == 0) {
-                    // If expanded, then do this
-                    binding.icon2.setVisibility(View.GONE);
-                    binding.titleTxt.setVisibility(View.GONE);
+            } else if (verticalOffset == 0) {
+                // If expanded, then do this
+                binding.icon2.setVisibility(View.GONE);
+                binding.titleTxt.setVisibility(View.GONE);
 
-                    binding.icon.setVisibility(View.VISIBLE);
+                binding.icon.setVisibility(View.VISIBLE);
 
-                } else {
-                    binding.icon2.setVisibility(View.GONE);
-                    binding.titleTxt.setVisibility(View.GONE);
-                    binding.icon.setVisibility(View.VISIBLE);
+            } else {
+                binding.icon2.setVisibility(View.GONE);
+                binding.titleTxt.setVisibility(View.GONE);
+                binding.icon.setVisibility(View.VISIBLE);
 
-                }
             }
         });
     }

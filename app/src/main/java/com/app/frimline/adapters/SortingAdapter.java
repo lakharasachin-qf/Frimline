@@ -26,14 +26,11 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
     private final int selectedPosition = -1;
     private final ArrayList<ListModel> arrayList;
     private final Activity act;
-    private setOnCheckedRadioListener radioListener;
     private int checkedPosition = -1;
-    private final int calledFlag;
 
     public SortingAdapter(ArrayList<ListModel> arrayList, Activity act, int calledFlag) {
         this.arrayList = arrayList;
         this.act = act;
-        this.calledFlag = calledFlag;
     }
 
     public static String convertFirstUpper(String str) {
@@ -45,7 +42,6 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
     }
 
     public void setRadioListener(setOnCheckedRadioListener radioListener) {
-        this.radioListener = radioListener;
     }
 
     @Override

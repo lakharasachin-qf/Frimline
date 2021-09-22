@@ -53,20 +53,12 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         CountryModel listModel = arrayList.get(position);
 
         holder.radioButton.setText(convertFirstUpper(listModel.getName()));
-        holder.radioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.itemView.performClick();
-            }
-        });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.radioButton.setChecked(true);
-                checkedPosition = position;
-                ((OnItemSelectListener) act).onItemSelect(listModel, position,calledFlag);
-                notifyDataSetChanged();
-            }
+        holder.radioButton.setOnClickListener(v -> holder.itemView.performClick());
+        holder.itemView.setOnClickListener(view -> {
+            holder.radioButton.setChecked(true);
+            checkedPosition = position;
+            ((OnItemSelectListener) act).onItemSelect(listModel, position,calledFlag);
+            notifyDataSetChanged();
         });
     }
 

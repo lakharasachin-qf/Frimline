@@ -45,12 +45,7 @@ public class BlogDetailsActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_blog_details);
         makeStatusBarSemiTranspenret(binding.toolbar.toolbar);
         binding.toolbar.title.setText("Blog");
-        binding.toolbar.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ON_BACK_PRESS_ANIM(act);
-            }
-        });
+        binding.toolbar.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
 
 
         changeTheme();
@@ -118,27 +113,21 @@ public class BlogDetailsActivity extends BaseActivity {
             isLoading = true;
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.RECENT_BLOG, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Log.e("Response", response);
-                stopShimmer();
-                isLoading = false;
-                rootModel = ResponseHandler.handleResponseRecentBlog(response);
-                blogsAdapter = new RecentBlogViewAdapter(rootModel, act);
-                RecentBlogViewAdapter sliderAdapter = new RecentBlogViewAdapter(rootModel, act);
-                binding.viewPager.setAdapter(sliderAdapter);
-                binding.dotsIndicator.setViewPager(binding.viewPager);
-            }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.RECENT_BLOG, response -> {
+            //Log.e("Response", response);
+            stopShimmer();
+            isLoading = false;
+            rootModel = ResponseHandler.handleResponseRecentBlog(response);
+            blogsAdapter = new RecentBlogViewAdapter(rootModel, act);
+            RecentBlogViewAdapter sliderAdapter = new RecentBlogViewAdapter(rootModel, act);
+            binding.viewPager.setAdapter(sliderAdapter);
+            binding.dotsIndicator.setViewPager(binding.viewPager);
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        stopShimmer();
-                        binding.recentContainer.setVisibility(View.GONE);
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    stopShimmer();
+                    binding.recentContainer.setVisibility(View.GONE);
                 }
         ) {
             /**

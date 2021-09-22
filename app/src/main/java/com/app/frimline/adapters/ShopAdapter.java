@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 
 public class ShopAdapter extends RecyclerView.Adapter {
-    private final Gson gson;
     Activity activity;
     CategorySingleModel selectedCategory;
     private final ArrayList<HomeModel> dashBoardItemList;
@@ -37,7 +36,7 @@ public class ShopAdapter extends RecyclerView.Adapter {
     public ShopAdapter(ArrayList<HomeModel> dashBoardItemList, Activity activity, CategorySingleModel selectedCategory) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
-        gson = new Gson();
+        Gson gson = new Gson();
         this.selectedCategory = selectedCategory;
     }
 
@@ -171,7 +170,7 @@ public class ShopAdapter extends RecyclerView.Adapter {
     }
 
 
-    public class FilterHolder extends RecyclerView.ViewHolder {
+    public static class FilterHolder extends RecyclerView.ViewHolder {
         ItemShopFilterChipContainerLayoutBinding binding;
 
         public FilterHolder(ItemShopFilterChipContainerLayoutBinding itemView) {

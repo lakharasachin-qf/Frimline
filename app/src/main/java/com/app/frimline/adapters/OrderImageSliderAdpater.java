@@ -28,7 +28,6 @@ import java.util.ArrayList;
 public class OrderImageSliderAdpater extends PagerAdapter {
 
     private final Activity context;
-    private LayoutInflater layoutInflater;
     private final ArrayList<OrderedProductModel> sliderImg;
 
 
@@ -50,7 +49,7 @@ public class OrderImageSliderAdpater extends PagerAdapter {
     @Override
     public Object instantiateItem(@NotNull ViewGroup container, final int position) {
 
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.item_order_product_layout, null);
         ImageView productImages = view.findViewById(R.id.productImage);
         LinearLayout itemLayout = view.findViewById(R.id.itemLayout);

@@ -22,9 +22,7 @@ import java.util.ArrayList;
 
 public class SortingBottomDialog extends BaseFragment {
     ArrayList<ListModel> listModels;
-    private SortingAdapter adpt;
     private Activity act;
-    private View view;
 
     private FragmentSortingDialogBinding binding;
     private int calledFlag;
@@ -38,7 +36,7 @@ public class SortingBottomDialog extends BaseFragment {
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sorting_dialog, parent, false);
-        view = binding.getRoot();
+        View view = binding.getRoot();
         act = getActivity();
         fillSortingData();
         return view;
@@ -65,7 +63,7 @@ public class SortingBottomDialog extends BaseFragment {
 
         binding.titleText.setText("Sort By");
         if (listModels != null) {
-            adpt = new SortingAdapter(listModels, act, calledFlag);
+            SortingAdapter adpt = new SortingAdapter(listModels, act, calledFlag);
             SortingAdapter.setOnCheckedRadioListener radioListener = new SortingAdapter.setOnCheckedRadioListener() {
                 @Override
                 public void onOptionSelect(ListModel listModel, int position) {

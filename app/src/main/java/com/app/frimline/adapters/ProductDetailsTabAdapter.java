@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductDetailsTabAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> fragmentList = new ArrayList<>();
     private final List<String> fragmentTitleList = new ArrayList<>();
-    private final int currentItemFragment = -1;
+
     public ProductDetailsTabAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -23,6 +23,7 @@ public class ProductDetailsTabAdapter extends FragmentStatePagerAdapter {
     @Override
     public void setPrimaryItem(@NonNull @NotNull ViewGroup container, int position, @NonNull @NotNull Object object) {
         super.setPrimaryItem(container, position, object);
+        int currentItemFragment = -1;
         if (position == currentItemFragment) {
 //            EnhancedDynamicHeightViewPager viewPager  = (EnhancedDynamicHeightViewPager) container;
 //            currentItemFragment = position;

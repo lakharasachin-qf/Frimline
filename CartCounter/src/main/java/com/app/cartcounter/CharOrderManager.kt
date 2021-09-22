@@ -1,4 +1,5 @@
-package com.app.cartcounter;
+package com.app.cartcounter
+
 import com.app.cartcounter.strategy.CharOrderStrategy
 import com.app.cartcounter.strategy.Direction
 import com.app.cartcounter.strategy.Strategy

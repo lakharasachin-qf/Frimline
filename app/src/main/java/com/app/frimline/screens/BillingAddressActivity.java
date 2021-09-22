@@ -55,7 +55,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
     DialogDiscardImageBinding discardImageBinding;
     private ActivityBillingAddressBinding binding;
     private int flag = -1;  // 0 = for billings add or edit ,  1 = for shipping add or edit
-    private boolean isEdit = false;
     private boolean isLoading = false;
     private ArrayList<StateModel> stateModelArrayList = new ArrayList<>();
 
@@ -66,6 +65,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
         binding.toolbarNavigation.title.setText("Checkout");
         getCountryState();
+        boolean isEdit = false;
         if (getIntent().hasExtra("isBilling")) {
             flag = 0;
             binding.label.setText("Billing Address");
@@ -129,34 +129,25 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             binding.includeBtn.button.setText("Continue");
         }
 
-        binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ON_BACK_PRESS_ANIM(act);
-            }
-        });
-        binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PROTOTYPE_MODE) {
-                    HELPER.SIMPLE_ROUTE(act, CheckoutAddressActivity.class);
-                } else {
-                    if (!validations()) {
-                        if (flag == 0) {
-                            //edit or add billing address
-                            verifyPostcode(binding.postalCodeEdt.getText().toString());
-                        } else if (flag == 1) {
-                            //edit or add shipping address
+        binding.toolbarNavigation.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
+        binding.includeBtn.button.setOnClickListener(v -> {
+            if (PROTOTYPE_MODE) {
+                HELPER.SIMPLE_ROUTE(act, CheckoutAddressActivity.class);
+            } else {
+                if (!validations()) {
+                    if (flag == 0) {
+                        //edit or add billing address
+                        verifyPostcode(binding.postalCodeEdt.getText().toString());
+                    } else if (flag == 1) {
+                        //edit or add shipping address
 
-                            verifyPostcode(binding.postalCodeEdt.getText().toString());
-                        } else {
+                        verifyPostcode(binding.postalCodeEdt.getText().toString());
+                    } else {
 
-                            verifyPostcode(binding.postalCodeEdt.getText().toString());
+                        verifyPostcode(binding.postalCodeEdt.getText().toString());
 
-                        }
                     }
                 }
-
             }
 
         });
@@ -216,8 +207,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         HELPER.FOCUS_HELPER(binding.scrollView, binding.cityEdt, binding.cityEdtLayout);
         HELPER.FOCUS_HELPER(binding.scrollView, binding.stateEdt, binding.stateEdtLayout);
         HELPER.FOCUS_HELPER(binding.scrollView, binding.postalCodeEdt, binding.postalCodeEdtLayout);
-        //HELPER.FOCUS_HELPER(binding.scrollView, binding.phoneNoEdt, binding.phoneNoEdtLayout);
-        // HELPER.FOCUS_HELPER(binding.scrollView, binding.emailEdt, binding.emailEdtLayout);
 
 
         binding.nameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
@@ -233,12 +222,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         binding.emailEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
 
-        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFragmentList(CONSTANT.COUNTRY, "Country");
-            }
-        });
+        binding.countryEdt.setOnClickListener(v -> showFragmentList(CONSTANT.COUNTRY, "Country"));
     }
 
     public boolean validations() {
@@ -261,15 +245,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.lnameEdt.requestFocus();
             }
         }
-
-//        if (binding.companyEdt.getText().toString().trim().length() == 0) {
-//            isError = true;
-//            binding.companyEdtLayout.setError("Enter Company Name");
-//            if (!isFocus) {
-//                isFocus = true;
-//                binding.companyEdt.requestFocus();
-//            }
-//        }
 
         if (binding.countryEdt.getText().toString().trim().length() == 0) {
             isError = true;
@@ -382,12 +357,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.stateEdt.setClickable(true);
                 binding.stateEdt.setFocusable(false);
                 binding.stateEdt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_dropdown, 0);
-                binding.stateEdt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showFragmentList(CONSTANT.STATE, "State");
-                    }
-                });
+                binding.stateEdt.setOnClickListener(v -> showFragmentList(CONSTANT.STATE, "State"));
             } else {
                 binding.stateEdt.setClickable(false);
                 binding.stateEdt.setFocusable(true);
@@ -416,42 +386,36 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
 
         //HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Response", response);
-                isLoading = false;
-                HELPER.dismissLoadingTran();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            Log.e("Response", response);
+            isLoading = false;
+            HELPER.dismissLoadingTran();
 // {"code":200,"message":"Billing Info Update Successfully","data":{"status":200}}
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
-                    if (ResponseHandler.getString(object, "code").equals("200")) {
-                        infoAlert("Success", ResponseHandler.getString(object, "message"));
-                    }
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (object != null) {
+                if (ResponseHandler.getString(object, "code").equals("200")) {
+                    infoAlert("Success", ResponseHandler.getString(object, "message"));
                 }
-
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-                        isLoading = false;
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.statusCode == 400) {
 
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                Log.e("jsosnErir", jsonString);
-                                infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+        },
+                error -> {
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+                    isLoading = false;
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.statusCode == 400) {
+
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            Log.e("jsosnErir", jsonString);
+                            infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
                         }
+                        Log.e("Error", gson.toJson(response.headers));
+                        Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
                 }
         ) {
@@ -460,8 +424,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                return params;
+                return getHeader();
             }
 
             @Override
@@ -500,29 +463,20 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         discardImageBinding.noTxt.setVisibility(View.GONE);
         // linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                if (flag != -1) {
-                    Intent data = new Intent();
-                    if (!title.equalsIgnoreCase("Error")) {
-                        data.putExtra("success", "1");
-                        setResult(RESULT_OK, data);
-                        finish();
-                    }
-
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            if (flag != -1) {
+                Intent data = new Intent();
+                if (!title.equalsIgnoreCase("Error")) {
+                    data.putExtra("success", "1");
+                    setResult(RESULT_OK, data);
+                    finish();
                 }
 
-
             }
+
+
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -595,14 +549,12 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = getHeader();
-                return params;
+                return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
@@ -676,8 +628,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
              */
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = getHeader();
-                return params;
+                return getHeader();
             }
 
             @Override

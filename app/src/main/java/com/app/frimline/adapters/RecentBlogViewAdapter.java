@@ -32,7 +32,6 @@ import java.util.List;
 public class RecentBlogViewAdapter extends PagerAdapter {
 
     private final Activity context;
-    private LayoutInflater layoutInflater;
     private final List<BlogModel> sliderImg;
 
 
@@ -54,6 +53,7 @@ public class RecentBlogViewAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NotNull ViewGroup container, final int position) {
         BlogModel model = sliderImg.get(position);
+        LayoutInflater layoutInflater;
         if (model.getLayoutType() == LAYOUT_TYPE.LAYOUT_ONE_BLOG) {
             layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.item_blog_recent_layout_only_one, null);

@@ -22,7 +22,6 @@ import java.util.List;
 public class CatBannerAdapter extends PagerAdapter {
 
     private final Activity context;
-    private LayoutInflater layoutInflater;
     private final List<String> sliderImg;
 
 
@@ -43,7 +42,7 @@ public class CatBannerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(@NotNull ViewGroup container, final int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.item_home_banner_child_layout, null);
         ViewPager vp = (ViewPager) container;
         if (CONSTANT.API_MODE) {

@@ -40,18 +40,16 @@ import java.util.ArrayList;
 
 public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     ArrayList<CountryModel> listModels;
-    private Activity act;
     private View view;
     private CountryChooseAdapter adpt;
     private StateChooseAdapter stateChooseAdapter;
-    private FragmentListBottomListBinding binding;
-    private int calledFlag;
+    private final int calledFlag;
 
-    private ArrayList<CountryModel> rootList;
-    private ArrayList<CountryModel> dataList;
-    private String title;
-    private ArrayList<StateModel> stateRootList;
-    private ArrayList<StateModel> stateDataList;
+    private final ArrayList<CountryModel> rootList;
+    private final ArrayList<CountryModel> dataList;
+    private final String title;
+    private final ArrayList<StateModel> stateRootList;
+    private final ArrayList<StateModel> stateDataList;
 
     public ChooseListBottomFragment(String title, ArrayList<CountryModel> countryList, int calledFlag, ArrayList<StateModel> stateModels) {
         rootList = new ArrayList<>(countryList);
@@ -71,19 +69,16 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
             HELPER.setWhiteNavigationBar(dialog, getActivity());
         }
         this.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogThemeNoFloating);
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
-                setupFullHeight(bottomSheetDialog);
-            }
+        dialog.setOnShowListener(dialogInterface -> {
+            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+            setupFullHeight(bottomSheetDialog);
         });
         //BottomSheetBehavior.from(bottomSheetInternal).state = BottomSheetBehavior.STATE_EXPANDED
         return dialog;
     }
 
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
-        FrameLayout bottomSheet = (FrameLayout) bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
+        FrameLayout bottomSheet = bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
         BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
         ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
 
@@ -105,66 +100,59 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_bottom_list, container, false);
+        com.app.frimline.databinding.FragmentListBottomListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_bottom_list, container, false);
         view = binding.getRoot();
-        act = getActivity();
+        Activity act = getActivity();
         binding.titleText.setText(title);
-        binding.closeFilterView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChooseListBottomFragment.this.dismiss();
-            }
-        });
+        binding.closeFilterView.setOnClickListener(v -> ChooseListBottomFragment.this.dismiss());
         if (CONSTANT.API_MODE) {
-            if (dataList != null) {
-                Log.e("SSSS", String.valueOf(dataList.size()));
-                if (calledFlag == CONSTANT.COUNTRY) {
-                    adpt = new CountryChooseAdapter(dataList, act, calledFlag);
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
-                    binding.recyclerList.setLayoutManager(mLayoutManager);
-                    binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
-                    binding.recyclerList.setAdapter(adpt);
-                    binding.recyclerList.setNestedScrollingEnabled(false);
-                    binding.searchEdt.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            Log.e("SSSS", String.valueOf(dataList.size()));
+            if (calledFlag == CONSTANT.COUNTRY) {
+                adpt = new CountryChooseAdapter(dataList, act, calledFlag);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
+                binding.recyclerList.setLayoutManager(mLayoutManager);
+                binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
+                binding.recyclerList.setAdapter(adpt);
+                binding.recyclerList.setNestedScrollingEnabled(false);
+                binding.searchEdt.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            filterCountry(s.toString());
-                        }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        filterCountry(s.toString());
+                    }
 
-                        @Override
-                        public void afterTextChanged(Editable s) {
+                    @Override
+                    public void afterTextChanged(Editable s) {
 
-                        }
-                    });
-                } else {
-                    stateChooseAdapter = new StateChooseAdapter(stateDataList, act, calledFlag);
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
-                    binding.recyclerList.setLayoutManager(mLayoutManager);
-                    binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
-                    binding.recyclerList.setNestedScrollingEnabled(false);
-                    binding.recyclerList.setAdapter(stateChooseAdapter);
-                    binding.searchEdt.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+                });
+            } else {
+                stateChooseAdapter = new StateChooseAdapter(stateDataList, act, calledFlag);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
+                binding.recyclerList.setLayoutManager(mLayoutManager);
+                binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
+                binding.recyclerList.setNestedScrollingEnabled(false);
+                binding.recyclerList.setAdapter(stateChooseAdapter);
+                binding.searchEdt.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            filter(s.toString());
-                        }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        filter(s.toString());
+                    }
 
-                        @Override
-                        public void afterTextChanged(Editable s) {
+                    @Override
+                    public void afterTextChanged(Editable s) {
 
-                        }
-                    });
-                }
+                    }
+                });
             }
         } else {
             listModels = new ArrayList<>();
@@ -195,7 +183,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     }
 
     void filterCountry(String text) {
-        ArrayList<CountryModel> temp = new ArrayList();
+        ArrayList<CountryModel> temp = new ArrayList<>();
         for (CountryModel d : rootList) {
             if (d.getName().toLowerCase().contains(text.toLowerCase())) {
                 temp.add(d);
@@ -206,7 +194,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     }
 
     void filter(String text) {
-        ArrayList<StateModel> temp = new ArrayList();
+        ArrayList<StateModel> temp = new ArrayList<>();
         for (StateModel d : stateRootList) {
 
             if (d.getStateName().toLowerCase().contains(text.toLowerCase())) {

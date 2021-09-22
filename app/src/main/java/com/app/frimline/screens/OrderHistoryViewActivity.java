@@ -6,9 +6,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -69,8 +67,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class OrderHistoryViewActivity extends BaseActivity {
     BottomSheetBehavior sheetBehavior;
@@ -111,8 +107,10 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 switch (newState) {
 
                     case BottomSheetBehavior.STATE_HIDDEN:
+                    case BottomSheetBehavior.STATE_SETTLING:
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED:
+                    case BottomSheetBehavior.STATE_DRAGGING:
                         headingTitle.setVisibility(View.VISIBLE);
                         bottomMinState.setVisibility(View.GONE);
                         break;
@@ -121,12 +119,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
                         bottomMinState.setVisibility(View.VISIBLE);
                     }
                     break;
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        headingTitle.setVisibility(View.VISIBLE);
-                        bottomMinState.setVisibility(View.GONE);
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        break;
                 }
             }
 
@@ -322,7 +314,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView roundedAmount = findViewById(R.id.roundedAmount);
         roundedAmount.setText(String.format("%.2f", roundedOffValue));
-        if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
+        if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).contains("-")) {
             roundedAmount.setText("+" + String.format("%.2f", roundedOffValue));
         }
         if (roundedOffValue == 0) {
@@ -461,7 +453,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
-                    showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
+                    showMessageOKCancel(new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUESTED_STORAGE);
@@ -473,7 +465,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
             }
         }
         if (targetSetting) {
-            showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> {
+            showMessageOKCancel((dialog, which) -> {
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 Uri uri = Uri.fromParts("package", getPackageName(), null);
                 intent.setData(uri);
@@ -482,9 +474,9 @@ public class OrderHistoryViewActivity extends BaseActivity {
         }
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setMessage(message)
+                .setMessage("You need to allow access to the permissions")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()

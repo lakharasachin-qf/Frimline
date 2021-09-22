@@ -45,7 +45,6 @@ public class QnAFragment extends BaseFragment {
 
     ProductModel model;
     private FragmentQNABinding binding;
-    private boolean isThemColor = false;
     private boolean applyThemeColor = false;
     private String defaultColor = "#EF7F1A";
     private boolean isLoading = false;
@@ -54,7 +53,6 @@ public class QnAFragment extends BaseFragment {
     private DialogAskQuestionBinding reqBinding;
 
     public void setThemColor(boolean themColor) {
-        isThemColor = themColor;
     }
 
     @Override

@@ -128,6 +128,7 @@ public class PREF {
             for (String key : rememberMeList.keySet()) {
                 if (key.equals(email)) {
                     isAlreadyExist = true;
+                    break;
                 }
             }
         } else {

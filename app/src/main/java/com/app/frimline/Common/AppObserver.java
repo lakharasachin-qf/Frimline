@@ -7,14 +7,12 @@ import com.app.frimline.models.DataTransferModel;
 import java.util.Observable;
 
 public class AppObserver extends Observable {
-    private final Context context;
     private String userName;
     private String data;
     private DataTransferModel dataTransferModel;
     private int nStatusType;
 
     public AppObserver(Context context) {
-        this.context = context;
     }
 
     public int getValue() {

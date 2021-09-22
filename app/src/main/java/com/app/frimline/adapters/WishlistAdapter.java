@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
     private final ArrayList<WishlistEntity> frameItems;
-    private Activity activity;
+    private final Activity activity;
     public interface actionInterface{
         void onDelete(int position,WishlistEntity entity);
         void onView(int position,WishlistEntity entity);
@@ -118,7 +118,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         return frameItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ItemWishlistLayoutBinding binding;
 
         public ViewHolder(@NonNull ItemWishlistLayoutBinding itemView) {

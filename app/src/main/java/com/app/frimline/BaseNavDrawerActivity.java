@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -19,7 +18,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -32,7 +30,6 @@ import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -49,9 +46,10 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
     private BroadcastReceiver mNetworkReceiver;
     public Gson gson;
     Toolbar toolbar;
-    public static final boolean PROTOTYPE= CONSTANT.PROTOTYPING_MODE;
-    public static final boolean API_MODE= CONSTANT.API_MODE;
+    public static final boolean PROTOTYPE = CONSTANT.PROTOTYPING_MODE;
+    public static final boolean API_MODE = CONSTANT.API_MODE;
     public CartRoomDatabase cartRoomDatabase;
+
     public BaseNavDrawerActivity() {
     }
 
@@ -78,6 +76,8 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         }
     }
 
+    public DrawerLayout drawer;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = this;
@@ -90,17 +90,11 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         frimline.getObserver().addObserver(this);
 
         cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
-        actt =this;
+        actt = this;
         noconnectionAlertDialog = new Dialog(this, R.style.MyAlertDialogStyle_extend);
         view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
         AppCompatButton appCompatButton = view.findViewById(R.id.button);
-        appCompatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if (noconnectionAlertDialog.isShowing()) {
-//                    noconnectionAlertDialog.dismiss();
-//                }
-            }
+        appCompatButton.setOnClickListener(v -> {
         });
         noconnectionAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
@@ -108,60 +102,43 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         registerNetworkBroadcastForNougat();
 
 
-        toolbar = findViewById(R.id.toolbar_Navigation);
+        toolbar = act.findViewById(R.id.toolbar_Navigation);
         setSupportActionBar(toolbar);
-        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = act.findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(act, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        // toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu); //set your own
-
-        //toggle.syncState();
-
-        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //  getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toggle.setDrawerIndicatorEnabled(false);
-//        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer_menu);
-//        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//                if (drawer.isDrawerOpen(GravityCompat.START)) {
-//                    drawer.closeDrawer(GravityCompat.START);
-//                } else {
-//                    drawer.openDrawer(GravityCompat.START);
-//                }
-//            }
-//        });
 
 
         ImageView drawerIcon = act.findViewById(R.id.drawerIcon);
         ImageView drawerIcon2 = act.findViewById(R.id.drawerIcon2);
-        drawerIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                if (drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
+        drawerIcon.setOnClickListener(v -> {
+            DrawerLayout drawer1 = findViewById(R.id.drawer_layout);
+            if (drawer1.isDrawerOpen(GravityCompat.START)) {
+                drawer1.closeDrawer(GravityCompat.START);
+            } else {
+                drawer1.openDrawer(GravityCompat.START);
             }
         });
-        drawerIcon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                if (drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
+        drawerIcon2.setOnClickListener(v -> {
+            DrawerLayout drawer12 = findViewById(R.id.drawer_layout);
+            if (drawer12.isDrawerOpen(GravityCompat.START)) {
+                drawer12.closeDrawer(GravityCompat.START);
+            } else {
+                drawer12.openDrawer(GravityCompat.START);
             }
         });
+        setLockDrawer(true);
 
+    }
 
+    public void setLockDrawer(boolean lock) {
+        if (lock) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        } else {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
     }
 
     private void registerNetworkBroadcastForNougat() {
@@ -178,9 +155,6 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
 
-//        if (prefManager.getUserToken() != null) {
-//            headers.put("Authorization", "Bearer" + prefManager.getUserToken());
-//        }
         return headers;
     }
 
@@ -212,7 +186,6 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
-
 
 
     protected void makeStatusBarSemiTranspenret() {

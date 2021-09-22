@@ -8,7 +8,6 @@ public class NetworkUtil {
 
     private static final int TYPE_WIFI = 1;
     private static final int TYPE_MOBILE = 2;
-    private static int TYPE_NOT_CONNECTED = -1;
 
     public static boolean getConnectivityStatus(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -30,6 +29,7 @@ public class NetworkUtil {
 
         assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        int TYPE_NOT_CONNECTED = -1;
         if (null != activeNetwork) {
             TYPE_NOT_CONNECTED = -1;
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)

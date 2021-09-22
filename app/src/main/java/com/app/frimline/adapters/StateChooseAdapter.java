@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class StateChooseAdapter extends RecyclerView.Adapter<StateChooseAdapter.SelecBrandLIstHolder> {
 
     private ArrayList<StateModel> arrayList;
-    private Activity act;
+    private final Activity act;
     private int checkedPosition = -1;
     private final int calledFlag;
 

@@ -20,14 +20,13 @@ import java.util.ArrayList;
 
 
 public class TodaysTomorrowAdapter extends RecyclerView.Adapter {
-    private final Gson gson;
     Activity activity;
     private final ArrayList<TodaysModel> dashBoardItemList;
 
     public TodaysTomorrowAdapter(ArrayList<TodaysModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
-        gson = new Gson();
+        Gson gson = new Gson();
     }
 
 
@@ -84,7 +83,7 @@ public class TodaysTomorrowAdapter extends RecyclerView.Adapter {
     }
 
 
-    public class LeftBlog extends RecyclerView.ViewHolder {
+    public static class LeftBlog extends RecyclerView.ViewHolder {
         ItemCatRootTodaysLeftLayoutBinding binding;
 
         public LeftBlog(ItemCatRootTodaysLeftLayoutBinding itemView) {
@@ -96,7 +95,7 @@ public class TodaysTomorrowAdapter extends RecyclerView.Adapter {
     }
 
 
-    public class RightBlog extends RecyclerView.ViewHolder {
+    public static class RightBlog extends RecyclerView.ViewHolder {
         ItemCatRootTodaysRightLayoutBinding binding;
 
         public RightBlog(ItemCatRootTodaysRightLayoutBinding itemView) {

@@ -96,30 +96,24 @@ public class BlogsFragment extends BaseFragment {
 
         CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.BLOGS, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Log.e("Response", response);
-                stopShimmer();
-                isLoading = false;
-                rootModel = ResponseHandler.handleResponseBlogFragment(response);
-                blogsAdapter = new BlogsAdapter(rootModel, getActivity());
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
-                binding.blogsRecycler.setHasFixedSize(true);
-                binding.blogsRecycler.setNestedScrollingEnabled(false);
-                binding.blogsRecycler.setLayoutManager(mLayoutManager);
-                binding.blogsRecycler.setAdapter(blogsAdapter);
-                //loadData(rootModel);
-            }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.BLOGS, response -> {
+            //Log.e("Response", response);
+            stopShimmer();
+            isLoading = false;
+            rootModel = ResponseHandler.handleResponseBlogFragment(response);
+            blogsAdapter = new BlogsAdapter(rootModel, getActivity());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
+            binding.blogsRecycler.setHasFixedSize(true);
+            binding.blogsRecycler.setNestedScrollingEnabled(false);
+            binding.blogsRecycler.setLayoutManager(mLayoutManager);
+            binding.blogsRecycler.setAdapter(blogsAdapter);
+            //loadData(rootModel);
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        stopShimmer();
-                        binding.emptyData.setVisibility(View.VISIBLE);
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    stopShimmer();
+                    binding.emptyData.setVisibility(View.VISIBLE);
                 }
         ) {
             /**

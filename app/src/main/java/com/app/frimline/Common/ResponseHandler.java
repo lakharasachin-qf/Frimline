@@ -593,7 +593,7 @@ public class ResponseHandler {
             if (jsonArr.length() != 0) {
                 ArrayList<ReviewRootModel.Review> reviewsList = new ArrayList<>();
                 for (int i = 0; i < jsonArr.length(); i++) {
-                    ReviewRootModel.Review review = model.new Review();
+                    ReviewRootModel.Review review = new ReviewRootModel.Review();
                     review.setId(jsonArr.getJSONObject(i).getString("id"));
                     review.setDate(jsonArr.getJSONObject(i).getString("date_created"));
                     review.setReviewerEmail(jsonArr.getJSONObject(i).getString("reviewer_email"));

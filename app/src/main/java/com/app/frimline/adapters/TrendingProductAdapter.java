@@ -50,7 +50,7 @@ public class TrendingProductAdapter extends RecyclerView.Adapter<TrendingProduct
         return frameItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView posterImage;
 
         public ViewHolder(@NonNull View itemView) {

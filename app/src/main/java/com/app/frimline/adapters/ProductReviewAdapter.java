@@ -61,7 +61,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
         return frameItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ItemReviewLayoutBinding binding;
 
         public ViewHolder(@NonNull ItemReviewLayoutBinding itemView) {

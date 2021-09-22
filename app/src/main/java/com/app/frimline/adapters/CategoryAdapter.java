@@ -48,15 +48,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 .load(model.getImage())
                 .circleCrop()
                 .into(holder.product);
-        holder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new PREF(activity).setConfiguration(pref.getThemeColor(), model.getCatColor());
-                new PREF(activity).setCurrentCategory(model);
-                Intent i = new Intent(activity, CategoryLandingActivity.class);
-                i.putExtra("model", new Gson().toJson(model));
-                activity.startActivity(i);
-            }
+        holder.item.setOnClickListener(v -> {
+            new PREF(activity).setConfiguration(pref.getThemeColor(), model.getCatColor());
+            new PREF(activity).setCurrentCategory(model);
+            Intent i = new Intent(activity, CategoryLandingActivity.class);
+            i.putExtra("model", new Gson().toJson(model));
+            activity.startActivity(i);
         });
 
 

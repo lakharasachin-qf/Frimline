@@ -223,13 +223,13 @@ public class ShopFragment extends BaseFragment {
 
 
     ArrayList<ListModel> listModels;
-    private SortingAdapter adpt;
 
     public void fillSortingData() {
 
         binding.titleText.setText("Sort By");
         binding.titleFilterText.setText("Filter");
         listModels = new ArrayList<>();
+        SortingAdapter adpt;
         if (CONSTANT.API_MODE) {
             ListModel popularityModel = new ListModel();
             popularityModel.setName("Sort by popularity");
@@ -569,7 +569,7 @@ public class ShopFragment extends BaseFragment {
                     if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
 
                         selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
-                        jsonStr = new String(frimline.getObserver().getData());
+                        jsonStr = frimline.getObserver().getData();
                         categoryID = selectedCategory.getCategoryId();
                         startShimmer();
                         loadShopData();
@@ -606,7 +606,6 @@ public class ShopFragment extends BaseFragment {
         int refreshingPost = 0;
         for (int i = 0; i < rootModel.size(); i++) {
             if (rootModel.get(i).getLayoutType() == layoutType) {
-                refreshingPost = i;
                 break;
             }
         }

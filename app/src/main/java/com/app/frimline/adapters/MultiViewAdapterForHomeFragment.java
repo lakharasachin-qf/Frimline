@@ -35,7 +35,6 @@ import java.util.ArrayList;
 
 
 public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
-    private final Gson gson;
     Activity activity;
     String colorCode = "";
     int parentLayoutPosition;
@@ -47,7 +46,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
     public MultiViewAdapterForHomeFragment(ArrayList<HomeModel> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
-        gson = new Gson();
+        Gson gson = new Gson();
         cartRoomDatabase = CartRoomDatabase.getAppDatabase(activity);
     }
 
@@ -388,7 +387,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding.addCart1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!position.getProductList().get(0).isAddedToCart()) {
+                    if (position.getProductList().get(0).isAddedToCart()) {
                         position.getProductList().get(0).setAddedToCart(true);
                         Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                         binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
@@ -405,7 +404,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding.addCart2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!position.getProductList().get(1).isAddedToCart()) {
+                    if (position.getProductList().get(1).isAddedToCart()) {
                         position.getProductList().get(1).setAddedToCart(true);
                         Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
                         binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
@@ -422,7 +421,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding.addCart3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!position.getProductList().get(2).isAddedToCart()) {
+                    if (position.getProductList().get(2).isAddedToCart()) {
                         position.getProductList().get(2).setAddedToCart(true);
                         binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
                         Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();

@@ -66,12 +66,11 @@ public class OrderProductDetailActivity extends BaseActivity {
 
     private final boolean redShoeVisible = true;
     private ActivityOrderProductDetailBinding binding;
-    private boolean isAddedToCart = false;
+    private final boolean isAddedToCart = false;
     private int observableId;
     private boolean applyThemeColor = false;
     private String defaultColor = "#EF7F1A";
-    private CartRoomDatabase cartRoomDatabase;
-    private boolean isSameProductEdit = false;
+    private final boolean isSameProductEdit = false;
     private String productId;
     private final DescriptionFragment descriptionFragment = new DescriptionFragment();
     private final HowToUseFragment howToUseFragment = new HowToUseFragment();
@@ -82,14 +81,14 @@ public class OrderProductDetailActivity extends BaseActivity {
     private int indicatorWidth;
     private ProductModel productModel;
     private boolean isLoading = false;
-    private OrderedProductModel adpaterData;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_order_product_detail);
         defaultColor = "#EF7F1A";
 
-        cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
+        CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
 
         if (getIntent().hasExtra("themeColor"))
             applyThemeColor = true;
@@ -99,7 +98,7 @@ public class OrderProductDetailActivity extends BaseActivity {
         } else {
             defaultColor = prefManager.getCategoryColor();
         }
-        adpaterData =new Gson().fromJson(getIntent().getStringExtra("model"),OrderedProductModel.class);
+        OrderedProductModel adpaterData = new Gson().fromJson(getIntent().getStringExtra("model"), OrderedProductModel.class);
 
         binding.counterLayout.setVisibility(View.INVISIBLE);
 

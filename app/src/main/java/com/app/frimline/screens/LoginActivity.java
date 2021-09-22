@@ -126,11 +126,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                if (code == 0){
-                    ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
-                }else {
-                    ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
-                }
+                ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
             }
         });
         alertDialog.setCancelable(true);

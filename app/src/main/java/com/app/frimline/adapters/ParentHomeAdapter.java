@@ -37,7 +37,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ParentHomeAdapter extends RecyclerView.Adapter {
-    private final Gson gson;
     Activity activity;
     private ArrayList<HomeModel> dashBoardItemList = new ArrayList<>();
 
@@ -45,7 +44,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
 
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
-        gson = new Gson();
+        Gson gson = new Gson();
     }
 
 
@@ -207,7 +206,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
     }
 
 
-    public class Banner extends RecyclerView.ViewHolder {
+    public static class Banner extends RecyclerView.ViewHolder {
         ItemHomeBannerSectionLayoutBinding binding;
 
         public Banner(ItemHomeBannerSectionLayoutBinding itemView) {
@@ -217,7 +216,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
     }
 
 
-    public class CategoryProduct extends RecyclerView.ViewHolder {
+    public static class CategoryProduct extends RecyclerView.ViewHolder {
         ItemHomeProductSectionLayoutBinding binding;
 
         public CategoryProduct(ItemHomeProductSectionLayoutBinding itemView) {
@@ -226,7 +225,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class AlertCovid extends RecyclerView.ViewHolder {
+    public static class AlertCovid extends RecyclerView.ViewHolder {
         ItemHomeAlertCovidSectionLayoutBinding binding;
 
         public AlertCovid(ItemHomeAlertCovidSectionLayoutBinding itemView) {
@@ -280,7 +279,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class PromoCodes extends RecyclerView.ViewHolder {
+    public static class PromoCodes extends RecyclerView.ViewHolder {
         ItemHomePromoOffersSectionLayoutBinding binding;
 
         public PromoCodes(ItemHomePromoOffersSectionLayoutBinding itemView) {

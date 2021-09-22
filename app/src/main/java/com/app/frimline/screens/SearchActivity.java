@@ -66,7 +66,6 @@ public class SearchActivity extends BaseActivity {
     private CategorySingleModel selectedCategory;
     private String categoryId;
     private String jsonStr;
-    private SortingAdapter adpt;
     private boolean isLoading = false;
 
     @Override
@@ -237,8 +236,8 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void circularRevealActivity() {
-        int cx = binding.rootBackground.getRight() - getDips(44);
-        int cy = binding.rootBackground.getTop() - getDips(44);
+        int cx = binding.rootBackground.getRight() - getDips();
+        int cy = binding.rootBackground.getTop() - getDips();
 
         float finalRadius = Math.max(binding.rootBackground.getWidth(), binding.rootBackground.getHeight());
 
@@ -255,11 +254,11 @@ public class SearchActivity extends BaseActivity {
 
     }
 
-    private int getDips(int dps) {
+    private int getDips() {
         Resources resources = getResources();
         return (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                dps,
+                44,
                 resources.getDisplayMetrics());
     }
 
@@ -291,8 +290,8 @@ public class SearchActivity extends BaseActivity {
             }
             return;
         }
-        int cx = binding.rootBackground.getWidth() - getDips(44);
-        int cy = binding.rootBackground.getTop() - getDips(44);
+        int cx = binding.rootBackground.getWidth() - getDips();
+        int cy = binding.rootBackground.getTop() - getDips();
 
         float finalRadius = Math.max(binding.rootBackground.getWidth(), binding.rootBackground.getHeight());
         Animator circularReveal = ViewAnimationUtils.createCircularReveal(binding.rootBackground, cx, cy, finalRadius, 0);
@@ -327,6 +326,7 @@ public class SearchActivity extends BaseActivity {
     public void fillSortingData() {
 
         listModels = new ArrayList<>();
+        SortingAdapter adpt;
         if (CONSTANT.API_MODE) {
             ListModel popularityModel = new ListModel();
             popularityModel.setName("Sort by popularity");

@@ -58,7 +58,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ProductModel model = frameItems.get(position);
 
-        ((ViewHolder) holder).binding.actionDelete.setOnClickListener(v -> actionsListener.onDeleteAction(position, model));
+        holder.binding.actionDelete.setOnClickListener(v -> actionsListener.onDeleteAction(position, model));
         holder.binding.dateDelivery.setVisibility(View.INVISIBLE);
         holder.binding.counter.setAnimationDuration(150L);
         holder.binding.counter.setTextFontFamily(Objects.requireNonNull(ResourcesCompat.getFont(activity, R.font.proxinova_semi_bold)));

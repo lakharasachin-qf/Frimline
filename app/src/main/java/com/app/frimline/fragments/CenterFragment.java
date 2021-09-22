@@ -23,23 +23,11 @@ import com.google.gson.Gson;
 
 public class CenterFragment extends BaseFragment {
 
-    private FragmentCenterBinding binding;
-
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_center, parent, false);
-        binding.goToStore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.SLIDE_VIEW_LEFT);
-            }
-        });
-        binding.moreInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.SLIDE_VIEW_RIGHT);
-            }
-        });
+        com.app.frimline.databinding.FragmentCenterBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_center, parent, false);
+        binding.goToStore.setOnClickListener(v -> FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.SLIDE_VIEW_LEFT));
+        binding.moreInfo.setOnClickListener(v -> FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.SLIDE_VIEW_RIGHT));
         if (API_MODE) {
             HELPER.LOAD_HTML(binding.description, new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class).getDescriptions());
             String[] wordList = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class).getCategoryName().split(" ");
@@ -54,16 +42,6 @@ public class CenterFragment extends BaseFragment {
             if (model != null) {
                 binding.layout1.setBackgroundColor(Color.parseColor(pref.getCategoryColor()));
                 binding.layout2.setBackgroundColor(Color.parseColor(pref.getThemeColor()));
-//                if (model.getCategoryName().contains("Health")) {
-//
-//                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place));
-//                }
-//                if (model.getCategoryName().contains("Oral")) {
-//                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_twoo));
-//                }
-//                if (model.getCategoryName().contains("Skin")) {
-//                    binding.commonImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.test_place_two));
-//                }
                 binding.commonImage.setImageDrawable(null);
                 Glide.with(act).load(model.getCategorySliderImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.commonImage);
                 binding.text1.setTextColor(Color.parseColor(pref.getThemeColor()));

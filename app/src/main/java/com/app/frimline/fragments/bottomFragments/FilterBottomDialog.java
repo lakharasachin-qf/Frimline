@@ -24,8 +24,6 @@ import java.util.ArrayList;
 public class FilterBottomDialog extends BaseFragment {
     ArrayList<ListModel> listModels;
     private Activity act;
-    private View view;
-    private SortingAdapter adpt;
     private FragmentFilterDialogBinding binding;
     private int calledFlag;
 
@@ -38,7 +36,7 @@ public class FilterBottomDialog extends BaseFragment {
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_filter_dialog, parent, false);
-        view = binding.getRoot();
+        View view = binding.getRoot();
         act = getActivity();
         fillSortingData();
         return view;
@@ -67,7 +65,7 @@ public class FilterBottomDialog extends BaseFragment {
         binding.titleText.setText("Filter");
         if (listModels != null) {
             Log.e("SSSS", String.valueOf(listModels.size()));
-            adpt = new SortingAdapter(listModels, act, calledFlag);
+            SortingAdapter adpt = new SortingAdapter(listModels, act, calledFlag);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
             binding.recyclerList.setLayoutManager(mLayoutManager);
             binding.recyclerList.setItemAnimator(new DefaultItemAnimator());

@@ -203,112 +203,107 @@ public class DrawerMenu {
 
         expandableListAdapter = new ExpandableListAdapter(activity, headerList, childList);
         expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                Fragment fragmentSelected = null;
-                Intent intent;
-                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
-                if (headerList.get(groupPosition).isGroup) {
+        expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
+            Fragment fragmentSelected = null;
+            Intent intent;
+            Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+            if (headerList.get(groupPosition).isGroup) {
 
-                    if (!headerList.get(groupPosition).hasChildren) {
-                        switch (headerList.get(groupPosition).menuName) {
-                            case "Dashboard":
-                                drawer.closeDrawer(GravityCompat.START);
-                                if (defaultFragmentFlag == ORDER_HISTORY) {
-                                    Intent i = new Intent(activity, CategoryRootActivity.class);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    activity.startActivity(i);
-                                } else {
-                                    ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                                    HELPER.ON_BACK_PRESS(activity);
-                                }
-                                break;
+                if (!headerList.get(groupPosition).hasChildren) {
+                    switch (headerList.get(groupPosition).menuName) {
+                        case "Dashboard":
+                            drawer.closeDrawer(GravityCompat.START);
+                            if (defaultFragmentFlag == ORDER_HISTORY) {
+                                Intent i = new Intent(activity, CategoryRootActivity.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                activity.startActivity(i);
+                            } else {
+                                ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                HELPER.ON_BACK_PRESS(activity);
+                            }
+                            break;
 
-                            case "Home":
-                                currentMenuItem = "Home";
-                                fragmentSelected = homeFragment;
-                                HomePageLayout.setVisibility(View.VISIBLE);
-                                OtherScreenLayout.setVisibility(View.GONE);
-                                toolbar_Navigation.setVisibility(View.VISIBLE);
-                                break;
+                        case "Home":
+                            currentMenuItem = "Home";
+                            fragmentSelected = homeFragment;
+                            HomePageLayout.setVisibility(View.VISIBLE);
+                            OtherScreenLayout.setVisibility(View.GONE);
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+                            break;
 
-                            case "Shop":
-                                currentMenuItem = "Shop";
-                                searchAction2.setVisibility(View.VISIBLE);
-                                fragmentSelected = shopFragment;
-                                HomePageLayout.setVisibility(View.GONE);
-                                OtherScreenLayout.setVisibility(View.VISIBLE);
-                                titleTxt.setText("Shop");
-                                currentMenuItem = "Shop";
-                                toolbar_Navigation.setVisibility(View.VISIBLE);
-                                break;
+                        case "Shop":
+                            currentMenuItem = "Shop";
+                            searchAction2.setVisibility(View.VISIBLE);
+                            fragmentSelected = shopFragment;
+                            HomePageLayout.setVisibility(View.GONE);
+                            OtherScreenLayout.setVisibility(View.VISIBLE);
+                            titleTxt.setText("Shop");
+                            currentMenuItem = "Shop";
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+                            break;
 
-                            case "Checkout":
-                                drawer.closeDrawer(GravityCompat.START);
-                                if (CartRoomDatabase.getAppDatabase(activity).productEntityDao().getAll().size() != 0) {
-                                    HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
+                        case "Checkout":
+                            drawer.closeDrawer(GravityCompat.START);
+                            if (CartRoomDatabase.getAppDatabase(activity).productEntityDao().getAll().size() != 0) {
+                                HELPER.SIMPLE_ROUTE(activity, BillingAddressActivity.class);
 
-                                } else {
-                                    checkoutProcess();
-                                }
-                                break;
+                            } else {
+                                checkoutProcess();
+                            }
+                            break;
 
-                            case "About us":
-                            case "Shipping Policy":
-                            case "Privacy Policy":
-                            case "Contact us":
-                                currentMenuItem = "About us";
-                                fragmentSelected = commonFragment;
-                                HomePageLayout.setVisibility(View.VISIBLE);
-                                OtherScreenLayout.setVisibility(View.GONE);
-                                toolbar_Navigation.setVisibility(View.VISIBLE);
-                                break;
+                        case "About us":
+                        case "Shipping Policy":
+                        case "Privacy Policy":
+                        case "Contact us":
+                            currentMenuItem = "About us";
+                            fragmentSelected = commonFragment;
+                            HomePageLayout.setVisibility(View.VISIBLE);
+                            OtherScreenLayout.setVisibility(View.GONE);
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+                            break;
 
-                            case "Blogs":
-                                fragmentSelected = blogsFragment;
-                                HomePageLayout.setVisibility(View.GONE);
-                                OtherScreenLayout.setVisibility(View.VISIBLE);
-                                titleTxt.setText("Blogs");
-                                searchAction2.setVisibility(View.VISIBLE);
-                                currentMenuItem = "Blogs";
-                                toolbar_Navigation.setVisibility(View.VISIBLE);
-                                break;
+                        case "Blogs":
+                            fragmentSelected = blogsFragment;
+                            HomePageLayout.setVisibility(View.GONE);
+                            OtherScreenLayout.setVisibility(View.VISIBLE);
+                            titleTxt.setText("Blogs");
+                            searchAction2.setVisibility(View.VISIBLE);
+                            currentMenuItem = "Blogs";
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+                            break;
 
-                            case "Wishlist":
-                                fragmentSelected = wishlistFragment;
-                                HomePageLayout.setVisibility(View.GONE);
-                                OtherScreenLayout.setVisibility(View.VISIBLE);
-                                titleTxt.setText("Wishlist");
-                                searchAction2.setVisibility(View.GONE);
-                                currentMenuItem = "Wishlist";
-                                toolbar_Navigation.setVisibility(View.VISIBLE);
-                                break;
+                        case "Wishlist":
+                            fragmentSelected = wishlistFragment;
+                            HomePageLayout.setVisibility(View.GONE);
+                            OtherScreenLayout.setVisibility(View.VISIBLE);
+                            titleTxt.setText("Wishlist");
+                            searchAction2.setVisibility(View.GONE);
+                            currentMenuItem = "Wishlist";
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+                            break;
 
-                            case "Logout":
-                                drawer.closeDrawer(GravityCompat.START);
-                                if (currentMenuItem != null && currentMenuItem.equalsIgnoreCase("Category Profile")) {
-                                    toolbar_Navigation.setVisibility(View.GONE);
-                                }
-                                confirmationDialog();
-                                break;
+                        case "Logout":
+                            drawer.closeDrawer(GravityCompat.START);
+                            if (currentMenuItem != null && currentMenuItem.equalsIgnoreCase("Category Profile")) {
+                                toolbar_Navigation.setVisibility(View.GONE);
+                            }
+                            confirmationDialog();
+                            break;
 
-                        }
-                    }
-                    if (fragmentSelected != null) {
-                        currentMenuItem = headerList.get(groupPosition).menuName;
-                        replaceFragment(fragmentSelected);
-                        drawer.closeDrawer(GravityCompat.START);
                     }
                 }
-                return true;
+                if (fragmentSelected != null) {
+                    currentMenuItem = headerList.get(groupPosition).menuName;
+                    replaceFragment(fragmentSelected);
+                    drawer.closeDrawer(GravityCompat.START);
+                }
             }
+            return true;
         });
 
 
-        orderHistoryTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        orderHistoryTab.setOnClickListener(v -> {
 //                HomePageLayout.setVisibility(View.GONE);
 //                OtherScreenLayout.setVisibility(View.VISIBLE);
 //                searchAction2.setVisibility(View.GONE);
@@ -318,85 +313,64 @@ public class DrawerMenu {
 //                replaceFragment(fragmentSelected);
 //                drawer.closeDrawer(GravityCompat.START);
 
-                Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
-                toolbar_Navigation.setVisibility(View.VISIBLE);
-                HomePageLayout.setVisibility(View.GONE);
-                searchAction2.setVisibility(View.GONE);
-                OtherScreenLayout.setVisibility(View.VISIBLE);
-                titleTxt.setText("Orders");
-                currentMenuItem = "Order History";
-                Fragment fragmentSelected = orderHistoryFragment;
-                replaceFragment(fragmentSelected);
-                drawer.closeDrawer(GravityCompat.START);
+            Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+            toolbar_Navigation.setVisibility(View.VISIBLE);
+            HomePageLayout.setVisibility(View.GONE);
+            searchAction2.setVisibility(View.GONE);
+            OtherScreenLayout.setVisibility(View.VISIBLE);
+            titleTxt.setText("Orders");
+            currentMenuItem = "Order History";
+            Fragment fragmentSelected = orderHistoryFragment;
+            replaceFragment(fragmentSelected);
+            drawer.closeDrawer(GravityCompat.START);
 
 
-            }
         });
 
-        myAccountTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        myAccountTab.setOnClickListener(v -> {
 
+            Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
+            toolbar_Navigation.setVisibility(View.VISIBLE);
+            HomePageLayout.setVisibility(View.GONE);
+            searchAction2.setVisibility(View.GONE);
+            OtherScreenLayout.setVisibility(View.VISIBLE);
+            titleTxt.setText("My Account");
+            currentMenuItem = "Account";
+            Fragment fragmentSelected = myAccountFragment;
+            replaceFragment(fragmentSelected);
+            drawer.closeDrawer(GravityCompat.START);
+        });
+        myCartTab.setOnClickListener(v -> {
+            drawer.closeDrawer(GravityCompat.START);
+            HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
+        });
+        cartActionLayout.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class));
+        searchAction.setOnClickListener(v -> {
+            drawer.closeDrawer(GravityCompat.START);
+            HELPER.SIMPLE_ROUTE(activity, SearchActivity.class);
+        });
+        searchAction2.setOnClickListener(v -> {
+            drawer.closeDrawer(GravityCompat.START);
+            HELPER.SIMPLE_ROUTE(activity, SearchActivity.class);
+        });
+
+
+        TextView userNameTxt = activity.findViewById(R.id.userNameTxt);
+        userNameTxt.setText("Sign In");
+        profileView.setOnClickListener(v -> {
+            drawer.closeDrawer(GravityCompat.START);
+            if (new PREF(activity).isLogin()) {
                 Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
                 toolbar_Navigation.setVisibility(View.VISIBLE);
                 HomePageLayout.setVisibility(View.GONE);
-                searchAction2.setVisibility(View.GONE);
                 OtherScreenLayout.setVisibility(View.VISIBLE);
                 titleTxt.setText("My Account");
                 currentMenuItem = "Account";
                 Fragment fragmentSelected = myAccountFragment;
                 replaceFragment(fragmentSelected);
                 drawer.closeDrawer(GravityCompat.START);
-            }
-        });
-        myCartTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
-                HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
-            }
-        });
-        cartActionLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(activity, MyCartActivity.class);
-            }
-        });
-        searchAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
-                HELPER.SIMPLE_ROUTE(activity, SearchActivity.class);
-            }
-        });
-        searchAction2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
-                HELPER.SIMPLE_ROUTE(activity, SearchActivity.class);
-            }
-        });
-
-
-        TextView userNameTxt = activity.findViewById(R.id.userNameTxt);
-        userNameTxt.setText("Sign In");
-        profileView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
-                if (new PREF(activity).isLogin()) {
-                    Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
-                    toolbar_Navigation.setVisibility(View.VISIBLE);
-                    HomePageLayout.setVisibility(View.GONE);
-                    OtherScreenLayout.setVisibility(View.VISIBLE);
-                    titleTxt.setText("My Account");
-                    currentMenuItem = "Account";
-                    Fragment fragmentSelected = myAccountFragment;
-                    replaceFragment(fragmentSelected);
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    HELPER.SIMPLE_ROUTE(activity, LoginActivity.class);
-                }
+            } else {
+                HELPER.SIMPLE_ROUTE(activity, LoginActivity.class);
             }
         });
 
@@ -519,26 +493,17 @@ public class DrawerMenu {
         discardImageBinding.titleTxt.setText("Confirm");
         discardImageBinding.subTitle.setText("Are you really want to logout?");
         discardImageBinding.yesTxt.setText("Logout");
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Toast.makeText(activity, "You are Logout!", Toast.LENGTH_SHORT).show();
-                isLogined = false;
-                new PREF(activity).Logout();
-                Intent i = new Intent(activity, CategoryRootActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                activity.startActivity(i);
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            Toast.makeText(activity, "You are Logout!", Toast.LENGTH_SHORT).show();
+            isLogined = false;
+            new PREF(activity).Logout();
+            Intent i = new Intent(activity, CategoryRootActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity.startActivity(i);
 
 
-            }
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -555,18 +520,8 @@ public class DrawerMenu {
         discardImageBinding.subTitle.setText("Your cart is empty. Please add products.");
         discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();

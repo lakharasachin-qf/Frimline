@@ -6,7 +6,7 @@ public class OutCategoryModel {
     private boolean isAddedToCart = false;
 
     public boolean isAddedToCart() {
-        return isAddedToCart;
+        return !isAddedToCart;
     }
 
     public void setAddedToCart(boolean addedToCart) {

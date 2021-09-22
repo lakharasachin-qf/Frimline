@@ -31,11 +31,6 @@ public class SnappingRecyclerView extends RecyclerView {
      */
     private int anchor;
     /**
-     * The smooth scroll speed, in ms per inch, this is 100 by default in our custom smooth
-     * scroller
-     */
-    private float scrollSpeed;
-    /**
      * If the velocity of the user's fling is below a set threshold, finish fling and scroll to the
      * appropriate View
      */
@@ -59,6 +54,11 @@ public class SnappingRecyclerView extends RecyclerView {
 
     private void initialise(Context context, @Nullable AttributeSet attrs) {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SnappingRecyclerView, 0, 0);
+        /**
+         * The smooth scroll speed, in ms per inch, this is 100 by default in our custom smooth
+         * scroller
+         */
+        float scrollSpeed;
         try {
             orientation = a.getInt(R.styleable.SnappingRecyclerView_orientation, VERTICAL);
             anchor = a.getInt(R.styleable.SnappingRecyclerView_anchor, CENTER);

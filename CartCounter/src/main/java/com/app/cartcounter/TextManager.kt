@@ -1,4 +1,5 @@
-package com.app.cartcounter;
+package com.app.cartcounter
+
 import android.graphics.Canvas
 import android.graphics.Paint
 import java.util.*
@@ -101,14 +102,10 @@ internal class TextManager(
         get(): CharArray = CharArray(textColumns.size) { index -> textColumns[index].currentChar }
 
     var textHeight: Float = 0f
-        private set(value) {
-            field = value
-        }
+        private set
 
     var textBaseline = 0f
-        private set(value) {
-            field = value
-        }
+        private set
 }
 
 data class PreviousProgress(
