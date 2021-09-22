@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -262,7 +262,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                 shipping.put("postcode", binding.postalCodeEdt.getText().toString());
                 shipping.put("country", binding.countryEdt.getText().toString());
                 orderParam.put("shipping", shipping);
-            }else {
+            } else {
                 shipping.put("first_name", binding.nameEdt.getText().toString());
                 shipping.put("last_name", binding.lnameEdt.getText().toString());
                 shipping.put("address_1", binding.streetEdt.getText().toString());
@@ -509,7 +509,10 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                         startActivity(i);
 
                     } else {
-                        infoAlert("Error", ResponseHandler.getString(object, "msg"));
+                        if (object.has("url")) {
+                            amazonlink("Error", ResponseHandler.getString(object, "msg"), ResponseHandler.getString(object, "url"));
+                        } else
+                            infoAlert("Error", ResponseHandler.getString(object, "msg"));
                     }
                 }
 
@@ -522,7 +525,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                         HELPER.dismissLoadingTran();
                         isLoading = false;
                         NetworkResponse response = error.networkResponse;
-                        if (response!=null && response.statusCode == 400) {
+                        if (response != null && response.statusCode == 400) {
 
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
@@ -600,6 +603,39 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
             }
         };
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
+    }
+
+
+    public void amazonlink(String title, String msg, String url) {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.titleTxt.setText(title);
+        HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
+        HELPER.LOAD_HTML(discardImageBinding.link, "<u>" + url + "</u>");
+        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.noTxt.setVisibility(View.GONE);
+
+        discardImageBinding.link.setVisibility(View.VISIBLE);
+
+        discardImageBinding.link.setTextColor(Color.parseColor(prefManager.getThemeColor()));
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+
+        discardImageBinding.link.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+        });
+
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
 }

@@ -23,6 +23,8 @@ public class CONSTANT {
     public static final int COUNTRY = 0;
     public static final int STATE = 1;
 
+    public static final String FOLDER_NAME="Frimline";
+
     public static final String PAYMENT_PENDING="pending";
     public static final String PAYMENT_PROCESSING="processing";
     public static final String PAYMENT_ON_HOLD="on-hold";

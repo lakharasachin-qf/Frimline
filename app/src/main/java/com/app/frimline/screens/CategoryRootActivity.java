@@ -154,7 +154,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         logo.setLayoutParams(layoutParams);
 
 
-        //code apply only in tablet mode
         TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
             RelativeLayout relativeLayout = findViewById(R.id.HomePageLayout);
@@ -228,51 +227,45 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
 
     private void getThemeColor() {
         //HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.THEME_COLOR, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Response", response);
-                try {
-                    JSONObject object = new JSONObject(response);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.THEME_COLOR, response -> {
+            Log.e("Response", response);
+            try {
+                JSONObject object = new JSONObject(response);
 
-                    nav_host_fragment.setVisibility(View.VISIBLE);
-                    screenLoader.setVisibility(View.GONE);
-                    pref.setConfiguration(object.getString("theme_color"), "#EF7F1A");
-                    if (isTransactionSafe) {
-                        ApplyTheme();
-                    } else {
-                        isTransactionPending = true;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                nav_host_fragment.setVisibility(View.VISIBLE);
+                screenLoader.setVisibility(View.GONE);
+                pref.setConfiguration(object.getString("theme_color"), "#EF7F1A");
+                if (isTransactionSafe) {
+                    ApplyTheme();
+                } else {
+                    isTransactionPending = true;
                 }
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+                error -> {
+                    error.printStackTrace();
 
 
-                        NoDataFound.setVisibility(View.VISIBLE);
+                    NoDataFound.setVisibility(View.VISIBLE);
+                    nav_host_fragment.setVisibility(View.GONE);
+                    screenLoader.setVisibility(View.GONE);
+
+                    String message = "";
+                    if (error instanceof NetworkError) {
                         nav_host_fragment.setVisibility(View.GONE);
+                        NoDataFound.setVisibility(View.VISIBLE);
                         screenLoader.setVisibility(View.GONE);
-
-                        String message = "";
-                        if (error instanceof NetworkError) {
-                            nav_host_fragment.setVisibility(View.GONE);
-                            NoDataFound.setVisibility(View.VISIBLE);
-                            screenLoader.setVisibility(View.GONE);
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof ServerError) {
-                            message = "The server could not be found. Please try again after some time!!";
-                        } else if (error instanceof TimeoutError) {
-                            message = "Connection TimeOut! Please check your internet connection.";
-                        }
-
-                        Log.e("message", message);
+                        message = "Cannot connect to Internet...Please check your connection!";
+                    } else if (error instanceof ServerError) {
+                        message = "The server could not be found. Please try again after some time!!";
+                    } else if (error instanceof TimeoutError) {
+                        message = "Connection TimeOut! Please check your internet connection.";
                     }
+
+                    Log.e("message", message);
                 }
         ) {
             /**
@@ -295,10 +288,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     }
 
 
-    public void nextFlow() {
-        setUpToolbar();
-
-    }
 
     @Override
     public void update(Observable observable, Object data) {

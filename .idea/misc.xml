@@ -7,14 +7,20 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/drawable/ic_menu_wishlist.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/drawable/ic_wishlist_active.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/activity_product_detail.xml" value="0.2626366120218579" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/dialog_discard_image.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/item_product_section_three_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/item_product_section_two_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/item_wishlist_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/activity_product_detail.xml" value="0.3482789855072464" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/custom_navigation.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/dialog_discard_image.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/fragment_shop.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/fragment_wishlist.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/item_my_cart_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/item_order_history_layout.xml" value="0.36666666666666664" />
-        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/item_product_section_three_layout.xml" value="0.2105978260869565" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/item_product_section_three_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/item_product_section_two_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/item_wishlist_layout.xml" value="0.5" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable-140dpi/logo_demo.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/frimline/app/src/main/res/drawable/bg_pin.xml" value="0.2305921052631579" />

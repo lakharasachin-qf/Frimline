@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +45,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class BillingAddressActivity extends BaseActivity implements OnItemSelectListener {
     JSONObject orderParam;
@@ -391,11 +392,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 binding.stateEdt.setClickable(false);
                 binding.stateEdt.setFocusable(true);
                 binding.stateEdt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
-                binding.stateEdt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
+                binding.stateEdt.setOnClickListener(v -> {
                 });
             }
         }
@@ -533,7 +530,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
     }
 
 
-    public void amazonlink(String title, String msg) {
+    public void amazonlink(String title, String msg, String url) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
@@ -542,11 +539,20 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         discardImageBinding.titleTxt.setText(title);
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
+        HELPER.LOAD_HTML(discardImageBinding.link, "<u>" + url + "</u>");
         discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.subTitle.setMovementMethod(LinkMovementMethod.getInstance());
-        discardImageBinding.subTitle.setLinkTextColor(Color.parseColor(prefManager.getThemeColor()));
+
+        discardImageBinding.link.setVisibility(View.VISIBLE);
+
+        discardImageBinding.link.setTextColor(Color.parseColor(prefManager.getThemeColor()));
         discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+
+        discardImageBinding.link.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+        });
+
         discardImageBinding.yesTxt.setOnClickListener(v -> {
             alertDialog.dismiss();
             if (flag != -1) {
@@ -556,10 +562,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                     setResult(RESULT_OK, data);
                     finish();
                 }
-
             }
-
-
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -590,11 +593,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = getHeader();
                 return params;
             }
@@ -615,67 +615,59 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         isLoading = true;
         HELPER.showLoadingTran(act);
-
-        //HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                Log.e("Response", response);
-                HELPER.dismissLoadingTran();
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
-                    if (ResponseHandler.getString(object, "status").equals("1")) {
-                        if (flag == 0) {
-                            update(APIs.UPDATE_BILLING_ADDRESS);
-                        } else if (flag == 1) {
-                            update(APIs.UPDATE_SHIPPING_ADDRESS);
-                        } else {
-                            orderParam = new JSONObject();
-                            try {
-                                orderParam.put("billing", getBillingAddress());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Intent i = new Intent(act, CheckoutAddressActivity.class);
-                            i.putExtra("countryList", gson.toJson(countryList));
-                            i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
-                            i.putExtra("orderParam", orderParam.toString());
-                            act.startActivity(i);
-                            act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
-                        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, response -> {
+            isLoading = false;
+            Log.e("Response", response);
+            HELPER.dismissLoadingTran();
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (object != null) {
+                if (ResponseHandler.getString(object, "status").equals("1")) {
+                    if (flag == 0) {
+                        update(APIs.UPDATE_BILLING_ADDRESS);
+                    } else if (flag == 1) {
+                        update(APIs.UPDATE_SHIPPING_ADDRESS);
                     } else {
-                        if (flag == 0) {
-                            infoAlert("Error", ResponseHandler.getString(object, "msg"));
-                        } else if (flag == 1) {
-                            infoAlert("Error", ResponseHandler.getString(object, "msg"));
-                        } else {
-                            amazonlink("Error", ResponseHandler.getString(object, "msg"));
+                        orderParam = new JSONObject();
+                        try {
+                            orderParam.put("billing", getBillingAddress());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                        Intent i = new Intent(act, CheckoutAddressActivity.class);
+                        i.putExtra("countryList", gson.toJson(countryList));
+                        i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
+                        i.putExtra("orderParam", orderParam.toString());
+                        act.startActivity(i);
+                        act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                    }
+                } else {
+                    if (flag == 0) {
+                        infoAlert("Error", ResponseHandler.getString(object, "msg"));
+                    } else if (flag == 1) {
+                        infoAlert("Error", ResponseHandler.getString(object, "msg"));
+                    } else {
+                        amazonlink("Error", ResponseHandler.getString(object, "msg"), ResponseHandler.getString(object, "url"));
                     }
                 }
-
             }
+
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-                        isLoading = false;
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                Log.e("jsosnErir", jsonString);
-                                infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                error -> {
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+                    isLoading = false;
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.statusCode == 400) {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            Log.e("jsosnErir", jsonString);
+                            infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
                         }
+                        Log.e("Error", gson.toJson(response.headers));
+                        Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
                 }
         ) {
@@ -683,7 +675,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = getHeader();
                 return params;
             }

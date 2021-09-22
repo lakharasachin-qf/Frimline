@@ -7,6 +7,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -60,6 +62,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -322,19 +325,19 @@ public class OrderHistoryViewActivity extends BaseActivity {
         if (roundedOffValue != 0 && !String.format("%.2f", roundedOffValue).toString().contains("-")) {
             roundedAmount.setText("+" + String.format("%.2f", roundedOffValue));
         }
-        if (roundedOffValue ==0) {
+        if (roundedOffValue == 0) {
             roundedAmount.setText("0");
         }
         finalAmoutPrice1.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
         finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
 
-        RelativeLayout codLayout =findViewById(R.id.codLayout);
-        if (model.getPaymentMethod().equalsIgnoreCase("cod")){
+        RelativeLayout codLayout = findViewById(R.id.codLayout);
+        if (model.getPaymentMethod().equalsIgnoreCase("cod")) {
             codLayout.setVisibility(View.VISIBLE);
             double codAmount = Double.parseDouble(model.getCodCharges());
-            TextView codChargePrice =findViewById(R.id.codChargePrice);
+            TextView codChargePrice = findViewById(R.id.codChargePrice);
             codChargePrice.setText(act.getString(R.string.Rs) + String.format("%.2f", codAmount));
-            if (codAmount==0) {
+            if (codAmount == 0) {
                 codChargePrice.setText("FREE");
             }
         }
@@ -417,7 +420,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
             ActivityCompat.requestPermissions(act,
                     new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                     REQUESTED_STORAGE);
-
         } else {
 
             new DownloadFileFromURL().execute(model.getInvoiceLink());
@@ -471,14 +473,11 @@ public class OrderHistoryViewActivity extends BaseActivity {
             }
         }
         if (targetSetting) {
-            showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    intent.setData(uri);
-                    act.startActivityForResult(intent, REQUEST_SETTINGS);
-                }
+            showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                act.startActivityForResult(intent, REQUEST_SETTINGS);
             });
         }
     }
@@ -492,48 +491,10 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 .show();
     }
 
-    public class Downloading extends AsyncTask<String, Integer, String> {
-
-        @Override
-        public void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String doInBackground(String... url) {
-            File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
-            if (!mydir.exists()) {
-                mydir.mkdirs();
-            }
-
-            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            Uri downloadUri = Uri.parse(url[0]);
-            DownloadManager.Request request = new DownloadManager.Request(downloadUri);
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("mmddyyyyhhmmss");
-            String date = dateFormat.format(new Date());
-
-            request.setAllowedNetworkTypes(
-                    DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-                    .setAllowedOverRoaming(false)
-                    .setTitle("Downloading")
-                    .setDestinationInExternalPublicDir("/11zon", date + ".jpg");
-
-            manager.enqueue(request);
-            return mydir.getAbsolutePath() + File.separator + date + ".jpg";
-        }
-
-        @Override
-        public void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-        }
-    }
 
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
         String filename = "";
-
+        String outputFile;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -542,41 +503,68 @@ public class OrderHistoryViewActivity extends BaseActivity {
         }
 
         @Override
-        protected String doInBackground(String... f_url) {
+        protected String doInBackground(String... link) {
             int count;
             try {
-                URL url = new URL(f_url[0]);
-                URLConnection conection = url.openConnection();
-                conection.connect();
+                URL url = new URL(link[0]);
+                URLConnection urlConnection = url.openConnection();
+                urlConnection.connect();
+                int contentLength = urlConnection.getContentLength();
+                String headerField = urlConnection.getHeaderField("Content-Disposition");
+                String[] headerSpit = headerField.split("filename=");
+                filename = headerSpit[1].replace("filename=", "").replace("\"", "").trim();
 
-                int lenghtOfFile = conection.getContentLength();
-                String depo = conection.getHeaderField("Content-Disposition");
-                String[] depoSplit = depo.split("filename=");
-                filename = depoSplit[1].replace("filename=", "").replace("\"", "").trim();
-                Log.e("", "fileName" + filename);
+                InputStream inputStream = new BufferedInputStream(url.openStream(), 8192);
 
-                InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-                // Output stream
-                OutputStream output = new FileOutputStream("/sdcard/" + filename);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                    //below Android 11 save pdf
+                    String  destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + CONSTANT.FOLDER_NAME;
+                    File desFile = new File(destURL);
+                    if (!desFile.exists()) {
+                        desFile.mkdir();
+                    }
+                    destURL = destURL + File.separator + filename;
+                    outputFile = destURL;
+                    OutputStream output = new FileOutputStream(destURL);
+                    byte[] data = new byte[1024];
+                    long total = 0;
+                    while ((count = inputStream.read(data)) != -1) {
+                        total += count;
+                        publishProgress("" + (int) ((total * 100) / contentLength));
+                        output.write(data, 0, count);
+                    }
+                    output.flush();
+                    output.close();
+                    inputStream.close();
 
-                byte[] data = new byte[1024];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-                    output.write(data, 0, count);
+                } else {
+                    //below Android 11 save pdf
+                    BufferedInputStream bis = new BufferedInputStream(inputStream);
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.MediaColumns.DISPLAY_NAME, filename);
+                    String desDirectory = Environment.DIRECTORY_DOWNLOADS;
+                    desDirectory = desDirectory + File.separator + CONSTANT.FOLDER_NAME;
+                    File desFile = new File(desDirectory);
+                    if (!desFile.exists()) {
+                        desFile.mkdir();
+                    }
+                    outputFile = desDirectory + File.separator + filename;
+                    values.put(MediaStore.MediaColumns.RELATIVE_PATH, desDirectory);
+                    Uri uri = act.getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                    if (uri != null) {
+                        OutputStream outputStream = act.getContentResolver().openOutputStream(uri);
+                        if (outputStream != null) {
+                            BufferedOutputStream bos = new BufferedOutputStream(outputStream);
+                            byte[] bytes = new byte[1024];
+                            while ((count = inputStream.read(bytes)) != -1) {
+                                bos.write(bytes, 0, count);
+                                bos.flush();
+                            }
+                            bos.close();
+                        }
+                    }
                 }
-
-                // flushing output
-                output.flush();
-
-                // closing streams
-                output.close();
-                input.close();
-
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
             }
@@ -586,7 +574,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         protected void onProgressUpdate(String... progress) {
             // setting progress percentage
-            Log.e("d", "s" + (progress[0]));
+            //Log.e("d", "s" + (progress[0]));
         }
 
 
@@ -594,23 +582,33 @@ public class OrderHistoryViewActivity extends BaseActivity {
         protected void onPostExecute(String file_url) {
             HELPER.dismissLoadingTran();
             // Reading filepath from sdcard
-            String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
-            Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
-            Log.v("file_url", "" + file_url);
-            Log.v("FilePath", "" + FilePath);
-            File file = new File(Environment.getExternalStorageDirectory() + "/" + filename);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
 
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri apkURI = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", file);
-            intent.setDataAndType(apkURI, "application/pdf");
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            act.startActivity(intent);
+                String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
+                Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
+              //  Log.e("pdf-stored", "" + FilePath);
+
+                File file = new File( outputFile);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri apkURI = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", file);
+                intent.setDataAndType(apkURI, "application/pdf");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                act.startActivity(intent);
+            }else {
+
+                String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
+                Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
+
+                //Log.e("pdf-stored", "" + FilePath);
+                File file = new File(Environment.getExternalStorageDirectory() + "/" + outputFile);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri apkURI = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", file);
+                intent.setDataAndType(apkURI, "application/pdf");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                act.startActivity(intent);
+            }
         }
 
     }
 
-    public void intentTo(String file_url) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(file_url));
-        act.startActivity(browserIntent);
-    }
 }

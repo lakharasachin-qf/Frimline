@@ -389,6 +389,7 @@ public class HomeFragment extends BaseFragment {
                     binding.containerRecycler.setLayoutManager(mLayoutManager);
                     binding.containerRecycler.setAdapter(parentHomeAdapter);
                     binding.containerRecycler.setVisibility(View.VISIBLE);
+                    binding.emptyData.setVisibility(View.GONE);
                 } else {
                     binding.containerRecycler.setVisibility(View.GONE);
                     binding.emptyData.setVisibility(View.VISIBLE);
