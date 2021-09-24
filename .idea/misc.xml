@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/drawable/ic_baseline_clear_24.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/drawable/ic_menu_checkout.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/drawable/ic_menu_wishlist.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/drawable/ic_wishlist_active.xml" value="0.3828125" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/drawable/shape_offer_background.xml" value="0.3828125" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/activity_product_detail.xml" value="0.2626366120218579" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/dialog_discard_image.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/fragment_wishlist.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/item_product_section_three_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/item_product_section_two_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout-large/item_wishlist_layout.xml" value="0.36666666666666664" />
@@ -15,6 +18,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/custom_navigation.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/dialog_discard_image.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/dialog_offer.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/fragment_shop.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/FrimlineLatest/app/src/main/res/layout/fragment_wishlist.xml" value="0.36666666666666664" />

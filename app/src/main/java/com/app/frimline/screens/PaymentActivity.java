@@ -35,6 +35,7 @@ import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityPaymentBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.databinding.DialogOrderSuccessBinding;
+import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
@@ -405,6 +406,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
     double finalAmountToPay;
     String roundedOFFAmount;
     String finalAmountAfterRoundOFF;
+    boolean fixedProductCoupon = false;
+    CouponCodeModel couponCodeModel;
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     public void calculateCart() {
@@ -427,16 +430,51 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             if (ResponseHandler.getString(promoCodeObject, "discountType").contains("percent")) {
                 promoDiscount = (totalPrice * couponDiscount) / 100;
                 finalAmount = totalPrice - promoDiscount;
-
-            } else {
+                binding.couponLayout.setVisibility(View.VISIBLE);
+            } else if (ResponseHandler.getString(promoCodeObject, "discountType").contains("fixed_cart")) {
                 promoDiscount = couponDiscount;
                 finalAmount = totalPrice - couponDiscount;
+                binding.couponLayout.setVisibility(View.VISIBLE);
+            } else {
+                couponCodeModel = gson.fromJson(getIntent().getStringExtra("modelCoupon"), CouponCodeModel.class);
+                if (couponCodeModel != null) {
+
+                    String msg = "Coupon code not applicable.";
+
+                    totalPrice = 0;
+                    for (int i = 0; i < cartItemList.size(); i++) {
+
+                        boolean isExcludedCategory = excludedCategory(cartItemList.get(i).getCategoryId());
+                        boolean isExcludedProduct = excludedProduct(cartItemList.get(i).getId());
+                        boolean isIncludedCategory = includedCategory(cartItemList.get(i).getCategoryId());
+                        boolean isIncludedProduct = includedProduct(cartItemList.get(i).getId());
+
+                        if ((!isExcludedCategory && !isExcludedProduct)) {
+                            if ((isIncludedCategory || isIncludedProduct)) {
+                                totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                            } else {
+                                totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
+                            }
+
+                        } else {
+                            totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
+                        }
+
+                    }
+
+                    finalAmount = totalPrice;
+                    if (promoDiscount != 0) {
+                        finalAmount = totalPrice - promoDiscount;
+                        binding.couponLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+
             }
 
             binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
-
             binding.couponHeading.setText("Coupon Discount (" + ResponseHandler.getString(promoCodeObject, "code") + ")");
-            binding.couponLayout.setVisibility(View.VISIBLE);
+
         } else {
 
             binding.couponHeading.setText("Coupon");
@@ -459,7 +497,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         double roundedOffValue = 0;
 
         if (isShippingChargeAvailable) {
-
             String shippingChargesStr = (ResponseHandler.getString(orderCreated, "shipping_total").isEmpty() ? "0" : ResponseHandler.getString(orderCreated, "shipping_total"));
             shippingCharges = Double.parseDouble(shippingChargesStr);
             Log.e("ShippinhCharge", shippingChargesStr);
@@ -667,5 +704,83 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         alertDialog.show();
     }
 
+    //return true if final amount more then min
+    public boolean minFinalAmount() {
+        boolean returnVal = false;
+        double totalPrice = 0;
+        for (ProductModel productModel : cartItemList) {
+            totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+        }
+
+        if (totalPrice > Double.parseDouble(couponCodeModel.getMinAmount())) {
+            returnVal = true;
+        }
+        return returnVal;
+    }
+
+
+    //return true if final amount  then max
+    public boolean maxFinalAmount() {
+        boolean returnVal = false;
+        double totalPrice = 0;
+        for (ProductModel productModel : cartItemList) {
+            totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+        }
+
+        if (totalPrice < Double.parseDouble(couponCodeModel.getMaxAmount())) {
+            returnVal = true;
+        }
+        return returnVal;
+    }
+
+
+    //return true if product excluded
+    public boolean excludedCategory(String productCategory) {
+        boolean returnVal = false;
+        for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
+            if (productCategory.equalsIgnoreCase(couponCodeModel.getExcludeCategoryIds().get(k))) {
+                returnVal = true;
+                break;
+            }
+        }
+        return returnVal;
+    }
+
+    //return true if product excluded
+    public boolean excludedProduct(String productId) {
+        boolean returnVal = false;
+        for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
+            if (productId.equalsIgnoreCase(couponCodeModel.getExcludeProductIds().get(k))) {
+                returnVal = true;
+                break;
+            }
+        }
+        return returnVal;
+    }
+
+
+    //return true if product included
+    public boolean includedProduct(String productId) {
+        boolean returnVal = false;
+        for (int k = 0; k < couponCodeModel.getProductIds().size(); k++) {
+            if (productId.equalsIgnoreCase(couponCodeModel.getProductIds().get(k))) {
+                returnVal = true;
+                break;
+            }
+        }
+        return returnVal;
+    }
+
+    //return true if product included
+    public boolean includedCategory(String productCategory) {
+        boolean returnVal = false;
+        for (int k = 0; k < couponCodeModel.getCategoryIds().size(); k++) {
+            if (productCategory.equalsIgnoreCase(couponCodeModel.getCategoryIds().get(k))) {
+                returnVal = true;
+                break;
+            }
+        }
+        return returnVal;
+    }
 
 }

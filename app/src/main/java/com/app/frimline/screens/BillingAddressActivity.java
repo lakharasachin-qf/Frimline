@@ -17,8 +17,6 @@ import androidx.databinding.DataBindingUtil;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
@@ -36,6 +34,7 @@ import com.app.frimline.fragments.ChooseListBottomFragment;
 import com.app.frimline.intefaces.OnItemSelectListener;
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.CountryModel;
+import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.StateModel;
 
 import org.json.JSONException;
@@ -588,6 +587,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         Intent i = new Intent(act, CheckoutAddressActivity.class);
                         i.putExtra("countryList", gson.toJson(countryList));
                         i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
+                        i.putExtra("modelCoupon", getIntent().getStringExtra("modelCoupon"));
+
                         i.putExtra("orderParam", orderParam.toString());
                         act.startActivity(i);
                         act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);

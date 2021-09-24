@@ -19,9 +19,28 @@ public class ProductModel {
     private String qty = "1";
     private int cartId;
     private String calculatedAmount;
+    private String calculatedWithDiscount;
     private String rating;
     private Attribute attribute;
     private boolean isReturnAble=false;
+
+    private boolean isApplicable=false;
+
+    public boolean isApplicable() {
+        return isApplicable;
+    }
+
+    public void setApplicable(boolean applicable) {
+        isApplicable = applicable;
+    }
+
+    public String getCalculatedWithDiscount() {
+        return calculatedWithDiscount;
+    }
+
+    public void setCalculatedWithDiscount(String calculatedWithDiscount) {
+        this.calculatedWithDiscount = calculatedWithDiscount;
+    }
 
     public boolean isReturnAble() {
         return isReturnAble;

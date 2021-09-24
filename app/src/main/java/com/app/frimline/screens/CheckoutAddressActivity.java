@@ -136,6 +136,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                     } else {
                         Intent i = new Intent(act, PaymentActivity.class);
                         i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
+                        i.putExtra("modelCoupon", getIntent().getStringExtra("modelCoupon"));
                         i.putExtra("orderParam", getShippingAddress().toString());
                         startActivity(i);
                     }
@@ -464,6 +465,7 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                 if (ResponseHandler.getString(object, "status").equals("1")) {
 
                     Intent i = new Intent(act, PaymentActivity.class);
+                    i.putExtra("modelCoupon", getIntent().getStringExtra("modelCoupon"));
                     i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
                     i.putExtra("orderParam", getShippingAddress().toString());
                     startActivity(i);

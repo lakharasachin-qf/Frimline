@@ -282,7 +282,12 @@ public class OrderHistoryViewActivity extends BaseActivity {
             trackingId.setVisibility(View.GONE);
         }
         if (!model.getTrackingLink().isEmpty()) {
-            tracklink.setText(model.getTrackingLink());
+            HELPER.LOAD_HTML(tracklink, "<u>" + model.getTrackingLink() + "</u>");
+            tracklink.setOnClickListener(v -> {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getTrackingLink()));
+                startActivity(browserIntent);
+            });
+
         } else {
             tracklink.setVisibility(View.GONE);
         }
