@@ -974,6 +974,7 @@ public class ResponseHandler {
                             e.printStackTrace();
                         }
                     }
+
                     SearchModel categoryModel = new SearchModel();
                     categoryModel.setLayoutType(LAYOUT_TYPE.LAYOUT_FILTER_CHIP);
                     categoryModel.setCategoryList(categoryList);
@@ -986,9 +987,9 @@ public class ResponseHandler {
                     if (hotSearchModel.getHotProduct().size() != 0)
                         searchListResult.add(hotSearchModel);
 
-                    if (new ArrayList<>(HotProduct).size() == 0 && tempArray.size() == 0) {
-                        searchListResult.clear();
-                    }
+//                    if (new ArrayList<>(HotProduct).size() == 0 && tempArray.size() == 0) {
+//                        searchListResult.clear();
+//                    }
                 }
 
 

@@ -24,7 +24,6 @@ import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductQNAAdapter;
@@ -52,7 +51,7 @@ public class QnAFragment extends BaseFragment {
     private AlertDialog alertDialog;
     private DialogAskQuestionBinding reqBinding;
 
-    public void setThemColor(boolean themColor) {
+    public void setThemColor() {
     }
 
     @Override
@@ -194,7 +193,7 @@ public class QnAFragment extends BaseFragment {
             }
         };
 
-        FRIMLINE.getInstance().addToRequestQueue(stringRequest,"QA");
+        FRIMLINE.getInstance().addToRequestQueue(stringRequest, "QA");
     }
 
 
@@ -265,8 +264,10 @@ public class QnAFragment extends BaseFragment {
 
     private void addQuestion() {
 
-        if (!isLoading)
-            isLoading = true;
+        if (isLoading)
+            return;
+
+        isLoading = true;
 
         HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_QUESTION, new Response.Listener<String>() {
@@ -307,7 +308,7 @@ public class QnAFragment extends BaseFragment {
                 return params;
             }
         };
-        FRIMLINE.getInstance().addToRequestQueue(stringRequest,"QA");
+        FRIMLINE.getInstance().addToRequestQueue(stringRequest, "QA");
         //MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 

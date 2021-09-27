@@ -372,7 +372,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         WrapContentHeightViewPager wrapContentHeightViewPager = findViewById(R.id.viewPager);
         ProductDetailsTabAdapter adapter = new ProductDetailsTabAdapter(getSupportFragmentManager());
-        qnAFragment.setThemColor(true);
+        qnAFragment.setThemColor();
         adapter.addFragment(descriptionFragment, "Description");
         adapter.addFragment(howToUseFragment, "How To Use");
         adapter.addFragment(ingredientsFragment, "Ingredients");

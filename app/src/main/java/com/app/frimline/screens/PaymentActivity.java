@@ -517,30 +517,41 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                         }
 
 
-                        for (int i = 0; i < cartItemList.size(); i++) {
 
-                            boolean isExcluded = false;
-                            for (int k = 0; k < excludedList.size(); k++) {
-                                if (cartItemList.get(i).getId().equalsIgnoreCase(excludedList.get(k).getId())) {
-                                    isExcluded = true;
+                        if (includeList.size() != 0 || excludedList.size() != 0) {
+
+                            for (int i = 0; i < cartItemList.size(); i++) {
+
+                                boolean isExcluded = false;
+                                for (int k = 0; k < excludedList.size(); k++) {
+                                    if (cartItemList.get(i).getId().equalsIgnoreCase(excludedList.get(k).getId())) {
+                                        isExcluded = true;
+                                    }
                                 }
-                            }
 
-                            boolean isIncluded = false;
-                            for (int k = 0; k < includeList.size(); k++) {
-                                if (cartItemList.get(i).getId().equalsIgnoreCase(includeList.get(k).getId())) {
-                                    isIncluded = true;
+                                boolean isIncluded = false;
+                                for (int k = 0; k < includeList.size(); k++) {
+                                    if (cartItemList.get(i).getId().equalsIgnoreCase(includeList.get(k).getId())) {
+                                        isIncluded = true;
+                                    }
                                 }
-                            }
 
-                            if (!isExcluded && isIncluded) {
+                                if (!isExcluded && isIncluded) {
+                                    totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                    promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                } else {
+                                    totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
+                                }
+
+                            }
+                        } else {
+                            for (int i = 0; i < cartItemList.size(); i++) {
                                 totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                 promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
-                            } else {
-                                totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
                             }
-
                         }
+
+
 
                         finalAmount = totalPrice;
                         Log.e("totalPrice", totalPrice + "_");
