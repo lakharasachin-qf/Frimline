@@ -94,8 +94,9 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
         noconnectionAlertDialog = new Dialog(this, R.style.MyAlertDialogStyle_extend);
         view = getLayoutInflater().inflate(R.layout.dialog_no_internet_connection, null);
         AppCompatButton appCompatButton = view.findViewById(R.id.button);
-        appCompatButton.setOnClickListener(v -> {
-        });
+        appCompatButton.setOnClickListener(v -> { });
+
+
         noconnectionAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         mNetworkReceiver = new NetworkChangeReceiver2();

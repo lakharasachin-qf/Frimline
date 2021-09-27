@@ -437,39 +437,124 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 binding.couponLayout.setVisibility(View.VISIBLE);
             } else {
                 couponCodeModel = gson.fromJson(getIntent().getStringExtra("modelCoupon"), CouponCodeModel.class);
-                if (couponCodeModel != null) {
 
+                if (couponCodeModel != null) {
                     String msg = "Coupon code not applicable.";
 
-                    totalPrice = 0;
-                    for (int i = 0; i < cartItemList.size(); i++) {
+                    boolean canApplyMore = true;
+                    ArrayList<ProductModel> cartProducts = HELPER.getCartList(db.productEntityDao().getAll());
+                    ArrayList<ProductModel> excludedList = new ArrayList<>();
+                    ArrayList<ProductModel> includeList = new ArrayList<>();
 
-                        boolean isExcludedCategory = excludedCategory(cartItemList.get(i).getCategoryId());
-                        boolean isExcludedProduct = excludedProduct(cartItemList.get(i).getId());
-                        boolean isIncludedCategory = includedCategory(cartItemList.get(i).getCategoryId());
-                        boolean isIncludedProduct = includedProduct(cartItemList.get(i).getId());
+                    if (couponCodeModel.getEmailIds().size() != 0) {
+                        for (int i = 0; i < couponCodeModel.getEmailIds().size(); i++) {
+                            if (prefManager.getUser().getEmail().equalsIgnoreCase(couponCodeModel.getEmailIds().get(i))) {
+                                canApplyMore = false;
+                                msg = "Email is not allowed";
+                            }
+                        }
+                    }
 
-                        if ((!isExcludedCategory && !isExcludedProduct)) {
-                            if ((isIncludedCategory || isIncludedProduct)) {
+                    if (Double.parseDouble(couponCodeModel.getMaxAmount()) > finalAmount && Double.parseDouble(couponCodeModel.getMaxAmount()) != 0) {
+                        msg = "Order should less then max";
+                        canApplyMore = false;
+                    }
+
+                    if (Double.parseDouble(couponCodeModel.getMinAmount()) < finalAmount && Double.parseDouble(couponCodeModel.getMinAmount()) != 0) {
+                        msg = "Order should less then min";
+                        canApplyMore = false;
+                    }
+
+                    Log.e("MSG", msg);
+
+                    if (canApplyMore) {
+                        totalPrice = 0;
+
+                        if (couponCodeModel.getExcludeCategoryIds().size() != 0) {
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
+                                    if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getExcludeCategoryIds().get(k))) {
+                                        excludedList.add(cartItemList.get(i));
+                                        Log.e("Added to exclude", cartItemList.get(i).getName());
+
+                                    }
+                                }
+                            }
+                        }
+
+
+                        if (couponCodeModel.getExcludeProductIds().size() != 0) {
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
+                                    if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getExcludeProductIds().get(k))) {
+                                        excludedList.add(cartItemList.get(i));
+                                        Log.e("Added exclude Product", cartItemList.get(i).getName());
+
+                                    }
+                                }
+                            }
+                        }
+                        if (couponCodeModel.getCategoryIds().size() != 0) {
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                for (int k = 0; k < couponCodeModel.getCategoryIds().size(); k++) {
+                                    if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getCategoryIds().get(k))) {
+                                        includeList.add(cartItemList.get(i));
+                                        Log.e("Added to include", cartItemList.get(i).getName());
+
+                                    }
+                                }
+                            }
+                        }
+                        if (couponCodeModel.getProductIds().size() != 0) {
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                for (int k = 0; k < couponCodeModel.getProductIds().size(); k++) {
+                                    if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getProductIds().get(k))) {
+                                        includeList.add(cartItemList.get(i));
+                                        Log.e("Added include product", cartItemList.get(i).getName());
+                                    }
+                                }
+                            }
+                        }
+
+
+                        for (int i = 0; i < cartItemList.size(); i++) {
+
+                            boolean isExcluded = false;
+                            for (int k = 0; k < excludedList.size(); k++) {
+                                if (cartItemList.get(i).getId().equalsIgnoreCase(excludedList.get(k).getId())) {
+                                    isExcluded = true;
+                                }
+                            }
+
+                            boolean isIncluded = false;
+                            for (int k = 0; k < includeList.size(); k++) {
+                                if (cartItemList.get(i).getId().equalsIgnoreCase(includeList.get(k).getId())) {
+                                    isIncluded = true;
+                                }
+                            }
+
+                            if (!isExcluded && isIncluded) {
                                 totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                 promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                             } else {
                                 totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
                             }
 
-                        } else {
-                            totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
                         }
 
-                    }
-
-                    finalAmount = totalPrice;
-                    if (promoDiscount != 0) {
-                        finalAmount = totalPrice - promoDiscount;
-                        binding.couponLayout.setVisibility(View.VISIBLE);
+                        finalAmount = totalPrice;
+                        Log.e("totalPrice", totalPrice + "_");
+                        Log.e("promoDiscount", promoDiscount + "_");
+                        if (promoDiscount != 0) {
+                            //finalAmount = totalPrice - promoDiscount;
+                            binding.couponLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            //confirmationDialog("Coupon Code",msg,CONSTANT.NO_ACTION);
+                        }
+                    } else {
+                        // confirmationDialog("Coupon Code",msg,CONSTANT.NO_ACTION);
                     }
                 }
-
             }
 
             binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
