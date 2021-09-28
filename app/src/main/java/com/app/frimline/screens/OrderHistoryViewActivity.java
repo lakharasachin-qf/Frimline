@@ -151,7 +151,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
         dotsIndicator.setViewPager(productImagesSlider);
 
         TextView orderId = findViewById(R.id.orderId);
-        HELPER.LOAD_HTML(orderId, "Order Id : " + model.getOrderKey());
+        HELPER.LOAD_HTML(orderId, "Order Id : " + model.getOrderNumber());
 
         CardView deliveredCardview = findViewById(R.id.deliveredCardview);
         TextView innerTxt = findViewById(R.id.innerTxt);

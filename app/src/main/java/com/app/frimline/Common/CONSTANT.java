@@ -55,6 +55,11 @@ public class CONSTANT {
     public static final String TERM_N_CONDITIONS = " https://frimline.queryfinders.com/app-terms-and-conditions";
 
 
+    public static final String CHANNEL_ID = "frimline";
+    public static final String CHANNEL_NAME = "frimline";
+    public static final String CHANNEL_DESCRIPTION = "com.app.frimline";
+
+
 
 
 }

@@ -160,8 +160,6 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
         public ViewHolder(ItemMyCartLayoutBinding itemMyCartLayoutBinding) {
             super(itemMyCartLayoutBinding.getRoot());
             binding = itemMyCartLayoutBinding;
-
-
         }
     }
 

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -44,10 +43,12 @@ import java.util.Map;
 public class ReviewsFragment extends BaseFragment {
 
     ProductModel model;
+
     private FragmentReviewsBinding binding;
     private String defaultColor = "#EF7F1A";
     private boolean applyThemeColor = false;
     private boolean isLoading = false;
+
     private ReviewRootModel reviewRootModel;
     private AlertDialog alertDialog;
     private DialogAddReviewBinding reqBinding;
@@ -55,7 +56,7 @@ public class ReviewsFragment extends BaseFragment {
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle
             savedInstanceState) {
-        // Inflate the layout for this fragment
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reviews, parent, false);
         binding.screenLoader.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.orange)));
         binding.screenLoader.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(act, R.color.orange), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -76,6 +77,7 @@ public class ReviewsFragment extends BaseFragment {
             }
         } else {
             ArrayList<ReviewRootModel.Review> modelArrayList = new ArrayList<>();
+
             ReviewRootModel.Review outCategoryModel = new ReviewRootModel.Review();
             modelArrayList.add(outCategoryModel);
             modelArrayList.add(outCategoryModel);
@@ -83,6 +85,7 @@ public class ReviewsFragment extends BaseFragment {
             modelArrayList.add(outCategoryModel);
             modelArrayList.add(outCategoryModel);
             modelArrayList.add(outCategoryModel);
+
             ProductReviewAdapter adaptertop = new ProductReviewAdapter(modelArrayList, getActivity());
             binding.reviewContainerRecycler.setNestedScrollingEnabled(false);
             binding.reviewContainerRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -195,7 +198,7 @@ public class ReviewsFragment extends BaseFragment {
             }
         };
 
-        FRIMLINE.getInstance().addToRequestQueue(stringRequest,"Reviews");
+        FRIMLINE.getInstance().addToRequestQueue(stringRequest, "Reviews");
     }
 
     public void showAddReviewDialog() {

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
-import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.ProfileModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -159,5 +158,13 @@ public class PREF {
         pref.edit().putBoolean("offer", isLogin).apply();
     }
 
+
+    public boolean isSubscribed() {
+        return pref.getBoolean("firebase_subscribed", false);
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        pref.edit().putBoolean("firebase_subscribed", subscribed).apply();
+    }
 
 }

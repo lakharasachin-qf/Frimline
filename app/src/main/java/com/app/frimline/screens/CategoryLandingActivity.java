@@ -16,11 +16,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseNavDrawerActivity;
+import com.app.frimline.Common.APIs;
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
@@ -31,10 +41,19 @@ import com.app.frimline.views.navigationDrawer.DrawerMenu;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 public class CategoryLandingActivity extends BaseNavDrawerActivity {
@@ -260,6 +279,7 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                 pref = new PREF(act);
                 if (pref.isLogin()) {
                     userNameTxt.setText(pref.getUser().getDisplayName());
+                    letSubscribe();
                  } else {
                     userNameTxt.setText("Sign In");
                 }
@@ -284,6 +304,96 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             userNameTxt.setText(pref.getUser().getDisplayName());
         } else {
             userNameTxt.setText("Sign In");
+        }
+    }
+
+
+
+    boolean isLoading = false;
+    private String firebaseToken = "";
+
+    public void letSubscribe() {
+        if (!act.isDestroyed() && !act.isFinishing()) {
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                Log.e("TAG", "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+                            String token = task.getResult();
+                            Log.e("TAG", token);
+                            firebaseToken = token;
+
+                            subscribeFirebase();
+
+                        }
+                    });
+        }
+    }
+
+    private void subscribeFirebase() {
+
+        if (isLoading)
+            return;
+
+        isLoading = true;
+        if (!act.isDestroyed() && !act.isFinishing()) {
+
+            String api = APIs.SUBSCRIBE_NOTIFICATION +
+                    "?user_email=" + pref.getUser().getEmail() +
+                    "&device_token=" + firebaseToken +
+                    "&subscribed=notification" +
+                    "&api_secret_key=KUbPbwoKYw)(AHg(93o!RRw%";
+            //{{site_url}}/wp-json/pd/fcm/subscribe?user_email=sunnypatel4773@gmail.com&device_token=12345852&subscribed=notification&api_secret_key=KUbPbwoKYw)(AHg(93o!RRw%
+            Log.e("API", api);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, api, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.e("Response", response);
+                    pref.setSubscribed(true);
+
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            isLoading = false;
+                            NetworkResponse response = error.networkResponse;
+                            if (response != null && response.statusCode == 400) {
+                                try {
+                                    String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                                    JSONObject jsonObject = new JSONObject(jsonString);
+                                    Log.e("jsobObject", jsonString);
+                                } catch (UnsupportedEncodingException | JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.e("Error", gson.toJson(response.headers));
+                                Log.e("allHeaders", gson.toJson(response.allHeaders));
+                            }
+
+                        }
+                    }
+            ) {
+                /**
+                 * Passing some request headers*
+                 */
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    return params;
+                }
+
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    return params;
+                }
+            };
+
+            FRIMLINE.getInstance().addToRequestQueue(stringRequest, "subscribeNotification");
         }
     }
 }

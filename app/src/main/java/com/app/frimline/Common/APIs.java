@@ -34,7 +34,7 @@ public class APIs {
     public static final String WISHLIST = BASE + "/wp-json/wc/v3/wishlist/list";
     public static final String ADD_WISHLIST = BASE + "/wp-json/wc/v3/wishlist/add";
     public static final String REMOVE_WISHLIST = BASE + "/wp-json/wc/v3/wishlist/remove";
-    public static final String SUBSCRIBE_NOTIFICATION = BASE + "/wp-json/pd/fcm/subscribe?user_email=sunnypatel4773@gmail.com&device_token=12345852&subscribed=notification &api_secret_key=KUbPbwoKYw)(AHg(93o!RRw%";
+    public static final String SUBSCRIBE_NOTIFICATION = BASE + "/wp-json/pd/fcm/subscribe";
 
 
 }
