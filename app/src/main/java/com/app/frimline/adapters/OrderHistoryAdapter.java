@@ -99,7 +99,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
             }
 
-            HELPER.LOAD_HTML(holder.binding.orderId, "Order Id : " + model.getOrderKey());
+            HELPER.LOAD_HTML(holder.binding.orderId, "Order Id : " + model.getOrderNumber());
             HELPER.LOAD_HTML(holder.binding.orderDate, HELPER.convertDate(model.getOrderDate()));
             double afterRoundOff = Double.parseDouble(HELPER.format.format(Math.round(Double.parseDouble(model.getTotal()))));
             HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + String.format("%.2f", afterRoundOff));

@@ -35,4 +35,9 @@ public class ObserverActionID {
     public static final int SMS_PERMISSION_ACCEPTED = 22;
     public static final int SMS_PERMISSION_CANCELLED = 23;
     public static final int WISHLIST_REFRESH = 25;
+
+    public static final int LOAD_ABOUT_US = 26;
+    public static final int LOAD_PRIVACY_POLICY = 27;
+    public static final int LOAD_SHIPPING_POLICY = 28;
+    public static final int LOAD_CONTACT_US = 29;
 }

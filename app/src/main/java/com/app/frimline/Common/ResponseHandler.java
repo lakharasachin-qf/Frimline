@@ -811,6 +811,7 @@ public class ResponseHandler {
                 OrderModel orderModel = new OrderModel();
                 JSONObject object = array.getJSONObject(i);
                 orderModel.setOrderId(getString(object, "id"));
+                orderModel.setOrderNumber(getString(object, "number"));
                 orderModel.setOrderKey(getString(object, "order_key"));
                 orderModel.setStatus(getString(object, "status"));
                 orderModel.setOrderDate(getString(object, "date_created"));

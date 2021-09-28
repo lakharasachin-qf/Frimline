@@ -168,7 +168,7 @@ public class ReviewsFragment extends BaseFragment {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         isLoading = false;
-
+                        binding.screenLoader.setVisibility(View.GONE);
                         binding.errorContainer.setVisibility(View.VISIBLE);
                         binding.tryAgainBtn.setOnClickListener(new View.OnClickListener() {
                             @Override

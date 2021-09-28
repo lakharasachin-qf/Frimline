@@ -6,15 +6,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -35,6 +45,7 @@ import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityPaymentBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.databinding.DialogOrderSuccessBinding;
+import com.app.frimline.databinding.DialogTermsConditionBinding;
 import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.devs.vectorchildfinder.VectorChildFinder;
@@ -239,11 +250,59 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         HELPER.backgroundTint(act, binding.scrollView, true);
 
         binding.acceptTermsLayout.setOnClickListener(v -> binding.acceptTerms.setChecked(!binding.acceptTerms.isChecked()));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            binding.acceptTermsLabel.setText(Html.fromHtml("I have read and agree to the <a href='' style='color:" + prefManager.getThemeColor() + "; text-decoration: none'><b>website terms and conditions</b></a>", Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            binding.acceptTermsLabel.setText(Html.fromHtml("I have read and agree to the <a href=''><font color='" + prefManager.getThemeColor() + "'<b>website terms and conditions</b></font></a>"));
-        }
+
+        SpannableString ss = new SpannableString("I have read and agree to the website terms and conditions");
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                showTermsNConditions();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+                ds.setFakeBoldText(true);
+            }
+        };
+        ss.setSpan(clickableSpan, 29, 57, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 29, 29, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(Color.parseColor(prefManager.getThemeColor())), 29, 29, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        ClickableSpan clickableSpan2 = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                binding.acceptTerms.setChecked(!binding.acceptTerms.isChecked());
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+
+            }
+        };
+
+        ss.setSpan(clickableSpan2, 0, 28, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        binding.acceptTermsLabel.setText(ss);
+        binding.acceptTermsLabel.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.acceptTermsLabel.setHighlightColor(Color.TRANSPARENT);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            binding.acceptTermsLabel.setText(Html.fromHtml("I have read and agree to the <a href='' style='color:" + prefManager.getThemeColor() + "; text-decoration: none'><b>website terms and conditions</b></a>", Html.FROM_HTML_MODE_COMPACT));
+//        } else {
+//            binding.acceptTermsLabel.setText(Html.fromHtml("I have read and agree to the <a href=''><font color='" + prefManager.getThemeColor() + "'<b>website terms and conditions</b></font></a>"));
+//        }
+
+
+//        binding.acceptTermsLabel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showTermsNConditions();
+//            }
+//        });
     }
 
     private JSONObject orderCreated;
@@ -517,7 +576,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                         }
 
 
-
                         if (includeList.size() != 0 || excludedList.size() != 0) {
 
                             for (int i = 0; i < cartItemList.size(); i++) {
@@ -550,7 +608,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                 promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                             }
                         }
-
 
 
                         finalAmount = totalPrice;
@@ -707,12 +764,10 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 orderParam.put("payment_method", "razorpay");
                 orderParam.put("transaction_id", transactionId);
 
-
                 if (isOnlinePaymentSuccess)
                     orderParam.put("status", "1");
                 else
                     orderParam.put("status", "0");
-
 
             }
 
@@ -800,83 +855,57 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         alertDialog.show();
     }
 
-    //return true if final amount more then min
-    public boolean minFinalAmount() {
-        boolean returnVal = false;
-        double totalPrice = 0;
-        for (ProductModel productModel : cartItemList) {
-            totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
-        }
 
-        if (totalPrice > Double.parseDouble(couponCodeModel.getMinAmount())) {
-            returnVal = true;
+    public class MyWebChromeClient extends WebChromeClient {
+        public void onProgressChanged(WebView view, int newProgress) {
+            termsConditionBinding.screenLoader.setVisibility(View.VISIBLE);
+            termsConditionBinding.screenLoader.setProgress(newProgress);
         }
-        return returnVal;
     }
 
-
-    //return true if final amount  then max
-    public boolean maxFinalAmount() {
-        boolean returnVal = false;
-        double totalPrice = 0;
-        for (ProductModel productModel : cartItemList) {
-            totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+    public class webClient extends WebViewClient {
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
         }
 
-        if (totalPrice < Double.parseDouble(couponCodeModel.getMaxAmount())) {
-            returnVal = true;
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            termsConditionBinding.screenLoader.setVisibility(View.GONE);
+            termsConditionBinding.staticPagesWebView.setVisibility(View.VISIBLE);
         }
-        return returnVal;
     }
 
+    private DialogTermsConditionBinding termsConditionBinding;
 
-    //return true if product excluded
-    public boolean excludedCategory(String productCategory) {
-        boolean returnVal = false;
-        for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
-            if (productCategory.equalsIgnoreCase(couponCodeModel.getExcludeCategoryIds().get(k))) {
-                returnVal = true;
-                break;
+    public void showTermsNConditions() {
+        HELPER.dismissLoadingTran();
+        termsConditionBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_terms_condition, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(termsConditionBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(termsConditionBinding.getRoot());
+        termsConditionBinding.staticPagesWebView.setWebChromeClient(new MyWebChromeClient());
+        termsConditionBinding.staticPagesWebView.setWebViewClient(new webClient());
+        termsConditionBinding.staticPagesWebView.getSettings().setLoadWithOverviewMode(true);
+        termsConditionBinding.staticPagesWebView.getSettings().setSupportZoom(true);
+        termsConditionBinding.dialogCloseImg.setImageTintList(ColorStateList.valueOf(Color.parseColor(prefManager.getThemeColor())));
+        termsConditionBinding.staticPagesWebView.getSettings().setJavaScriptEnabled(true);
+        termsConditionBinding.staticPagesWebView.loadUrl(CONSTANT.TERM_N_CONDITIONS);
+        termsConditionBinding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(prefManager.getThemeColor()), android.graphics.PorterDuff.Mode.MULTIPLY);
+        termsConditionBinding.screenLoader.setProgressTintList(ColorStateList.valueOf(Color.parseColor(prefManager.getThemeColor())));
+        termsConditionBinding.dialogCloseImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
             }
-        }
-        return returnVal;
-    }
-
-    //return true if product excluded
-    public boolean excludedProduct(String productId) {
-        boolean returnVal = false;
-        for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
-            if (productId.equalsIgnoreCase(couponCodeModel.getExcludeProductIds().get(k))) {
-                returnVal = true;
-                break;
-            }
-        }
-        return returnVal;
-    }
+        });
 
 
-    //return true if product included
-    public boolean includedProduct(String productId) {
-        boolean returnVal = false;
-        for (int k = 0; k < couponCodeModel.getProductIds().size(); k++) {
-            if (productId.equalsIgnoreCase(couponCodeModel.getProductIds().get(k))) {
-                returnVal = true;
-                break;
-            }
-        }
-        return returnVal;
-    }
-
-    //return true if product included
-    public boolean includedCategory(String productCategory) {
-        boolean returnVal = false;
-        for (int k = 0; k < couponCodeModel.getCategoryIds().size(); k++) {
-            if (productCategory.equalsIgnoreCase(couponCodeModel.getCategoryIds().get(k))) {
-                returnVal = true;
-                break;
-            }
-        }
-        return returnVal;
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
 }

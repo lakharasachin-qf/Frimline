@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class OrderModel {
     private String orderId;
     private String orderKey;
+    private String orderNumber;
     private String status;
     private String orderDate;
     private String discountTotal;
@@ -29,6 +30,14 @@ public class OrderModel {
     private String couponDiscount;
     private String counponDiscountType;
     private String codCharges;
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 
     public String getCodCharges() {
         return codCharges;

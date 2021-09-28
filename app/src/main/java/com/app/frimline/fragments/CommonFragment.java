@@ -1,52 +1,130 @@
 package com.app.frimline.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.app.frimline.Common.PREF;
+import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
-import com.app.frimline.adapters.ShopAdapter;
 import com.app.frimline.databinding.FragmentCommonBinding;
-import com.app.frimline.databinding.FragmentShopBinding;
-import com.app.frimline.models.HomeModel;
-import com.app.frimline.models.LAYOUT_TYPE;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
+import java.util.Observable;
 
 
-public class CommonFragment extends Fragment {
+public class CommonFragment extends BaseFragment {
 
+    private FragmentCommonBinding binding;
+
+    public CommonFragment() {
+    }
+
+    public CommonFragment(String targetURL) {
+        this.targetURL = targetURL;
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        com.app.frimline.databinding.FragmentCommonBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_common, container, false);
-
-        binding.backgroundLayar.setImageTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
-
-
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_common, parent, false);
+        loadData();
         return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        changeTheme();
+    String targetURL = "";
+
+    @SuppressLint("SetTextI18n")
+    public void setTitle(String targetURL) {
+        this.targetURL = targetURL;
+
     }
 
-    public void changeTheme() {
+    public void loadData() {
+
+        binding.staticPagesWebView.setWebChromeClient(new MyWebChromeClient());
+        binding.staticPagesWebView.setWebViewClient(new webClient());
+        binding.staticPagesWebView.getSettings().setLoadWithOverviewMode(true);
+        binding.staticPagesWebView.getSettings().setSupportZoom(true);
+        binding.staticPagesWebView.getSettings().setJavaScriptEnabled(true);
+
+        String url = "";
+        if (targetURL.equalsIgnoreCase("about_us")) {
+            url = CONSTANT.ABOUT_US;
+        }
+        if (targetURL.equalsIgnoreCase("shipping_policy")) {
+            url = CONSTANT.SHIPPING_POLICY;
+        }
+        if (targetURL.equalsIgnoreCase("privacy_policy")) {
+            url = CONSTANT.PRIVACY_POLICY;
+        }
+        if (targetURL.equalsIgnoreCase("contact_us")) {
+            url = CONSTANT.CONTACT_US;
+        }
+
+        Log.e("LoadingURL", url);
+        binding.staticPagesWebView.loadUrl(url);
+        binding.status.setVisibility(View.GONE);
+        binding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(pref.getThemeColor()), android.graphics.PorterDuff.Mode.MULTIPLY);
+        binding.screenLoader.setProgressTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
+    }
+
+    public class MyWebChromeClient extends WebChromeClient {
+
+        public void onProgressChanged(WebView view, int newProgress) {
+
+            binding.screenLoader.setVisibility(View.VISIBLE);
+            binding.staticPagesWebView.setVisibility(View.GONE);
+            binding.screenLoader.setProgress(newProgress);
+            Log.e("Progress", String.valueOf(newProgress));
+
+        }
+    }
+
+    public class webClient extends WebViewClient {
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            binding.screenLoader.setVisibility(View.GONE);
+            Log.e("Page Finished", url);
+            binding.staticPagesWebView.setVisibility(View.VISIBLE);
+            binding.staticPagesWebView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        act.runOnUiThread(() -> {
+            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_ABOUT_US) {
+
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_CONTACT_US) {
+
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_SHIPPING_POLICY) {
+
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_PRIVACY_POLICY) {
+
+            }
+            Log.e("targetURL", targetURL);
+            // loadData();
+        });
 
     }
 }

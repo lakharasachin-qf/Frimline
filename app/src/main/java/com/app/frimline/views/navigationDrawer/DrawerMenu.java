@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -24,7 +25,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
+import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
@@ -53,7 +56,7 @@ public class DrawerMenu {
     public static int SHOP_FRAGMENT = 2;
     public static int HOME_FRAGMENT = 1;
     public static int ORDER_HISTORY = 3;
-    public String currentMenuItem;
+    public String currentMenuItem="";
     DrawerLayout drawer;
     RelativeLayout HomePageLayout;
     TextView titleTxt;
@@ -253,15 +256,47 @@ public class DrawerMenu {
                             break;
 
                         case "About us":
-                        case "Shipping Policy":
-                        case "Privacy Policy":
-                        case "Contact us":
-                            currentMenuItem = "About us";
-                            fragmentSelected = commonFragment;
+
+                            fragmentSelected = new CommonFragment("about_us");//commonFragment;
+                            commonFragment.setTitle("about_us");
                             HomePageLayout.setVisibility(View.VISIBLE);
                             OtherScreenLayout.setVisibility(View.GONE);
                             toolbar_Navigation.setVisibility(View.VISIBLE);
+
+                            currentMenuItem = "About us";
                             break;
+                        case "Shipping Policy":
+
+                            commonFragment.setTitle("shipping_policy");
+
+                            fragmentSelected = new CommonFragment("shipping_policy");//commonFragment;
+                            HomePageLayout.setVisibility(View.VISIBLE);
+                            OtherScreenLayout.setVisibility(View.GONE);
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+
+                            currentMenuItem = "Shipping Policy";
+                            break;
+                        case "Privacy Policy":
+
+                            fragmentSelected = new CommonFragment("privacy_policy");//commonFragment;
+                            commonFragment.setTitle("privacy_policy");
+
+                            HomePageLayout.setVisibility(View.VISIBLE);
+                            OtherScreenLayout.setVisibility(View.GONE);
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+
+                            currentMenuItem = "Privacy Policy";
+                            break;
+                        case "Contact us":
+                            fragmentSelected = new CommonFragment("contact_us");//commonFragment;
+                            commonFragment.setTitle("contact_us");
+                            HomePageLayout.setVisibility(View.VISIBLE);
+                            OtherScreenLayout.setVisibility(View.GONE);
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+
+                            currentMenuItem = "Contact Us";
+                            break;
+
 
                         case "Blogs":
                             fragmentSelected = blogsFragment;
@@ -457,7 +492,7 @@ public class DrawerMenu {
             headerList.add(3, menuModel);
 
             menuModel = new MenuModel("Wishlist", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_wishlist)); //Menu of Android Tutorial. No sub menus
-            headerList.add(4,menuModel);
+            headerList.add(4, menuModel);
 
             menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
             headerList.add(menuModel);
