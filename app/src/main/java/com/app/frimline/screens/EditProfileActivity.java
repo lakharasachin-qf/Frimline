@@ -115,7 +115,7 @@ public class EditProfileActivity extends BaseActivity {
                     if (CONSTANT.API_MODE) {
                         loadProfile();
                     } else {
-                        confirmationDialog("Profile Update", "Your profile updated successfully");
+                        confirmationDialog("Profile Update", getString(R.string.profile_update));
                     }
                 }
             }
@@ -286,7 +286,7 @@ public class EditProfileActivity extends BaseActivity {
                     error.printStackTrace();
                     HELPER.dismissLoadingTran();
                     isLoading = false;
-                    confirmationDialog("Error", "We are getting problem while updating your profile. Please Try again");
+                    confirmationDialog("Error", getString(R.string.we_are_getting_problem_in_update));
 
                 }
         ) {

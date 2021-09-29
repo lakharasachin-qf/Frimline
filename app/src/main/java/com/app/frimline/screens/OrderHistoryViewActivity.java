@@ -79,7 +79,6 @@ import java.net.URLConnection;
 public class OrderHistoryViewActivity extends BaseActivity {
     BottomSheetBehavior sheetBehavior;
     LinearLayout layoutBottomSheet;
-    DialogDiscardImageBinding discardImageBinding;
     private ActivityOrderHistoryViewBinding binding;
     private OrderModel model;
     private final DescriptionFragment descriptionFragment = new DescriptionFragment();

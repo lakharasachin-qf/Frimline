@@ -98,7 +98,7 @@ public class ReviewsFragment extends BaseFragment {
             if (pref.isLogin()) {
                 showAddReviewDialog();
             } else {
-                confirmationDialog("Add Review", "You must be logged in to post a review.", 011);
+                confirmationDialog("Add Review", getString(R.string.you_must_be_logged_in_to_post_review), 011);
             }
         });
         changeTheme();

@@ -94,7 +94,7 @@ public class QnAFragment extends BaseFragment {
                 if (pref.isLogin()) {
                     showAddReviewDialog();
                 } else {
-                    confirmationDialog("Ask Question", "You must be logged in to ask question.", 011);
+                    confirmationDialog("Ask Question", getString(R.string.you_must_be_logged_in_to_ask_question), 011);
                 }
             }
         });
@@ -104,7 +104,7 @@ public class QnAFragment extends BaseFragment {
                 if (pref.isLogin()) {
                     showAddReviewDialog();
                 } else {
-                    confirmationDialog("Ask Question", "You must be logged in to ask question.", 011);
+                    confirmationDialog("Ask Question", getString(R.string.you_must_be_logged_in_to_ask_question), 011);
                 }
 
             }

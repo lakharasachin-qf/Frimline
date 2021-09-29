@@ -90,7 +90,7 @@ public class MyCartActivity extends BaseActivity {
                 if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
                     verifyCouponCode();
                 } else {
-                    confirmationDialog("Coupon Code", "Please enter coupon code first", CONSTANT.ACTION_3);
+                    confirmationDialog("Coupon Code", getString(R.string.please_enter_the_coupon_code_first), CONSTANT.ACTION_3);
                 }
 
             }
@@ -98,7 +98,7 @@ public class MyCartActivity extends BaseActivity {
         binding.removePromo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmationDialog("Coupon Code", "Are you sure to remove coupon code.", CONSTANT.ACTION_2);
+                confirmationDialog("Coupon Code", getString(R.string.are_you_sure_to_remove_promo_code), CONSTANT.ACTION_2);
             }
         });
 
@@ -394,7 +394,7 @@ public class MyCartActivity extends BaseActivity {
 
                 } else {
                     JSONObject object = ResponseHandler.createJsonObject(response);
-                    confirmationDialog("Coupon Code", "Coupon code is not applicable", CONSTANT.NO_ACTION);
+                    confirmationDialog("Coupon Code", getString(R.string.coupon_code_not_applicable), CONSTANT.NO_ACTION);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

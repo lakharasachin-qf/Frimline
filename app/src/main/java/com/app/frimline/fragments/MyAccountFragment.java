@@ -354,7 +354,7 @@ public class MyAccountFragment extends BaseFragment {
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(discardImageBinding.getRoot());
         discardImageBinding.titleTxt.setText("Confirm");
-        discardImageBinding.subTitle.setText("Are you really want to logout?");
+        discardImageBinding.subTitle.setText(R.string.are_you_want_to_logout);
         discardImageBinding.yesTxt.setText("Logout");
         discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
             @Override

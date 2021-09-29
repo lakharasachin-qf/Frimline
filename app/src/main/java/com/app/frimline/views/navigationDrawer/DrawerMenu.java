@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -25,9 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 
-import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
@@ -56,7 +53,7 @@ public class DrawerMenu {
     public static int SHOP_FRAGMENT = 2;
     public static int HOME_FRAGMENT = 1;
     public static int ORDER_HISTORY = 3;
-    public String currentMenuItem="";
+    public String currentMenuItem = "";
     DrawerLayout drawer;
     RelativeLayout HomePageLayout;
     TextView titleTxt;
@@ -526,7 +523,7 @@ public class DrawerMenu {
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(discardImageBinding.getRoot());
         discardImageBinding.titleTxt.setText("Confirm");
-        discardImageBinding.subTitle.setText("Are you really want to logout?");
+        discardImageBinding.subTitle.setText(activity.getString(R.string.are_you_want_to_logout));
         discardImageBinding.yesTxt.setText("Logout");
         discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
         discardImageBinding.yesTxt.setOnClickListener(v -> {

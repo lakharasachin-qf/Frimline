@@ -87,7 +87,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                     finalOrderDone();
                 }
             } else {
-                errorDialog("Error", "Please accept terms & conditions for further process.", 1);
+                errorDialog("Error", getString(R.string.accept_term_n_condition), 1);
             }
         });
         binding.toolbarNavigation.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
@@ -701,7 +701,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
     public void onPaymentError(int i, String s, PaymentData paymentData) {
         isOnlinePaymentSuccess = false;
         HELPER.print("Payment Fail", s);
-        errorDialog("Order Fail!", "Your order payment is cancel", 1);
+        errorDialog("Order Fail!", getString(R.string.your_order_is_cancel), 1);
         // finalOrderDone();
     }
 

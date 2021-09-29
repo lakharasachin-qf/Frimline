@@ -1,35 +1,23 @@
 package com.app.frimline.screens;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.app.cartcounter.CharOrder;
-import com.app.cartcounter.strategy.Strategy;
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ResponseHandler;
@@ -38,17 +26,14 @@ import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.adapters.ProductImageSliderAdpater;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ActivityOrderProductDetailBinding;
-import com.app.frimline.databinding.ActivityProductDetailBinding;
 import com.app.frimline.fragments.aboutProducts.AdditionalInfoFragment;
 import com.app.frimline.fragments.aboutProducts.DescriptionFragment;
 import com.app.frimline.fragments.aboutProducts.HowToUseFragment;
 import com.app.frimline.fragments.aboutProducts.IngredientsFragment;
 import com.app.frimline.fragments.aboutProducts.QnAFragment;
 import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
-import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.app.frimline.models.OrderedProductModel;
-import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.views.WrapContentHeightViewPager;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
@@ -59,7 +44,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class OrderProductDetailActivity extends BaseActivity {
 
@@ -122,9 +106,6 @@ public class OrderProductDetailActivity extends BaseActivity {
 
 
         binding.titleToolbar.setText("");
-
-
-
 
 
         if (CONSTANT.API_MODE) {
@@ -240,9 +221,9 @@ public class OrderProductDetailActivity extends BaseActivity {
         HELPER.LOAD_HTML(binding.categoryLabel, "<b>Category : </b>" + productModel.getCategoryName());
         HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getPrice());
 
-        if (productModel.isReturnAble()){
+        if (productModel.isReturnAble()) {
             binding.returnAbleLAbel.setText("Returnable");
-        }else{
+        } else {
             binding.returnAbleLAbel.setText("Non-Returnable");
         }
         StringBuilder tagsStr = new StringBuilder();
@@ -253,7 +234,7 @@ public class OrderProductDetailActivity extends BaseActivity {
             HELPER.LOAD_HTML(binding.tagsLabel, "<b>Tags : <b>" + tagsStr);
         }
         binding.boottomFooter.setVisibility(View.GONE);
-      //  binding.addTextTxt.setText("Qty : "+adpaterData.getQty());
+        //  binding.addTextTxt.setText("Qty : "+adpaterData.getQty());
 
     }
 
@@ -275,7 +256,7 @@ public class OrderProductDetailActivity extends BaseActivity {
                 binding.NoDataFound.setVisibility(View.GONE);
                 binding.scrollView.setVisibility(View.VISIBLE);
                 binding.boottomFooter.setVisibility(View.VISIBLE);
-                getIntent().putExtra("model",gson.toJson(productModel));
+                getIntent().putExtra("model", gson.toJson(productModel));
                 setupTabIcons();
                 changeTheme();
                 setImageSlide();
@@ -284,7 +265,7 @@ public class OrderProductDetailActivity extends BaseActivity {
                 binding.screenLoader.setVisibility(View.GONE);
                 binding.NoDataFound.setVisibility(View.VISIBLE);
                 binding.scrollView.setVisibility(View.GONE);
-               binding.boottomFooter.setVisibility(View.GONE);
+                binding.boottomFooter.setVisibility(View.GONE);
                 Toast.makeText(act, "No Product Found", Toast.LENGTH_SHORT).show();
             }
 
@@ -294,13 +275,10 @@ public class OrderProductDetailActivity extends BaseActivity {
                     binding.screenLoader.setVisibility(View.GONE);
                     binding.NoDataFound.setVisibility(View.VISIBLE);
                     binding.scrollView.setVisibility(View.GONE);
-                   binding.boottomFooter.setVisibility(View.GONE);
+                    binding.boottomFooter.setVisibility(View.GONE);
                     isLoading = false;
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() {
 

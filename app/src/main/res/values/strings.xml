@@ -21,4 +21,15 @@
     <string name="razorpay_key_id">rzp_test_WBQrVQz0EsLDRJ</string>
     <string name="razorpay_secret_key">70xTILSzLISTcc1L30dxqfPp</string>
     <string name="api_secret">AAAAC5nHjkU:APA91bHsdaqeBhCo9ErM88bdUBdSv5sCN9OE1cYcgbjRtYTpvou65icAKR9sfG9lqEZBJw7n6Amno_Hx3xWKgYCDGWm6qYR0PQpxGBrLh4blVZLg82gIPF70cSxcmHFt_GujVdAAKUQ6</string>
+    <string name="are_you_want_to_logout">Are you really want to logout?</string>
+    <string name="are_you_sure_remove_product_from_wishlist">Are you sure to remove product from wishlist?</string>
+    <string name="you_must_be_logged_in_to_ask_question">You must be logged in to ask question.</string>
+    <string name="you_must_be_logged_in_to_post_review">You must be logged in to post a review.</string>
+    <string name="profile_update">Your profile updated successfully</string>
+    <string name="we_are_getting_problem_in_update">We are getting problem while updating your profile. Please Try again</string>
+    <string name="please_enter_the_coupon_code_first">Please enter coupon code first</string>
+    <string name="are_you_sure_to_remove_promo_code">Are you sure to remove coupon code.</string>
+    <string name="coupon_code_not_applicable">Coupon code is not applicable</string>
+    <string name="accept_term_n_condition"><![CDATA[Please accept terms & conditions for further process.]]></string>
+    <string name="your_order_is_cancel">Your order payment is cancel</string>
 </resources>

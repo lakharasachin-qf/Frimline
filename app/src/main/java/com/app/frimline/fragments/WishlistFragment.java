@@ -113,7 +113,7 @@ public class WishlistFragment extends BaseFragment {
         public void onDelete(int position, WishlistEntity entity) {
             selectedEntity = entity;
             selectedPosition = position;
-            dialogDisplay("Wishlist", "Are you sure to remove product from wishlist?", "confirm");
+            dialogDisplay("Wishlist", getString(R.string.are_you_sure_remove_product_from_wishlist), "confirm");
         }
 
         @Override
