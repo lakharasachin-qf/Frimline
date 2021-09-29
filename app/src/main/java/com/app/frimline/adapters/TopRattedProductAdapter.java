@@ -104,10 +104,7 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
             super(binding.getRoot());
             this.binding = binding;
             this.binding.underLine.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getCategoryColor())));
-
             this.binding.ExploreMoreTxt.setTextColor(Color.parseColor(new PREF(activity).getCategoryColor()));
-
-
         }
     }
 

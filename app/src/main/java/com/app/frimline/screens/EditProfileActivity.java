@@ -111,15 +111,11 @@ public class EditProfileActivity extends BaseActivity {
         binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PROTOTYPE_MODE) {
-                    confirmationDialog("Profile Update", "Your profile updated successfully");
-                } else {
-                    if (!validations()) {
-                        if (CONSTANT.API_MODE) {
-                            loadProfile();
-                        } else {
-                            confirmationDialog("Profile Update", "Your profile updated successfully");
-                        }
+                if (!validations()) {
+                    if (CONSTANT.API_MODE) {
+                        loadProfile();
+                    } else {
+                        confirmationDialog("Profile Update", "Your profile updated successfully");
                     }
                 }
             }
@@ -242,20 +238,11 @@ public class EditProfileActivity extends BaseActivity {
         discardImageBinding.titleTxt.setText(title);
         discardImageBinding.subTitle.setText(msg);
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
-                onBackPressed();
-            }
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
+            onBackPressed();
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -273,7 +260,6 @@ public class EditProfileActivity extends BaseActivity {
             public void onResponse(String response) {
                 isLoading = false;
                 HELPER.dismissLoadingTran();
-                Log.e("Response", response);
                 JSONObject object = ResponseHandler.createJsonObject(response);
                 if (object != null && ResponseHandler.getString(object, "code").equals("200")) {
                     ProfileModel model = new ProfileModel();
@@ -296,24 +282,19 @@ public class EditProfileActivity extends BaseActivity {
 
 
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-                        isLoading = false;
-                        confirmationDialog("Error", "We are getting problem while updating your profile. Please Try again");
+                error -> {
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+                    isLoading = false;
+                    confirmationDialog("Error", "We are getting problem while updating your profile. Please Try again");
 
-                    }
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                Log.e("HEADER", getHeader().toString());
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 
@@ -327,7 +308,7 @@ public class EditProfileActivity extends BaseActivity {
                 params.put("last_name", binding.lnameEdt.getText().toString());
                 params.put("display_name", binding.displayNameEdt.getText().toString());
                 params.put("phone", binding.phoneNoEdt.getText().toString());
-                Log.e("PARAM", params.toString());
+
                 return params;
             }
         };
@@ -399,29 +380,23 @@ public class EditProfileActivity extends BaseActivity {
 
 
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        HELPER.dismissLoadingTran();
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    HELPER.dismissLoadingTran();
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                Log.e("HEADER", getHeader().toString());
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

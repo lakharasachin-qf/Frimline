@@ -59,7 +59,6 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ProductModel model = frameItems.get(position);
-        String colorCode = new PREF(activity).getThemeColor();
         if (CONSTANT.API_MODE)
             loadDataForOneLayout(holder.binding, model, position);
 
@@ -125,7 +124,6 @@ public class ShopHotProductAdapter extends RecyclerView.Adapter<ShopHotProductAd
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
         CardView product;
         ItemShopHotProductLayoutBinding binding;
 

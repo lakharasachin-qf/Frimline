@@ -257,13 +257,6 @@ public class OrderProductDetailActivity extends BaseActivity {
 
     }
 
-    public void changeState() {
-        binding.addTextTxt.setText("Add to cart");
-        binding.addCartContainer.setBackgroundTintList(null);
-        binding.cartIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(defaultColor)));
-        binding.addTextTxt.setTextColor(Color.parseColor(defaultColor));
-    }
-
     private void loadProductDetails() {
 
         if (!isLoading)
@@ -271,54 +264,45 @@ public class OrderProductDetailActivity extends BaseActivity {
 
         binding.screenLoader.setVisibility(View.VISIBLE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_DETAILS + productId, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_DETAILS + productId, response -> {
+            isLoading = false;
 
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                productModel = ResponseHandler.getProductDetails(object);
-                Log.e("print", gson.toJson(productModel));
-                if (productModel != null) {
-                    binding.screenLoader.setVisibility(View.GONE);
-                    binding.NoDataFound.setVisibility(View.GONE);
-                    binding.scrollView.setVisibility(View.VISIBLE);
-                    binding.boottomFooter.setVisibility(View.VISIBLE);
-                    getIntent().putExtra("model",gson.toJson(productModel));
-                    setupTabIcons();
-                    changeTheme();
-                    setImageSlide();
-                    loadData();
-                } else {
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            productModel = ResponseHandler.getProductDetails(object);
+
+            if (productModel != null) {
+                binding.screenLoader.setVisibility(View.GONE);
+                binding.NoDataFound.setVisibility(View.GONE);
+                binding.scrollView.setVisibility(View.VISIBLE);
+                binding.boottomFooter.setVisibility(View.VISIBLE);
+                getIntent().putExtra("model",gson.toJson(productModel));
+                setupTabIcons();
+                changeTheme();
+                setImageSlide();
+                loadData();
+            } else {
+                binding.screenLoader.setVisibility(View.GONE);
+                binding.NoDataFound.setVisibility(View.VISIBLE);
+                binding.scrollView.setVisibility(View.GONE);
+               binding.boottomFooter.setVisibility(View.GONE);
+                Toast.makeText(act, "No Product Found", Toast.LENGTH_SHORT).show();
+            }
+
+        },
+                error -> {
+                    error.printStackTrace();
                     binding.screenLoader.setVisibility(View.GONE);
                     binding.NoDataFound.setVisibility(View.VISIBLE);
                     binding.scrollView.setVisibility(View.GONE);
                    binding.boottomFooter.setVisibility(View.GONE);
-                    Toast.makeText(act, "No Product Found", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        binding.screenLoader.setVisibility(View.GONE);
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.scrollView.setVisibility(View.GONE);
-                       binding.boottomFooter.setVisibility(View.GONE);
-                        isLoading = false;
-                    }
+                    isLoading = false;
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
+            public Map<String, String> getHeaders() {
 
                 return getHeader();
             }

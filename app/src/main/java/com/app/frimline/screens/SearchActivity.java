@@ -448,13 +448,9 @@ public class SearchActivity extends BaseActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEARCH, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("result", response);
                 isLoading = false;
                 stopShimmer();
-
                 searchResult = ResponseHandler.parseSearch(response);
-                Log.e("selectedCategory", gson.toJson(selectedCategory));
-                Log.e("jsonStr", gson.toJson(jsonStr));
                 if (searchResult != null && searchResult.size() != 0) {
                     binding.containerRecycler.setVisibility(View.VISIBLE);
                     searchAdapter = new SearchAdapter(searchResult, act);
@@ -471,38 +467,19 @@ public class SearchActivity extends BaseActivity {
                 }
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        binding.emptyData.setVisibility(View.VISIBLE);
-                        binding.containerRecycler.setVisibility(View.GONE);
-                      //  binding.sortAction.setVisibility(View.GONE);
-//                        NetworkResponse response = error.networkResponse;
-//                        if (response.statusCode == 400 && response.data!=null) {
-//                            try {
-//
-//                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-//                                JSONObject jsonObject = new JSONObject(jsonString);
-//
-//                            } catch (UnsupportedEncodingException | JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            Log.e("Error", gson.toJson(response.headers));
-//                            Log.e("allHeaders", gson.toJson(response.allHeaders));
-//                        }
-
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    binding.emptyData.setVisibility(View.VISIBLE);
+                    binding.containerRecycler.setVisibility(View.GONE);
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override
@@ -517,7 +494,6 @@ public class SearchActivity extends BaseActivity {
                 if (!binding.nameEdt.getText().toString().trim().isEmpty())
                     params.put("search", binding.nameEdt.getText().toString());
 
-                Log.e("PostedParam", params.toString());
                 return params;
             }
         };
@@ -571,41 +547,30 @@ public class SearchActivity extends BaseActivity {
         }
         if (frimline.getObserver().getValue() == ObserverActionID.APPLY_SORT_SELECTION) {
             if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        slideTorightFilter(binding.filterFrameLayout);
-                        sortingOptionSelection = gson.fromJson(frimline.getObserver().getData(), ListModel.class);
-                        search();
-                    }
+                runOnUiThread(() -> {
+                    slideTorightFilter(binding.filterFrameLayout);
+                    sortingOptionSelection = gson.fromJson(frimline.getObserver().getData(), ListModel.class);
+                    search();
                 });
 
             }
         }
         if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER) {
             if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
-                        jsonStr = frimline.getObserver().getData();
-                        categoryId = selectedCategory.getCategoryId();
-                        Log.e("selectedCategory", gson.toJson(selectedCategory));
-                        Log.e("jsonStr", gson.toJson(jsonStr));
-                        search();
-                    }
+                runOnUiThread(() -> {
+                    selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
+                    jsonStr = frimline.getObserver().getData();
+                    categoryId = selectedCategory.getCategoryId();
+                    search();
                 });
 
             }
         }
         if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER_REMOVE) {
             if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        selectedCategory = null;
-                        search();
-                    }
+                runOnUiThread(() -> {
+                    selectedCategory = null;
+                    search();
                 });
 
             }
@@ -613,10 +578,6 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void reloadHot(DataTransferModel dataTransferModel, boolean addOrNot) {
-        String productId = dataTransferModel.getProductId();
-        int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout produc t item
-        int layoutType = Integer.parseInt(dataTransferModel.getLayoutType());//item layout 3 product or 2 product or 1 product
-        int itemPosition = Integer.parseInt(dataTransferModel.getItemPosition()); // item layout position
         int adapterPosition = Integer.parseInt(dataTransferModel.getAdapterPosition()); // item layout position
 
         if (searchResult.size() > 2) {
@@ -628,10 +589,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void relaodData(DataTransferModel dataTransferModel, boolean addOrNot) {
-        String productId = dataTransferModel.getProductId();
         int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout produc t item
-        int layoutType = Integer.parseInt(dataTransferModel.getLayoutType());//item layout 3 product or 2 product or 1 product
-        int itemPosition = Integer.parseInt(dataTransferModel.getItemPosition()); // item layout position
         int adapterPosition = Integer.parseInt(dataTransferModel.getAdapterPosition()); // item layout position
 
         SearchModel model = searchResult.get(0);

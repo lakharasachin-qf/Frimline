@@ -1,5 +1,6 @@
 package com.app.frimline.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -41,6 +42,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
+    @NonNull
     @Override
     public CountryChooseAdapter.SelecBrandLIstHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -57,7 +59,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         holder.itemView.setOnClickListener(view -> {
             holder.radioButton.setChecked(true);
             checkedPosition = position;
-            ((OnItemSelectListener) act).onItemSelect(listModel, position,calledFlag);
+            ((OnItemSelectListener) act).onItemSelect(listModel, position, calledFlag);
             notifyDataSetChanged();
         });
     }
@@ -76,7 +78,9 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
             radioButton.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         }
     }
-    public void updateList(ArrayList<CountryModel> list){
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateList(ArrayList<CountryModel> list) {
         arrayList = list;
         notifyDataSetChanged();
     }

@@ -136,9 +136,8 @@ public class QnAFragment extends BaseFragment {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_QA + model.getId(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("QA", response);
+                HELPER.print("reviewLoad",response);
                 binding.screenLoader.setVisibility(View.GONE);
-
                 reviewRootModel = ResponseHandler.handleQAFragment(response);
                 if (reviewRootModel.getBlogList() != null && reviewRootModel.getBlogList().size() != 0) {
                     ProductQNAAdapter adaptertop = new ProductQNAAdapter(reviewRootModel.getBlogList(), getActivity());
@@ -155,7 +154,6 @@ public class QnAFragment extends BaseFragment {
                     binding.button.setText("Ask Now!");
 
                 }
-
                 binding.errorContainer.setVisibility(View.GONE);
                 isLoading = false;
             }
@@ -237,26 +235,23 @@ public class QnAFragment extends BaseFragment {
 
             }
         });
-        reqBinding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CONSTANT.API_MODE) {
-                    boolean isError = false;
+        reqBinding.button.setOnClickListener(v -> {
+            if (CONSTANT.API_MODE) {
+                boolean isError = false;
 
 
-                    if (reqBinding.otherInfoEdt.getText().toString().trim().length() == 0) {
-                        isError = true;
-                        reqBinding.otherInfoEdt.setError("Please enter your question");
-                        reqBinding.otherInfoEdt.requestFocus();
-                    }
-
-                    if (!isError) {
-                        addQuestion();
-                    }
-
-                } else {
-                    alertDialog.dismiss();
+                if (reqBinding.otherInfoEdt.getText().toString().trim().length() == 0) {
+                    isError = true;
+                    reqBinding.otherInfoEdt.setError("Please enter your question");
+                    reqBinding.otherInfoEdt.requestFocus();
                 }
+
+                if (!isError) {
+                    addQuestion();
+                }
+
+            } else {
+                alertDialog.dismiss();
             }
         });
 
@@ -273,7 +268,7 @@ public class QnAFragment extends BaseFragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_QUESTION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("add-review", response);
+                HELPER.print("add_question",response);
                 HELPER.dismissLoadingTran();
                 isLoading = false;
                 alertDialog.dismiss();
@@ -294,7 +289,7 @@ public class QnAFragment extends BaseFragment {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 return getHeader();
             }
@@ -309,7 +304,7 @@ public class QnAFragment extends BaseFragment {
             }
         };
         FRIMLINE.getInstance().addToRequestQueue(stringRequest, "QA");
-        //MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+
     }
 
     public void setProductModel(ProductModel productModel) {

@@ -23,14 +23,9 @@ public class ProductDetailsTabAdapter extends FragmentStatePagerAdapter {
     @Override
     public void setPrimaryItem(@NonNull @NotNull ViewGroup container, int position, @NonNull @NotNull Object object) {
         super.setPrimaryItem(container, position, object);
-        int currentItemFragment = -1;
-        if (position == currentItemFragment) {
-//            EnhancedDynamicHeightViewPager viewPager  = (EnhancedDynamicHeightViewPager) container;
-//            currentItemFragment = position;
-//            viewPager.measureCurrentView(fragmentList.get(position).requireView());
-        }
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int i) {
         return fragmentList.get(i);

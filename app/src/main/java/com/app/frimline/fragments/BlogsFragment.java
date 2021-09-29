@@ -42,11 +42,9 @@ public class BlogsFragment extends BaseFragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blogs, container, false);
 
-
         if (CONSTANT.API_MODE) {
             startShimmer();
             loadBlog();
-
         } else {
             ArrayList<BlogModel> arrayList = new ArrayList<>();
             BlogModel homeModel = new BlogModel();
@@ -58,7 +56,6 @@ public class BlogsFragment extends BaseFragment {
             homeModel = new BlogModel();
             homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
             arrayList.add(homeModel);
-
 
             BlogsAdapter adaptertop = new BlogsAdapter(arrayList, getActivity());
             binding.blogsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -94,10 +91,7 @@ public class BlogsFragment extends BaseFragment {
         if (!isLoading)
             isLoading = true;
 
-        CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.BLOGS, response -> {
-            //Log.e("Response", response);
             stopShimmer();
             isLoading = false;
             rootModel = ResponseHandler.handleResponseBlogFragment(response);
@@ -107,7 +101,6 @@ public class BlogsFragment extends BaseFragment {
             binding.blogsRecycler.setNestedScrollingEnabled(false);
             binding.blogsRecycler.setLayoutManager(mLayoutManager);
             binding.blogsRecycler.setAdapter(blogsAdapter);
-            //loadData(rootModel);
         },
                 error -> {
                     error.printStackTrace();
@@ -120,15 +113,13 @@ public class BlogsFragment extends BaseFragment {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<String, String>();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

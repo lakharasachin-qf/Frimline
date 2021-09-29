@@ -386,7 +386,7 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         //HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-            Log.e("Response", response);
+            HELPER.print("update", response);
             isLoading = false;
             HELPER.dismissLoadingTran();
 // {"code":200,"message":"Billing Info Update Successfully","data":{"status":200}}
@@ -408,13 +408,12 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
-                            Log.e("jsosnErir", jsonString);
                             infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.e("Error", gson.toJson(response.headers));
-                        Log.e("allHeaders", gson.toJson(response.allHeaders));
+                       // Log.e("Error", gson.toJson(response.headers));
+                      //  Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
                 }
         ) {
@@ -534,10 +533,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, response -> {
             isLoading = false;
-            Log.e("Response", response);
             HELPER.dismissLoadingTran();
             countryList = ResponseHandler.parseCountryState(response);
-            Log.e("Response", String.valueOf(countryList.size()));
 
         }, error -> {
             error.printStackTrace();
@@ -568,7 +565,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, response -> {
             isLoading = false;
-            Log.e("Response", response);
             HELPER.dismissLoadingTran();
             JSONObject object = ResponseHandler.createJsonObject(response);
             if (object != null) {
@@ -614,13 +610,12 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
-                            Log.e("jsosnErir", jsonString);
+                            //Log.e("jsosnErir", jsonString);
                             infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.e("Error", gson.toJson(response.headers));
-                        Log.e("allHeaders", gson.toJson(response.allHeaders));
+
                     }
                 }
         ) {
@@ -636,7 +631,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("shipping_postcode", postCode);
-
                 return params;
             }
         };

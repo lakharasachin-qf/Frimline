@@ -1,5 +1,6 @@
 package com.app.frimline.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.intefaces.OnItemSelectListener;
-import com.app.frimline.models.CountryModel;
 import com.app.frimline.models.StateModel;
 
 import java.util.ArrayList;
@@ -42,6 +42,7 @@ public class StateChooseAdapter extends RecyclerView.Adapter<StateChooseAdapter.
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
+    @NonNull
     @Override
     public StateChooseAdapter.SelecBrandLIstHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -61,6 +62,7 @@ public class StateChooseAdapter extends RecyclerView.Adapter<StateChooseAdapter.
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View view) {
                 holder.radioButton.setChecked(true);
@@ -76,7 +78,7 @@ public class StateChooseAdapter extends RecyclerView.Adapter<StateChooseAdapter.
         return arrayList.size();
     }
 
-    public  class SelecBrandLIstHolder extends RecyclerView.ViewHolder {
+    public class SelecBrandLIstHolder extends RecyclerView.ViewHolder {
         RadioButton radioButton;
 
         public SelecBrandLIstHolder(@NonNull View itemView) {
@@ -85,7 +87,9 @@ public class StateChooseAdapter extends RecyclerView.Adapter<StateChooseAdapter.
             radioButton.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         }
     }
-    public void updateList(ArrayList<StateModel> list){
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateList(ArrayList<StateModel> list) {
         arrayList = list;
         notifyDataSetChanged();
     }

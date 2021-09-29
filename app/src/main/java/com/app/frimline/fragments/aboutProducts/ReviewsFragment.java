@@ -93,20 +93,12 @@ public class ReviewsFragment extends BaseFragment {
             binding.dataDisplayContainer.setVisibility(View.VISIBLE);
         }
 
-        binding.addReviews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.button.performClick();
-            }
-        });
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pref.isLogin()) {
-                    showAddReviewDialog();
-                } else {
-                    confirmationDialog("Add Review", "You must be logged in to post a review.", 011);
-                }
+        binding.addReviews.setOnClickListener(v -> binding.button.performClick());
+        binding.button.setOnClickListener(v -> {
+            if (pref.isLogin()) {
+                showAddReviewDialog();
+            } else {
+                confirmationDialog("Add Review", "You must be logged in to post a review.", 011);
             }
         });
         changeTheme();
@@ -136,11 +128,11 @@ public class ReviewsFragment extends BaseFragment {
         binding.reviewContainer.setVisibility(View.GONE);
         binding.screenLoader.setVisibility(View.VISIBLE);
 
-        Log.e("Review-URL", APIs.PRODUCT_REVIEW + model.getId());
+        HELPER.print("url",APIs.PRODUCT_REVIEW + model.getId());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_REVIEW + model.getId(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("REVIEWS", response);
+                HELPER.print("response",response);
                 binding.screenLoader.setVisibility(View.GONE);
 
                 reviewRootModel = ResponseHandler.handleReviewList(response);
@@ -166,27 +158,19 @@ public class ReviewsFragment extends BaseFragment {
                 isLoading = false;
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        binding.screenLoader.setVisibility(View.GONE);
-                        binding.errorContainer.setVisibility(View.VISIBLE);
-                        binding.tryAgainBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                loadReview();
-                            }
-                        });
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    binding.screenLoader.setVisibility(View.GONE);
+                    binding.errorContainer.setVisibility(View.VISIBLE);
+                    binding.tryAgainBtn.setOnClickListener(v -> loadReview());
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 return params;
             }
@@ -239,7 +223,6 @@ public class ReviewsFragment extends BaseFragment {
                         isError = true;
 
                     }
-
                     if (reqBinding.reviewEdt.getText().toString().trim().length() == 0) {
 
                         isError = true;
@@ -266,7 +249,7 @@ public class ReviewsFragment extends BaseFragment {
 
         HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_REVIEW, response -> {
-            Log.e("add-review", response);
+            HELPER.print("add-review",response);
             HELPER.dismissLoadingTran();
             isLoading = false;
             alertDialog.dismiss();
@@ -293,7 +276,6 @@ public class ReviewsFragment extends BaseFragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("product_id", model.getId());
                 params.put("review", reqBinding.reviewEdt.getText().toString());
-
                 params.put("rating", String.valueOf(reqBinding.rate.getRating()));
                 return params;
             }

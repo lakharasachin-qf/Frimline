@@ -112,8 +112,6 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
                     loadDataForTwoLayout(((TwoProductViewHolder) holder).binding, dashBoardItemList.get(position), position);
                     break;
                 case LAYOUT_TYPE.LAYOUT_THREE_PRODUCT:
-                    Log.e("SSSS", "3333");
-
                     loadDataForLayoutThree(((ThreeProductViewHolder) holder).binding, dashBoardItemList.get(position), position);
                     break;
             }
@@ -199,8 +197,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
 
         if (CONSTANT.API_MODE) {
 
-            HomeModel model = position;
-            ArrayList<ProductModel> productList = model.getApiProductModel();
+            ArrayList<ProductModel> productList = position.getApiProductModel();
 
             HELPER.LOAD_HTML(binding.productName1, productList.get(0).getName());
             HELPER.LOAD_HTML(binding.productName2, productList.get(1).getName());
@@ -257,7 +254,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent i = new Intent(activity, ProductDetailActivity.class);
                     i.putExtra("productPosition", "0");
-                    i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                    i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                     i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                     i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                     i.putExtra("model", new Gson().toJson(productList.get(0)));
@@ -272,7 +269,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent i = new Intent(activity, ProductDetailActivity.class);
                     i.putExtra("productPosition", "1");
-                    i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                    i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                     i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                     i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                     i.putExtra("model", new Gson().toJson(productList.get(1)));
@@ -289,7 +286,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
 
                     Intent i = new Intent(activity, ProductDetailActivity.class);
                     i.putExtra("productPosition", "2");
-                    i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                    i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                     i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                     i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                     i.putExtra("model", new Gson().toJson(productList.get(2)));
@@ -445,8 +442,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
         } else {
             colorCode = new PREF(activity).getCategoryColor();
         }
-        HomeModel model = position;
-        ArrayList<ProductModel> productList = model.getApiProductModel();
+        ArrayList<ProductModel> productList = position.getApiProductModel();
         HELPER.LOAD_HTML(binding.productName1, productList.get(0).getName());
         HELPER.LOAD_HTML(binding.productName2, productList.get(1).getName());
         HELPER.LOAD_HTML(binding.productPrice1, activity.getString(R.string.Rs) + productList.get(0).getPrice());
@@ -488,7 +484,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
             public void onClick(View v) {
                 Intent i = new Intent(activity, ProductDetailActivity.class);
                 i.putExtra("productPosition", "0");
-                i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                 i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                 i.putExtra("adapterPosition", String.valueOf(position));
                 i.putExtra("model", new Gson().toJson(productList.get(0)));
@@ -503,7 +499,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
             public void onClick(View v) {
                 Intent i = new Intent(activity, ProductDetailActivity.class);
                 i.putExtra("productPosition", "1");
-                i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                 i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                 i.putExtra("adapterPosition", String.valueOf(position));
                 i.putExtra("model", new Gson().toJson(productList.get(1)));

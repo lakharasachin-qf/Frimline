@@ -91,7 +91,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        Log.e("Position", String.valueOf(position));
+
         switch (dashBoardItemList.get(position).getLayoutType()) {
             case 0:
                 return LAYOUT_TYPE.BANNER;
@@ -121,7 +121,7 @@ public class ParentHomeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final HomeModel model = dashBoardItemList.get(position);
-        Log.e("home", new Gson().toJson(model));
+
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.BANNER:

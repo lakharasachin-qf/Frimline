@@ -66,6 +66,10 @@ public class HELPER {
     public static Dialog dialog;
     public static DecimalFormat format = new DecimalFormat("0.00");
 
+    public static void print(String tag, String message) {
+        Log.e(tag, message);
+    }
+
     /**
      * INTENT-EVENT
      */

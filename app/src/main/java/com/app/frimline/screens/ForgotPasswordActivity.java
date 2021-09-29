@@ -80,38 +80,21 @@ public class ForgotPasswordActivity extends BaseActivity {
         binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PROTOTYPE_MODE) {
-                    HELPER.SIMPLE_ROUTE(act, ResetPasswordActivity.class);
+                if (Validators.Companion.isEmailValid(binding.phoneNoEdt.getText().toString())) {
 
-
-                } else {
-//                    if (binding.phoneNoEdt.getText().toString().length() == 10) {
-//                        HELPER.SIMPLE_ROUTE(act, OtpVerificationActivity.class);
-//                        finish();
-//                    } else if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
-//                        binding.phoneNoEdt.requestFocus();
-//                        binding.phoneNoEdtLayout.setError("Enter Mobile No.");
-//                    } else {
-//                        binding.phoneNoEdt.requestFocus();
-//                        binding.phoneNoEdtLayout.setError("Enter Valid Mobile No.");
-//                    }
-
-                    if (Validators.Companion.isEmailValid(binding.phoneNoEdt.getText().toString())) {
-
-                        if (CONSTANT.API_MODE) {
-                            lostPassword();
-                        } else {
-                            HELPER.SIMPLE_ROUTE(act, ResetPasswordActivity.class);
-                            finish();
-                        }
-
-                    } else if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
-                        binding.phoneNoEdt.requestFocus();
-                        binding.phoneNoEdtLayout.setError("Enter email id");
+                    if (CONSTANT.API_MODE) {
+                        lostPassword();
                     } else {
-                        binding.phoneNoEdt.requestFocus();
-                        binding.phoneNoEdtLayout.setError("Enter valid Email Id");
+                        HELPER.SIMPLE_ROUTE(act, ResetPasswordActivity.class);
+                        finish();
                     }
+
+                } else if (binding.phoneNoEdt.getText().toString().trim().length() == 0) {
+                    binding.phoneNoEdt.requestFocus();
+                    binding.phoneNoEdtLayout.setError("Enter email id");
+                } else {
+                    binding.phoneNoEdt.requestFocus();
+                    binding.phoneNoEdtLayout.setError("Enter valid Email Id");
                 }
             }
         });
@@ -161,13 +144,11 @@ public class ForgotPasswordActivity extends BaseActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.FORGOT_PASSWORD, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Login", response);
                 isLoading = false;
                 HELPER.dismissLoadingTran();
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
                 if (jsonObject != null && jsonObject.has("code")) {
                     if (ResponseHandler.getString(jsonObject, "code").equals("200")) {
-                        //errorDialog("Forgot Password", ResponseHandler.getString(jsonObject, "msg"), true);
                         binding.verifiedTxt.setText("Email Sent");
                         binding.msgSent.setText("We sent you a reset password link on entered email id. Click on the link and reset your password");
                         binding.resetPasswordContainer.setVisibility(View.GONE);
@@ -200,8 +181,7 @@ public class ForgotPasswordActivity extends BaseActivity {
                             } catch (UnsupportedEncodingException | JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+
                         }
 
                     }
@@ -211,9 +191,8 @@ public class ForgotPasswordActivity extends BaseActivity {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override

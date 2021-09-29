@@ -114,11 +114,9 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
-                        Log.e("TAG", "Fetching FCM registration token failed", task.getException());
                         return;
                     }
                     String token = task.getResult();
-                    Log.e("TAG", token);
                     firebaseToken = token;
                     subscribeFirebase();
 
@@ -139,34 +137,28 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                 "&subscribed=notification" +
                 "&api_secret_key=KUbPbwoKYw)(AHg(93o!RRw%";
         //{{site_url}}/wp-json/pd/fcm/subscribe?user_email=sunnypatel4773@gmail.com&device_token=12345852&subscribed=notification&api_secret_key=KUbPbwoKYw)(AHg(93o!RRw%
-        Log.e("API", api);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, api, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Response", response);
                 pref.setSubscribed(true);
-
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                Log.e("jsobObject", jsonString);
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.statusCode == 400) {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                          //  Log.e("jsobObject", jsonString);
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
                         }
-
+                       // Log.e("Error", gson.toJson(response.headers));
+                        //Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
+
                 }
         ) {
             /**
@@ -174,14 +166,12 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+                return new HashMap<String, String>();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 
@@ -303,7 +293,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
     private void getThemeColor() {
         //HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.THEME_COLOR, response -> {
-            Log.e("Response", response);
             try {
                 JSONObject object = new JSONObject(response);
 
@@ -318,8 +307,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
 
                 if (!pref.isSubscribed() && pref.isLogin()) {
                     letSubscribe();
-                } else {
-                    Log.e("Alread", "Subscribed");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -346,22 +333,20 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                         message = "Connection TimeOut! Please check your internet connection.";
                     }
 
-                    Log.e("message", message);
+                  //  Log.e("message", message);
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

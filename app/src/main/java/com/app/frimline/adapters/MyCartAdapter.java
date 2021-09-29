@@ -34,13 +34,12 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     private final Activity activity;
     private setActionsListener actionsListener;
     String mode;
-    // cart
-    // payment
-    public MyCartAdapter(ArrayList<ProductModel> frameItems, Activity activity,String mode) {
+
+    public MyCartAdapter(ArrayList<ProductModel> frameItems, Activity activity, String mode) {
         this.frameItems = frameItems;
         this.activity = activity;
         db = CartRoomDatabase.getAppDatabase(activity);
-        this.mode=mode;
+        this.mode = mode;
     }
 
     public void setActionsListener(setActionsListener actionsListener) {
@@ -137,7 +136,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             });
         }
 
-        if (mode.equalsIgnoreCase("payment")){
+        if (mode.equalsIgnoreCase("payment")) {
             holder.binding.actionDelete.setVisibility(View.GONE);
             holder.binding.incrementorContainer.setVisibility(View.GONE);
         }

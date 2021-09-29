@@ -27,7 +27,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
@@ -87,50 +86,42 @@ public class LoginVMobileFragment extends BaseFragment {
         binding.nameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
 
 
-        binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PROTOTYPE_MODE) {
-                    HELPER.SIMPLE_ROUTE(getActivity(), OtpVerificationActivity.class);
-                } else {
-                    if (binding.nameEdt.getText().toString().length() == 10) {
-                        if (CONSTANT.API_MODE) {
-                            if (pref.isAskOTP()) {
-                                if (ContextCompat.checkSelfPermission(act, RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                    if (ActivityCompat.shouldShowRequestPermissionRationale(act, RECEIVE_SMS)) {
-                                        askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 1);
-                                    } else {
-
-                                        askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 0);
-                                    }
+        binding.includeBtn.button.setOnClickListener(v -> {
+            if (PROTOTYPE_MODE) {
+                HELPER.SIMPLE_ROUTE(getActivity(), OtpVerificationActivity.class);
+            } else {
+                if (binding.nameEdt.getText().toString().length() == 10) {
+                    if (CONSTANT.API_MODE) {
+                        if (pref.isAskOTP()) {
+                            if (ContextCompat.checkSelfPermission(act, RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                if (ActivityCompat.shouldShowRequestPermissionRationale(act, RECEIVE_SMS)) {
+                                    askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 1);
                                 } else {
-                                    signIn();
+
+                                    askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 0);
                                 }
                             } else {
                                 signIn();
                             }
                         } else {
-                            HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
-                            act.finish();
+                            signIn();
                         }
-                    } else if (binding.nameEdt.getText().toString().trim().length() == 0) {
-                        binding.nameEdt.requestFocus();
-                        binding.nameEdtLayout.setError("Enter Mobile No.");
                     } else {
-                        binding.nameEdt.requestFocus();
-                        binding.nameEdtLayout.setError("Enter Valid Mobile No.");
+                        HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
+                        act.finish();
                     }
+                } else if (binding.nameEdt.getText().toString().trim().length() == 0) {
+                    binding.nameEdt.requestFocus();
+                    binding.nameEdtLayout.setError("Enter Mobile No.");
+                } else {
+                    binding.nameEdt.requestFocus();
+                    binding.nameEdtLayout.setError("Enter Valid Mobile No.");
                 }
-
             }
+
         });
 
-        binding.forgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(getActivity(), ForgotPasswordActivity.class);
-            }
-        });
+        binding.forgetPassword.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), ForgotPasswordActivity.class));
 
     }
 
@@ -144,19 +135,13 @@ public class LoginVMobileFragment extends BaseFragment {
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
         discardImageBinding.yesTxt.setText("Allow");
         discardImageBinding.noTxt.setText("Cancel");
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                signIn();
-            }
+        discardImageBinding.noTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            signIn();
         });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
-            }
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -177,21 +162,19 @@ public class LoginVMobileFragment extends BaseFragment {
         isLoading = true;
         HELPER.showLoadingTran(act);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN_MOBILE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Login", response);
-                isLoading = false;
-                HELPER.dismissLoadingTran();
-                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-                if (jsonObject != null && ResponseHandler.getString(jsonObject, "status").equals("OK")) {
-                    openSomeActivityForResult();
-                } else {
-                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN_MOBILE, response -> {
 
-                }
+            HELPER.print("Login", response);
+            isLoading = false;
+            HELPER.dismissLoadingTran();
+            JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+            if (jsonObject != null && ResponseHandler.getString(jsonObject, "status").equals("OK")) {
+                openSomeActivityForResult();
+            } else {
+                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
 
             }
+
         },
                 error -> {
                     error.printStackTrace();
@@ -206,16 +189,13 @@ public class LoginVMobileFragment extends BaseFragment {
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.e("Error", gson.toJson(response.headers));
-                        Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
 
                 }
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+                return new HashMap<String, String>();
             }
 
             @Override
@@ -233,25 +213,13 @@ public class LoginVMobileFragment extends BaseFragment {
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         if (frimline.getObserver().getValue() == ObserverActionID.SMS_PERMISSION_ACCEPTED) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    signIn();
-                    Log.e("API : ","Accept Permission FRagment");
-                }
-            });
-        }
-       else if ( frimline.getObserver().getValue() == ObserverActionID.SMS_PERMISSION_CANCELLED) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    signIn();
-                    Log.e("API : ","Cancel Permission FRagment");
-                }
-            });
+            act.runOnUiThread(this::signIn);
+        } else if (frimline.getObserver().getValue() == ObserverActionID.SMS_PERMISSION_CANCELLED) {
+            act.runOnUiThread(this::signIn);
         }
     }
-    public void callApi(boolean isAccept){
+
+    public void callApi(boolean isAccept) {
         signIn();
     }
 
@@ -268,18 +236,8 @@ public class LoginVMobileFragment extends BaseFragment {
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
         discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if (!act.isDestroyed() && !act.isFinishing()) {

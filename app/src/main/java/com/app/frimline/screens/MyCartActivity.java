@@ -334,7 +334,7 @@ public class MyCartActivity extends BaseActivity {
 
         HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VALIDATE_CODE, response -> {
-            Log.e("Respoons", response);
+            HELPER.print("coupon", response);
             isLoading = false;
             HELPER.dismissLoadingTran();
             try {
@@ -414,8 +414,6 @@ public class MyCartActivity extends BaseActivity {
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.e("Error", gson.toJson(response.headers));
-                        Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
 
                 }
@@ -433,7 +431,6 @@ public class MyCartActivity extends BaseActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("coupon_code", binding.promoCodeEdt.getText().toString().trim());
-                Log.e("param", params.toString());
                 return params;
             }
         };
@@ -517,20 +514,18 @@ public class MyCartActivity extends BaseActivity {
                         canApplyMore = false;
                     }
 
-                    Log.e("MSG", msg);
+
 
 
 
                     if (canApplyMore) {
                         totalPrice = 0;
-                        boolean canDirectApplyToSubTotal = true;
-                        Log.e("canApplyMore", String.valueOf(canApplyMore));
+
                         if (couponCodeModel.getExcludeCategoryIds().size() != 0) {
                             for (int i = 0; i < cartItemList.size(); i++) {
                                 for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
                                     if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getExcludeCategoryIds().get(k))) {
                                         excludedList.add(cartItemList.get(i));
-                                        Log.e("Added to exclude", cartItemList.get(i).getName());
                                     }
                                 }
                             }
@@ -541,7 +536,6 @@ public class MyCartActivity extends BaseActivity {
                                 for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getExcludeProductIds().get(k))) {
                                         excludedList.add(cartItemList.get(i));
-                                        Log.e("Added exclude Product", cartItemList.get(i).getName());
                                     }
                                 }
                             }
@@ -551,7 +545,6 @@ public class MyCartActivity extends BaseActivity {
                                 for (int k = 0; k < couponCodeModel.getCategoryIds().size(); k++) {
                                     if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getCategoryIds().get(k))) {
                                         includeList.add(cartItemList.get(i));
-                                        Log.e("Added to include", cartItemList.get(i).getName());
                                     }
                                 }
                             }
@@ -562,7 +555,6 @@ public class MyCartActivity extends BaseActivity {
                                 for (int k = 0; k < couponCodeModel.getProductIds().size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getProductIds().get(k))) {
                                         includeList.add(cartItemList.get(i));
-                                        Log.e("Added include product", cartItemList.get(i).getName());
                                     }
                                 }
                             }

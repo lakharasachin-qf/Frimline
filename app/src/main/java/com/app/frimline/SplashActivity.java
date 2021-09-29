@@ -6,20 +6,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.app.frimline.databaseHelper.CartRoomDatabase;
-import com.app.frimline.databinding.ActivitySplashBinding;
 import com.app.frimline.screens.CategoryRootActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 public class SplashActivity extends AppCompatActivity {
@@ -42,46 +35,15 @@ public class SplashActivity extends AppCompatActivity {
         animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
         animatorSet1.setDuration(3000);
 
-//        FirebaseMessaging.getInstance().getToken()
-//                .addOnCompleteListener(new OnCompleteListener<String>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<String> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.e("TAG", "Fetching FCM registration token failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new FCM registration token
-//                        String token = task.getResult();
-//
-//
-//
-//                        Log.e("TAG", token);
-//
-//                    }
-//                });
-//
-//        FirebaseMessaging.getInstance().subscribeToTopic("weather")
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                         Log.e("Msg",new Gson().toJson(task));
-//                    }
-//                });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(act, CategoryRootActivity.class);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(act, CategoryRootActivity.class);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         }, 1000);
 
-        CartRoomDatabase cartRoomDatabase = CartRoomDatabase.getAppDatabase(this);
-        Log.e("List", gson.toJson(cartRoomDatabase.productEntityDao().getAll()));
     }
 
 

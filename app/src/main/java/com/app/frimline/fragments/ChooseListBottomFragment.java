@@ -3,7 +3,6 @@ package com.app.frimline.fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -29,7 +29,6 @@ import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CountryChooseAdapter;
 import com.app.frimline.adapters.StateChooseAdapter;
-import com.app.frimline.databinding.FragmentListBottomListBinding;
 import com.app.frimline.models.CountryModel;
 import com.app.frimline.models.StateModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -98,7 +97,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         com.app.frimline.databinding.FragmentListBottomListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_bottom_list, container, false);
         view = binding.getRoot();
@@ -117,7 +116,6 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
                 binding.searchEdt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
 
                     @Override
@@ -127,7 +125,6 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-
                     }
                 });
             } else {
@@ -140,7 +137,6 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
                 binding.searchEdt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
 
                     @Override
@@ -150,7 +146,6 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-
                     }
                 });
             }
@@ -166,7 +161,6 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
 
 
             if (listModels != null) {
-                Log.e("SSSS", String.valueOf(listModels.size()));
                 adpt = new CountryChooseAdapter(listModels, act, calledFlag);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
                 binding.recyclerList.setLayoutManager(mLayoutManager);
@@ -206,7 +200,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
     }

@@ -14,7 +14,6 @@ public class NotificationDismissedReceiver extends BroadcastReceiver {
         int notificationId = intent.getExtras().getInt("notificationId");
         /* Your code to handle the event here */
         if (notificationId == 0) {
-            Log.e("Service", "Emerygency call");
             NotificationManager notify_manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
             notify_manager.cancel(0);
             notify_manager.cancelAll();

@@ -23,9 +23,13 @@ import com.app.frimline.screens.CategoryRootActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -39,30 +43,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onNewToken(s);
     }
 
-    String imageURL;
-    String msg;
-    String title;
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.e("remoteMessage", remoteMessage.getData().toString());
-        if (!remoteMessage.getData().isEmpty())
-            shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"));
-        else {
+        String imageURL = null;
+        String msg = null;
+        String title = null;
+        if (!remoteMessage.getData().isEmpty()) {
+            try {
+                remoteMessage.getData();
+                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(remoteMessage.getData().get("data")));
+                title = jsonObject.getString("title");
+                msg = jsonObject.getString("message");
+                imageURL = jsonObject.getString("image");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
             title = remoteMessage.getNotification().getTitle();
             msg = remoteMessage.getNotification().getBody();
             imageURL = remoteMessage.getNotification().getImageUrl().toString();
-
-            Log.e("remoteMessage", remoteMessage.getNotification().getTitle().toString());
-            Log.e("remoteMessage", remoteMessage.getNotification().getImageUrl().toString());
-
-            shownotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
+
+        if (title != null)
+            displayNotifications(title, msg, imageURL);
     }
 
 
-    private void shownotification(String title, String msg) {
+    private void displayNotifications(String title, String msg, String imageURL) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -79,25 +89,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         Intent intent = new Intent(this, CategoryRootActivity.class);
-//        if (copiedMessage != null && copiedMessage.equalsIgnoreCase("addBrand")) {
-//            intent = new Intent(this, ViewBrandActivity.class);
-//        } else if (copiedMessage != null && copiedMessage.equalsIgnoreCase("addFrame")) {
-//            intent = new Intent(this, ViewBrandActivity.class);
-//        } else {
-//            if (cat_id.equals("0"))
-//                intent = new Intent(this, HomeActivity.class);
-//            else {
-//                intent = new Intent(this, ImageCategoryDetailActivity.class);
-//                intent.putExtra("notification", "1");
-//                intent.putExtra("cat_id", cat_id);
-//                intent.putExtra("catName", catName);
-//            }
-//
-//        }
-
-
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = null;
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CONSTANT.CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_logo)

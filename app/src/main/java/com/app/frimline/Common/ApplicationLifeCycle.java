@@ -19,14 +19,6 @@ public class ApplicationLifeCycle implements Application.ActivityLifecycleCallba
     Date dtLastDate;
     private int refs;
 
-    /**
-     * Its not strictly necessary to use this method - _usually_ invoking
-     * get with a Context gives us a path to retrieve the Application and
-     * initialise, but sometimes (e.g. in test harness) the ApplicationContext
-     * is != the Application, and the docs make no guarantees.
-     *
-     * @param application
-     */
     public static void init(Application application) {
         if (instance == null) {
             instance = new ApplicationLifeCycle();
@@ -115,24 +107,27 @@ public class ApplicationLifeCycle implements Application.ActivityLifecycleCallba
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+        Log.e(TAG, "onActivityCreated");
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
+        Log.e(TAG, "onActivityResumed");
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
+        Log.e(TAG, "onActivityResumed");
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        Log.e(TAG, "onActivitySaveInstanceState");
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-
+        Log.e(TAG, "onActivityDestroyed");
     }
 
     interface Listener {

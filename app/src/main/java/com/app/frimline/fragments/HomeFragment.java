@@ -78,15 +78,12 @@ public class HomeFragment extends BaseFragment {
         }
         binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
 
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (CONSTANT.API_MODE) {
-                    startShimmer();
-                    loadHomeScreen();
-                } else {
-                    binding.swipeContainer.setRefreshing(false);
-                }
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            if (CONSTANT.API_MODE) {
+                startShimmer();
+                loadHomeScreen();
+            } else {
+                binding.swipeContainer.setRefreshing(false);
             }
         });
         return binding.getRoot();
@@ -112,14 +109,12 @@ public class HomeFragment extends BaseFragment {
         if (r != null)
             handler.removeCallbacks(r);
 
-        r = new Runnable() {
-            public void run() {
+        r = () -> {
 
-                binding.shimmerViewContainer.stopShimmer();
-                binding.shimmerViewContainer.setVisibility(View.GONE);
-                binding.swipeContainer.setVisibility(View.VISIBLE);
+            binding.shimmerViewContainer.stopShimmer();
+            binding.shimmerViewContainer.setVisibility(View.GONE);
+            binding.swipeContainer.setVisibility(View.VISIBLE);
 
-            }
         };
 
         handler.postDelayed(r, 3000);
@@ -204,8 +199,6 @@ public class HomeFragment extends BaseFragment {
                 }
             });
 
-            Log.e("NEW ARRAY", new Gson().toJson(dataFromApi));
-
             for (int i = 0; i < dataFromApi.size(); i++) {
                 //getUpdate(dataFromApi.get(i));
                 if (dataFromApi.get(i).getLayoutName().equalsIgnoreCase(BANNER)) {
@@ -248,12 +241,7 @@ public class HomeFragment extends BaseFragment {
         homeArray.add(homeModel);
 
 
-        Collections.sort(homeArray, new Comparator<HomeModel>() {
-            @Override
-            public int compare(HomeModel lhs, HomeModel rhs) {
-                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-            }
-        });
+        Collections.sort(homeArray, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
 
@@ -266,12 +254,7 @@ public class HomeFragment extends BaseFragment {
         homeModel.setCategoryProduct(HELPER.setAdapterForProduct());
         homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
-        Collections.sort(homeArray, new Comparator<HomeModel>() {
-            @Override
-            public int compare(HomeModel lhs, HomeModel rhs) {
-                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-            }
-        });
+        Collections.sort(homeArray, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
 
@@ -291,7 +274,7 @@ public class HomeFragment extends BaseFragment {
         });
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
-        Log.e("loadAlertCovid", new Gson().toJson(homeArray));
+
     }
 
     public void loadCategory(int position) {
@@ -413,7 +396,7 @@ public class HomeFragment extends BaseFragment {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 return params;
             }
@@ -433,32 +416,29 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void update(Observable observable, Object data) {
         super.update(observable, data);
-        act.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (parentHomeAdapter != null) {
-                    if (frimline.getObserver().getValue() == ObserverActionID.HOME_ADDED_TO_CART) {
-                        if (parentHomeAdapter != null) {
-                            relaodData(frimline.getObserver().getModel(), true);
-                            HELPER.changeCartCounter(act);
+        act.runOnUiThread(() -> {
+            if (parentHomeAdapter != null) {
+                if (frimline.getObserver().getValue() == ObserverActionID.HOME_ADDED_TO_CART) {
+                    if (parentHomeAdapter != null) {
+                        relaodData(frimline.getObserver().getModel(), true);
+                        HELPER.changeCartCounter(act);
+                    }
+                }
+                if (frimline.getObserver().getValue() == ObserverActionID.HOME_REMOVE_FROM_CART) {
+                    if (parentHomeAdapter != null) {
+                        relaodData(frimline.getObserver().getModel(), false);
+                        HELPER.changeCartCounter(act);
+                    }
+                }
+                if (frimline.getObserver().getValue() == ObserverActionID.CART_COUNTER_UPDATE) {
+                    int refreshingPost = 0;
+                    for (int i = 0; i < rootModel.size(); i++) {
+                        if (rootModel.get(i).getLayoutType() == LAYOUT_TYPE.CATEGORY_PRODUCT) {
+                            refreshingPost = i;
+                            break;
                         }
                     }
-                    if (frimline.getObserver().getValue() == ObserverActionID.HOME_REMOVE_FROM_CART) {
-                        if (parentHomeAdapter != null) {
-                            relaodData(frimline.getObserver().getModel(), false);
-                            HELPER.changeCartCounter(act);
-                        }
-                    }
-                    if (frimline.getObserver().getValue() == ObserverActionID.CART_COUNTER_UPDATE) {
-                        int refreshingPost = 0;
-                        for (int i = 0; i < rootModel.size(); i++) {
-                            if (rootModel.get(i).getLayoutType() == LAYOUT_TYPE.CATEGORY_PRODUCT) {
-                                refreshingPost = i;
-                                break;
-                            }
-                        }
-                        parentHomeAdapter.notifyItemChanged(refreshingPost);
-                    }
+                    parentHomeAdapter.notifyItemChanged(refreshingPost);
                 }
             }
         });

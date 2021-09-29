@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
@@ -31,7 +29,6 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.CatBannerAdapter;
 import com.app.frimline.adapters.CategoryAdapter;
 import com.app.frimline.adapters.TodaysTomorrowAdapter;
-import com.app.frimline.databinding.DialogOfferBinding;
 import com.app.frimline.databinding.FragmentCategoryRootBinding;
 import com.app.frimline.models.CategoryRootFragments.CategoryRootModel;
 import com.app.frimline.models.CategoryRootFragments.TodaysModel;
@@ -55,7 +52,6 @@ public class CategoryRootFragment extends BaseFragment {
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_root, parent, false);
         ((ViewGroup) binding.getRoot().findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         HELPER.changeThemeCategoryRootFragment(binding, pref.getThemeColor());

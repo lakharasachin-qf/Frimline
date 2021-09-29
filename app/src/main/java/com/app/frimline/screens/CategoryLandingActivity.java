@@ -82,14 +82,11 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
         customViewPager.addOnPageChangeListener(new androidx.viewpager.widget.ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.e("onPageScrolled", String.valueOf(position));
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.e("onPageSelected", String.valueOf(position));
                 CurrentPosition = position;
-                // launch();
                 launch();
             }
 
@@ -319,11 +316,9 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                         @Override
                         public void onComplete(@NonNull Task<String> task) {
                             if (!task.isSuccessful()) {
-                                Log.e("TAG", "Fetching FCM registration token failed", task.getException());
                                 return;
                             }
                             String token = task.getResult();
-                            Log.e("TAG", token);
                             firebaseToken = token;
 
                             subscribeFirebase();
@@ -351,7 +346,6 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, api, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.e("Response", response);
                     pref.setSubscribed(true);
 
                 }
@@ -366,12 +360,12 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                                 try {
                                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                     JSONObject jsonObject = new JSONObject(jsonString);
-                                    Log.e("jsobObject", jsonString);
+                                    //Log.e("jsobObject", jsonString);
                                 } catch (UnsupportedEncodingException | JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Log.e("Error", gson.toJson(response.headers));
-                                Log.e("allHeaders", gson.toJson(response.allHeaders));
+                                //Log.e("Error", gson.toJson(response.headers));
+                                //Log.e("allHeaders", gson.toJson(response.allHeaders));
                             }
 
                         }
@@ -381,15 +375,13 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                  * Passing some request headers*
                  */
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    return params;
+                public Map<String, String> getHeaders() {
+                    return new HashMap<String, String>();
                 }
 
                 @Override
                 protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    return params;
+                    return new HashMap<>();
                 }
             };
 

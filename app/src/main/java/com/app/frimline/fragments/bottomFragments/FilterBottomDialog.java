@@ -64,7 +64,6 @@ public class FilterBottomDialog extends BaseFragment {
 
         binding.titleText.setText("Filter");
         if (listModels != null) {
-            Log.e("SSSS", String.valueOf(listModels.size()));
             SortingAdapter adpt = new SortingAdapter(listModels, act, calledFlag);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
             binding.recyclerList.setLayoutManager(mLayoutManager);

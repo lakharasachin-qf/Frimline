@@ -570,7 +570,7 @@ public class ResponseHandler {
 
             HomeModel hotProductModel = getHotProducts(jsonObject);
             if (hotProductModel.getApiProductModel().size() != 0) {
-                Log.e("Data", new Gson().toJson(hotProductModel.getApiProductModel()));
+
                 rootArrayList.add(hotProductModel);
                 count++;
             }
@@ -658,9 +658,9 @@ public class ResponseHandler {
             for (int i = 0; i < jsonArray.length(); i++) {
                 BlogModel model = new BlogModel();
                 if (i % 2 == 0) {
-                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_RIGHT_BLOG);
-                } else {
                     model.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
+                } else {
+                    model.setLayoutType(LAYOUT_TYPE.LAYOUT_RIGHT_BLOG);
                 }
                 model.setId(jsonArray.getJSONObject(i).getString("id"));
                 model.setDate(jsonArray.getJSONObject(i).getString("date"));

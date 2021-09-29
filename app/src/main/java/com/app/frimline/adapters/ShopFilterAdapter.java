@@ -3,7 +3,6 @@ package com.app.frimline.adapters;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,47 +45,19 @@ public class ShopFilterAdapter extends RecyclerView.Adapter<ShopFilterAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (CONSTANT.API_MODE) {
             holder.chip.setText(frameItems.get(position).getCategoryName());
-            holder.chip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (frameItems.get(position).isActive()) {
-                        frameItems.get(position).setActive(false);
-                        holder.chip.setTextColor(ContextCompat.getColor(activity, R.color.colorToolbarHeader));
-                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.WHITE));
-                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.cardViewBorder)));
-                        FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER_REMOVE, new Gson().toJson(frameItems.get(position)));
-                    } else {
-                        frameItems.get(position).setActive(true);
-                        holder.chip.setTextColor(Color.WHITE);
-                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-                        FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER, new Gson().toJson(frameItems.get(position)));
-                    }
-
-
-//                    if (frameItems.get(position).isSelectedModelForShopFiler()) {
-//                        Log.e("Selected", new Gson().toJson(selectedCategory));
-//                        Log.e("frameItems", new Gson().toJson(frameItems.get(position)));
-//                        frameItems.get(position).setActive(true);
-//                        // FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER, new Gson().toJson(frameItems.get(position)));
-//                        holder.chip.setTextColor(Color.WHITE);
-//                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-//                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-//                    }
-
-
-//                    if (holder.chip.getTag().toString().equalsIgnoreCase("Y")) {
-//                        holder.chip.setTag("N");
-//                        holder.chip.setTextColor(ContextCompat.getColor(activity, R.color.colorToolbarHeader));
-//                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.WHITE));
-//                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(activity,R.color.cardViewBorder)));
-//                    } else {
-//                        holder.chip.setTag("Y");
-//                        holder.chip.setTextColor(Color.WHITE);
-//                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-//                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-//                    }
-
+            holder.chip.setOnClickListener(v -> {
+                if (frameItems.get(position).isActive()) {
+                    frameItems.get(position).setActive(false);
+                    holder.chip.setTextColor(ContextCompat.getColor(activity, R.color.colorToolbarHeader));
+                    holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.WHITE));
+                    holder.chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.cardViewBorder)));
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER_REMOVE, new Gson().toJson(frameItems.get(position)));
+                } else {
+                    frameItems.get(position).setActive(true);
+                    holder.chip.setTextColor(Color.WHITE);
+                    holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
+                    holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER, new Gson().toJson(frameItems.get(position)));
                 }
             });
 
@@ -94,29 +65,25 @@ public class ShopFilterAdapter extends RecyclerView.Adapter<ShopFilterAdapter.Vi
                 if (selectedCategory.getCategoryId().equalsIgnoreCase(frameItems.get(position).getCategoryId())) {
 
                     frameItems.get(position).setActive(true);
-                    // FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CATEGORY_FILTER, new Gson().toJson(frameItems.get(position)));
                     holder.chip.setTextColor(Color.WHITE);
                     holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
                     holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
                 }
             }
         } else {
-            holder.chip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (holder.chip.getTag().toString().equalsIgnoreCase("Y")) {
-                        holder.chip.setTag("N");
-                        holder.chip.setTextColor(ContextCompat.getColor(activity, R.color.colorToolbarHeader));
-                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.WHITE));
-                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.cardViewBorder)));
-                    } else {
-                        holder.chip.setTag("Y");
-                        holder.chip.setTextColor(Color.WHITE);
-                        holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-                        holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
-                    }
-
+            holder.chip.setOnClickListener(v -> {
+                if (holder.chip.getTag().toString().equalsIgnoreCase("Y")) {
+                    holder.chip.setTag("N");
+                    holder.chip.setTextColor(ContextCompat.getColor(activity, R.color.colorToolbarHeader));
+                    holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.WHITE));
+                    holder.chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.cardViewBorder)));
+                } else {
+                    holder.chip.setTag("Y");
+                    holder.chip.setTextColor(Color.WHITE);
+                    holder.chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
+                    holder.chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(activity).getThemeColor())));
                 }
+
             });
         }
 

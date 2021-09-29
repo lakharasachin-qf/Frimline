@@ -57,8 +57,6 @@ public abstract class BaseFragment extends Fragment implements Observer {
         if (pref.isLogin())
             map.put("Authorization", "Bearer " + pref.getToken());
 
-
-
         //map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyODYxNTEwMSwibmJmIjoxNjI4NjE1MTAxLCJleHAiOjE2MjkyMTk5MDEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.YpZq2d8kP3PLR5UXfEWFa4uqiNL7wQoaHENHjNuJ-98");
         return map;
     }

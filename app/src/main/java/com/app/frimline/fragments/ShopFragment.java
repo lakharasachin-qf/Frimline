@@ -101,16 +101,12 @@ public class ShopFragment extends BaseFragment {
         }
         binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
 
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (CONSTANT.API_MODE) {
-
-                    startShimmer();
-                    loadShopData();
-                } else {
-                    binding.swipeContainer.setRefreshing(false);
-                }
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            if (CONSTANT.API_MODE) {
+                startShimmer();
+                loadShopData();
+            } else {
+                binding.swipeContainer.setRefreshing(false);
             }
         });
         fillSortingData();
@@ -156,29 +152,16 @@ public class ShopFragment extends BaseFragment {
 
 
     public void setupFilter() {
-        binding.sortFilterAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                slideToLeftFilter(binding.filterFrameLayout);
-            }
-        });
-        binding.filterChip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                slideToLeft(binding.frameLayout);
-            }
-        });
+        binding.sortFilterAction.setOnClickListener(v -> slideToLeftFilter(binding.filterFrameLayout));
+        binding.filterChip.setOnClickListener(v -> slideToLeft(binding.frameLayout));
 
 
-        binding.transparentOverlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
-                    slideTorightFilter(binding.filterFrameLayout);
-                }
-                if (binding.frameLayout.getVisibility() == View.VISIBLE) {
-                    slideToright(binding.frameLayout);
-                }
+        binding.transparentOverlay.setOnClickListener(v -> {
+            if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
+                slideTorightFilter(binding.filterFrameLayout);
+            }
+            if (binding.frameLayout.getVisibility() == View.VISIBLE) {
+                slideToright(binding.frameLayout);
             }
         });
 
@@ -438,8 +421,6 @@ public class ShopFragment extends BaseFragment {
                 stopShimmer();
                 isLoading = false;
                 rootModel = ResponseHandler.handleShopFragmentData(response);
-
-                Log.e("select-Category",gson.toJson(selectedCategory));
                 shopAdapter = new ShopAdapter(rootModel, getActivity(),selectedCategory);
                 shopAdapter.setCategoryFilter(selectedCategory);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
@@ -497,7 +478,6 @@ public class ShopFragment extends BaseFragment {
                 if (selectedCategory != null)
                     params.put("category", selectedCategory.getCategoryId());
 
-                Log.e("Param", params.toString());
                 return params;
             }
         };

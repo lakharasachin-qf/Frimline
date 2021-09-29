@@ -49,50 +49,42 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         if (CONSTANT.API_MODE) {
 
 
-
             if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PENDING)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_PENDING_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
-            }
-            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PROCESSING)) {
+            } else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_PROCESSING)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_PROCESSING_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
-            }
-            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_ON_HOLD)) {
+            } else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_ON_HOLD)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_ON_HOLD_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryPending));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryPending)));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pending_icon));
-            }
-            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_COMPLETED)) {
+            } else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_COMPLETED)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_COMPLETED_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliverySuccess));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_delivery_icon));
                 holder.binding.delivaryIcon.setImageTintList(null);
-            }
-            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED)) {
+            } else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_CANCELLED_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
-            }
-            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_REFUNDED)) {
+            } else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_REFUNDED)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_REFUNDED_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
-            }
-            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_FAILED)) {
+            } else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_FAILED)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_FAILED_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
                 holder.binding.delivaryIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_cancel_black_24dp));
-            }
-            else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED_SALES_RETURN)) {
+            } else if (model.getStatus().equalsIgnoreCase(CONSTANT.PAYMENT_CANCELLED_SALES_RETURN)) {
                 holder.binding.deliveredTxt.setText(CONSTANT.PAYMENT_CANCELLED_SALES_RETURN_LABEL);
                 holder.binding.deliveredTxt.setTextColor(ContextCompat.getColor(activity, R.color.deliveryFaild));
                 holder.binding.delivaryIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.deliveryFaild)));
@@ -164,10 +156,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             binding = itemView;
             PREF pref = new PREF(activity);
             binding.viewDetailsBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
-            //  deliveryIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
-            // deliveryTxt.setTextColor(Color.parseColor(pref.getCategoryColor()));
         }
     }
-
-
 }

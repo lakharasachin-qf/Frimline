@@ -3,7 +3,6 @@ package com.app.frimline.fragments.aboutProducts;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class DescriptionFragment extends BaseFragment {
 
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        if (productModel != null && productModel.getAttribute()!=null) {
+        if (productModel != null && productModel.getAttribute() != null) {
             HELPER.LOAD_HTML(binding.text, productModel.getAttribute().getDescription());
         }
     }
@@ -72,7 +71,6 @@ public class DescriptionFragment extends BaseFragment {
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
         if (this.productModel != null) {
-            Log.e("print", gson.toJson(this.productModel));
             HELPER.LOAD_HTML(binding.text, this.productModel.getAttribute().getDescription());
         }
     }

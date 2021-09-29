@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -41,6 +42,7 @@ public class HomeBannerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    @NonNull
     @Override
     public Object instantiateItem(@NotNull ViewGroup container, final int position) {
 
@@ -49,7 +51,6 @@ public class HomeBannerAdapter extends PagerAdapter {
         if (CONSTANT.API_MODE) {
             ImageView productImages = view.findViewById(R.id.banner);
             Glide.with(context).load(sliderImg.get(position).getUrl()).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
-            //Glide.with(context).load(R.drawable.ic_banner_place_holder).placeholder(R.drawable.ic_banner_place_holder).error(R.drawable.ic_banner_place_holder).into(productImages);
         } else {
 
             LinearLayout dummyContainer = view.findViewById(R.id.dummyContainer);
@@ -61,12 +62,6 @@ public class HomeBannerAdapter extends PagerAdapter {
         return view;
 
     }
-//
-//    @Override
-//    public float getPageWidth(int position) {
-//        return 0.5f;
-//
-//    }
 
     @Override
     public void destroyItem(@NotNull ViewGroup container, int position, @NotNull Object object) {

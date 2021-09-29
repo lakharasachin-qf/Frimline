@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,8 +111,6 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                     loadDataForTwoLayout(((TwoProductViewHolder) holder).binding, dashBoardItemList.get(position), position);
                     break;
                 case LAYOUT_TYPE.LAYOUT_THREE_PRODUCT:
-                    Log.e("SSSS", "3333");
-
                     loadDataForLayoutThree(((ThreeProductViewHolder) holder).binding, dashBoardItemList.get(position), position);
                     break;
             }
@@ -141,7 +138,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
         if (productList.get(0).isAddedToCart()) {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
-        }else{
+        } else {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
 
@@ -199,8 +196,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
         if (CONSTANT.API_MODE) {
 
-            HomeModel model = position;
-            ArrayList<ProductModel> productList = model.getApiProductModel();
+            ArrayList<ProductModel> productList = position.getApiProductModel();
 
             HELPER.LOAD_HTML(binding.productName1, productList.get(0).getName());
             HELPER.LOAD_HTML(binding.productName2, productList.get(1).getName());
@@ -235,17 +231,17 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
             if (productList.get(0).isAddedToCart()) {
                 binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
-            }else{
+            } else {
                 binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
             }
             if (productList.get(1).isAddedToCart()) {
                 binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
-            }else{
+            } else {
                 binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
             }
             if (productList.get(2).isAddedToCart()) {
                 binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
-            }else{
+            } else {
                 binding.addCart3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
             }
 
@@ -255,7 +251,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent i = new Intent(activity, ProductDetailActivity.class);
                     i.putExtra("productPosition", "0");
-                    i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                    i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                     i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                     i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                     i.putExtra("model", new Gson().toJson(productList.get(0)));
@@ -270,7 +266,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent i = new Intent(activity, ProductDetailActivity.class);
                     i.putExtra("productPosition", "1");
-                    i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                    i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                     i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                     i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                     i.putExtra("model", new Gson().toJson(productList.get(1)));
@@ -284,10 +280,9 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding.productLayout3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Intent i = new Intent(activity, ProductDetailActivity.class);
                     i.putExtra("productPosition", "2");
-                    i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
+                    i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                     i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
                     i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                     i.putExtra("model", new Gson().toJson(productList.get(2)));
@@ -458,15 +453,14 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         productList.get(1).setAddedToCart(entity != null);
 
 
-
         if (productList.get(0).isAddedToCart()) {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
-        }else{
+        } else {
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
         if (productList.get(1).isAddedToCart()) {
             binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorCode)));
-        }else{
+        } else {
             binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }
 
@@ -578,14 +572,17 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding = itemView;
             changeColor();
         }
-        public void changeColor(){
+
+        public void changeColor() {
             PREF pref = new PREF(activity);
+
             String colorCode = "";
             if (applyThemeColor) {
                 colorCode = pref.getThemeColor();
             } else {
                 colorCode = pref.getCategoryColor();
             }
+
             binding.addCart1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
             binding.addCart2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ACACAC")));
         }

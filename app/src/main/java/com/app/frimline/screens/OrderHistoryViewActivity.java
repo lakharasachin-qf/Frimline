@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,6 +20,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -273,21 +281,56 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         TextView trackingId = findViewById(R.id.trackingId);
         TextView tracklink = findViewById(R.id.trackingLink);
-        Log.e("TrackingId", model.getTrackingId() + "-");
-        Log.e("TrackingLink", model.getTrackingLink() + "-");
-        if (!model.getTrackingId().isEmpty()) {
-            trackingId.setText(model.getTrackingId());
 
+        if (!model.getTrackingId().isEmpty()) {
+            SpannableString ss = new SpannableString("Your order has been shipped. Your tracking number is "+model.getTrackingId());
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(View textView) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getTrackingLink()));
+                    startActivity(browserIntent);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setFakeBoldText(true);
+                    ds.setUnderlineText(false);
+                }
+            };
+            ss.setSpan(clickableSpan, 52, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new StyleSpan(Typeface.BOLD), 52, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new ForegroundColorSpan(Color.BLACK), 52, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            trackingId.setText(ss);
+            trackingId.setMovementMethod(LinkMovementMethod.getInstance());
+            trackingId.setHighlightColor(Color.TRANSPARENT);
+            trackingId.setVisibility(View.VISIBLE);
         } else {
             trackingId.setVisibility(View.GONE);
         }
         if (!model.getTrackingLink().isEmpty()) {
-            HELPER.LOAD_HTML(tracklink, "<u>" + model.getTrackingLink() + "</u>");
-            tracklink.setOnClickListener(v -> {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getTrackingLink()));
-                startActivity(browserIntent);
-            });
+            SpannableString ss = new SpannableString("Click here to : Track your Order");
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(View textView) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getTrackingLink()));
+                    startActivity(browserIntent);
+                }
 
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setFakeBoldText(true);
+                }
+            };
+            ss.setSpan(clickableSpan, 15, 31, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new StyleSpan(Typeface.BOLD), 15, 31, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new ForegroundColorSpan(Color.parseColor(prefManager.getThemeColor())), 15, 31, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            tracklink.setText(ss);
+            tracklink.setMovementMethod(LinkMovementMethod.getInstance());
+            tracklink.setHighlightColor(Color.TRANSPARENT);
+            tracklink.setVisibility(View.VISIBLE);
         } else {
             tracklink.setVisibility(View.GONE);
         }
@@ -329,7 +372,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
         finalAmoutPrice.setText(act.getString(R.string.Rs) + String.format("%.2f", finalAmount));
 
         RelativeLayout codLayout = findViewById(R.id.codLayout);
-        if (model.getPaymentMethod().equalsIgnoreCase("cod")) {
+        if (model.getPaymentMethod().equalsIgnoreCase("cod") && model.getCodCharges()!=null && !model.getCodCharges().isEmpty() && !model.getCodCharges().equalsIgnoreCase("null")) {
             codLayout.setVisibility(View.VISIBLE);
             double codAmount = Double.parseDouble(model.getCodCharges());
             TextView codChargePrice = findViewById(R.id.codChargePrice);
@@ -492,6 +535,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
         String filename = "";
         String outputFile;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -516,7 +560,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                     //below Android 11 save pdf
-                    String  destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + CONSTANT.FOLDER_NAME;
+                    String destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + CONSTANT.FOLDER_NAME;
                     File desFile = new File(destURL);
                     if (!desFile.exists()) {
                         desFile.mkdir();
@@ -583,15 +627,15 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
                 String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
                 Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
-              //  Log.e("pdf-stored", "" + FilePath);
+                //  Log.e("pdf-stored", "" + FilePath);
 
-                File file = new File( outputFile);
+                File file = new File(outputFile);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri apkURI = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", file);
                 intent.setDataAndType(apkURI, "application/pdf");
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 act.startActivity(intent);
-            }else {
+            } else {
 
                 String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
                 Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBrandLIstHolder> {
 
-    private final int selectedPosition = -1;
     private final ArrayList<ListModel> arrayList;
     private final Activity act;
     private int checkedPosition = -1;
@@ -53,28 +52,6 @@ public class SortingAdapter extends RecyclerView.Adapter<SortingAdapter.SelecBra
 
     @Override
     public void onBindViewHolder(@NonNull SelecBrandLIstHolder holder, int position) {
-        ListModel listModel = arrayList.get(position);
-
-//        holder.radioButton.setText(listModel.getName());
-//        holder.radioButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.itemView.performClick();
-//            }
-//        });
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onClick(View view) {
-//                holder.radioButton.setChecked(true);
-//                selectedPosition = holder.getBindingAdapterPosition();
-//                Toast.makeText(act, selectedPosition + "", Toast.LENGTH_SHORT).show();
-//                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.APPLY_SORT_SELECTION, new Gson().toJson(listModel));
-//                notifyDataSetChanged();
-//
-//            }
-//        });
-
         holder.bind(arrayList.get(position));
     }
 

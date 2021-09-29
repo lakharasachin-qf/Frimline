@@ -46,18 +46,15 @@ public class AddressesActivity extends BaseActivity {
     private boolean isLoading = false;
     final ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        if (data != null && data.hasExtra("success")) {
-                            startShimmer();
-                            loadProfile();
-                        }
-
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // There are no request codes
+                    Intent data = result.getData();
+                    if (data != null && data.hasExtra("success")) {
+                        startShimmer();
+                        loadProfile();
                     }
+
                 }
             });
 
@@ -137,7 +134,6 @@ public class AddressesActivity extends BaseActivity {
 
         String shippingAddress = "";
         billing = prefManager.getUser().getShippingAddress();
-        Log.e("getShippingAddress", gson.toJson(billing));
         if (!billing.getAddress1().isEmpty()) {
             shippingAddress = shippingAddress + billing.getAddress1();
         }
@@ -267,8 +263,7 @@ public class AddressesActivity extends BaseActivity {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 

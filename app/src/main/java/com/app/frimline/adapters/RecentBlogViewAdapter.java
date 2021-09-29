@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -50,6 +51,7 @@ public class RecentBlogViewAdapter extends PagerAdapter {
         return view == object;
     }
 
+    @NonNull
     @Override
     public Object instantiateItem(@NotNull ViewGroup container, final int position) {
         BlogModel model = sliderImg.get(position);
@@ -83,6 +85,7 @@ public class RecentBlogViewAdapter extends PagerAdapter {
 
                 Glide.with(context).load(model.getBlogList().get(0).getBlogImage())
                         .placeholder(R.drawable.ic_square_place_holder)
+                        .centerCrop()
                         .error(R.drawable.ic_square_place_holder)
                         .into(productImage);
             }
@@ -142,11 +145,13 @@ public class RecentBlogViewAdapter extends PagerAdapter {
 
                 Glide.with(context).load(model.getBlogList().get(0).getBlogImage())
                         .placeholder(R.drawable.ic_square_place_holder)
+                        .centerCrop()
                         .error(R.drawable.ic_square_place_holder)
                         .into(productImage);
                 Glide.with(context).load(model.getBlogList().get(1).getBlogImage())
                         .placeholder(R.drawable.ic_square_place_holder)
                         .error(R.drawable.ic_square_place_holder)
+                        .centerCrop()
                         .into(productImage2);
             }
 
@@ -182,11 +187,7 @@ public class RecentBlogViewAdapter extends PagerAdapter {
         view2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(context).getThemeColor())));
 
     }
-   /* @Override
-    public float getPageWidth(int position) {
-        return 0.5f;
 
-    }*/
 
     @Override
     public void destroyItem(@NotNull ViewGroup container, int position, @NotNull Object object) {

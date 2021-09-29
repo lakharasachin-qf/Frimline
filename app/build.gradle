@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id  'com.google.firebase.crashlytics'
-
 }
 
 android {
@@ -58,9 +57,9 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-    implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -83,13 +82,13 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // dependencies for android material
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
 
     // dependencies for facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
 
     // dependencies for volley
-    implementation 'com.android.volley:volley:1.2.0'
+    implementation 'com.android.volley:volley:1.2.1'
 
     // dependency file for gson
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -104,9 +103,6 @@ dependencies {
     // dependencies for circle imageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    //dependencies for carben
-    //   api 'tk.zielony:carbon:0.16.0.1'
-
     // dependencies for ratting
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 
@@ -116,21 +112,13 @@ dependencies {
     //dependencies for vector control
     implementation 'com.github.devsideal:VectorChildFinder:1.0.0'
 
-    //dependencies for otp
-//    implementation ('com.alimuzaffar.lib:pinentryedittext:2.0.6') {
-//        // androidx.appcompat as a dependency in your app.
-//        exclude group: 'androidx.appcompat', module: 'appcompat'
-//    }
-    //implementation 'com.github.aabhasr1:OtpView:v1.1.2'
-
-
-    //dependencies for Tablayout
+    //dependencies for Tab layout
     implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
 
     //Optional: see how to use the utility.
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
 
-    //dependencies for programmetically drawable
+    //dependencies for programmatically drawable
     implementation "com.github.duanhong169:drawabletoolbox:1.0.7"
 
     //dependencies for recyclerview item animator

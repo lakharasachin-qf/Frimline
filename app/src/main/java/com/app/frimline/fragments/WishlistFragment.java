@@ -173,7 +173,7 @@ public class WishlistFragment extends BaseFragment {
             binding.swipeContainer.setRefreshing(false);
             stopShimmer();
 
-            Log.e("RESSS", response);
+            HELPER.print("wishlist", response);
 
             arrayList = ResponseHandler.parseWishlist(response);
 
@@ -286,7 +286,6 @@ public class WishlistFragment extends BaseFragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("wishlist_id", model.getID());
-                Log.e("PARAM", params.toString());
                 return params;
             }
         };
@@ -347,7 +346,6 @@ public class WishlistFragment extends BaseFragment {
             HELPER.dismissLoadingTran();
             JSONObject object = ResponseHandler.createJsonObject(response);
             ProductModel productModel = ResponseHandler.getProductDetails(object);
-            Log.e("print", gson.toJson(productModel));
             if (productModel != null) {
                 if (isAddToCart){
                     productModel.setQty(selectedEntity.getQuantity());

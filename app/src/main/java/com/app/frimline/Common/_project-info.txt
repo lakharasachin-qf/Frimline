@@ -16,13 +16,10 @@ Developer Info:
 To generate sha-1 key
 search  - signingReport
 
-
+RAZORPAY
+-------
 API KEY : rzp_test_p35sgazZRjR37p
 Secret KEY : Q9wyDNbQLE0VBTaSZiVrGIf7
 
 
 
-
-
-varsha.qf123@gmail.com
-ADMIN@admin123

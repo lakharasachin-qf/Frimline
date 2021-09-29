@@ -87,17 +87,8 @@ public class OtpVerificationActivity extends BaseActivity {
 
         HELPER.LOAD_HTML(binding.mobileNoLabel, "Enter the OTP sent to <b>" + getIntent().getStringExtra("mobileNo") + "</b>");
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
-//            if (prefManager.isAskOTP()) {
-//                askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 0);
-//            }
-        } else {
-            SMSListener.bindListener(new Common.OTPListener() {
-                @Override
-                public void onOTPReceived(String extractedOTP) {
-                    binding.otpView.setOTP(extractedOTP);
-                }
-            });
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {
+            SMSListener.bindListener(extractedOTP -> binding.otpView.setOTP(extractedOTP));
         }
         binding.otpView.setOtpListener(new OTPListener() {
             @Override
@@ -123,51 +114,41 @@ public class OtpVerificationActivity extends BaseActivity {
             isLoading = true;
         HELPER.showLoadingTran(act);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN_MOBILE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Login", response);
-                isLoading = false;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN_MOBILE, response -> {
+            isLoading = false;
+            HELPER.dismissLoadingTran();
+            JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+            if (jsonObject != null && ResponseHandler.getString(jsonObject, "status").equals("OK")) {
+                Toast.makeText(act, "Otp Send to your number", Toast.LENGTH_SHORT).show();
+            } else {
                 HELPER.dismissLoadingTran();
-                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-                if (jsonObject != null && ResponseHandler.getString(jsonObject, "status").equals("OK")) {
-                    Toast.makeText(act, "Otp Send to your number", Toast.LENGTH_SHORT).show();
-                } else {
-                    HELPER.dismissLoadingTran();
-                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                }
-
+                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        HELPER.dismissLoadingTran();
-                        NetworkResponse response = error.networkResponse;
-                        if (response!=null && response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
-                        }
 
+        },
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    HELPER.dismissLoadingTran();
+                    NetworkResponse response = error.networkResponse;
+                    if (response!=null && response.statusCode == 400) {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
+
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override
@@ -258,25 +239,6 @@ public class OtpVerificationActivity extends BaseActivity {
 
     }
 
-    public void launch() {
-        handler = new Handler();
-        if (r != null)
-            handler.removeCallbacks(r);
-
-        r = new Runnable() {
-            public void run() {
-                binding.container.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
-                binding.containerVerified.setVisibility(View.VISIBLE);
-
-
-            }
-        };
-
-        handler.postDelayed(r, 1000);
-
-
-    }
 
     private void otpVerification() {
 
@@ -287,7 +249,6 @@ public class OtpVerificationActivity extends BaseActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.OTP_VERIFICATION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Login", response);
                 isLoading = false;
 
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
@@ -312,38 +273,34 @@ public class OtpVerificationActivity extends BaseActivity {
 
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        NetworkResponse response = error.networkResponse;
-                        if (response!=null && response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                                binding.container.setVisibility(View.VISIBLE);
-                                binding.progressBar.setVisibility(View.GONE);
-                                binding.containerVerified.setVisibility(View.GONE);
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    NetworkResponse response = error.networkResponse;
+                    if (response!=null && response.statusCode == 400) {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                            binding.container.setVisibility(View.VISIBLE);
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.containerVerified.setVisibility(View.GONE);
 
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
                         }
 
+
                     }
+
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override
@@ -351,7 +308,6 @@ public class OtpVerificationActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("mobile", getIntent().getStringExtra("mobileNo"));
                 params.put("otp", String.valueOf(binding.otpView.getOtp()));
-                Log.e("param", params.toString());
                 return params;
             }
         };
@@ -370,27 +326,8 @@ public class OtpVerificationActivity extends BaseActivity {
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
         discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-//                if (!title.equalsIgnoreCase("Error")) {
-//                    Intent data = new Intent();
-//                    data.putExtra("success", "1");
-//                    setResult(RESULT_OK, data);
-//                    finish();
-//
-//                }
-
-            }
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
@@ -455,39 +392,28 @@ public class OtpVerificationActivity extends BaseActivity {
                     data.putExtra("success", "1");
                     setResult(RESULT_OK, data);
                     finish();
-//
-//                    binding.container.setVisibility(View.GONE);
-//                    binding.progressBar.setVisibility(View.GONE);
-//                    binding.containerVerified.setVisibility(View.VISIBLE);
-
                 }
 
             }
 
 
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                Log.e("Header", params.toString());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

@@ -80,15 +80,12 @@ public class OrderHistoryFragment extends BaseFragment {
         });
         binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
 
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (CONSTANT.API_MODE) {
-                    startShimmer();
-                    loadProfile();
-                }else{
-                    binding.swipeContainer.setRefreshing(false);
-                }
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            if (CONSTANT.API_MODE) {
+                startShimmer();
+                loadProfile();
+            }else{
+                binding.swipeContainer.setRefreshing(false);
             }
         });
         return binding.getRoot();
@@ -135,7 +132,7 @@ public class OrderHistoryFragment extends BaseFragment {
             public void onResponse(String response) {
                 isLoading = false;
                 binding.swipeContainer.setRefreshing(false);
-                Log.e("Response", response + "s");
+                HELPER.print("Response", response);
                 stopShimmer();
                 JSONArray object = null;
                 try {
@@ -183,24 +180,13 @@ public class OrderHistoryFragment extends BaseFragment {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                Log.e("HEADER", getHeader().toString());
-
-                HashMap<String, String> map = new HashMap<>();
-                pref = new PREF(act);
-                if (pref.isLogin())
-                    map.put("Authorization", "Bearer " + pref.getToken());
-
-              //  map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyOTI2NTg2MSwibmJmIjoxNjI5MjY1ODYxLCJleHAiOjE2Mjk4NzA2NjEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.Cy_OUQQNARUX1jPChwHY25xdUOineBkllkN7gulYKZg");
-
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 
@@ -211,24 +197,16 @@ public class OrderHistoryFragment extends BaseFragment {
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    loadProfile();
-                }
-            });
+            act.runOnUiThread(this::loadProfile);
         }
         if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!new PREF(act).isLogin()) {
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        binding.orderHistoryRecycler.setVisibility(View.GONE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.errorText.setText("You are not Signed In.");
-                    }
+            act.runOnUiThread(() -> {
+                if (!new PREF(act).isLogin()) {
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
+                    binding.orderHistoryRecycler.setVisibility(View.GONE);
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
+                    binding.NoDataFound.setVisibility(View.VISIBLE);
+                    binding.errorText.setText("You are not Signed In.");
                 }
             });
         }

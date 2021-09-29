@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -22,11 +21,9 @@ import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.cartcounter.CharOrder;
@@ -208,8 +205,8 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
-                        if (getIntent().hasExtra("fragment")){
-                            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")){
+                        if (getIntent().hasExtra("fragment")) {
+                            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")) {
                                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.WISHLIST_REFRESH);
                             }
                         }
@@ -234,8 +231,8 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
-                        if (getIntent().hasExtra("fragment")){
-                            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")){
+                        if (getIntent().hasExtra("fragment")) {
+                            if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")) {
                                 FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.WISHLIST_REFRESH);
                             }
                         }
@@ -269,7 +266,7 @@ public class ProductDetailActivity extends BaseActivity {
             binding.screenLoader.setVisibility(View.GONE);
             loadData();
         }
-        if (getIntent().hasExtra("qty")){
+        if (getIntent().hasExtra("qty")) {
             binding.counter.setText(getIntent().getStringExtra("qty"));
         }
     }
@@ -388,7 +385,7 @@ public class ProductDetailActivity extends BaseActivity {
             }
             HELPER.LOAD_HTML(binding.tagsLabel, "<b>Tags : <b>" + tagsStr);
         }
-        Log.e("isReturnable", productModel.isReturnAble() + "ss");
+
         if (productModel.isReturnAble()) {
             binding.returnAbleLAbel.setText("Returnable");
         } else {
@@ -447,9 +444,9 @@ public class ProductDetailActivity extends BaseActivity {
             binding.wishlistAction.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_wishlist));
         }
 
-        if (prefManager.isLogin()){
+        if (prefManager.isLogin()) {
             binding.wishlistAction.setVisibility(View.VISIBLE);
-        } else{
+        } else {
             binding.wishlistAction.setVisibility(View.GONE);
         }
 
@@ -465,23 +462,15 @@ public class ProductDetailActivity extends BaseActivity {
 
         isLoading = true;
         HELPER.showLoadingTran(act);
-        Log.e("APIS", apiURL);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isLoading = false;
-
-                Log.e(sourceIntent, response);
                 if (sourceIntent.equalsIgnoreCase("remove")) {
                     db.wishlistEntityDao().deleteWishlistItem(productModel.getId());
                 }
-
-                loadWishlist(response, sourceIntent);
-
-
+                loadWishlist(response);
             }
-
-
         },
                 error -> {
                     isLoading = false;
@@ -521,7 +510,6 @@ public class ProductDetailActivity extends BaseActivity {
                     if (wishlistEntity != null)
                         params.put("wishlist_id", wishlistEntity.getID());
                 }
-                Log.e("PARAM",params.toString());
                 return params;
             }
         };
@@ -529,100 +517,70 @@ public class ProductDetailActivity extends BaseActivity {
     }
 
 
-    private void loadWishlist(String previousResponse, String sourceIntent) {
+    private void loadWishlist(String previousResponse) {
 
         if (isLoading)
             return;
 
         isLoading = true;
         HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.WISHLIST, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                HELPER.dismissLoadingTran();
-                Log.e("Response", response);
-                JSONObject previousJSON = ResponseHandler.createJsonObject(previousResponse);
-                if (previousJSON != null) {
-                    dialogDisplay("Wishlist", ResponseHandler.getString(previousJSON, "msg"));
-                }
-
-                JSONObject wishlistResponse = ResponseHandler.createJsonObject(response);
-                try {
-                    if (wishlistResponse != null && wishlistResponse.get("data") instanceof JSONArray) {
-                        JSONArray arrayWishlist = ResponseHandler.getJSONArray(wishlistResponse, "data");
-                        if (arrayWishlist.length() != 0) {
-                            db.wishlistEntityDao().deleteWishlist();
-                            for (int i = 0; i < arrayWishlist.length(); i++) {
-                                WishlistEntity wishlistEntity = new WishlistEntity();
-                                wishlistEntity.setImage(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "product_image"));
-                                wishlistEntity.setProductName(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "product_name"));
-                                wishlistEntity.setID(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "ID"));
-                                wishlistEntity.setQuantity(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "quantity"));
-                                wishlistEntity.setProductId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "prod_id"));
-                                wishlistEntity.setWishlistId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "wishlist_id"));
-                                String price = ResponseHandler.getString(arrayWishlist.getJSONObject(i), "original_price");
-                                wishlistEntity.setPrice(String.format("%.2f", Double.parseDouble(price)));
-                                db.wishlistEntityDao().insert(wishlistEntity);
-                            }
-
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (getIntent().hasExtra("fragment")){
-                    if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")){
-                        FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.WISHLIST_REFRESH);
-                    }
-                }
-                /*{
-    "code": "200",
-    "data": [
-        {
-            "product_name": "Test Product 5 Dente91 Lactoferrin Mouthwash Pack of 3 (Copy)",
-            "ID": "94",
-            "prod_id": "9905",
-            "quantity": "1",
-            "user_id": "66",
-            "wishlist_id": "33",
-            "original_price": "597.000"
-        }
-    ]
-}*/
-
-
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.WISHLIST, response -> {
+            isLoading = false;
+            HELPER.dismissLoadingTran();
+            JSONObject previousJSON = ResponseHandler.createJsonObject(previousResponse);
+            if (previousJSON != null) {
+                dialogDisplay("Wishlist", ResponseHandler.getString(previousJSON, "msg"));
             }
 
-
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        isLoading = false;
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-
+            JSONObject wishlistResponse = ResponseHandler.createJsonObject(response);
+            try {
+                if (wishlistResponse != null && wishlistResponse.get("data") instanceof JSONArray) {
+                    JSONArray arrayWishlist = ResponseHandler.getJSONArray(wishlistResponse, "data");
+                    if (arrayWishlist.length() != 0) {
+                        db.wishlistEntityDao().deleteWishlist();
+                        for (int i = 0; i < arrayWishlist.length(); i++) {
+                            WishlistEntity wishlistEntity = new WishlistEntity();
+                            wishlistEntity.setImage(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "product_image"));
+                            wishlistEntity.setProductName(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "product_name"));
+                            wishlistEntity.setID(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "ID"));
+                            wishlistEntity.setQuantity(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "quantity"));
+                            wishlistEntity.setProductId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "prod_id"));
+                            wishlistEntity.setWishlistId(ResponseHandler.getString(arrayWishlist.getJSONObject(i), "wishlist_id"));
+                            String price = ResponseHandler.getString(arrayWishlist.getJSONObject(i), "original_price");
+                            wishlistEntity.setPrice(String.format("%.2f", Double.parseDouble(price)));
+                            db.wishlistEntityDao().insert(wishlistEntity);
+                        }
 
                     }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (getIntent().hasExtra("fragment")) {
+                if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")) {
+                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.WISHLIST_REFRESH);
+                }
+            }
+
+        },
+                error -> {
+                    isLoading = false;
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+
+
+                }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                return params;
+                return new HashMap<>();
             }
         };
-//wishlist_id
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 

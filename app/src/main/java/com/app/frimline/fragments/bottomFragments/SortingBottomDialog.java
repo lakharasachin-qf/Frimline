@@ -77,13 +77,6 @@ public class SortingBottomDialog extends BaseFragment {
             binding.recyclerList.setAdapter(adpt);
         }
 
-//        binding.closeView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CLOSE_SORT_FILTER_VIEW);
-//            }
-//        });
-
     }
 
     @Override

@@ -103,36 +103,7 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    DialogDiscardImageBinding discardImageBinding;
-    public void askDialogForPermission(String title, String msg,int code) {
-        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
-        builder.setView(discardImageBinding.getRoot());
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
-        alertDialog.setContentView(discardImageBinding.getRoot());
 
-        discardImageBinding.titleTxt.setText(title);
-        HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
-        discardImageBinding.yesTxt.setText("Allow");
-        discardImageBinding.noTxt.setText("Cancel");
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
-            }
-        });
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
-    }
 
     public void loginWidth() {
 

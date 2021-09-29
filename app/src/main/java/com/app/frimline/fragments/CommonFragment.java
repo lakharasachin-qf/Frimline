@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.webkit.WebViewClient;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCommonBinding;
 
@@ -71,7 +69,7 @@ public class CommonFragment extends BaseFragment {
             url = CONSTANT.CONTACT_US;
         }
 
-        Log.e("LoadingURL", url);
+
         binding.staticPagesWebView.loadUrl(url);
         binding.status.setVisibility(View.GONE);
         binding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(pref.getThemeColor()), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -85,7 +83,7 @@ public class CommonFragment extends BaseFragment {
             binding.screenLoader.setVisibility(View.VISIBLE);
             binding.staticPagesWebView.setVisibility(View.GONE);
             binding.screenLoader.setProgress(newProgress);
-            Log.e("Progress", String.valueOf(newProgress));
+
 
         }
     }
@@ -100,7 +98,7 @@ public class CommonFragment extends BaseFragment {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             binding.screenLoader.setVisibility(View.GONE);
-            Log.e("Page Finished", url);
+
             binding.staticPagesWebView.setVisibility(View.VISIBLE);
             binding.staticPagesWebView.setVisibility(View.VISIBLE);
         }
@@ -109,22 +107,5 @@ public class CommonFragment extends BaseFragment {
     @Override
     public void update(Observable observable, Object data) {
         super.update(observable, data);
-        act.runOnUiThread(() -> {
-            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_ABOUT_US) {
-
-            }
-            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_CONTACT_US) {
-
-            }
-            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_SHIPPING_POLICY) {
-
-            }
-            if (frimline.getObserver().getValue() == ObserverActionID.LOAD_PRIVACY_POLICY) {
-
-            }
-            Log.e("targetURL", targetURL);
-            // loadData();
-        });
-
     }
 }

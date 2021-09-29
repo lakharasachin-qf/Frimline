@@ -120,57 +120,34 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
 
         binding.includeBtn.button.setText("Proceed");
         binding.includeBtn.button.setOnClickListener(v -> {
-            if (PROTOTYPE_MODE) {
-                Intent i = new Intent(act, CategoryRootActivity.class);
-                i.putExtra("targetCategory", "Yes");
-                i.putExtra("fragment", "Home");
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-            } else {
-                if (CONSTANT.API_MODE) {
-                    if (binding.shipToDiffCheck.isChecked()) {
-                        if (validations()) {
-                            verifyPostcode(binding.postalCodeEdt.getText().toString());
+            if (CONSTANT.API_MODE) {
+                if (binding.shipToDiffCheck.isChecked()) {
+                    if (validations()) {
+                        verifyPostcode(binding.postalCodeEdt.getText().toString());
 
-                        }
-                    } else {
-                        Intent i = new Intent(act, PaymentActivity.class);
-                        i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
-                        i.putExtra("modelCoupon", getIntent().getStringExtra("modelCoupon"));
-                        i.putExtra("orderParam", getShippingAddress().toString());
-                        startActivity(i);
                     }
                 } else {
-                    if (validations()) {
-                        Intent i = new Intent(act, CategoryRootActivity.class);
-                        i.putExtra("targetCategory", "Yes");
-                        i.putExtra("fragment", "Home");
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
-                    }
+                    Intent i = new Intent(act, PaymentActivity.class);
+                    i.putExtra("promoCode", getIntent().getStringExtra("promoCode"));
+                    i.putExtra("modelCoupon", getIntent().getStringExtra("modelCoupon"));
+                    i.putExtra("orderParam", getShippingAddress().toString());
+                    startActivity(i);
+                }
+            } else {
+                if (validations()) {
+                    Intent i = new Intent(act, CategoryRootActivity.class);
+                    i.putExtra("targetCategory", "Yes");
+                    i.putExtra("fragment", "Home");
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
                 }
             }
         });
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         changeTheme();
-        //setSavedCheckoutAddress();
-
 
     }
-
-
-    /*  billing.put("first_name", binding.nameEdt.getText().toString());
-            billing.put("last_name", binding.lnameEdt.getText().toString());
-            billing.put("address_1", binding.streetEdt.getText().toString());
-            billing.put("address_2", binding.streetEdt2.getText().toString());
-            billing.put("city", binding.cityEdt.getText().toString());
-            billing.put("state", binding.stateEdt.getText().toString());
-            billing.put("postcode", binding.postalCodeEdt.getText().toString());
-            billing.put("company", binding.companyEdt.getText().toString());
-            billing.put("country", binding.countryEdt.getText().toString());
-            billing.put("email", binding.emailEdt.getText().toString());
-            billing.put("phone", binding.phoneNoEdt.getText().toString());*/
 
     public boolean checkIsShippingAddressEmpty() {
         int count = 0;
@@ -191,34 +168,6 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
             count++;
         }
         return count <= 2;
-    }
-
-    public void setSavedCheckoutAddress() {
-        Billing shipping = prefManager.getUser().getShippingAddress();
-        if (shipping != null && checkIsShippingAddressEmpty()) {
-            binding.nameEdt.setText(shipping.getFirstName());
-            binding.lnameEdt.setText(shipping.getLastName());
-            binding.companyEdt.setText(shipping.getCompany());
-            binding.countryEdt.setText(shipping.getCountry());
-            binding.streetEdt.setText(shipping.getAddress1());
-            binding.streetEdt2.setText(shipping.getAddress2());
-            binding.cityEdt.setText(shipping.getCity());
-            binding.postalCodeEdt.setText(shipping.getPostCode());
-            binding.stateEdt.setText(shipping.getState());
-        } else {
-            if (getIntent().hasExtra("orderParam")) {
-                orderParam = ResponseHandler.createJsonObject(getIntent().getStringExtra("orderParam"));
-                binding.nameEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "first_name"));
-                binding.lnameEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "last_name"));
-                binding.companyEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "company"));
-                binding.countryEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "country"));
-                binding.streetEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "address_1"));
-                binding.streetEdt2.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "address_2"));
-                binding.cityEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "city"));
-                binding.postalCodeEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "postcode"));
-                binding.stateEdt.setText(ResponseHandler.getString(ResponseHandler.getJSONObject(orderParam, "billing"), "state"));
-            }
-        }
     }
 
     public void shipToDifferentAddress(boolean shipToDifferent) {
@@ -458,7 +407,6 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
 
         //HELPER.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_POSTCODE, response -> {
-            Log.e("Response", response);
             HELPER.dismissLoadingTran();
             JSONObject object = ResponseHandler.createJsonObject(response);
             if (object != null) {
@@ -489,13 +437,12 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
-                            Log.e("jsosnErir", jsonString);
                             infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.e("Error", gson.toJson(response.headers));
-                        Log.e("allHeaders", gson.toJson(response.allHeaders));
+
+
                     }
                 }
         ) {
@@ -503,9 +450,8 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader();
             }
 
             @Override
@@ -526,10 +472,8 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
         HELPER.showLoadingTran(act);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_COUNTRY_STATE, response -> {
-            Log.e("Response", response);
             HELPER.dismissLoadingTran();
             countryList = ResponseHandler.parseCountryState(response);
-            Log.e("Response", String.valueOf(countryList.size()));
 
         },
                 error -> {
@@ -543,15 +487,13 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);

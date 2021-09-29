@@ -24,7 +24,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -82,7 +81,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         binding.boottomFooter.setOnClickListener(v -> {
             //generateRazorpayOrderId();
             if (binding.acceptTerms.isChecked()) {
-
                 if (binding.payOnlineRadioBtn.isChecked()) {
                     createPayment();
                 } else {
@@ -102,9 +100,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             loadData();
         } else {
             setAdapter();
-        }
-        if (getIntent().hasExtra("orderParam")) {
-            Log.e("orderParam", getIntent().getStringExtra("orderParam"));
         }
 
 
@@ -290,19 +285,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         binding.acceptTermsLabel.setMovementMethod(LinkMovementMethod.getInstance());
         binding.acceptTermsLabel.setHighlightColor(Color.TRANSPARENT);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            binding.acceptTermsLabel.setText(Html.fromHtml("I have read and agree to the <a href='' style='color:" + prefManager.getThemeColor() + "; text-decoration: none'><b>website terms and conditions</b></a>", Html.FROM_HTML_MODE_COMPACT));
-//        } else {
-//            binding.acceptTermsLabel.setText(Html.fromHtml("I have read and agree to the <a href=''><font color='" + prefManager.getThemeColor() + "'<b>website terms and conditions</b></font></a>"));
-//        }
-
-
-//        binding.acceptTermsLabel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showTermsNConditions();
-//            }
-//        });
     }
 
     private JSONObject orderCreated;
@@ -311,9 +293,10 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         if (!isLoading)
             isLoading = true;
         HELPER.showLoadingTran(act);
-        Log.e("orderPosting", orderParam.toString());
+
+        HELPER.print("orderPosting", orderParam.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, APIs.CREATE_ORDER, orderParam, response -> {
-            Log.e("Response", response.toString());
+            HELPER.print("response", response.toString());
             HELPER.dismissLoadingTran();
             orderCreated = response;
             isShippingChargeAvailable = true;
@@ -396,8 +379,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 } catch (UnsupportedEncodingException | JSONException e) {
                     e.printStackTrace();
                 }
-                Log.e("Error", gson.toJson(response.headers));
-                Log.e("allHeaders", gson.toJson(response.allHeaders));
+
             }
 
         }
@@ -524,7 +506,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                         canApplyMore = false;
                     }
 
-                    Log.e("MSG", msg);
 
                     if (canApplyMore) {
                         totalPrice = 0;
@@ -534,8 +515,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                 for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
                                     if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getExcludeCategoryIds().get(k))) {
                                         excludedList.add(cartItemList.get(i));
-                                        Log.e("Added to exclude", cartItemList.get(i).getName());
-
                                     }
                                 }
                             }
@@ -547,8 +526,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                 for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getExcludeProductIds().get(k))) {
                                         excludedList.add(cartItemList.get(i));
-                                        Log.e("Added exclude Product", cartItemList.get(i).getName());
-
                                     }
                                 }
                             }
@@ -558,8 +535,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                 for (int k = 0; k < couponCodeModel.getCategoryIds().size(); k++) {
                                     if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getCategoryIds().get(k))) {
                                         includeList.add(cartItemList.get(i));
-                                        Log.e("Added to include", cartItemList.get(i).getName());
-
                                     }
                                 }
                             }
@@ -569,7 +544,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                 for (int k = 0; k < couponCodeModel.getProductIds().size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getProductIds().get(k))) {
                                         includeList.add(cartItemList.get(i));
-                                        Log.e("Added include product", cartItemList.get(i).getName());
                                     }
                                 }
                             }
@@ -611,16 +585,10 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
 
                         finalAmount = totalPrice;
-                        Log.e("totalPrice", totalPrice + "_");
-                        Log.e("promoDiscount", promoDiscount + "_");
+
                         if (promoDiscount != 0) {
-                            //finalAmount = totalPrice - promoDiscount;
                             binding.couponLayout.setVisibility(View.VISIBLE);
-                        } else {
-                            //confirmationDialog("Coupon Code",msg,CONSTANT.NO_ACTION);
                         }
-                    } else {
-                        // confirmationDialog("Coupon Code",msg,CONSTANT.NO_ACTION);
                     }
                 }
             }
@@ -637,7 +605,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
         if (isCodAvailable) {
             binding.codLayout.setVisibility(View.VISIBLE);
-            Log.e("codChargesAmount", codChargesAmount + "_");
             double codCharges = Double.parseDouble(codChargesAmount);
             finalAmount = finalAmount + codCharges;
             binding.CODAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(codCharges));
@@ -652,7 +619,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         if (isShippingChargeAvailable) {
             String shippingChargesStr = (ResponseHandler.getString(orderCreated, "shipping_total").isEmpty() ? "0" : ResponseHandler.getString(orderCreated, "shipping_total"));
             shippingCharges = Double.parseDouble(shippingChargesStr);
-            Log.e("ShippinhCharge", shippingChargesStr);
             finalAmount = finalAmount + shippingCharges;
             binding.shippingChargeAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(shippingCharges));
             binding.shippingLayout.setVisibility(View.VISIBLE);
@@ -707,12 +673,12 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             options.put("amount", String.valueOf(finalAmount));
             // options.put("prefill.email", prefManager.getUser().getEmail());
             // options.put("prefill.contact", "Enter Mobile Number");
-
-            Log.e("Param : ", options.toString());
+            HELPER.print("Param", options.toString());
             checkout.open(activity, options);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("TAG", "Error in starting Razorpay Checkout", e);
+
+            HELPER.print("TAG", "Error in starting Razorpay Checkout" + e);
         }
     }
 
@@ -724,7 +690,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         try {
             isOnlinePaymentSuccess = true;
             transactionId = paymentData.getPaymentId();
-            Log.e("Payment By Razorpay", gson.toJson(paymentData));
+            HELPER.print("Payment Success", gson.toJson(paymentData));
             finalOrderDone();
         } catch (Exception e) {
             e.printStackTrace();
@@ -733,8 +699,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
     @Override
     public void onPaymentError(int i, String s, PaymentData paymentData) {
-        Log.e("Payment Fail", s);
         isOnlinePaymentSuccess = false;
+        HELPER.print("Payment Fail", s);
         errorDialog("Order Fail!", "Your order payment is cancel", 1);
         // finalOrderDone();
     }
@@ -775,10 +741,10 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             e.printStackTrace();
         }
 
+        HELPER.print("orderPosting", orderParam.toString());
 
-        Log.e("orderPosting", orderParam.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, APIs.COMPLETE_ORDER, orderParam, response -> {
-            Log.e("order created", response.toString());
+            HELPER.print("order done", response.toString());
             HELPER.dismissLoadingTran();
 
             if (binding.payCodRadioBtn.isChecked()) {
@@ -791,8 +757,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 if (isOnlinePaymentSuccess) {
                     paymentSuccess();
                     db.productEntityDao().deleteAll();
-                } else {
-                    // errorDialog("Order Fail!", "your order payment is cancel", 1);
                 }
             }
 
@@ -809,8 +773,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 } catch (UnsupportedEncodingException | JSONException e) {
                     e.printStackTrace();
                 }
-                Log.e("Error", gson.toJson(response.headers));
-                Log.e("allHeaders", gson.toJson(response.allHeaders));
             }
 
         }) {

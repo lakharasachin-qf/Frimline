@@ -49,7 +49,7 @@ public class CategoryProfileFragment extends BaseFragment {
     }
 
     public void showColor() {
-        PREF pref = new PREF(getActivity());
+        PREF pref = new PREF(act);
         binding.underLineRight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         binding.underLineRightDesc.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
         binding.text1.setTextColor((Color.parseColor(pref.getCategoryColor())));
@@ -68,7 +68,6 @@ public class CategoryProfileFragment extends BaseFragment {
         binding.icon2.setOnClickListener(v -> onNavClick.onNavigationDrawerClick());
         binding.icon.setOnClickListener(v -> onNavClick.onNavigationDrawerClick());
         binding.button.setOnClickListener(v -> {
-            //changeStatusBarColor(ContextCompat.getColor(getActivity(),R.color.colorScreenBackground));
             onNavClick.GoToStore();
         });
 

@@ -108,28 +108,19 @@ public class LoginVEmailFragment extends BaseFragment {
             }
         });
 
-        binding.forgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.forgetPassword.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), ForgotPasswordActivity.class));
+        binding.includeBtn.button.setOnClickListener(v -> {
+            if (PROTOTYPE_MODE) {
+                HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
+                getActivity().finish();
+            } else {
+                if (!validations()) {
+                    if (CONSTANT.API_MODE) {
 
-                HELPER.SIMPLE_ROUTE(getActivity(), ForgotPasswordActivity.class);
-            }
-        });
-        binding.includeBtn.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PROTOTYPE_MODE) {
-                    HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
-                    getActivity().finish();
-                } else {
-                    if (!validations()) {
-                        if (CONSTANT.API_MODE) {
-
-                            signIn();
-                        } else {
-                            HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
-                            getActivity().finish();
-                        }
+                        signIn();
+                    } else {
+                        HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
+                        getActivity().finish();
                     }
                 }
             }
@@ -171,37 +162,34 @@ public class LoginVEmailFragment extends BaseFragment {
             isLoading = true;
         HELPER.showLoadingTran(act);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Login", response);
-                isLoading = false;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN, response -> {
+            HELPER.print("response",response);
+            isLoading = false;
 
-                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-                if (jsonObject != null && !jsonObject.has("code")) {
-                    if (binding.shipToDiffCheck.isChecked()) {
-                        pref.addRememberMe(binding.userNameEdt.getText().toString(), binding.confirmPassword.getText().toString());
-                    }
-                    ProfileModel model = new ProfileModel();
-                    model.setToken(ResponseHandler.getString(jsonObject, "token"));
-                    model.setEmail(ResponseHandler.getString(jsonObject, "email"));
-                    model.setDisplayName(ResponseHandler.getString(jsonObject, "user_display_name"));
-                    pref.setUser(model);
-                    pref.setLogin(true);
-                    pref.setUserToken(model.getToken());
-                    loadProfile();
-
-                } else {
-                    HELPER.dismissLoadingTran();
-                    if (jsonObject != null && ResponseHandler.getString(jsonObject, "code").contains("invalid_username") || ResponseHandler.getString(jsonObject, "code").contains("invalid_email") ) {
-                        errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                    }
-                    if (ResponseHandler.getString(jsonObject, "code").contains("password")) {
-                        errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                    }
+            JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+            if (jsonObject != null && !jsonObject.has("code")) {
+                if (binding.shipToDiffCheck.isChecked()) {
+                    pref.addRememberMe(binding.userNameEdt.getText().toString(), binding.confirmPassword.getText().toString());
                 }
+                ProfileModel model = new ProfileModel();
+                model.setToken(ResponseHandler.getString(jsonObject, "token"));
+                model.setEmail(ResponseHandler.getString(jsonObject, "email"));
+                model.setDisplayName(ResponseHandler.getString(jsonObject, "user_display_name"));
+                pref.setUser(model);
+                pref.setLogin(true);
+                pref.setUserToken(model.getToken());
+                loadProfile();
 
+            } else {
+                HELPER.dismissLoadingTran();
+                if (jsonObject != null && ResponseHandler.getString(jsonObject, "code").contains("invalid_username") || ResponseHandler.getString(jsonObject, "code").contains("invalid_email") ) {
+                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                }
+                if (ResponseHandler.getString(jsonObject, "code").contains("password")) {
+                    errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                }
             }
+
         },
                 new Response.ErrorListener() {
                     @Override
@@ -218,8 +206,8 @@ public class LoginVEmailFragment extends BaseFragment {
                             } catch (UnsupportedEncodingException | JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("Error", gson.toJson(response.headers));
-                            Log.e("allHeaders", gson.toJson(response.allHeaders));
+                            HELPER.print("Error",gson.toJson(response.headers));
+
                         }
 
                     }
@@ -230,8 +218,7 @@ public class LoginVEmailFragment extends BaseFragment {
              */
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+                return new HashMap<String, String>();
             }
 
             @Override
@@ -287,84 +274,73 @@ public class LoginVEmailFragment extends BaseFragment {
             isLoading = true;
         HELPER.showLoadingTran(act);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                HELPER.dismissLoadingTran();
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, response -> {
+            isLoading = false;
+            HELPER.dismissLoadingTran();
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (object != null) {
 
-                    ProfileModel model = new ProfileModel();
-                    model.setUserId(ResponseHandler.getString(object, "id"));
-                    model.setEmail(ResponseHandler.getString(object, "email"));
-                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
-                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
-                    model.setFirstName(ResponseHandler.getString(object, "first_name"));
-                    model.setLastName(ResponseHandler.getString(object, "last_name"));
-                    model.setRole(ResponseHandler.getString(object, "role"));
-                    model.setUserName(ResponseHandler.getString(object, "username"));
-                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
-                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+                ProfileModel model = new ProfileModel();
+                model.setUserId(ResponseHandler.getString(object, "id"));
+                model.setEmail(ResponseHandler.getString(object, "email"));
+                model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
+                model.setFirstName(ResponseHandler.getString(object, "first_name"));
+                model.setLastName(ResponseHandler.getString(object, "last_name"));
+                model.setRole(ResponseHandler.getString(object, "role"));
+                model.setUserName(ResponseHandler.getString(object, "username"));
+                model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+                model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
 
-                    Billing billingAddress = new Billing();
-                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
-                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
-                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
-                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
-                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
-                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
-                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
-                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
-                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
-                    billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
-                    billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
-                    model.setBillingAddress(billingAddress);
+                Billing billingAddress = new Billing();
+                billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
+                billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
+                billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
+                billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
+                billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
+                billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
+                billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
+                billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
+                billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
+                billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
+                billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
+                model.setBillingAddress(billingAddress);
 
-                    billingAddress = new Billing();
-                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
-                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
-                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
-                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
-                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
-                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
-                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
-                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
-                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
-                    model.setShippingAddress(billingAddress);
-                    pref.setUser(model);
-                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
-                    FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.ADD_MENU);
-                    act.onBackPressed();
-
-                }
+                billingAddress = new Billing();
+                billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
+                billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
+                billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
+                billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
+                billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
+                billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
+                billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
+                billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
+                billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
+                model.setShippingAddress(billingAddress);
+                pref.setUser(model);
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.ADD_MENU);
+                act.onBackPressed();
 
             }
 
-
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                Log.e("Header", params.toString());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

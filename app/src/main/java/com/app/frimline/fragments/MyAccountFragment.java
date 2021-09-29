@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
@@ -90,34 +86,16 @@ public class MyAccountFragment extends BaseFragment {
         binding.screenLoader.setProgressTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
         binding.includeLoginBtn.button.setText("Sign In");
         binding.includeSignupBtn.button.setText("Sign Up");
-        binding.includeLoginBtn.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
-            }
-        });
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmationDialog();
-            }
-        });
+        binding.includeLoginBtn.button.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class));
+        binding.logoutBtn.setOnClickListener(v -> confirmationDialog());
 
 
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
-                HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
-            }
+        binding.button.setOnClickListener(v -> {
+            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
+            HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
         });
 
-        binding.includeSignupBtn.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(getActivity(), SignupActivity.class);
-            }
-        });
+        binding.includeSignupBtn.button.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), SignupActivity.class));
 
         if (CONSTANT.API_MODE) {
             model = pref.getUser();
@@ -197,7 +175,7 @@ public class MyAccountFragment extends BaseFragment {
     }
 
     public void changeColor() {
-        PREF pref = new PREF(getActivity());
+        PREF pref = new PREF(act);
 
         HELPER.backgroundTint(act, binding.logoutBtn, true);
         HELPER.backgroundTint(act, binding.includeSignupBtn.button, true);
@@ -219,7 +197,7 @@ public class MyAccountFragment extends BaseFragment {
                     @Override
                     public void run() {
                         HELPER.SIMPLE_ROUTE(getActivity(), AddressesActivity.class);
-                        drawable.setStroke(2, ContextCompat.getColor(getActivity(), R.color.cardViewBorder));
+                        drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
                     }
                 }, 40);
             }
@@ -233,7 +211,7 @@ public class MyAccountFragment extends BaseFragment {
                     @Override
                     public void run() {
                         drawerAction.changeFragment();
-                        drawable.setStroke(2, ContextCompat.getColor(getActivity(), R.color.cardViewBorder));
+                        drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
                     }
                 }, 40);
             }
@@ -247,7 +225,7 @@ public class MyAccountFragment extends BaseFragment {
                     @Override
                     public void run() {
                         HELPER.SIMPLE_ROUTE(getActivity(), EditProfileActivity.class);
-                        drawable.setStroke(2, ContextCompat.getColor(getActivity(), R.color.cardViewBorder));
+                        drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
                     }
                 }, 40);
             }
@@ -262,93 +240,82 @@ public class MyAccountFragment extends BaseFragment {
             isLoading = true;
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                binding.screenLoader.setVisibility(View.GONE);
-                if (pref.isLogin()) {
-                    binding.NoDataFound.setVisibility(View.GONE);
-                    binding.loginContent.setVisibility(View.VISIBLE);
-                } else {
-                    binding.NoDataFound.setVisibility(View.VISIBLE);
-                    binding.loginContent.setVisibility(View.GONE);
-                }
-                JSONObject object = ResponseHandler.createJsonObject(response);
-                if (object != null) {
-                    ProfileModel model = new ProfileModel();
-                    model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
-                    model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
-                    model.setUserId(ResponseHandler.getString(object, "id"));
-                    model.setEmail(ResponseHandler.getString(object, "email"));
-                    model.setFirstName(ResponseHandler.getString(object, "first_name"));
-                    model.setLastName(ResponseHandler.getString(object, "last_name"));
-                    model.setRole(ResponseHandler.getString(object, "role"));
-                    model.setUserName(ResponseHandler.getString(object, "username"));
-                    model.setUserName(ResponseHandler.getString(object, "username"));
-                    model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PROFILE, response -> {
+            isLoading = false;
+            binding.screenLoader.setVisibility(View.GONE);
+            if (pref.isLogin()) {
+                binding.NoDataFound.setVisibility(View.GONE);
+                binding.loginContent.setVisibility(View.VISIBLE);
+            } else {
+                binding.NoDataFound.setVisibility(View.VISIBLE);
+                binding.loginContent.setVisibility(View.GONE);
+            }
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            if (object != null) {
+                ProfileModel model = new ProfileModel();
+                model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
+                model.setDisplayName(ResponseHandler.getString(object, "user_display_name"));
+                model.setUserId(ResponseHandler.getString(object, "id"));
+                model.setEmail(ResponseHandler.getString(object, "email"));
+                model.setFirstName(ResponseHandler.getString(object, "first_name"));
+                model.setLastName(ResponseHandler.getString(object, "last_name"));
+                model.setRole(ResponseHandler.getString(object, "role"));
+                model.setUserName(ResponseHandler.getString(object, "username"));
+                model.setUserName(ResponseHandler.getString(object, "username"));
+                model.setAvatar(ResponseHandler.getString(object, "avatar_url"));
 
 
-                    Billing billingAddress = new Billing();
-                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
-                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
-                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
-                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
-                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
-                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
-                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
-                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
-                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
-                    billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
-                    billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
-                    model.setBillingAddress(billingAddress);
+                Billing billingAddress = new Billing();
+                billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "first_name"));
+                billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "last_name"));
+                billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "company"));
+                billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_1"));
+                billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "address_2"));
+                billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "city"));
+                billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "postcode"));
+                billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "country"));
+                billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "state"));
+                billingAddress.setEmail(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "email"));
+                billingAddress.setPhone(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "billing"), "phone"));
+                model.setBillingAddress(billingAddress);
 
-                    billingAddress = new Billing();
-                    billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
-                    billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
-                    billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
-                    billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
-                    billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
-                    billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
-                    billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
-                    billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
-                    billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
-                    model.setShippingAddress(billingAddress);
+                billingAddress = new Billing();
+                billingAddress.setFirstName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "first_name"));
+                billingAddress.setLastName(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "last_name"));
+                billingAddress.setCompany(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "company"));
+                billingAddress.setAddress1(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_1"));
+                billingAddress.setAddress2(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "address_2"));
+                billingAddress.setCity(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "city"));
+                billingAddress.setPostCode(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "postcode"));
+                billingAddress.setCountry(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "country"));
+                billingAddress.setState(ResponseHandler.getString(ResponseHandler.getJSONObject(object, "shipping"), "state"));
+                model.setShippingAddress(billingAddress);
 
-                    pref.setUser(model);
-                    loadApiData();
-                }
-
-
+                pref.setUser(model);
+                loadApiData();
             }
 
 
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        binding.loginContent.setVisibility(View.GONE);
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.screenLoader.setVisibility(View.GONE);
-                    }
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    binding.loginContent.setVisibility(View.GONE);
+                    binding.NoDataFound.setVisibility(View.VISIBLE);
+                    binding.screenLoader.setVisibility(View.GONE);
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-                Log.e("HEADER", getHeader().toString());
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 
@@ -402,15 +369,6 @@ public class MyAccountFragment extends BaseFragment {
                 alertDialog.dismiss();
                 pref.Logout();
 
-                //  FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGOUT);
-//                if (CONSTANT.API_MODE) {
-//                    binding.NoDataFound.setVisibility(View.VISIBLE);
-//                    binding.loginContent.setVisibility(View.GONE);
-//
-//                } else {
-//                    HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
-//                }
-
                 Intent i = new Intent(act, CategoryRootActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 act.startActivity(i);
@@ -426,29 +384,22 @@ public class MyAccountFragment extends BaseFragment {
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    binding.loginContent.setVisibility(View.GONE);
-                    binding.NoDataFound.setVisibility(View.GONE);
-                    binding.screenLoader.setVisibility(View.VISIBLE);
-                    loadProfile();
-                }
+            act.runOnUiThread(() -> {
+                binding.loginContent.setVisibility(View.GONE);
+                binding.NoDataFound.setVisibility(View.GONE);
+                binding.screenLoader.setVisibility(View.VISIBLE);
+                loadProfile();
             });
         }
 
         if (frimline.getObserver().getValue() == ObserverActionID.LOGOUT) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!new PREF(act).isLogin()) {
-
-                        binding.loginContent.setVisibility(View.GONE);
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.screenLoader.setVisibility(View.GONE);
-                    }
-
+            act.runOnUiThread(() -> {
+                if (!new PREF(act).isLogin()) {
+                    binding.loginContent.setVisibility(View.GONE);
+                    binding.NoDataFound.setVisibility(View.VISIBLE);
+                    binding.screenLoader.setVisibility(View.GONE);
                 }
+
             });
         }
     }
