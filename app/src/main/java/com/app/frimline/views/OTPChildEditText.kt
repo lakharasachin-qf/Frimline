@@ -27,7 +27,8 @@ internal class OTPChildEditText : androidx.appcompat.widget.AppCompatEditText {
     private fun init(context: Context) {
         isCursorVisible = false
         setTextColor(ContextCompat.getColor(context, R.color.transparent))
-        setBackgroundDrawable(null)
+        //setBackgroundDrawable(null)
+        background = null
         inputType = InputType.TYPE_CLASS_NUMBER
         setSelectAllOnFocus(false)
         setTextIsSelectable(false)
@@ -36,9 +37,9 @@ internal class OTPChildEditText : androidx.appcompat.widget.AppCompatEditText {
     public override fun onSelectionChanged(start: Int, end: Int) {
 
         val text = text
-        text?.let { text ->
-            if (start != text.length || end != text.length) {
-                setSelection(text.length, text.length)
+        text?.let { text1 ->
+            if (start != text1.length || end != text1.length) {
+                setSelection(text1.length, text1.length)
                 return
             }
         }

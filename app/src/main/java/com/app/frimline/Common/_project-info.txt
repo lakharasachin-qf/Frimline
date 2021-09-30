@@ -23,3 +23,14 @@ Secret KEY : Q9wyDNbQLE0VBTaSZiVrGIf7
 
 
 
+
+
+
+
+---update when create new apk build----------
+---------------------------------------------
+// current version : V1.6
+---------------------------------------------
+
+
+

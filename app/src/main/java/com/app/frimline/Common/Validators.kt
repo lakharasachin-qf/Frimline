@@ -1,5 +1,6 @@
 package com.app.frimline.Common
 
+import java.nio.charset.Charset
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -20,10 +21,12 @@ class Validators {
 
         fun isValidPassword(password: String?): Boolean {
             val pattern: Pattern
-            val PASSWORD_PATTERN =
+            val patterString =
                 "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+\$).{8,}\$"
 
-            pattern = Pattern.compile(PASSWORD_PATTERN)
+            pattern = Pattern.compile(patterString)
+
+
             val matcher: Matcher = pattern.matcher(password)
             return matcher.matches()
         }

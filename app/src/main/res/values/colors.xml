@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008FA6</color>
-    <color name="colorPrimaryDark">#008FA6</color>
-    <color name="colorPrimarySecondary">#008FA6</color>
-    <color name="colorAccent">#008FA6</color>
     <color name="blue">#008FA6</color>
     <color name="orange">#EF7F1A</color>
-    <color name="purple_700">#EF7F1B</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="bottomNavbar">#878787</color>
 
     <color name="colorBackground">#f9f9f9</color>
     <color name="black2">#8E8E8E</color>
@@ -21,8 +16,6 @@
     <color name="colorEditText">#0A0F37</color>
 
     <color name="colorGreen">#81B533</color>
-    <color name="colorShimmer">#F6F6F6</color>
-    <color name="colorForIntroSlideTitle">#202268</color>
 
 
     <color name="red">#FFFFFF</color>

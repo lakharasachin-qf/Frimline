@@ -31,7 +31,6 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityMyCartBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
-import com.app.frimline.databinding.DialogTermsConditionBinding;
 import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
@@ -418,13 +417,9 @@ public class MyCartActivity extends BaseActivity {
 
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
 
             @Override
@@ -503,7 +498,6 @@ public class MyCartActivity extends BaseActivity {
                     ArrayList<ProductModel> includeList = new ArrayList<>();
 
 
-
                     if (Double.parseDouble(couponCodeModel.getMaxAmount()) < finalAmount && Double.parseDouble(couponCodeModel.getMaxAmount()) != 0) {
                         msg = "The maximum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMaxAmount();
                         canApplyMore = false;
@@ -513,9 +507,6 @@ public class MyCartActivity extends BaseActivity {
                         msg = "The minimum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMinAmount();
                         canApplyMore = false;
                     }
-
-
-
 
 
                     if (canApplyMore) {
@@ -642,9 +633,6 @@ public class MyCartActivity extends BaseActivity {
 
 
     }
-
-
-
 
 
 }
