@@ -61,18 +61,8 @@ public class MyAccountFragment extends BaseFragment {
 
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_account, parent, false);
-        binding.editIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(getActivity(), EditProfileActivity.class);
-            }
-        });
-        binding.addressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(getActivity(), AddressesActivity.class);
-            }
-        });
+        binding.editIcon.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), EditProfileActivity.class));
+        binding.addressLayout.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), AddressesActivity.class));
         if (CONSTANT.API_MODE) {
             if (pref.isLogin()) {
                 binding.NoDataFound.setVisibility(View.GONE);
@@ -84,8 +74,8 @@ public class MyAccountFragment extends BaseFragment {
         }
         binding.screenLoader.getIndeterminateDrawable().setColorFilter(Color.parseColor(pref.getThemeColor()), android.graphics.PorterDuff.Mode.MULTIPLY);
         binding.screenLoader.setProgressTintList(ColorStateList.valueOf(Color.parseColor(pref.getThemeColor())));
-        binding.includeLoginBtn.button.setText("Sign In");
-        binding.includeSignupBtn.button.setText("Sign Up");
+        binding.includeLoginBtn.button.setText(R.string.sign_in);
+        binding.includeSignupBtn.button.setText(getString(R.string.sign_up));
         binding.includeLoginBtn.button.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class));
         binding.logoutBtn.setOnClickListener(v -> confirmationDialog());
 
@@ -116,8 +106,6 @@ public class MyAccountFragment extends BaseFragment {
                 if (model.getPhoneNo() != null && !model.getPhoneNo().isEmpty()) {
                     binding.mobileNo.setText(model.getPhoneNo());
                     binding.mobileNo.setVisibility(View.VISIBLE);
-
-                } else {
 
                 }
                 //binding..setText(model.getDisplayName());
@@ -158,10 +146,8 @@ public class MyAccountFragment extends BaseFragment {
 
                 if (model.getPhoneNo() != null && !model.getPhoneNo().isEmpty()) {
                     binding.mobileNo.setText(model.getPhoneNo());
-                } else {
-                    //    binding.mobileNo.setVisibility(View.GONE);
+                }  //    binding.mobileNo.setVisibility(View.GONE);
 
-                }
                 //binding..setText(model.getDisplayName());
             }
         }
@@ -188,47 +174,29 @@ public class MyAccountFragment extends BaseFragment {
         HELPER.imageTint(act, binding.backgroundLayar, true);
 
 
-        binding.addressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GradientDrawable drawable = (GradientDrawable) binding.container.getBackground();
-                drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        HELPER.SIMPLE_ROUTE(getActivity(), AddressesActivity.class);
-                        drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
-                    }
-                }, 40);
-            }
+        binding.addressLayout.setOnClickListener(v -> {
+            GradientDrawable drawable = (GradientDrawable) binding.container.getBackground();
+            drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
+            new Handler().postDelayed(() -> {
+                HELPER.SIMPLE_ROUTE(getActivity(), AddressesActivity.class);
+                drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
+            }, 40);
         });
-        binding.orders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GradientDrawable drawable = (GradientDrawable) binding.orderContainer.getBackground();
-                drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        drawerAction.changeFragment();
-                        drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
-                    }
-                }, 40);
-            }
+        binding.orders.setOnClickListener(v -> {
+            GradientDrawable drawable = (GradientDrawable) binding.orderContainer.getBackground();
+            drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
+            new Handler().postDelayed(() -> {
+                drawerAction.changeFragment();
+                drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
+            }, 40);
         });
-        binding.accountDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GradientDrawable drawable = (GradientDrawable) binding.accountDetailsContainer.getBackground();
-                drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        HELPER.SIMPLE_ROUTE(getActivity(), EditProfileActivity.class);
-                        drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
-                    }
-                }, 40);
-            }
+        binding.accountDetails.setOnClickListener(v -> {
+            GradientDrawable drawable = (GradientDrawable) binding.accountDetailsContainer.getBackground();
+            drawable.setStroke(2, Color.parseColor(pref.getThemeColor()));
+            new Handler().postDelayed(() -> {
+                HELPER.SIMPLE_ROUTE(getActivity(), EditProfileActivity.class);
+                drawable.setStroke(2, ContextCompat.getColor(act, R.color.cardViewBorder));
+            }, 40);
         });
     }
 
@@ -251,6 +219,7 @@ public class MyAccountFragment extends BaseFragment {
                 binding.loginContent.setVisibility(View.GONE);
             }
             JSONObject object = ResponseHandler.createJsonObject(response);
+            HELPER.print("Profile", response);
             if (object != null) {
                 ProfileModel model = new ProfileModel();
                 model.setPhoneNo(ResponseHandler.getString(object, "user_phone"));
@@ -338,9 +307,6 @@ public class MyAccountFragment extends BaseFragment {
             if (model.getPhoneNo() != null && !model.getPhoneNo().isEmpty()) {
                 binding.mobileNo.setText(model.getPhoneNo());
                 binding.mobileNo.setVisibility(View.VISIBLE);
-            } else {
-                // binding.mobileNo.setVisibility(View.GONE);
-
             }
         }
     }
@@ -353,27 +319,18 @@ public class MyAccountFragment extends BaseFragment {
         builder.setView(discardImageBinding.getRoot());
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(discardImageBinding.getRoot());
-        discardImageBinding.titleTxt.setText("Confirm");
+        discardImageBinding.titleTxt.setText(R.string.confirm);
         discardImageBinding.subTitle.setText(R.string.are_you_want_to_logout);
-        discardImageBinding.yesTxt.setText("Logout");
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+        discardImageBinding.yesTxt.setText(R.string.logout);
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            pref.Logout();
 
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                pref.Logout();
+            Intent i = new Intent(act, CategoryRootActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            act.startActivity(i);
 
-                Intent i = new Intent(act, CategoryRootActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                act.startActivity(i);
-
-            }
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

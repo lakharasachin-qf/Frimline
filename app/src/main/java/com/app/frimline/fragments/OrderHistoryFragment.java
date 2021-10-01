@@ -3,19 +3,14 @@ package com.app.frimline.fragments;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
@@ -29,9 +24,6 @@ import com.app.frimline.adapters.OrderHistoryAdapter;
 import com.app.frimline.databinding.FragmentOrderHistoryBinding;
 import com.app.frimline.models.OrderModel;
 import com.app.frimline.screens.LoginActivity;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +50,7 @@ public class OrderHistoryFragment extends BaseFragment {
                 binding.orderHistoryRecycler.setVisibility(View.GONE);
                 binding.swipeContainer.setVisibility(View.VISIBLE);
                 binding.NoDataFound.setVisibility(View.VISIBLE);
-                binding.errorText.setText("You are not Signed In.");
+                binding.errorText.setText(R.string.you_are_not_signed_in);
 
             }
         } else {
@@ -72,19 +64,14 @@ public class OrderHistoryFragment extends BaseFragment {
 
         binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
 
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
-            }
-        });
+        binding.button.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class));
         binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
 
         binding.swipeContainer.setOnRefreshListener(() -> {
             if (CONSTANT.API_MODE) {
                 startShimmer();
                 loadProfile();
-            }else{
+            } else {
                 binding.swipeContainer.setRefreshing(false);
             }
         });
@@ -127,53 +114,38 @@ public class OrderHistoryFragment extends BaseFragment {
         if (!isLoading)
             isLoading = true;
         startShimmer();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.ORDER_HISTORY, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                binding.swipeContainer.setRefreshing(false);
-                HELPER.print("Response", response);
-                stopShimmer();
-                JSONArray object = null;
-                try {
-                    object = new JSONArray(response);
-                    arrayList = ResponseHandler.parseOrderHistory(response);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.ORDER_HISTORY, response -> {
+            isLoading = false;
+            binding.swipeContainer.setRefreshing(false);
+            HELPER.print("Response", response);
+            stopShimmer();
+            arrayList = ResponseHandler.parseOrderHistory(response);
 
-                    if (arrayList.size() != 0) {
-                        binding.NoDataFound.setVisibility(View.GONE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        OrderHistoryAdapter productAdapter = new OrderHistoryAdapter(arrayList, getActivity());
-                        binding.orderHistoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        binding.orderHistoryRecycler.setAdapter(productAdapter);
-                        binding.orderHistoryRecycler.setHasFixedSize(true);
-                    } else {
-                        binding.button.setVisibility(View.GONE);
-                        binding.errorText.setText("No order found yet.");
-                        binding.NoDataFound.setVisibility(View.VISIBLE);
-                        binding.orderHistoryRecycler.setVisibility(View.GONE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+            if (arrayList.size() != 0) {
+                binding.NoDataFound.setVisibility(View.GONE);
+                binding.swipeContainer.setVisibility(View.VISIBLE);
+                binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
+                binding.swipeContainer.setVisibility(View.VISIBLE);
+                OrderHistoryAdapter productAdapter = new OrderHistoryAdapter(arrayList, getActivity());
+                binding.orderHistoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                binding.orderHistoryRecycler.setAdapter(productAdapter);
+                binding.orderHistoryRecycler.setHasFixedSize(true);
+            } else {
+                binding.button.setVisibility(View.GONE);
+                binding.errorText.setText(R.string.no_order_found_yet);
+                binding.NoDataFound.setVisibility(View.VISIBLE);
+                binding.orderHistoryRecycler.setVisibility(View.GONE);
+                binding.swipeContainer.setVisibility(View.VISIBLE);
             }
 
 
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+                error -> {
+                    error.printStackTrace();
 
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.swipeContainer.setRefreshing(false);
-                        stopShimmer();
-                    }
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
+                    binding.swipeContainer.setRefreshing(false);
+                    stopShimmer();
                 }
         ) {
             /**
@@ -206,7 +178,7 @@ public class OrderHistoryFragment extends BaseFragment {
                     binding.orderHistoryRecycler.setVisibility(View.GONE);
                     binding.swipeContainer.setVisibility(View.VISIBLE);
                     binding.NoDataFound.setVisibility(View.VISIBLE);
-                    binding.errorText.setText("You are not Signed In.");
+                    binding.errorText.setText(R.string.you_are_not_signed_in);
                 }
             });
         }

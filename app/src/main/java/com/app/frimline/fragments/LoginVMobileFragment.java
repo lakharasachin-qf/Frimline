@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +77,9 @@ public class LoginVMobileFragment extends BaseFragment {
         } else {
             binding.hint.setText(Html.fromHtml("Please Sign in with <b>Mobile</b> to continue using<br>our app"));
         }
-        binding.includeBtn.button.setText("Get OTP");
-        binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
-        binding.shipToDiffCheck.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
+        binding.includeBtn.button.setText(R.string.get_otp);
+        binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.shipToDiffCheck.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         HELPER.ERROR_HELPER_For_MOBILE_VALIDATION(binding.nameEdt, binding.nameEdtLayout);
 
         binding.nameEdtLayout.setBoxStrokeColor(Color.parseColor(new PREF(act).getThemeColor()));
@@ -94,12 +93,7 @@ public class LoginVMobileFragment extends BaseFragment {
                     if (CONSTANT.API_MODE) {
                         if (pref.isAskOTP()) {
                             if (ContextCompat.checkSelfPermission(act, RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                if (ActivityCompat.shouldShowRequestPermissionRationale(act, RECEIVE_SMS)) {
-                                    askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 1);
-                                } else {
-
-                                    askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 0);
-                                }
+                                askDialogForPermission("Permission", getString(R.string.you_need_permission_of_otp_read));
                             } else {
                                 signIn();
                             }
@@ -125,7 +119,7 @@ public class LoginVMobileFragment extends BaseFragment {
 
     }
 
-    public void askDialogForPermission(String title, String msg, int code) {
+    public void askDialogForPermission(String title, String msg) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
@@ -133,8 +127,8 @@ public class LoginVMobileFragment extends BaseFragment {
         alertDialog.setContentView(discardImageBinding.getRoot());
         discardImageBinding.titleTxt.setText(title);
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
-        discardImageBinding.yesTxt.setText("Allow");
-        discardImageBinding.noTxt.setText("Cancel");
+        discardImageBinding.yesTxt.setText(R.string.allow);
+        discardImageBinding.noTxt.setText(R.string.cancel);
         discardImageBinding.noTxt.setOnClickListener(v -> {
             alertDialog.dismiss();
             signIn();
@@ -195,7 +189,7 @@ public class LoginVMobileFragment extends BaseFragment {
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                return new HashMap<String, String>();
+                return new HashMap<>();
             }
 
             @Override
@@ -219,7 +213,7 @@ public class LoginVMobileFragment extends BaseFragment {
         }
     }
 
-    public void callApi(boolean isAccept) {
+    public void callApi() {
         signIn();
     }
 
@@ -234,7 +228,7 @@ public class LoginVMobileFragment extends BaseFragment {
 
         discardImageBinding.titleTxt.setText(title);
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
-        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.yesTxt.setText(R.string.ok);
         discardImageBinding.noTxt.setVisibility(View.GONE);
         discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
         discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
@@ -251,8 +245,7 @@ public class LoginVMobileFragment extends BaseFragment {
                 if (result.getResultCode() == Activity.RESULT_OK) {
 
                     Intent data = result.getData();
-                    if (data.hasExtra("success")) {
-                        //FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.LOGIN);
+                    if (data != null && data.hasExtra("success")) {
                         act.onBackPressed();
                     }
 

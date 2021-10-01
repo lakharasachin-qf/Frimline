@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
@@ -82,7 +82,7 @@ public class CategoryRootFragment extends BaseFragment {
             CatBannerAdapter sliderAdapter = new CatBannerAdapter(outCategoryModels, getActivity());
             binding.viewPager.setAdapter(sliderAdapter);
             binding.dot.setViewPager(binding.viewPager);
-            binding.dot.setSelectedDotColor(Color.parseColor(new PREF(getActivity()).getThemeColor()));
+            binding.dot.setSelectedDotColor(Color.parseColor(new PREF(act).getThemeColor()));
 
         }
 
@@ -151,18 +151,31 @@ public class CategoryRootFragment extends BaseFragment {
             isLoading = true;
         binding.NoDataFound.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.TODAY_TOMORROW, response -> {
-            //Log.e("Response", response);
+            Log.e("Response", response);
             stopShimmer();
             isLoading = false;
             binding.NoDataFound.setVisibility(View.GONE);
             rootModel = ResponseHandler.handleResponseCategoryRootFragment(response);
-            loadData(rootModel);
-            if (!pref.displayOFFER())
-                getOFFER();
+            if (rootModel.getBannerList().size() != 0 && !rootModel.getMessages().isEmpty()) {
+                binding.scrollView.setVisibility(View.VISIBLE);
+                loadData(rootModel);
+
+                if (!pref.displayOFFER())
+                    getOFFER();
+
+            } else {
+                binding.scrollView.setVisibility(View.GONE);
+                binding.categoryProductRecycler.setVisibility(View.GONE);
+                binding.NoDataFound.setVisibility(View.VISIBLE);
+            }
+
+
         },
                 error -> {
                     error.printStackTrace();
                     isLoading = false;
+                    binding.scrollView.setVisibility(View.GONE);
+                    binding.categoryProductRecycler.setVisibility(View.GONE);
                     binding.NoDataFound.setVisibility(View.VISIBLE);
                     binding.shimmerViewContainer.setVisibility(View.GONE);
                     binding.shimmerViewContainer.stopShimmer();
@@ -173,15 +186,13 @@ public class CategoryRootFragment extends BaseFragment {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 
@@ -204,18 +215,22 @@ public class CategoryRootFragment extends BaseFragment {
                 binding.todaysRecycler.setLayoutManager(mLayoutManager);
                 binding.todaysRecycler.setAdapter(adapter);
 
-
-                CategoryAdapter categoryAdapter = new CategoryAdapter(rootModel.getCategoryList(), act);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(act, RecyclerView.HORIZONTAL, false);
-                binding.categoryRecycler.setNestedScrollingEnabled(false);
-                binding.categoryRecycler.setLayoutManager(layoutManager);
-                binding.categoryRecycler.setAdapter(categoryAdapter);
-                binding.categoryRecycler.setVisibility(View.VISIBLE);
+                if (rootModel.getCategoryList() != null && rootModel.getCategoryList().size() != 0) {
+                    CategoryAdapter categoryAdapter = new CategoryAdapter(rootModel.getCategoryList(), act);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(act, RecyclerView.HORIZONTAL, false);
+                    binding.categoryRecycler.setNestedScrollingEnabled(false);
+                    binding.categoryRecycler.setLayoutManager(layoutManager);
+                    binding.categoryRecycler.setAdapter(categoryAdapter);
+                    binding.categoryRecycler.setVisibility(View.VISIBLE);
+                } else {
+                    binding.categoryRecycler.setVisibility(View.GONE);
+                }
                 binding.dummyContainer.setVisibility(View.GONE);
-            } else {
-                //show error message
-            }
-            loadBanner();
+            }  //show error message
+
+
+            if (rootModel.getBannerList() != null && rootModel.getBannerList().size() != 0)
+                loadBanner();
         }
     }
 
@@ -293,15 +308,13 @@ public class CategoryRootFragment extends BaseFragment {
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

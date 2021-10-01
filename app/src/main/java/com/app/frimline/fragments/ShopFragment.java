@@ -6,14 +6,11 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,12 +18,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
@@ -60,12 +53,8 @@ public class ShopFragment extends BaseFragment {
     private FragmentShopBinding binding;
     private ShopAdapter shopAdapter;
     private ArrayList<HomeModel> rootModel;
-    private int minPricePosition = 0;
-    private int maxPricePosition = 0;
     private ListModel sortingOptionSelection;
     private CategorySingleModel selectedCategory;
-    private String categoryID;
-    private String jsonStr;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -158,10 +147,10 @@ public class ShopFragment extends BaseFragment {
 
         binding.transparentOverlay.setOnClickListener(v -> {
             if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
-                slideTorightFilter(binding.filterFrameLayout);
+                slideRightFilter(binding.filterFrameLayout);
             }
             if (binding.frameLayout.getVisibility() == View.VISIBLE) {
-                slideToright(binding.frameLayout);
+                slideRight(binding.frameLayout);
             }
         });
 
@@ -186,7 +175,7 @@ public class ShopFragment extends BaseFragment {
     }
 
 
-    public void slideToright(View view) {
+    public void slideRight(View view) {
         Animation RightSwipe = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_right_out);
         view.startAnimation(RightSwipe);
         binding.transparentOverlay.setVisibility(View.GONE);
@@ -195,7 +184,7 @@ public class ShopFragment extends BaseFragment {
         binding.swipeContainer.setEnabled(true);
     }
 
-    public void slideTorightFilter(View view) {
+    public void slideRightFilter(View view) {
         Animation RightSwipe = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_right_out);
         view.startAnimation(RightSwipe);
         binding.transparentOverlay.setVisibility(View.GONE);
@@ -209,10 +198,10 @@ public class ShopFragment extends BaseFragment {
 
     public void fillSortingData() {
 
-        binding.titleText.setText("Sort By");
-        binding.titleFilterText.setText("Filter");
+        binding.titleText.setText(R.string.sort_by);
+        binding.titleFilterText.setText(R.string.filter);
         listModels = new ArrayList<>();
-        SortingAdapter adpt;
+        SortingAdapter adapt;
         if (CONSTANT.API_MODE) {
             ListModel popularityModel = new ListModel();
             popularityModel.setName("Sort by popularity");
@@ -245,19 +234,16 @@ public class ShopFragment extends BaseFragment {
             listModels.add(priceModelHighToLow);
 
             if (listModels != null) {
-                adpt = new SortingAdapter(listModels, act, 1);
-                SortingAdapter.setOnCheckedRadioListener radioListener = new SortingAdapter.setOnCheckedRadioListener() {
-                    @Override
-                    public void onOptionSelect(ListModel listModel, int position) {
-                        sortingOptionSelection = listModel;
-                        loadShopData();
-                    }
+                adapt = new SortingAdapter(listModels, act, 1);
+                SortingAdapter.setOnCheckedRadioListener radioListener = (listModel, position) -> {
+                    sortingOptionSelection = listModel;
+                    loadShopData();
                 };
-                adpt.setRadioListener(radioListener);
+                adapt.setRadioListener(radioListener);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
                 binding.recyclerList.setLayoutManager(mLayoutManager);
                 binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
-                binding.recyclerList.setAdapter(adpt);
+                binding.recyclerList.setAdapter(adapt);
 
 
             }
@@ -279,35 +265,22 @@ public class ShopFragment extends BaseFragment {
             listModels.add(countryModel);
 
             if (listModels != null) {
-                adpt = new SortingAdapter(listModels, act, 1);
-                SortingAdapter.setOnCheckedRadioListener radioListener = new SortingAdapter.setOnCheckedRadioListener() {
-                    @Override
-                    public void onOptionSelect(ListModel listModel, int position) {
+                adapt = new SortingAdapter(listModels, act, 1);
+                SortingAdapter.setOnCheckedRadioListener radioListener = (listModel, position) -> {
 
-                    }
                 };
-                adpt.setRadioListener(radioListener);
+                adapt.setRadioListener(radioListener);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
                 binding.recyclerList.setLayoutManager(mLayoutManager);
                 binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
-                binding.recyclerList.setAdapter(adpt);
+                binding.recyclerList.setAdapter(adapt);
 
 
             }
         }
 
-        binding.closeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CLOSE_SORT_FILTER_VIEW);
-            }
-        });
-        binding.closeFilterView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CLOSE_SORT_FILTER_VIEW);
-            }
-        });
+        binding.closeView.setOnClickListener(v -> FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CLOSE_SORT_FILTER_VIEW));
+        binding.closeFilterView.setOnClickListener(v -> FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CLOSE_SORT_FILTER_VIEW));
 
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -320,7 +293,7 @@ public class ShopFragment extends BaseFragment {
         binding.filterFrameLayout.getLayoutParams().width = fragmentWidth;
 
 
-        setAdapaters();
+        setAdapter();
 
 
     }
@@ -332,7 +305,7 @@ public class ShopFragment extends BaseFragment {
     ListAdapter adapter;
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setAdapaters() {
+    private void setAdapter() {
         rootPriceList = new ArrayList<>();
         minPriceList = new ArrayList<>();
         maxPriceList = new ArrayList<>();
@@ -365,44 +338,16 @@ public class ShopFragment extends BaseFragment {
         binding.maxPrice.setAdapter(adapter2);
 
 
-        binding.minPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                minPricePosition = position;
-                adapter2.updateReceiptsList(rootPriceList.subList(position, rootPriceList.size()));
-            }
+        binding.minPrice.setOnItemClickListener((parent, view, position, id) -> adapter2.updateReceiptsList(rootPriceList.subList(position, rootPriceList.size())));
+
+        binding.button.setOnClickListener(v -> FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.PRICE_FILTER));
+
+        binding.maxPrice.setOnItemClickListener((parent, view, position, id) -> {
         });
 
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.PRICE_FILTER);
-            }
-        });
+        binding.filterFrameLayout.setOnTouchListener((v, event) -> true);
 
-        binding.maxPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                maxPricePosition = position;
-                //FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.PRICE_FILTER);
-            }
-        });
-
-        binding.filterFrameLayout.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-
-        binding.frameLayout.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        binding.frameLayout.setOnTouchListener((v, event) -> true);
 
     }
 
@@ -413,56 +358,49 @@ public class ShopFragment extends BaseFragment {
         if (!isLoading)
             isLoading = true;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SHOP, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SHOP, response -> {
 
-                binding.swipeContainer.setRefreshing(false);
-                stopShimmer();
-                isLoading = false;
-                rootModel = ResponseHandler.handleShopFragmentData(response);
-                shopAdapter = new ShopAdapter(rootModel, getActivity(),selectedCategory);
-                shopAdapter.setCategoryFilter(selectedCategory);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
-                binding.containerRecycler.setHasFixedSize(true);
-                binding.containerRecycler.setNestedScrollingEnabled(false);
-                binding.containerRecycler.setLayoutManager(mLayoutManager);
-                binding.containerRecycler.setAdapter(shopAdapter);
-                binding.containerRecycler.setVisibility(View.VISIBLE);
-                binding.emptyData.setVisibility(View.GONE);
+            binding.swipeContainer.setRefreshing(false);
+            stopShimmer();
+            isLoading = false;
+            rootModel = ResponseHandler.handleShopFragmentData(response);
+            shopAdapter = new ShopAdapter(rootModel, getActivity(), selectedCategory);
+            shopAdapter.setCategoryFilter(selectedCategory);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
+            binding.containerRecycler.setHasFixedSize(true);
+            binding.containerRecycler.setNestedScrollingEnabled(false);
+            binding.containerRecycler.setLayoutManager(mLayoutManager);
+            binding.containerRecycler.setAdapter(shopAdapter);
+            binding.containerRecycler.setVisibility(View.VISIBLE);
+            binding.emptyData.setVisibility(View.GONE);
+            binding.swipeContainer.setVisibility(View.VISIBLE);
+            if (rootModel.size() == 0) {
+                binding.containerRecycler.setVisibility(View.GONE);
                 binding.swipeContainer.setVisibility(View.VISIBLE);
-                if (rootModel.size() == 0) {
+                binding.shimmerViewContainer.setVisibility(View.GONE);
+                binding.emptyData.setVisibility(View.VISIBLE);
+                binding.emptyData.setText(R.string.no_product_found);
+            }
+
+        },
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    binding.swipeContainer.setVisibility(View.VISIBLE);
+                    binding.emptyData.setVisibility(View.VISIBLE);
                     binding.containerRecycler.setVisibility(View.GONE);
                     binding.swipeContainer.setVisibility(View.VISIBLE);
                     binding.shimmerViewContainer.setVisibility(View.GONE);
-                    binding.emptyData.setVisibility(View.VISIBLE);
-                    binding.emptyData.setText("No Product Found.");
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.emptyData.setVisibility(View.VISIBLE);
-                        binding.containerRecycler.setVisibility(View.GONE);
-                        binding.swipeContainer.setVisibility(View.VISIBLE);
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        stopShimmer();
-                        binding.swipeContainer.setRefreshing(false);
-                    }
+                    stopShimmer();
+                    binding.swipeContainer.setRefreshing(false);
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+            public Map<String, String> getHeaders() {
+                return new HashMap<>();
             }
 
             @Override
@@ -489,93 +427,77 @@ public class ShopFragment extends BaseFragment {
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         if (frimline.getObserver().getValue() == ObserverActionID.APPLY_SORT_SELECTION) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-                        sortingOptionSelection = gson.fromJson(frimline.getObserver().getData(), ListModel.class);
-                        startShimmer();
-                        loadShopData();
-                    }
-                    if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
-                        slideTorightFilter(binding.filterFrameLayout);
-                    }
-                    if (binding.frameLayout.getVisibility() == View.VISIBLE) {
-                        slideToright(binding.frameLayout);
-                    }
-                }
-            });
-        } else if (frimline.getObserver().getValue() == ObserverActionID.CLOSE_SORT_FILTER_VIEW) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
-                        slideTorightFilter(binding.filterFrameLayout);
-                    }
-                    if (binding.frameLayout.getVisibility() == View.VISIBLE) {
-                        slideToright(binding.frameLayout);
-                    }
-                }
-            });
-        }
-        act.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                if (frimline.getObserver().getValue() == ObserverActionID.SHOP_ADDED_TO_CART) {
-                    if (shopAdapter != null) {
-                        //shopAdapter.notifyDataSetChanged();
-                        relaodData(frimline.getObserver().getModel(), true);
-                    }
-                }
-                if (frimline.getObserver().getValue() == ObserverActionID.SHOP_REMOVE_FROM_CART) {
-                    if (shopAdapter != null) {
-                        //shopAdapter.notifyDataSetChanged();
-                         relaodData(frimline.getObserver().getModel(), false);
-                    }
-                }
-                if (frimline.getObserver().getValue() == ObserverActionID.PRICE_FILTER) {
-                    if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
-                        slideTorightFilter(binding.filterFrameLayout);
-                    }
-                    if (binding.frameLayout.getVisibility() == View.VISIBLE) {
-                        slideToright(binding.frameLayout);
-                    }
+            act.runOnUiThread(() -> {
+                if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
+                    sortingOptionSelection = gson.fromJson(frimline.getObserver().getData(), ListModel.class);
                     startShimmer();
                     loadShopData();
                 }
-
-                if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER) {
-                    if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-
-                        selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
-                        jsonStr = frimline.getObserver().getData();
-                        categoryID = selectedCategory.getCategoryId();
-                        startShimmer();
-                        loadShopData();
-                    }
+                if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
+                    slideRightFilter(binding.filterFrameLayout);
                 }
+                if (binding.frameLayout.getVisibility() == View.VISIBLE) {
+                    slideRight(binding.frameLayout);
+                }
+            });
+        } else if (frimline.getObserver().getValue() == ObserverActionID.CLOSE_SORT_FILTER_VIEW) {
+            act.runOnUiThread(() -> {
+                if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
+                    slideRightFilter(binding.filterFrameLayout);
+                }
+                if (binding.frameLayout.getVisibility() == View.VISIBLE) {
+                    slideRight(binding.frameLayout);
+                }
+            });
+        }
+        act.runOnUiThread(() -> {
+
+            if (frimline.getObserver().getValue() == ObserverActionID.SHOP_ADDED_TO_CART) {
+                if (shopAdapter != null) {
+                    //shopAdapter.notifyDataSetChanged();
+                    reloadData(frimline.getObserver().getModel(), true);
+                }
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.SHOP_REMOVE_FROM_CART) {
+                if (shopAdapter != null) {
+                    //shopAdapter.notifyDataSetChanged();
+                    reloadData(frimline.getObserver().getModel(), false);
+                }
+            }
+            if (frimline.getObserver().getValue() == ObserverActionID.PRICE_FILTER) {
+                if (binding.filterFrameLayout.getVisibility() == View.VISIBLE) {
+                    slideRightFilter(binding.filterFrameLayout);
+                }
+                if (binding.frameLayout.getVisibility() == View.VISIBLE) {
+                    slideRight(binding.frameLayout);
+                }
+                startShimmer();
+                loadShopData();
+            }
+
+            if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER) {
+                if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
+
+                    selectedCategory = gson.fromJson(frimline.getObserver().getData(), CategorySingleModel.class);
+                    startShimmer();
+                    loadShopData();
+                }
+            }
 
 
-                if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER_REMOVE) {
-                    if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
-                        selectedCategory = null;
-                        startShimmer();
-                        loadShopData();
-                    }
+            if (frimline.getObserver().getValue() == ObserverActionID.CATEGORY_FILTER_REMOVE) {
+                if (frimline.getObserver().getData() != null && !frimline.getObserver().getData().isEmpty()) {
+                    selectedCategory = null;
+                    startShimmer();
+                    loadShopData();
                 }
             }
         });
 
     }
 
-    public void allReload() {
-
-    }
-
-    public void relaodData(DataTransferModel dataTransferModel, boolean addOrNot) {
-        String productId = dataTransferModel.getProductId();
-        int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout produc t item
+    public void reloadData(DataTransferModel dataTransferModel, boolean addOrNot) {
+        // position from 3 layout   t item
         int layoutType = Integer.parseInt(dataTransferModel.getLayoutType());//item layout 3 product or 2 product or 1 product
         int itemPosition = Integer.parseInt(dataTransferModel.getItemPosition()); // item layout position
         int adapterPosition = Integer.parseInt(dataTransferModel.getAdapterPosition()); // item layout position
@@ -583,7 +505,6 @@ public class ShopFragment extends BaseFragment {
         HomeModel model = rootModel.get(itemPosition);
         ProductModel dashBoardItemList = model.getApiProductModel().get(adapterPosition);
         dashBoardItemList.setAddedToCart(addOrNot);
-        int refreshingPost = 0;
         for (int i = 0; i < rootModel.size(); i++) {
             if (rootModel.get(i).getLayoutType() == layoutType) {
                 break;

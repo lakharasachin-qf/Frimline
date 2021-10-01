@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,9 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
@@ -69,7 +64,7 @@ public class WishlistFragment extends BaseFragment {
                 binding.orderHistoryRecycler.setVisibility(View.GONE);
                 binding.swipeContainer.setVisibility(View.VISIBLE);
                 binding.NoDataFound.setVisibility(View.VISIBLE);
-                binding.errorText.setText("You are not Signed In.");
+                binding.errorText.setText(R.string.you_are_not_signed_in);
             }
         } else {
             binding.NoDataFound.setVisibility(View.GONE);
@@ -82,23 +77,15 @@ public class WishlistFragment extends BaseFragment {
 
         binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
 
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class);
-            }
-        });
+        binding.button.setOnClickListener(v -> HELPER.SIMPLE_ROUTE(getActivity(), LoginActivity.class));
         binding.swipeContainer.setColorSchemeResources(R.color.orange, R.color.orange, R.color.orange);
 
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (CONSTANT.API_MODE) {
-                    startShimmer();
-                    wishlist();
-                } else {
-                    binding.swipeContainer.setRefreshing(false);
-                }
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            if (CONSTANT.API_MODE) {
+                startShimmer();
+                wishlist();
+            } else {
+                binding.swipeContainer.setRefreshing(false);
             }
         });
 
@@ -163,6 +150,7 @@ public class WishlistFragment extends BaseFragment {
 
     ArrayList<WishlistEntity> arrayList;
     WishlistAdapter wishlistAdapter;
+
     private void wishlist() {
 
         if (!isLoading)
@@ -183,7 +171,7 @@ public class WishlistFragment extends BaseFragment {
                 binding.orderHistoryRecycler.setVisibility(View.VISIBLE);
                 binding.swipeContainer.setVisibility(View.VISIBLE);
                 db.wishlistEntityDao().deleteWishlist();
-                for (int i=0;i<arrayList.size();i++){
+                for (int i = 0; i < arrayList.size(); i++) {
                     db.wishlistEntityDao().insert(arrayList.get(i));
                 }
                 wishlistAdapter = new WishlistAdapter(arrayList, getActivity());
@@ -193,7 +181,7 @@ public class WishlistFragment extends BaseFragment {
                 binding.orderHistoryRecycler.setHasFixedSize(true);
             } else {
                 binding.button.setVisibility(View.GONE);
-                binding.errorText.setText("No Product added to wishlist.");
+                binding.errorText.setText(R.string.no_product_added_to_wishlist);
                 binding.NoDataFound.setVisibility(View.VISIBLE);
                 binding.orderHistoryRecycler.setVisibility(View.GONE);
                 binding.swipeContainer.setVisibility(View.VISIBLE);
@@ -203,7 +191,7 @@ public class WishlistFragment extends BaseFragment {
                 error -> {
                     error.printStackTrace();
                     binding.button.setVisibility(View.GONE);
-                    binding.errorText.setText("No Product added to wishlist.");
+                    binding.errorText.setText(R.string.no_product_added_to_wishlist);
                     binding.NoDataFound.setVisibility(View.VISIBLE);
                     binding.orderHistoryRecycler.setVisibility(View.GONE);
                     binding.swipeContainer.setVisibility(View.VISIBLE);
@@ -217,8 +205,7 @@ public class WishlistFragment extends BaseFragment {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 
@@ -230,30 +217,25 @@ public class WishlistFragment extends BaseFragment {
             return;
         isLoading = true;
         HELPER.showLoadingTran(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REMOVE_WISHLIST, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isLoading = false;
-                HELPER.dismissLoadingTran();
-                JSONObject repo = ResponseHandler.createJsonObject(response);
-                if (repo != null)
-                    dialogDisplay("Wishlist", ResponseHandler.getString(repo, "msg"), "success");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REMOVE_WISHLIST, response -> {
+            isLoading = false;
+            HELPER.dismissLoadingTran();
+            JSONObject repo = ResponseHandler.createJsonObject(response);
+            if (repo != null)
+                dialogDisplay("Wishlist", ResponseHandler.getString(repo, "msg"), "success");
 
-                if (selectedPosition != -1) {
-                    db.wishlistEntityDao().deleteWishlistItem(selectedEntity.getProductId());
-                    arrayList.remove(selectedEntity);
-                    wishlistAdapter.notifyItemRemoved(selectedPosition);
-                }
-                if (arrayList.size()==0){
-                    binding.button.setVisibility(View.GONE);
-                    binding.errorText.setText("No Product added to wishlist.");
-                    binding.NoDataFound.setVisibility(View.VISIBLE);
-                    binding.orderHistoryRecycler.setVisibility(View.GONE);
-                    binding.swipeContainer.setVisibility(View.VISIBLE);
-                }
-
+            if (selectedPosition != -1) {
+                db.wishlistEntityDao().deleteWishlistItem(selectedEntity.getProductId());
+                arrayList.remove(selectedEntity);
+                wishlistAdapter.notifyItemRemoved(selectedPosition);
             }
-
+            if (arrayList.size() == 0) {
+                binding.button.setVisibility(View.GONE);
+                binding.errorText.setText(R.string.no_product_added_to_wishlist);
+                binding.NoDataFound.setVisibility(View.VISIBLE);
+                binding.orderHistoryRecycler.setVisibility(View.GONE);
+                binding.swipeContainer.setVisibility(View.VISIBLE);
+            }
 
         },
                 error -> {
@@ -297,12 +279,7 @@ public class WishlistFragment extends BaseFragment {
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         if (frimline.getObserver().getValue() == ObserverActionID.WISHLIST_REFRESH) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    wishlist();
-                }
-            });
+            act.runOnUiThread(this::wishlist);
         }
     }
 
@@ -316,12 +293,9 @@ public class WishlistFragment extends BaseFragment {
         alertDialog.setContentView(discardImageBinding.getRoot());
         discardImageBinding.titleTxt.setText(title);
         discardImageBinding.subTitle.setText(msg);
-        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.yesTxt.setText(R.string.ok);
         //discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(v -> {
-            alertDialog.dismiss();
-
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
         discardImageBinding.yesTxt.setOnClickListener(v -> {
             alertDialog.dismiss();
             if (flag.equalsIgnoreCase("confirm")) {
@@ -332,7 +306,6 @@ public class WishlistFragment extends BaseFragment {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-
 
 
     private void loadProductDetails(boolean isAddToCart) {
@@ -347,13 +320,13 @@ public class WishlistFragment extends BaseFragment {
             JSONObject object = ResponseHandler.createJsonObject(response);
             ProductModel productModel = ResponseHandler.getProductDetails(object);
             if (productModel != null) {
-                if (isAddToCart){
+                if (isAddToCart) {
                     productModel.setQty(selectedEntity.getQuantity());
                     productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
                     Toast.makeText(act, "Added to cart", Toast.LENGTH_SHORT).show();
                     db.productEntityDao().insert(HELPER.convertToCartObject(productModel));
                     HELPER.changeCartCounter(act);
-                }else {
+                } else {
                     Intent i = new Intent(act, ProductDetailActivity.class);
                     i.putExtra("fragment", "wishlist");
                     i.putExtra("qty", selectedEntity.getQuantity());
@@ -369,29 +342,23 @@ public class WishlistFragment extends BaseFragment {
                 }
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        HELPER.dismissLoadingTran();
-                        isLoading = false;
-                    }
+                error -> {
+                    error.printStackTrace();
+                    HELPER.dismissLoadingTran();
+                    isLoading = false;
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = getHeader();
-
+            public Map<String, String> getHeaders() {
                 return getHeader();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
@@ -70,14 +66,14 @@ public class LoginVEmailFragment extends BaseFragment {
 
     private void changeTheme() {
         // binding.scrollView.setNestedScrollingEnabled(false);
-        binding.includeBtn.button.setText("Sign In");
+        binding.includeBtn.button.setText(R.string.sign_in);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             binding.hint.setText(Html.fromHtml("Please Sign in with <b>Email</b> to continue using<br>our app", Html.FROM_HTML_MODE_COMPACT));
         } else {
             binding.hint.setText(Html.fromHtml("Please Sign in with <b>Email</b> to continue using<br>our app"));
         }
-        binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
-        binding.shipToDiffCheck.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
+        binding.includeBtn.button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
+        binding.shipToDiffCheck.setButtonTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         HELPER.ERROR_HELPER(binding.userNameEdt, binding.userNameEdtLayout);
         HELPER.ERROR_HELPER(binding.confirmPassword, binding.confirmPasswordLayout);
 
@@ -112,7 +108,7 @@ public class LoginVEmailFragment extends BaseFragment {
         binding.includeBtn.button.setOnClickListener(v -> {
             if (PROTOTYPE_MODE) {
                 HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
-                getActivity().finish();
+                act.finish();
             } else {
                 if (!validations()) {
                     if (CONSTANT.API_MODE) {
@@ -120,7 +116,7 @@ public class LoginVEmailFragment extends BaseFragment {
                         signIn();
                     } else {
                         HELPER.SIMPLE_ROUTE(getActivity(), CategoryRootActivity.class);
-                        getActivity().finish();
+                        act.finish();
                     }
                 }
             }
@@ -142,7 +138,6 @@ public class LoginVEmailFragment extends BaseFragment {
         if (binding.confirmPassword.getText().toString().length() == 0) {
             isError = true;
             if (!isFocus) {
-                isFocus = true;
                 binding.confirmPassword.requestFocus();
             }
             binding.confirmPasswordLayout.setErrorEnabled(true);
@@ -163,7 +158,7 @@ public class LoginVEmailFragment extends BaseFragment {
         HELPER.showLoadingTran(act);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SIGN_IN, response -> {
-            HELPER.print("response",response);
+            HELPER.print("response", response);
             isLoading = false;
 
             JSONObject jsonObject = ResponseHandler.createJsonObject(response);
@@ -182,7 +177,7 @@ public class LoginVEmailFragment extends BaseFragment {
 
             } else {
                 HELPER.dismissLoadingTran();
-                if (jsonObject != null && ResponseHandler.getString(jsonObject, "code").contains("invalid_username") || ResponseHandler.getString(jsonObject, "code").contains("invalid_email") ) {
+                if (jsonObject != null && ResponseHandler.getString(jsonObject, "code").contains("invalid_username") || ResponseHandler.getString(jsonObject, "code").contains("invalid_email")) {
                     errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
                 }
                 if (ResponseHandler.getString(jsonObject, "code").contains("password")) {
@@ -191,26 +186,23 @@ public class LoginVEmailFragment extends BaseFragment {
             }
 
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        isLoading = false;
-                        HELPER.dismissLoadingTran();
-                        NetworkResponse response = error.networkResponse;
-                        if (response!=null && response.statusCode == 400) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonObject = new JSONObject(jsonString);
-                                errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            HELPER.print("Error",gson.toJson(response.headers));
-
+                error -> {
+                    error.printStackTrace();
+                    isLoading = false;
+                    HELPER.dismissLoadingTran();
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.statusCode == 400) {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            errorDialog("Error", ResponseHandler.getString(jsonObject, "message"));
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            e.printStackTrace();
                         }
+                        HELPER.print("Error", gson.toJson(response.headers));
 
                     }
+
                 }
         ) {
             /**
@@ -218,7 +210,7 @@ public class LoginVEmailFragment extends BaseFragment {
              */
             @Override
             public Map<String, String> getHeaders() {
-                return new HashMap<String, String>();
+                return new HashMap<>();
             }
 
             @Override
@@ -244,22 +236,10 @@ public class LoginVEmailFragment extends BaseFragment {
 
         discardImageBinding.titleTxt.setText(title);
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
-        discardImageBinding.yesTxt.setText("Ok");
+        discardImageBinding.yesTxt.setText(R.string.ok);
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if (!act.isDestroyed() && !act.isFinishing()) {

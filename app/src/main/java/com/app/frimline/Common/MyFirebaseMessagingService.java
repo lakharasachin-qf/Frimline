@@ -1,5 +1,6 @@
 package com.app.frimline.Common;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -33,10 +34,7 @@ import java.util.Objects;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    public static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
     String GROUP_KEY = "com.app.frimline.Notification";
-
-    private String catName;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -47,9 +45,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+
         String imageURL = null;
         String msg = null;
         String title = null;
+
         if (!remoteMessage.getData().isEmpty()) {
             try {
                 remoteMessage.getData();
@@ -61,10 +61,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else {
-            title = remoteMessage.getNotification().getTitle();
+            title = Objects.requireNonNull(remoteMessage.getNotification()).getTitle();
             msg = remoteMessage.getNotification().getBody();
-            imageURL = remoteMessage.getNotification().getImageUrl().toString();
+            imageURL = Objects.requireNonNull(remoteMessage.getNotification().getImageUrl()).toString();
         }
 
         if (title != null)
@@ -72,6 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private void displayNotifications(String title, String msg, String imageURL) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -90,7 +92,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent intent = new Intent(this, CategoryRootActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = null;
+        PendingIntent pendingIntent;
         pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -116,7 +118,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         if (imageURL != null && !imageURL.isEmpty()) {
-            Bitmap bitmap = getBitmapfromUrl(imageURL);
+            Bitmap bitmap = getBitmapsUrl(imageURL);
             notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);
         }
 
@@ -124,17 +126,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify("Brand Mania", (int) System.currentTimeMillis(), notificationBuilder.build());
+        notificationManager.notify("Frimline", (int) System.currentTimeMillis(), notificationBuilder.build());
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private PendingIntent createOnDismissedIntent(Context context) {
         Intent intent = new Intent(context, NotificationDismissedReceiver.class);
         intent.putExtra("notificationId", 0);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 108, intent, 0);
-        return pendingIntent;
+        return PendingIntent.getBroadcast(this, 108, intent, 0);
     }
 
-    public Bitmap getBitmapfromUrl(String imageUrl) {
+    public Bitmap getBitmapsUrl(String imageUrl) {
         try {
             URL url = new URL(imageUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

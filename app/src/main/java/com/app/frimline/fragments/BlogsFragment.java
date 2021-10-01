@@ -9,10 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
@@ -22,9 +19,7 @@ import com.app.frimline.R;
 import com.app.frimline.adapters.BlogsAdapter;
 import com.app.frimline.databinding.FragmentBlogsBinding;
 import com.app.frimline.models.BlogModel;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.LAYOUT_TYPE;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,9 +52,9 @@ public class BlogsFragment extends BaseFragment {
             homeModel.setLayoutType(LAYOUT_TYPE.LAYOUT_LEFT_BLOG);
             arrayList.add(homeModel);
 
-            BlogsAdapter adaptertop = new BlogsAdapter(arrayList, getActivity());
+            BlogsAdapter blogsAdapter = new BlogsAdapter(arrayList, getActivity());
             binding.blogsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-            binding.blogsRecycler.setAdapter(adaptertop);
+            binding.blogsRecycler.setAdapter(blogsAdapter);
             binding.blogsRecycler.setVisibility(View.VISIBLE);
             binding.shimmerViewContainer.setVisibility(View.GONE);
             binding.shimmerViewContainer.stopShimmer();
@@ -114,7 +109,7 @@ public class BlogsFragment extends BaseFragment {
              */
             @Override
             public Map<String, String> getHeaders() {
-                return new HashMap<String, String>();
+                return new HashMap<>();
             }
 
             @Override

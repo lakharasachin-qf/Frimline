@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,11 +24,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
@@ -45,7 +42,6 @@ import com.app.frimline.Common.SMSListener;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityOtpVerificationBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
-import com.app.frimline.intefaces.Common;
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.ProfileModel;
 import com.app.frimline.views.OTPListener;
@@ -98,7 +94,7 @@ public class OtpVerificationActivity extends BaseActivity {
 
             @Override
             public void onOTPComplete(@NonNull String otp) {
-                    HELPER.closeKeyboard(binding.otpView,act);
+                HELPER.closeKeyboard(binding.otpView, act);
             }
         });
     }
@@ -131,7 +127,7 @@ public class OtpVerificationActivity extends BaseActivity {
                     isLoading = false;
                     HELPER.dismissLoadingTran();
                     NetworkResponse response = error.networkResponse;
-                    if (response!=null && response.statusCode == 400) {
+                    if (response != null && response.statusCode == 400) {
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
@@ -143,9 +139,6 @@ public class OtpVerificationActivity extends BaseActivity {
 
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() {
                 return new HashMap<>();
@@ -250,7 +243,7 @@ public class OtpVerificationActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 isLoading = false;
-
+                HELPER.print("OTPVerification", response);
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
                 if (jsonObject != null) {
                     binding.container.setVisibility(View.GONE);
@@ -277,7 +270,7 @@ public class OtpVerificationActivity extends BaseActivity {
                     error.printStackTrace();
                     isLoading = false;
                     NetworkResponse response = error.networkResponse;
-                    if (response!=null && response.statusCode == 400) {
+                    if (response != null && response.statusCode == 400) {
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
@@ -431,7 +424,7 @@ public class OtpVerificationActivity extends BaseActivity {
                 if (!cameraGrant) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (shouldShowRequestPermissionRationale(CAMERA)) {
-                            askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp",1);
+                            askDialogForPermission("Permission", "You need to allow access to the permission for auto-read otp", 1);
                         } else {
                             targetSetting = true;
                         }
@@ -443,7 +436,7 @@ public class OtpVerificationActivity extends BaseActivity {
 
     }
 
-     public void askDialogForPermission(String title, String msg,int code) {
+    public void askDialogForPermission(String title, String msg, int code) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
@@ -465,9 +458,9 @@ public class OtpVerificationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                if (code == 0){
+                if (code == 0) {
                     ActivityCompat.requestPermissions(act, new String[]{RECEIVE_SMS}, CONSTANT.REQUEST_CODE_READ_SMS);
-                }else {
+                } else {
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                     intent.setData(uri);

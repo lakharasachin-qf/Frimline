@@ -20,4 +20,19 @@
     <string name="coupon_code_not_applicable">Coupon code is not applicable</string>
     <string name="accept_term_n_condition"><![CDATA[Please accept terms & conditions for further process.]]></string>
     <string name="your_order_is_cancel">Your order payment is cancel</string>
+    <string name="ok">Ok</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="you_need_permission_of_otp_read">You need to allow access to the permission for auto-read otp</string>
+    <string name="allow">Allow</string>
+    <string name="cancel">Cancel</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="logout">Logout</string>
+    <string name="confirm">Confirm</string>
+    <string name="you_are_not_signed_in">You are not Signed In.</string>
+    <string name="no_order_found_yet">No order found yet.</string>
+    <string name="no_product_found">No Product Found.</string>
+    <string name="filter">Filter</string>
+    <string name="sort_by">Sort By</string>
+    <string name="no_product_added_to_wishlist">No Product added to wishlist.</string>
 </resources>

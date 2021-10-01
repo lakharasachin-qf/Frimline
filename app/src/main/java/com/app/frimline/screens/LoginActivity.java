@@ -1,33 +1,19 @@
 package com.app.frimline.screens;
 
-import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.RECEIVE_SMS;
-import static android.Manifest.permission.SEND_SMS;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -36,14 +22,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
 import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
 import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.LoginTabAdapter;
 import com.app.frimline.databinding.ActivityLoginBinding;
-import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.fragments.LoginVEmailFragment;
 import com.app.frimline.fragments.LoginVMobileFragment;
 import com.app.frimline.views.WrapContentHeightViewPager;
@@ -85,17 +69,17 @@ public class LoginActivity extends BaseActivity {
         if (requestCode == CONSTANT.REQUEST_CODE_READ_SMS) {
             if (grantResults.length > 0){
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    loginFragment.callApi(true);
+                    loginFragment.callApi();
                 }else if (grantResults[0] == PackageManager.PERMISSION_DENIED){
                     if (ActivityCompat.shouldShowRequestPermissionRationale(act, RECEIVE_SMS)) {
-                        loginFragment.callApi(true);
+                        loginFragment.callApi();
                     }else{
                         prefManager.AskOTP(false);
                     }
                 }
             }else{
 
-                loginFragment.callApi(true);
+                loginFragment.callApi();
             }
         }
 

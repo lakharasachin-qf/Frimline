@@ -295,7 +295,7 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.THEME_COLOR, response -> {
             try {
                 JSONObject object = new JSONObject(response);
-
+                Log.e("THEME",response);
                 nav_host_fragment.setVisibility(View.VISIBLE);
                 screenLoader.setVisibility(View.GONE);
                 pref.setConfiguration(object.getString("theme_color"), "#EF7F1A");

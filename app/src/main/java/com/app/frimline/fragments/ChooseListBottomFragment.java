@@ -39,8 +39,7 @@ import java.util.ArrayList;
 
 public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     ArrayList<CountryModel> listModels;
-    private View view;
-    private CountryChooseAdapter adpt;
+    private CountryChooseAdapter adapter;
     private StateChooseAdapter stateChooseAdapter;
     private final int calledFlag;
 
@@ -61,6 +60,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
     }
 
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -78,6 +78,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
 
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
         FrameLayout bottomSheet = bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
+        assert bottomSheet != null;
         BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
         ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
 
@@ -96,22 +97,24 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
         return displayMetrics.heightPixels;
     }
 
+    Activity act;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         com.app.frimline.databinding.FragmentListBottomListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_bottom_list, container, false);
-        view = binding.getRoot();
-        Activity act = getActivity();
+        View view = binding.getRoot();
+        act = getActivity();
         binding.titleText.setText(title);
         binding.closeFilterView.setOnClickListener(v -> ChooseListBottomFragment.this.dismiss());
         if (CONSTANT.API_MODE) {
             Log.e("SSSS", String.valueOf(dataList.size()));
             if (calledFlag == CONSTANT.COUNTRY) {
-                adpt = new CountryChooseAdapter(dataList, act, calledFlag);
+                adapter = new CountryChooseAdapter(dataList, act, calledFlag);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
                 binding.recyclerList.setLayoutManager(mLayoutManager);
                 binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
-                binding.recyclerList.setAdapter(adpt);
+                binding.recyclerList.setAdapter(adapter);
                 binding.recyclerList.setNestedScrollingEnabled(false);
                 binding.searchEdt.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -161,11 +164,11 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
 
 
             if (listModels != null) {
-                adpt = new CountryChooseAdapter(listModels, act, calledFlag);
+                adapter = new CountryChooseAdapter(listModels, act, calledFlag);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
                 binding.recyclerList.setLayoutManager(mLayoutManager);
                 binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
-                binding.recyclerList.setAdapter(adpt);
+                binding.recyclerList.setAdapter(adapter);
                 binding.recyclerList.setNestedScrollingEnabled(false);
             }
         }
@@ -184,7 +187,7 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
             }
         }
         //update recyclerview
-        adpt.updateList(temp);
+        adapter.updateList(temp);
     }
 
     void filter(String text) {

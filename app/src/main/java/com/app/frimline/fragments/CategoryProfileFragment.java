@@ -16,7 +16,6 @@ import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCategoryProfileLayoutBinding;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.bumptech.glide.Glide;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.gson.Gson;
 
 
@@ -67,9 +66,7 @@ public class CategoryProfileFragment extends BaseFragment {
     public void hideShowView() {
         binding.icon2.setOnClickListener(v -> onNavClick.onNavigationDrawerClick());
         binding.icon.setOnClickListener(v -> onNavClick.onNavigationDrawerClick());
-        binding.button.setOnClickListener(v -> {
-            onNavClick.GoToStore();
-        });
+        binding.button.setOnClickListener(v -> onNavClick.GoToStore());
 
         binding.mainAppbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
@@ -97,7 +94,7 @@ public class CategoryProfileFragment extends BaseFragment {
 
     public void setProfile() {
 
-        CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
+        CategorySingleModel model = new Gson().fromJson(act.getIntent().getStringExtra("model"), CategorySingleModel.class);
         String[] wordList = model.getCategoryName().split(" ");
         if (wordList.length > 1) {
             binding.text1.setText(wordList[0]);

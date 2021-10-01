@@ -1,26 +1,17 @@
 package com.app.frimline.fragments;
 
 import android.animation.LayoutTransition;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
@@ -30,7 +21,6 @@ import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ParentHomeAdapter;
-import com.app.frimline.databinding.DialogOfferBinding;
 import com.app.frimline.databinding.FragmentHomeBinding;
 import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.DataTransferModel;
@@ -44,7 +34,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -192,12 +181,7 @@ public class HomeFragment extends BaseFragment {
                 dataFromApi.add(demo);
             }
 
-            Collections.sort(dataFromApi, new Comparator<HomeModel>() {
-                @Override
-                public int compare(HomeModel lhs, HomeModel rhs) {
-                    return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-                }
-            });
+            Collections.sort(dataFromApi, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
 
             for (int i = 0; i < dataFromApi.size(); i++) {
                 //getUpdate(dataFromApi.get(i));
@@ -266,12 +250,7 @@ public class HomeFragment extends BaseFragment {
         homeModel.setLayoutType(LAYOUT_TYPE.ALERT_COVID);
         homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
-        Collections.sort(homeArray, new Comparator<HomeModel>() {
-            @Override
-            public int compare(HomeModel lhs, HomeModel rhs) {
-                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-            }
-        });
+        Collections.sort(homeArray, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
         //parentHomeAdapter.notifyDataSetChanged();
 
@@ -284,12 +263,7 @@ public class HomeFragment extends BaseFragment {
         homeModel.setLayoutIndex(position);
         homeModel.setCategoryArrayList(HELPER.setAdapterForOurProduct());
         homeArray.add(homeModel);
-        Collections.sort(homeArray, new Comparator<HomeModel>() {
-            @Override
-            public int compare(HomeModel lhs, HomeModel rhs) {
-                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-            }
-        });
+        Collections.sort(homeArray, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
 
     }
@@ -301,12 +275,7 @@ public class HomeFragment extends BaseFragment {
         homeModel.setLayoutIndex(position);
         homeModel.setTradingStoriesList(HELPER.setAdapterForTrendingProduct());
         homeArray.add(homeModel);
-        Collections.sort(homeArray, new Comparator<HomeModel>() {
-            @Override
-            public int compare(HomeModel lhs, HomeModel rhs) {
-                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-            }
-        });
+        Collections.sort(homeArray, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
 
     }
@@ -317,12 +286,7 @@ public class HomeFragment extends BaseFragment {
         homeModel.setLayoutType(LAYOUT_TYPE.PROMO_CODES);
         homeModel.setLayoutIndex(position);
         homeArray.add(homeModel);
-        Collections.sort(homeArray, new Comparator<HomeModel>() {
-            @Override
-            public int compare(HomeModel lhs, HomeModel rhs) {
-                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-            }
-        });
+        Collections.sort(homeArray, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
 
     }
@@ -334,12 +298,7 @@ public class HomeFragment extends BaseFragment {
         homeModel.setLayoutIndex(position);
         homeModel.setApiProductModel(HELPER.setAdapterForTopRattedProduct());
         homeArray.add(homeModel);
-        Collections.sort(homeArray, new Comparator<HomeModel>() {
-            @Override
-            public int compare(HomeModel lhs, HomeModel rhs) {
-                return lhs.getLayoutIndex() - rhs.getLayoutIndex();
-            }
-        });
+        Collections.sort(homeArray, (lhs, rhs) -> lhs.getLayoutIndex() - rhs.getLayoutIndex());
         parentHomeAdapter.notifyItemRangeInserted(lastPos, 1);
     }
 
@@ -352,44 +311,38 @@ public class HomeFragment extends BaseFragment {
             return;
 
         isLoading = true;
-        CategorySingleModel model = new Gson().fromJson(getActivity().getIntent().getStringExtra("model"), CategorySingleModel.class);
+        CategorySingleModel model = new Gson().fromJson(act.getIntent().getStringExtra("model"), CategorySingleModel.class);
         if (act.getIntent().hasExtra("targetCategory") && act.getIntent().hasExtra("fragment") && act.getIntent().getStringExtra("fragment").equalsIgnoreCase("order")) {
             model = pref.getCurrentCategory();
         }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.CATEGORY_HOME + model.getCategoryId(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                stopShimmer();
-                isLoading = false;
-                binding.swipeContainer.setRefreshing(false);
-                rootModel = ResponseHandler.handleResponseCategoryHomeFragments(response);
-                if (rootModel.size() != 0) {
-                    parentHomeAdapter = new ParentHomeAdapter(rootModel, getActivity());
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
-                    binding.containerRecycler.setHasFixedSize(true);
-                    binding.containerRecycler.setNestedScrollingEnabled(false);
-                    binding.containerRecycler.setLayoutManager(mLayoutManager);
-                    binding.containerRecycler.setAdapter(parentHomeAdapter);
-                    binding.containerRecycler.setVisibility(View.VISIBLE);
-                    binding.emptyData.setVisibility(View.GONE);
-                } else {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.CATEGORY_HOME + model.getCategoryId(), response -> {
+            stopShimmer();
+            isLoading = false;
+            binding.swipeContainer.setRefreshing(false);
+            rootModel = ResponseHandler.handleResponseCategoryHomeFragments(response);
+            if (rootModel.size() != 0) {
+                parentHomeAdapter = new ParentHomeAdapter(rootModel, act);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
+                binding.containerRecycler.setHasFixedSize(true);
+                binding.containerRecycler.setNestedScrollingEnabled(false);
+                binding.containerRecycler.setLayoutManager(mLayoutManager);
+                binding.containerRecycler.setAdapter(parentHomeAdapter);
+                binding.containerRecycler.setVisibility(View.VISIBLE);
+                binding.emptyData.setVisibility(View.GONE);
+            } else {
+                binding.containerRecycler.setVisibility(View.GONE);
+                binding.emptyData.setVisibility(View.VISIBLE);
+            }
+
+        },
+                error -> {
+                    binding.swipeContainer.setRefreshing(false);
+                    error.printStackTrace();
+                    isLoading = false;
+                    stopShimmer();
                     binding.containerRecycler.setVisibility(View.GONE);
                     binding.emptyData.setVisibility(View.VISIBLE);
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-                        isLoading = false;
-                        stopShimmer();
-                        binding.containerRecycler.setVisibility(View.GONE);
-                        binding.emptyData.setVisibility(View.VISIBLE);
-                    }
                 }
         ) {
             /**
@@ -397,20 +350,17 @@ public class HomeFragment extends BaseFragment {
              */
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+                return new HashMap<>();
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
+                return new HashMap<>();
             }
         };
 
         MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
-
 
 
     @Override
@@ -420,13 +370,13 @@ public class HomeFragment extends BaseFragment {
             if (parentHomeAdapter != null) {
                 if (frimline.getObserver().getValue() == ObserverActionID.HOME_ADDED_TO_CART) {
                     if (parentHomeAdapter != null) {
-                        relaodData(frimline.getObserver().getModel(), true);
+                        reloadData(frimline.getObserver().getModel(), true);
                         HELPER.changeCartCounter(act);
                     }
                 }
                 if (frimline.getObserver().getValue() == ObserverActionID.HOME_REMOVE_FROM_CART) {
                     if (parentHomeAdapter != null) {
-                        relaodData(frimline.getObserver().getModel(), false);
+                        reloadData(frimline.getObserver().getModel(), false);
                         HELPER.changeCartCounter(act);
                     }
                 }
@@ -445,10 +395,9 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    public void relaodData(DataTransferModel dataTransferModel, boolean addOrNot) {
-        String productId = dataTransferModel.getProductId();
-        int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout produc t item
-        int layoutType = Integer.parseInt(dataTransferModel.getLayoutType());//item layout 3 product or 2 product or 1 product
+    public void reloadData(DataTransferModel dataTransferModel, boolean addOrNot) {
+        int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout product t item
+        //item layout 3 product or 2 product or 1 product
         int itemPosition = Integer.parseInt(dataTransferModel.getItemPosition()); // item layout position
         int adapterPosition = Integer.parseInt(dataTransferModel.getAdapterPosition()); // item layout position
 
@@ -468,8 +417,6 @@ public class HomeFragment extends BaseFragment {
         parentHomeAdapter.notifyItemChanged(refreshingPost);
 
     }
-
-
 
 
 }

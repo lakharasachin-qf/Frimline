@@ -47,6 +47,7 @@ public class CommonFragment extends BaseFragment {
 
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     public void loadData() {
 
         binding.staticPagesWebView.setWebChromeClient(new MyWebChromeClient());

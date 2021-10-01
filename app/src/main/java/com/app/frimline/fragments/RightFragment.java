@@ -19,9 +19,9 @@ public class RightFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_right, container, false);
-        RelativeLayout cartBackgroundLayar = view.findViewById(R.id.cartBackgroundLayar);
-        cartBackgroundLayar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
+        View view = inflater.inflate(R.layout.fragment_right, container, false);
+        RelativeLayout cartBackgroundLayer = view.findViewById(R.id.cartBackgroundLayar);
+        cartBackgroundLayer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(getActivity()).getThemeColor())));
         return view;
     }
 }
