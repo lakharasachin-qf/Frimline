@@ -114,7 +114,7 @@ public class BlogDetailsActivity extends BaseActivity {
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.RECENT_BLOG, response -> {
-            //Log.e("Response", response);
+            HELPER.print("Response", response);
             stopShimmer();
             isLoading = false;
             rootModel = ResponseHandler.handleResponseRecentBlog(response);
@@ -133,11 +133,11 @@ public class BlogDetailsActivity extends BaseActivity {
             /**
              * Passing some request headers*
              */
-            @Override
+         /*   @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 return params;
-            }
+            }*/
 
             @Override
             protected Map<String, String> getParams() {

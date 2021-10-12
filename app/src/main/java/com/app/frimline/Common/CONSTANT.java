@@ -48,11 +48,12 @@ public class CONSTANT {
     public static final int REQUEST_CODE_READ_SMS = 1;
 
 
-    public static final String ABOUT_US = "https://frimline.queryfinders.com/app-about-us";
-    public static final String SHIPPING_POLICY = "https://frimline.queryfinders.com/app-shipping-policy";
-    public static final String PRIVACY_POLICY = "https://frimline.queryfinders.com/privacy-policy-m";
-    public static final String CONTACT_US = "https://frimline.queryfinders.com/contact-us-m";
-    public static final String TERM_N_CONDITIONS = " https://frimline.queryfinders.com/app-terms-and-conditions";
+    public static final String ABOUT_US = "https://65.1.23.156/app-about-us";
+    public static final String SHIPPING_POLICY = "https://65.1.23.156/app-shipping-policy";
+    public static final String PRIVACY_POLICY = "https://65.1.23.156/privacy-policy-m";
+    public static final String CONTACT_US = "https://65.1.23.156/contact-us-m";
+    public static final String TERM_N_CONDITIONS = "https://65.1.23.156/app-terms-and-conditions";
+    public static final String FAQS = "https://65.1.23.156/app-faq";
 
 
     public static final String CHANNEL_ID = "frimline";

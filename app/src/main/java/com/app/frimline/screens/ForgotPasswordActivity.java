@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -154,12 +152,12 @@ public class ForgotPasswordActivity extends BaseActivity {
                         binding.resetPasswordContainer.setVisibility(View.GONE);
                         binding.containerVerified.setVisibility(View.VISIBLE);
                     } else {
-                        errorDialog("Forgot Password", ResponseHandler.getString(jsonObject, "msg"), false);
+                        errorDialog("Forgot Password", ResponseHandler.getString(jsonObject, "msg"));
                     }
 
                 } else {
                     HELPER.dismissLoadingTran();
-                    errorDialog("Error", ResponseHandler.getString(jsonObject, "msg"), false);
+                    errorDialog("Error", ResponseHandler.getString(jsonObject, "msg"));
 
                 }
 
@@ -177,7 +175,7 @@ public class ForgotPasswordActivity extends BaseActivity {
                             try {
                                 String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                 JSONObject jsonObject = new JSONObject(jsonString);
-                                errorDialog("Error", ResponseHandler.getString(jsonObject, "msg"), false);
+                                errorDialog("Error", ResponseHandler.getString(jsonObject, "msg"));
                             } catch (UnsupportedEncodingException | JSONException e) {
                                 e.printStackTrace();
                             }
@@ -206,7 +204,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 
-    public void errorDialog(String title, String msg, boolean isSuccess) {
+    public void errorDialog(String title, String msg) {
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
@@ -217,21 +215,8 @@ public class ForgotPasswordActivity extends BaseActivity {
         HELPER.LOAD_HTML(discardImageBinding.subTitle, msg);
         discardImageBinding.yesTxt.setText("Ok");
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-
-            }
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
+        discardImageBinding.yesTxt.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();

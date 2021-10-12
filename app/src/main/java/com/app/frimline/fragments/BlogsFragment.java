@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ResponseHandler;
 import com.app.frimline.R;
@@ -87,6 +88,7 @@ public class BlogsFragment extends BaseFragment {
             isLoading = true;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.BLOGS, response -> {
+            HELPER.print("reponse",response);
             stopShimmer();
             isLoading = false;
             rootModel = ResponseHandler.handleResponseBlogFragment(response);
@@ -96,21 +98,30 @@ public class BlogsFragment extends BaseFragment {
             binding.blogsRecycler.setNestedScrollingEnabled(false);
             binding.blogsRecycler.setLayoutManager(mLayoutManager);
             binding.blogsRecycler.setAdapter(blogsAdapter);
+            binding.blogsRecycler.setVisibility(View.VISIBLE);
+            binding.emptyData.setVisibility(View.GONE);
+            if (rootModel==null || rootModel.size()==0){
+                binding.blogsRecycler.setVisibility(View.GONE);
+                binding.emptyData.setVisibility(View.VISIBLE);
+                binding.emptyData.setText("No blogs found");
+            }
         },
                 error -> {
                     error.printStackTrace();
                     isLoading = false;
                     stopShimmer();
+                    binding.blogsRecycler.setVisibility(View.GONE);
+                    binding.emptyData.setText("No blogs found");
                     binding.emptyData.setVisibility(View.VISIBLE);
                 }
         ) {
             /**
              * Passing some request headers*
              */
-            @Override
+           /* @Override
             public Map<String, String> getHeaders() {
                 return new HashMap<>();
-            }
+            }*/
 
             @Override
             protected Map<String, String> getParams() {

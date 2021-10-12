@@ -489,8 +489,10 @@ public class SearchActivity extends BaseActivity {
                     params.put("orderby", sortingOptionSelection.getOrderBy());
                     params.put("order", sortingOptionSelection.getOrder());
                 }
+
                 if (selectedCategory != null)
                     params.put("category", selectedCategory.getCategoryId());
+
                 if (!binding.nameEdt.getText().toString().trim().isEmpty())
                     params.put("search", binding.nameEdt.getText().toString());
 

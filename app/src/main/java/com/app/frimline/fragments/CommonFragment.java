@@ -69,7 +69,12 @@ public class CommonFragment extends BaseFragment {
         if (targetURL.equalsIgnoreCase("contact_us")) {
             url = CONSTANT.CONTACT_US;
         }
-
+        if (targetURL.equalsIgnoreCase("faq")) {
+            url = CONSTANT.FAQS;
+        }
+        if (targetURL.equalsIgnoreCase("term_n_condition")) {
+            url = CONSTANT.TERM_N_CONDITIONS;
+        }
 
         binding.staticPagesWebView.loadUrl(url);
         binding.status.setVisibility(View.GONE);
@@ -99,7 +104,6 @@ public class CommonFragment extends BaseFragment {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             binding.screenLoader.setVisibility(View.GONE);
-
             binding.staticPagesWebView.setVisibility(View.VISIBLE);
             binding.staticPagesWebView.setVisibility(View.VISIBLE);
         }

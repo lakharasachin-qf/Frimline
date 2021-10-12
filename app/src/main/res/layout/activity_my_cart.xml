@@ -127,6 +127,7 @@
                                 android:visibility="gone">
 
                                 <TextView
+                                    android:layout_marginEnd="@dimen/_10sdp"
                                     android:id="@+id/successAppliedCode"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -135,12 +136,15 @@
                                     android:layout_marginTop="@dimen/_12sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
                                     android:background="@null"
-                                    android:ellipsize="end"
+                                    android:ellipsize="marquee"
+                                    android:layout_toStartOf="@+id/removePromo"
+                                    android:fadingEdge = "horizontal"
+                                    android:singleLine="true"
+                                    android:marqueeRepeatLimit = "marquee_forever"
+                                    android:scrollHorizontally = "true"
                                     android:fontFamily="@font/proxima_nova_bold"
                                     android:includeFontPadding="false"
-                                    android:singleLine="true"
-                                    android:text="#FGSDH Code has Applied."
-
+                                    android:text="fixproduct Code applied successfully."
                                     android:textSize="@dimen/_12sdp" />
 
                                 <RelativeLayout

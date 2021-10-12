@@ -2,6 +2,7 @@ package com.app.frimline.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.PREF;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.gson.Gson;
@@ -58,6 +60,7 @@ public abstract class BaseFragment extends Fragment implements Observer {
             map.put("Authorization", "Bearer " + pref.getToken());
 
         //map.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnJpbWxpbmUucXVlcnlmaW5kZXJzLmNvbSIsImlhdCI6MTYyODYxNTEwMSwibmJmIjoxNjI4NjE1MTAxLCJleHAiOjE2MjkyMTk5MDEsImRhdGEiOnsidXNlciI6eyJpZCI6IjY2In19fQ.YpZq2d8kP3PLR5UXfEWFa4uqiNL7wQoaHENHjNuJ-98");
+        HELPER.print("header",map.toString());
         return map;
     }
 

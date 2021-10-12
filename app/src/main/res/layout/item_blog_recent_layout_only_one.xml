@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/blog1"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_height="@dimen/_260sdp"
         android:layout_gravity="center_horizontal"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_7sdp"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/proxima_nova_regular"
                 android:maxLines="4"

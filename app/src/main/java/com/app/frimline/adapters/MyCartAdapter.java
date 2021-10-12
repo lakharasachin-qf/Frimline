@@ -56,7 +56,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ProductModel model = frameItems.get(position);
-
+        HELPER.print("viewholder",model.getCategoryId()+"-"+model.getCategoryName()+"-"+model.getName());
         holder.binding.actionDelete.setOnClickListener(v -> actionsListener.onDeleteAction(position, model));
         holder.binding.dateDelivery.setVisibility(View.INVISIBLE);
         holder.binding.counter.setAnimationDuration(150L);

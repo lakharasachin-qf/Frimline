@@ -111,6 +111,7 @@ public class MyCartActivity extends BaseActivity {
             binding.promoCodeEdt.setText(prefManager.getCouponCode());
             verifyCouponCode();
         }
+
     }
 
     public void proceedToPay() {
@@ -492,6 +493,7 @@ public class MyCartActivity extends BaseActivity {
                     String msg = "Coupon code not applicable.";
 
                     boolean canApplyMore = true;
+                    boolean isMinMaxAvailable = false;
 
                     ArrayList<ProductModel> cartProducts = HELPER.getCartList(db.productEntityDao().getAll());
                     ArrayList<ProductModel> excludedList = new ArrayList<>();
@@ -501,32 +503,36 @@ public class MyCartActivity extends BaseActivity {
                     if (Double.parseDouble(couponCodeModel.getMaxAmount()) < finalAmount && Double.parseDouble(couponCodeModel.getMaxAmount()) != 0) {
                         msg = "The maximum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMaxAmount();
                         canApplyMore = false;
+                    }else if (Double.parseDouble(couponCodeModel.getMaxAmount()) != 0 && Double.parseDouble(couponCodeModel.getMaxAmount()) >= finalAmount ){
+                        isMinMaxAvailable=true;
                     }
 
                     if (Double.parseDouble(couponCodeModel.getMinAmount()) > finalAmount && Double.parseDouble(couponCodeModel.getMinAmount()) != 0) {
                         msg = "The minimum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMinAmount();
                         canApplyMore = false;
+                    }else if (Double.parseDouble(couponCodeModel.getMinAmount()) != 0 && Double.parseDouble(couponCodeModel.getMinAmount()) <= finalAmount ){
+                        isMinMaxAvailable=true;
                     }
 
 
                     if (canApplyMore) {
                         totalPrice = 0;
-
                         if (couponCodeModel.getExcludeCategoryIds().size() != 0) {
                             for (int i = 0; i < cartItemList.size(); i++) {
                                 for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
                                     if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getExcludeCategoryIds().get(k))) {
                                         excludedList.add(cartItemList.get(i));
+                                        HELPER.print("Exclu-cat",cartItemList.get(i).getName()+ " "+cartItemList.get(i).getCategoryName());
                                     }
                                 }
                             }
                         }
-
                         if (couponCodeModel.getExcludeProductIds().size() != 0) {
                             for (int i = 0; i < cartItemList.size(); i++) {
                                 for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getExcludeProductIds().get(k))) {
                                         excludedList.add(cartItemList.get(i));
+                                        HELPER.print("Exclu-cat",cartItemList.get(i).getName()+ " "+cartItemList.get(i).getCategoryName());
                                     }
                                 }
                             }
@@ -536,49 +542,58 @@ public class MyCartActivity extends BaseActivity {
                                 for (int k = 0; k < couponCodeModel.getCategoryIds().size(); k++) {
                                     if (cartItemList.get(i).getCategoryId().equalsIgnoreCase(couponCodeModel.getCategoryIds().get(k))) {
                                         includeList.add(cartItemList.get(i));
+                                        HELPER.print("Include-cat",cartItemList.get(i).getName()+ " "+cartItemList.get(i).getCategoryName());
                                     }
                                 }
                             }
                         }
-
                         if (couponCodeModel.getProductIds().size() != 0) {
                             for (int i = 0; i < cartItemList.size(); i++) {
                                 for (int k = 0; k < couponCodeModel.getProductIds().size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getProductIds().get(k))) {
                                         includeList.add(cartItemList.get(i));
+                                        HELPER.print("Include-cat",cartItemList.get(i).getName()+ " "+cartItemList.get(i).getCategoryName());
                                     }
                                 }
                             }
                         }
 
-                        if (includeList.size() != 0 || excludedList.size() != 0) {
-                            for (int i = 0; i < cartItemList.size(); i++) {
 
+                        if (includeList.size() != 0 || excludedList.size() != 0) {
+
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                HELPER.print("Include-cat",cartItemList.get(i).getName()+ "- "+cartItemList.get(i).getCategoryId());
                                 boolean isExcluded = false;
                                 for (int k = 0; k < excludedList.size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(excludedList.get(k).getId())) {
                                         isExcluded = true;
                                     }
                                 }
-
                                 boolean isIncluded = false;
                                 for (int k = 0; k < includeList.size(); k++) {
                                     if (cartItemList.get(i).getId().equalsIgnoreCase(includeList.get(k).getId())) {
                                         isIncluded = true;
                                     }
                                 }
-
                                 if (!isExcluded && isIncluded) {
                                     totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                     promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
-                                } else {
+                                }
+                                else {
                                     totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
                                 }
                             }
                         } else {
+
                             for (int i = 0; i < cartItemList.size(); i++) {
-                                totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
-                                promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                if(isMinMaxAvailable){
+
+                                    totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                    promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                }else {
+                                    totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()); //- (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                    promoDiscount = 0;
+                                }
                             }
                         }
 
@@ -609,7 +624,7 @@ public class MyCartActivity extends BaseActivity {
                     }
                 }
             }
-
+            binding.successAppliedCode.setSelected(true);
             HELPER.LOAD_HTML(binding.successAppliedCode, "<font color = '" + prefManager.getThemeColor() + "'><b>" + binding.promoCodeEdt.getText().toString() + "</b></font> code applied successfully");
             HELPER.LOAD_HTML(binding.couponHeading, "Coupon Discount <b>(" + binding.promoCodeEdt.getText().toString() + ")<b>");
 

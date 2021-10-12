@@ -3,6 +3,7 @@ package com.app.frimline.fragments;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -315,8 +316,10 @@ public class HomeFragment extends BaseFragment {
         if (act.getIntent().hasExtra("targetCategory") && act.getIntent().hasExtra("fragment") && act.getIntent().getStringExtra("fragment").equalsIgnoreCase("order")) {
             model = pref.getCurrentCategory();
         }
-
+        HELPER.print("Model",gson.toJson(model));
+        HELPER.print("API",APIs.CATEGORY_HOME + model.getCategoryId());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.CATEGORY_HOME + model.getCategoryId(), response -> {
+
             stopShimmer();
             isLoading = false;
             binding.swipeContainer.setRefreshing(false);

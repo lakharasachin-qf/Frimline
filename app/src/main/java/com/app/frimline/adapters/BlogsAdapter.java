@@ -75,6 +75,7 @@ public class BlogsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final BlogModel model = dashBoardItemList.get(position);
+        HELPER.print("blog image",model.getBlogImage());
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_TYPE.LAYOUT_LEFT_BLOG:

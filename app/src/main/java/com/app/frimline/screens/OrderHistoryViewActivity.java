@@ -531,6 +531,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
         String filename = "";
         String outputFile;
@@ -539,7 +540,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             HELPER.showLoadingTran(act);
-            // showDialog(progress_bar_type);
         }
 
         @Override
@@ -547,18 +547,15 @@ public class OrderHistoryViewActivity extends BaseActivity {
             int count;
             try {
                 URL url = new URL(link[0]);
+                HELPER.print("url",url.toString());
                 URLConnection urlConnection = url.openConnection();
                 urlConnection.connect();
                 int contentLength = urlConnection.getContentLength();
                 String headerField = urlConnection.getHeaderField("Content-Disposition");
                 String[] headerSpit = headerField.split("filename=");
                 filename = headerSpit[1].replace("filename=", "").replace("\"", "").trim();
-
                 InputStream inputStream = new BufferedInputStream(url.openStream(), 8192);
-
-
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                    //below Android 11 save pdf
                     String destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + CONSTANT.FOLDER_NAME;
                     File desFile = new File(destURL);
                     if (!desFile.exists()) {
@@ -626,7 +623,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
                 String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
                 Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
-                //  Log.e("pdf-stored", "" + FilePath);
+                Log.e("pdf-stored", "" + FilePath);
 
                 File file = new File(outputFile);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -639,7 +636,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
                 Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
 
-                //Log.e("pdf-stored", "" + FilePath);
+               Log.e("pdf-stored", "" + FilePath);
                 File file = new File(Environment.getExternalStorageDirectory() + "/" + outputFile);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri apkURI = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", file);

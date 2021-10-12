@@ -174,7 +174,7 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_marginBottom="@dimen/_5sdp"
                                 android:fontFamily="@font/proxima_nova_regular"
-                                android:text="We will send you a link to reset your Password on \nthis email id"
+                                android:text="We will send you a link to reset your Password on this email id"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_8sdp" />
 

@@ -82,7 +82,6 @@ public class OrderProductDetailActivity extends BaseActivity {
         } else {
             defaultColor = prefManager.getCategoryColor();
         }
-        OrderedProductModel adpaterData = new Gson().fromJson(getIntent().getStringExtra("model"), OrderedProductModel.class);
 
         binding.counterLayout.setVisibility(View.INVISIBLE);
 
@@ -90,19 +89,10 @@ public class OrderProductDetailActivity extends BaseActivity {
 
         makeStatusBarSemiTranspenret(binding.toolbar);
         ViewTreeObserver viewTreeObserver = binding.scrollView.getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        viewTreeObserver.addOnGlobalLayoutListener(() -> {
 
-            @Override
-            public void onGlobalLayout() {
-
-            }
         });
-        binding.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ON_BACK_PRESS_ANIM(act);
-            }
-        });
+        binding.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
 
 
         binding.titleToolbar.setText("");
@@ -198,16 +188,6 @@ public class OrderProductDetailActivity extends BaseActivity {
     }
 
     public void loadData() {
-
-//        qnAFragment.setProductModel(productModel);
-//
-//        descriptionFragment.setProductModel(productModel);
-//        howToUseFragment.setProductModel(productModel);
-//        ingredientsFragment.setProductModel(productModel);
-//        additionalInfoFragment.setProductModel(productModel);
-//        reviewsFragment.setProductModel(productModel);
-
-
         ArrayList<String> productImages = productModel.getProductImagesList();
         binding.titleToolbar.setText(productModel.getCategoryName());
         ProductImageSliderAdpater sliderAdapter = new ProductImageSliderAdpater(productImages, act);

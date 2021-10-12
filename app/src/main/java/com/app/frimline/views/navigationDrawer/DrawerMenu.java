@@ -146,16 +146,24 @@ public class DrawerMenu {
         }
         menuModel = new MenuModel("About us", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_about_us)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
+
         menuModel = new MenuModel("Blogs", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_blog)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
         menuModel = new MenuModel("Contact us", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_menu_call)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
-        menuModel = new MenuModel("Privacy Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_privacy_policy)); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        menuModel = new MenuModel("Shipping Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_ic_menu_shipping_policy)); //Menu of Android Tutorial. No sub menus
+
+        menuModel = new MenuModel("FAQs", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_faq_icon)); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
+        menuModel = new MenuModel("Terms & Conditions", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_terms_n_conditions)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+
+        menuModel = new MenuModel("Privacy Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_privacy_policy)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+
+        menuModel = new MenuModel("Shipping Policy", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_ic_menu_shipping_policy)); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
         if (new PREF(activity).isLogin()) {
             menuModel = new MenuModel("Logout", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_logout_black_24dp)); //Menu of Android Tutorial. No sub menus
             headerList.add(menuModel);
@@ -176,17 +184,17 @@ public class DrawerMenu {
             }
 
         };
+
         MyAccountFragment.OnDrawerAction onDrawerAction = () -> {
             HomePageLayout.setVisibility(View.GONE);
             titleTxt.setText("Orders");
             OtherScreenLayout.setVisibility(View.VISIBLE);
-
-
             currentMenuItem = "Order History";
             Fragment fragmentSelected = orderHistoryFragment;
             replaceFragment(fragmentSelected);
             drawer.closeDrawer(GravityCompat.START);
         };
+
         myAccountFragment.setDrawerAction(onDrawerAction);
         profileFragment.setOnNavClick(onNavClick);
         OtherScreenLayout = activity.findViewById(R.id.OtherScreenLayout);
@@ -261,6 +269,26 @@ public class DrawerMenu {
                             toolbar_Navigation.setVisibility(View.VISIBLE);
 
                             currentMenuItem = "About us";
+                            break;
+                        case "Terms & Conditions":
+
+                            fragmentSelected = new CommonFragment("term_n_condition");//commonFragment;
+                            commonFragment.setTitle("term_n_condition");
+                            HomePageLayout.setVisibility(View.VISIBLE);
+                            OtherScreenLayout.setVisibility(View.GONE);
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+
+                            currentMenuItem = "term_n_condition";
+                            break;
+                        case "FAQs":
+
+                            fragmentSelected = new CommonFragment("faq");//commonFragment;
+                            commonFragment.setTitle("faq");
+                            HomePageLayout.setVisibility(View.VISIBLE);
+                            OtherScreenLayout.setVisibility(View.GONE);
+                            toolbar_Navigation.setVisibility(View.VISIBLE);
+
+                            currentMenuItem = "FAQs";
                             break;
                         case "Shipping Policy":
 

@@ -1,7 +1,6 @@
 package com.app.frimline.Common;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.BlogModel;
@@ -25,7 +24,6 @@ import com.app.frimline.models.QAModel;
 import com.app.frimline.models.SearchModel;
 import com.app.frimline.models.StateModel;
 import com.app.frimline.models.roomModels.WishlistEntity;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -152,10 +150,10 @@ public class ResponseHandler {
                 model.setCalculatedAmount(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
                 model.setRegularPrice(getString(productObj, "regular_price"));
                 model.setPriceHtml(getString(productObj, "price_html"));
+                HELPER.print("REs-Parse",productObj.getJSONArray("categories").toString());
                 model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
                 model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
                 model.setStockStatus(getString(productObj, "stock_status"));
-
 
 
                 ArrayList<Tags> tagsArrayList = new ArrayList<>();
@@ -306,6 +304,7 @@ public class ResponseHandler {
 
     public static HomeModel getTopRated(JSONObject jsonObject) {
         JSONArray topRatedArr = getJSONArray(jsonObject, "top_rated");
+        HELPER.print("Function","toprated");
         ArrayList<ProductModel> topRattedModelArrayList = commonProductParsing(topRatedArr);
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.TOP_RATTED);
@@ -317,8 +316,9 @@ public class ResponseHandler {
 
     public static HomeModel getProducts(JSONObject jsonObject) {
         JSONArray productArr = getJSONArray(jsonObject, "product");
-        List<ProductModel> productModels = commonProductParsing(productArr);
+        HELPER.print("Function","product");
 
+        List<ProductModel> productModels = commonProductParsing(productArr);
 
         ArrayList<HomeModel> tempArray = new ArrayList<>();
         ArrayList<ArrayList<ProductModel>> chunkArray = chunkArray(productModels, 3);
@@ -764,6 +764,7 @@ public class ResponseHandler {
         return model;
 
     }
+
     public static ArrayList<WishlistEntity> parseWishlist(String response) {
         ArrayList<WishlistEntity> arrayList = new ArrayList<>();
 
@@ -835,7 +836,7 @@ public class ResponseHandler {
                 }
 
 
-                JSONArray objectCoupon = getJSONArray(object,"coupon_lines");
+                JSONArray objectCoupon = getJSONArray(object, "coupon_lines");
                 if (objectCoupon.length() != 0) {
                     JSONObject couponCodeObject = objectCoupon.getJSONObject(0);
                     if (couponCodeObject != null) {
@@ -992,8 +993,6 @@ public class ResponseHandler {
 //                        searchListResult.clear();
 //                    }
                 }
-
-
 
 
             } catch (JSONException e) {

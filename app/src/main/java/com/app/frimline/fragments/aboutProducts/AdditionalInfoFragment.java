@@ -1,6 +1,7 @@
 package com.app.frimline.fragments.aboutProducts;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +50,14 @@ public class AdditionalInfoFragment extends BaseFragment {
 
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
+        Log.e("attribute",gson.toJson(productModel.getAttribute()));
         if (productModel != null && productModel.getAttribute()!=null) {
+            boolean noData=true;
             if (!productModel.getAttribute().getDimWeight().isEmpty()) {
                 HELPER.LOAD_HTML(binding.weightTxt, productModel.getAttribute().getDimWeight());
                 binding.weightLayout.setVisibility(View.VISIBLE);
                 binding.view1.setVisibility(View.VISIBLE);
+                noData=false;
             } else {
                 binding.weightLayout.setVisibility(View.GONE);
                 binding.view1.setVisibility(View.GONE);
@@ -73,6 +77,7 @@ public class AdditionalInfoFragment extends BaseFragment {
                 HELPER.LOAD_HTML(binding.dimentionTxt, str);
                 binding.dimentionLayout.setVisibility(View.VISIBLE);
                 binding.view2.setVisibility(View.VISIBLE);
+                noData=false;
             } else {
                 binding.dimentionLayout.setVisibility(View.GONE);
                 binding.view2.setVisibility(View.GONE);
@@ -83,10 +88,17 @@ public class AdditionalInfoFragment extends BaseFragment {
                 HELPER.LOAD_HTML(binding.sizeTxt, productModel.getAttribute().getSize());
                 binding.sizeLayout.setVisibility(View.VISIBLE);
                 binding.view3.setVisibility(View.VISIBLE);
+                noData=false;
             } else {
                 binding.sizeLayout.setVisibility(View.GONE);
                 binding.view3.setVisibility(View.GONE);
             }
+
+            if (noData){
+                binding.text.setVisibility(View.VISIBLE);
+            }
+        }else{
+            binding.text.setVisibility(View.VISIBLE);
         }
 
     }
@@ -94,6 +106,7 @@ public class AdditionalInfoFragment extends BaseFragment {
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
         if (productModel != null) {
+            Log.e("attribute",gson.toJson(productModel.getAttribute()));
             if (!productModel.getAttribute().getDimWeight().isEmpty()) {
                 HELPER.LOAD_HTML(binding.weightTxt, productModel.getAttribute().getDimWeight());
                 binding.weightLayout.setVisibility(View.VISIBLE);

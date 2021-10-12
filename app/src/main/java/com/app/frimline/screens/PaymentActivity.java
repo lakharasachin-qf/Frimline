@@ -481,7 +481,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
                 if (couponCodeModel != null) {
                     String msg = "Coupon code not applicable.";
-
+                    boolean isMinMaxAvailable = false;
                     boolean canApplyMore = true;
                     ArrayList<ProductModel> cartProducts = HELPER.getCartList(db.productEntityDao().getAll());
                     ArrayList<ProductModel> excludedList = new ArrayList<>();
@@ -499,11 +499,15 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                     if (Double.parseDouble(couponCodeModel.getMaxAmount()) > finalAmount && Double.parseDouble(couponCodeModel.getMaxAmount()) != 0) {
                         msg = "Order should less then max";
                         canApplyMore = false;
+                    }else if (Double.parseDouble(couponCodeModel.getMaxAmount()) != 0 && Double.parseDouble(couponCodeModel.getMaxAmount()) >= finalAmount ){
+                        isMinMaxAvailable=true;
                     }
 
                     if (Double.parseDouble(couponCodeModel.getMinAmount()) < finalAmount && Double.parseDouble(couponCodeModel.getMinAmount()) != 0) {
                         msg = "Order should less then min";
                         canApplyMore = false;
+                    }else if (Double.parseDouble(couponCodeModel.getMinAmount()) != 0 && Double.parseDouble(couponCodeModel.getMinAmount()) <= finalAmount ){
+                        isMinMaxAvailable=true;
                     }
 
 
@@ -571,15 +575,21 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                 if (!isExcluded && isIncluded) {
                                     totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                     promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
-                                } else {
+                                }
+                                else {
                                     totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
                                 }
 
                             }
                         } else {
                             for (int i = 0; i < cartItemList.size(); i++) {
-                                totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
-                                promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                if(isMinMaxAvailable){
+                                    totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                    promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                }
+                              //  totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());// - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
+                                promoDiscount =0;  // promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                             }
                         }
 
@@ -770,6 +780,15 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                     JSONObject jsonObject = new JSONObject(jsonString);
                     errorDialog("Error", ResponseHandler.getString(jsonObject, "message"), 0);
+                } catch (UnsupportedEncodingException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (response != null && response.statusCode == 500) {
+                try {
+                    String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    HELPER.print("ERROR",ResponseHandler.getString(jsonObject, "message"));
                 } catch (UnsupportedEncodingException | JSONException e) {
                     e.printStackTrace();
                 }

@@ -302,6 +302,8 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding.addCart1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    HELPER.print("viewholder",productList.get(0).getCategoryId()+"-"+productList.get(0).getCategoryName()+"-"+productList.get(0).getName());
+
                     if (!productList.get(0).isAddedToCart()) {
                         productList.get(0).setAddedToCart(true);
 
@@ -382,6 +384,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding.addCart1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (position.getProductList().get(0).isAddedToCart()) {
                         position.getProductList().get(0).setAddedToCart(true);
                         Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();
@@ -508,6 +511,8 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         binding.addCart1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HELPER.print("viewholder",productList.get(0).getCategoryId()+"-"+productList.get(0).getCategoryName()+"-"+productList.get(0).getName());
+
                 if (!productList.get(0).isAddedToCart()) {
                     productList.get(0).setAddedToCart(true);
                     Toast.makeText(activity, "Added to cart", Toast.LENGTH_SHORT).show();

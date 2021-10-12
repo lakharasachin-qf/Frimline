@@ -196,7 +196,7 @@ Overall Health"
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_300sdp"
+                        android:layout_height="@dimen/_280sdp"
                         android:clipToPadding="false"
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_10sdp" />

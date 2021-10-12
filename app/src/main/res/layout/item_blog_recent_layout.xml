@@ -20,11 +20,11 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/blog1"
                 android:layout_width="match_parent"
-                android:layout_height="340dp"
+                android:layout_height="@dimen/_260sdp"
                 android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/_7sdp"
-                app:cardElevation="@dimen/_2sdp"
+                app:cardElevation="3dp"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -84,7 +84,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
 
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
                         android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:lines="4"
@@ -104,7 +104,7 @@ various aspects of your lives..."
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="-33dp"
                 android:layout_marginBottom="0dp"
-                android:elevation="@dimen/_4sdp"
+                android:elevation="4dp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:shadowColor="@color/orange"
                 android:text="Explore More"
@@ -127,11 +127,11 @@ various aspects of your lives..."
             <androidx.cardview.widget.CardView
                 android:id="@+id/blog2"
                 android:layout_width="match_parent"
-                android:layout_height="340dp"
+                android:layout_height="@dimen/_260sdp"
                 android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/_7sdp"
-                app:cardElevation="@dimen/_2sdp"
+                app:cardElevation="3dp"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -190,7 +190,7 @@ various aspects of your lives..."
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
                         android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:lines="4"
@@ -212,7 +212,7 @@ various aspects of your lives..."
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="-33dp"
                 android:layout_marginBottom="0dp"
-                android:elevation="@dimen/_4sdp"
+                android:elevation="4dp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:shadowColor="@color/orange"
                 android:text="Explore More"
@@ -230,102 +230,3 @@ various aspects of your lives..."
 
 
 </RelativeLayout>
-
-    <!--
-        <androidx.cardview.widget.CardView
-            android:id="@+id/blog1"
-            android:layout_width="@dimen/_145sdp"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="@dimen/_7sdp"
-            app:cardElevation="@dimen/_3sdp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/productSectionLeft"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    app:cardCornerRadius="@dimen/_7sdp">
-
-                    <ImageView
-                        android:id="@+id/productImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/product_place" />
-                </androidx.cardview.widget.CardView>
-
-
-                <TextView
-                    android:id="@+id/productName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/productSectionLeft"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:ellipsize="end"
-                    android:fontFamily="@fonts/proxinova_semi_bold"
-                    android:includeFontPadding="false"
-                    android:maxLines="2"
-                    android:text="Oral Health: An Investment\nIn Your Overall Health"
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_11sdp" />
-
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="3dp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:layout_marginBottom="@dimen/_7sdp"
-                    android:background="@drawable/shape_underline"
-                    android:backgroundTint="@color/orange" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-
-
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:fontFamily="@fonts/proxima_nova_regular"
-                    android:text="Your oral health is more important
-    than you might realize! It impacts
-    various aspects of your lives..."
-                    android:textColor="@color/colorToolbarHeader"
-                    android:textSize="@dimen/_10sdp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip1"
-            style="@style/ChipStyle"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/blog1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="-33dp"
-            android:layout_marginBottom="0dp"
-            android:elevation="@dimen/_3sdp"
-            android:fontFamily="@fonts/proxima_nova_bold"
-            android:shadowColor="@color/orange"
-            android:text="Explore More"
-            android:textAppearance="@style/ChipFontStyle"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_11sdp"
-            android:textStyle="bold"
-            app:chipBackgroundColor="@color/orange"
-            app:chipEndPadding="@dimen/_10sdp"
-            app:chipStartPadding="@dimen/_10sdp"
-            app:chipStrokeColor="@color/orange" />-->

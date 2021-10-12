@@ -156,7 +156,7 @@ public class CategoryRootFragment extends BaseFragment {
             isLoading = false;
             binding.NoDataFound.setVisibility(View.GONE);
             rootModel = ResponseHandler.handleResponseCategoryRootFragment(response);
-            if (rootModel.getBannerList().size() != 0 && !rootModel.getMessages().isEmpty()) {
+            if (rootModel!=null && rootModel.getBannerList().size() != 0 && !rootModel.getMessages().isEmpty()) {
                 binding.scrollView.setVisibility(View.VISIBLE);
                 loadData(rootModel);
 
