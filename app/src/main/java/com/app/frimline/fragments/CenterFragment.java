@@ -35,8 +35,8 @@ public class CenterFragment extends BaseFragment {
             } else {
                 binding.textTop.setText(wordList[0]);
             }
-            CategorySingleModel model = new Gson().fromJson(act.getIntent().getStringExtra("model"), CategorySingleModel.class);
 
+            CategorySingleModel model = new Gson().fromJson(act.getIntent().getStringExtra("model"), CategorySingleModel.class);
             if (model != null) {
                 binding.layout1.setBackgroundColor(Color.parseColor(pref.getCategoryColor()));
                 binding.layout2.setBackgroundColor(Color.parseColor(pref.getThemeColor()));
@@ -48,7 +48,6 @@ public class CenterFragment extends BaseFragment {
                 binding.text.setTextColor(Color.parseColor(pref.getCategoryColor()));
                 binding.icon.setImageTintList(ColorStateList.valueOf(Color.parseColor(pref.getCategoryColor())));
             }
-
         }
         return binding.getRoot();
     }

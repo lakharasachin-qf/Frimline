@@ -150,10 +150,31 @@ public class ResponseHandler {
                 model.setCalculatedAmount(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
                 model.setRegularPrice(getString(productObj, "regular_price"));
                 model.setPriceHtml(getString(productObj, "price_html"));
-                HELPER.print("REs-Parse",productObj.getJSONArray("categories").toString());
+                HELPER.print("REs-Parse", productObj.getJSONArray("categories").toString());
                 model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
+
                 model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
                 model.setStockStatus(getString(productObj, "stock_status"));
+
+                ArrayList<String> allCatArray = new ArrayList<>();
+                if (productObj.has("categories")) {
+                    JSONArray productCategoryArray = productObj.getJSONArray("categories");
+                    for (int kk = 0; kk < productCategoryArray.length(); kk++) {
+                        allCatArray.add(productCategoryArray.getJSONObject(kk).getString("id"));
+                    }
+                }
+                model.setAllCategoryArray(allCatArray);
+//                if (productCategoryArray!=null){
+//                    String parent =ResponseHandler.getString(productCategoryArray,"parent");
+//                    if (parent.equalsIgnoreCase("0")){
+//                        model.setCategoryId(productCategoryArray.getString("term_id"));
+//                        model.setCategoryName(productCategoryArray.getString("name"));
+//                        model.setSubCategoryId("");
+//                    }else{
+//                        model.setCategoryId(productCategoryArray.getString("parent"));
+//                        model.setSubCategoryId(productCategoryArray.getString("term_id"));
+//                    }
+//                }
 
 
                 ArrayList<Tags> tagsArrayList = new ArrayList<>();
@@ -304,7 +325,7 @@ public class ResponseHandler {
 
     public static HomeModel getTopRated(JSONObject jsonObject) {
         JSONArray topRatedArr = getJSONArray(jsonObject, "top_rated");
-        HELPER.print("Function","toprated");
+        HELPER.print("Function", "toprated");
         ArrayList<ProductModel> topRattedModelArrayList = commonProductParsing(topRatedArr);
         HomeModel homeModel = new HomeModel();
         homeModel.setLayoutType(LAYOUT_TYPE.TOP_RATTED);
@@ -316,7 +337,7 @@ public class ResponseHandler {
 
     public static HomeModel getProducts(JSONObject jsonObject) {
         JSONArray productArr = getJSONArray(jsonObject, "product");
-        HELPER.print("Function","product");
+        HELPER.print("Function", "product");
 
         List<ProductModel> productModels = commonProductParsing(productArr);
 
@@ -1023,6 +1044,30 @@ public class ResponseHandler {
             model.setPriceHtml(getString(productObj, "price_html"));
             model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
             model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
+            ArrayList<String> allCatArray = new ArrayList<>();
+            if (productObj.has("categories")) {
+                JSONArray productCategoryArray = productObj.getJSONArray("categories");
+                for (int kk = 0; kk < productCategoryArray.length(); kk++) {
+                    allCatArray.add(productCategoryArray.getJSONObject(kk).getString("id"));
+                }
+            }
+            model.setAllCategoryArray(allCatArray);
+
+            if (productObj.has("product_category")) {
+                JSONObject productCategoryArray = productObj.getJSONArray("product_category").getJSONObject(0);
+                if (productCategoryArray != null) {
+                    String parent = ResponseHandler.getString(productCategoryArray, "parent");
+                    if (parent.equalsIgnoreCase("0")) {
+                        model.setCategoryId(productCategoryArray.getString("term_id"));
+                        model.setCategoryName(productCategoryArray.getString("name"));
+                        model.setSubCategoryId("");
+                    } else {
+                        model.setCategoryId(productCategoryArray.getString("parent"));
+                        model.setSubCategoryId(productCategoryArray.getString("term_id"));
+                    }
+                }
+            }
+
             model.setStockStatus(getString(productObj, "stock_status"));
             ArrayList<Tags> tagsArrayList = new ArrayList<>();
             for (int k = 0; k < productObj.getJSONArray("tags").length(); k++) {

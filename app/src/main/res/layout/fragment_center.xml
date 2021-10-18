@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -142,17 +143,34 @@
                     android:layout_centerVertical="true"
                     android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_left_arrow" />
-
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                <com.facebook.shimmer.ShimmerFrameLayout
                     android:layout_toEndOf="@+id/icon"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="More Info"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/_12sdp" />
+                    app:shimmer_auto_start="true"
+                    android:id="@+id/shimmer_view_container1"
+                    app:shimmer_base_color="@color/orange"
+                    android:layout_width="wrap_content"
+                    app:shimmer_highlight_alpha="0"
+                    app:shimmer_direction="right_to_left"
+                    app:shimmer_highlight_color="#fff"
+                    app:shimmer_base_alpha="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:shimmer_dropoff="80"
+                    android:orientation="vertical"
+                    shimmer:shimmer_duration="1500">
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/icon"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="More Info"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_12sdp" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -170,22 +188,39 @@
                 android:paddingEnd="@dimen/_15sdp"
                 android:paddingBottom="@dimen/_7sdp">
 
-                <TextView
-                    android:id="@+id/text1"
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    app:shimmer_auto_start="true"
+                    android:id="@+id/shimmer_view_container"
+                    app:shimmer_base_color="@color/orange"
                     android:layout_width="wrap_content"
+                    app:shimmer_highlight_alpha="0"
+                    app:shimmer_highlight_color="#fff"
+                    app:shimmer_base_alpha="1"
+                    app:shimmer_direction="left_to_right"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="Go to Store"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/_12sdp" />
+                    android:layout_gravity="center"
+                    app:shimmer_dropoff="80"
+                    android:orientation="vertical"
+                    shimmer:shimmer_duration="1500">
+
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="Go to Store"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/_12sdp" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
                 <ImageView
                     android:id="@+id/icon2"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/text1"
+                    android:layout_toEndOf="@+id/shimmer_view_container"
                     android:padding="@dimen/_2sdp"
                     android:src="@drawable/ic_right_arrow" />
             </RelativeLayout>

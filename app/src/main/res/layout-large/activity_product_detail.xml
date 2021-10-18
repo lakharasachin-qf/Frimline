@@ -96,13 +96,13 @@
 
                             <TextView
                                 android:id="@+id/nameTxt"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/_10sdp"
                                 android:layout_toStartOf="@id/wishlistAction"
                                 android:fontFamily="@font/proxima_nova_bold"
                                 android:includeFontPadding="false"
-                                android:text="Dente91 Lactoferrin Mouthwash Pack Of 3"
+                                android:text="Dente91 Lactoferrin   Pack Of 3"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_14sdp" />
 

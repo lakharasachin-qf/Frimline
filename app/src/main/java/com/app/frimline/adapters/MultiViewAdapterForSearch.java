@@ -436,7 +436,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
 
     }
 
-    public void loadDataForTwoLayout(ItemProductSectionTwoLayoutBinding binding, HomeModel position, int i) {
+    public void loadDataForTwoLayout(ItemProductSectionTwoLayoutBinding binding, HomeModel position, int adapterPosition) {
         if (applyThemeColor) {
             colorCode = new PREF(activity).getThemeColor();
         } else {
@@ -486,7 +486,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
                 i.putExtra("productPosition", "0");
                 i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                 i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
-                i.putExtra("adapterPosition", String.valueOf(position));
+                i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                 i.putExtra("model", new Gson().toJson(productList.get(0)));
                 i.putExtra("addToCartID", String.valueOf(ObserverActionID.SEARCH_ADDED_TO_CART));
                 i.putExtra("removeCartID", String.valueOf(ObserverActionID.SEARCH_REMOVE_FROM_CART));
@@ -501,7 +501,7 @@ public class MultiViewAdapterForSearch extends RecyclerView.Adapter {
                 i.putExtra("productPosition", "1");
                 i.putExtra("layoutType", String.valueOf(position.getLayoutType()));
                 i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
-                i.putExtra("adapterPosition", String.valueOf(position));
+                i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                 i.putExtra("model", new Gson().toJson(productList.get(1)));
                 i.putExtra("addToCartID", String.valueOf(ObserverActionID.SEARCH_ADDED_TO_CART));
                 i.putExtra("removeCartID", String.valueOf(ObserverActionID.SEARCH_REMOVE_FROM_CART));

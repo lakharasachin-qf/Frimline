@@ -302,7 +302,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
             binding.addCart1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.print("viewholder",productList.get(0).getCategoryId()+"-"+productList.get(0).getCategoryName()+"-"+productList.get(0).getName());
+                    HELPER.print("viewholder", productList.get(0).getCategoryId() + "-" + productList.get(0).getCategoryName() + "-" + productList.get(0).getName());
 
                     if (!productList.get(0).isAddedToCart()) {
                         productList.get(0).setAddedToCart(true);
@@ -435,7 +435,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
 
     }
 
-    public void loadDataForTwoLayout(ItemProductSectionTwoLayoutBinding binding, HomeModel position, int i) {
+    public void loadDataForTwoLayout(ItemProductSectionTwoLayoutBinding binding, HomeModel position, int adapterPosition) {
         if (applyThemeColor) {
             colorCode = new PREF(activity).getThemeColor();
         } else {
@@ -484,7 +484,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                 i.putExtra("productPosition", "0");
                 i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
                 i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
-                i.putExtra("adapterPosition", String.valueOf(position));
+                i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                 i.putExtra("model", new Gson().toJson(productList.get(0)));
                 i.putExtra("addToCartID", String.valueOf(ObserverActionID.HOME_ADDED_TO_CART));
                 i.putExtra("removeCartID", String.valueOf(ObserverActionID.HOME_REMOVE_FROM_CART));
@@ -499,10 +499,10 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
                 i.putExtra("productPosition", "1");
                 i.putExtra("layoutType", String.valueOf(model.getLayoutType()));
                 i.putExtra("itemPosition", String.valueOf(parentLayoutPosition));
-                i.putExtra("adapterPosition", String.valueOf(position));
+                i.putExtra("adapterPosition", String.valueOf(adapterPosition));
                 i.putExtra("model", new Gson().toJson(productList.get(1)));
-                i.putExtra("addToCartID", ObserverActionID.HOME_ADDED_TO_CART);
-                i.putExtra("removeCartID", ObserverActionID.HOME_REMOVE_FROM_CART);
+                i.putExtra("addToCartID", String.valueOf(ObserverActionID.HOME_ADDED_TO_CART));
+                i.putExtra("removeCartID", String.valueOf(ObserverActionID.HOME_REMOVE_FROM_CART));
                 activity.startActivity(i);
                 activity.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
             }
@@ -511,7 +511,7 @@ public class MultiViewAdapterForHomeFragment extends RecyclerView.Adapter {
         binding.addCart1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.print("viewholder",productList.get(0).getCategoryId()+"-"+productList.get(0).getCategoryName()+"-"+productList.get(0).getName());
+                HELPER.print("viewholder", productList.get(0).getCategoryId() + "-" + productList.get(0).getCategoryName() + "-" + productList.get(0).getName());
 
                 if (!productList.get(0).isAddedToCart()) {
                     productList.get(0).setAddedToCart(true);

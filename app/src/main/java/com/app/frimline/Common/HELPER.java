@@ -389,6 +389,7 @@ public class HELPER {
         entity.setRating(model.getRating());
         entity.setCalculatedAmount(model.getCalculatedAmount());
         entity.setName(model.getName());
+        entity.setAllCatList(model.getAllCategoryArray());
         entity.setSlug(model.getSlug());
         entity.setDescription(model.getDescription());
         entity.setShortDescription(model.getShortDescription());
@@ -397,6 +398,7 @@ public class HELPER {
 
         entity.setPriceHtml(model.getPriceHtml());
         entity.setCategoryId(model.getCategoryId());
+        entity.setSubCategoryId(model.getSubCategoryId());
         entity.setCategoryName(model.getCategoryName());
         entity.setStockStatus(model.getStockStatus());
         entity.setProductImagesList(model.getProductImagesList());
@@ -415,6 +417,7 @@ public class HELPER {
         cartProduct.setName(model.getName());
         cartProduct.setQty(model.getQty());
         cartProduct.setSlug(model.getSlug());
+        cartProduct.setAllCategoryArray(model.getAllCatList());
         cartProduct.setDescription(model.getDescription());
         cartProduct.setShortDescription(model.getShortDescription());
         cartProduct.setRegularPrice(model.getRegularPrice());
@@ -422,6 +425,7 @@ public class HELPER {
 
         cartProduct.setPriceHtml(model.getPriceHtml());
         cartProduct.setCategoryId(model.getCategoryId());
+        cartProduct.setSubCategoryId(model.getSubCategoryId());
         cartProduct.setCategoryName(model.getCategoryName());
         cartProduct.setStockStatus(model.getStockStatus());
         cartProduct.setProductImagesList(model.getProductImagesList());

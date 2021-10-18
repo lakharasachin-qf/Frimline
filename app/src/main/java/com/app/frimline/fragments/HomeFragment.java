@@ -373,6 +373,7 @@ public class HomeFragment extends BaseFragment {
             if (parentHomeAdapter != null) {
                 if (frimline.getObserver().getValue() == ObserverActionID.HOME_ADDED_TO_CART) {
                     if (parentHomeAdapter != null) {
+                        Log.e("obj-dat",gson.toJson(frimline.getObserver().getModel())+"d");
                         reloadData(frimline.getObserver().getModel(), true);
                         HELPER.changeCartCounter(act);
                     }
@@ -399,15 +400,15 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void reloadData(DataTransferModel dataTransferModel, boolean addOrNot) {
-        int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout product t item
-        //item layout 3 product or 2 product or 1 product
-        int itemPosition = Integer.parseInt(dataTransferModel.getItemPosition()); // item layout position
-        int adapterPosition = Integer.parseInt(dataTransferModel.getAdapterPosition()); // item layout position
-
-        HomeModel model = rootModel.get(itemPosition);
-        HomeModel dashBoardItemList = model.getCategoryProduct().get(adapterPosition);
-        com.app.frimline.models.HomeFragements.ProductModel productModel = dashBoardItemList.getApiProductModel().get(productPosition);
-        productModel.setAddedToCart(addOrNot);
+//        int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout product t item
+//        //item layout 3 product or 2 product or 1 product
+//        int itemPosition = Integer.parseInt(dataTransferModel.getItemPosition()); // item layout position
+//        int adapterPosition = Integer.parseInt(dataTransferModel.getAdapterPosition()); // item layout position
+//
+//        HomeModel model = rootModel.get(itemPosition);
+//        HomeModel dashBoardItemList = model.getCategoryProduct().get(adapterPosition);
+//        com.app.frimline.models.HomeFragements.ProductModel productModel = dashBoardItemList.getApiProductModel().get(productPosition);
+//        productModel.setAddedToCart(addOrNot);
 
         int refreshingPost = 0;
         for (int i = 0; i < rootModel.size(); i++) {

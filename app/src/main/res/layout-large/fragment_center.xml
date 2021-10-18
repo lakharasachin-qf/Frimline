@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -27,13 +28,13 @@
                 android:background="@color/blue">
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/oralHealthCareImage1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitEnd"
                     android:src="@drawable/mint_center__one_health_care"
                     android:tintMode="multiply"
+                    android:visibility="gone"
                     app:tint="@color/blue" />
 
 
@@ -48,12 +49,12 @@
                 android:background="@color/orange">
 
                 <ImageView
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitEnd"
                     android:src="@drawable/mint_center_two_health_care"
                     android:tintMode="multiply"
+                    android:visibility="gone"
                     app:tint="@color/orange" />
             </RelativeLayout>
 
@@ -167,16 +168,33 @@
                     android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_left_arrow" />
 
-                <TextView
-                    android:id="@+id/text"
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
                     android:layout_toEndOf="@+id/icon"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="More Info"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/_11sdp" />
+                    android:orientation="vertical"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_base_alpha="1"
+                    app:shimmer_base_color="@color/orange"
+                    app:shimmer_direction="right_to_left"
+                    app:shimmer_dropoff="80"
+                    app:shimmer_highlight_alpha="0"
+                    app:shimmer_highlight_color="#fff"
+                    shimmer:shimmer_duration="1500">
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/icon"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="More Info"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_11sdp" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -194,22 +212,38 @@
                 android:paddingEnd="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_6sdp">
 
-                <TextView
-                    android:id="@+id/text1"
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="Go to Store"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/_11sdp" />
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_base_alpha="1"
+                    app:shimmer_base_color="@color/orange"
+                    app:shimmer_direction="left_to_right"
+                    app:shimmer_dropoff="80"
+                    app:shimmer_highlight_alpha="0"
+                    app:shimmer_highlight_color="#fff"
+                    shimmer:shimmer_duration="1500">
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/proxima_nova_regular"
+                        android:text="Go to Store"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/_11sdp" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
                 <ImageView
                     android:id="@+id/icon2"
                     android:layout_width="@dimen/_13sdp"
                     android:layout_height="@dimen/_13sdp"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/text1"
+                    android:layout_toEndOf="@+id/shimmer_view_container"
                     android:padding="@dimen/_2sdp"
                     android:src="@drawable/ic_right_arrow" />
             </RelativeLayout>

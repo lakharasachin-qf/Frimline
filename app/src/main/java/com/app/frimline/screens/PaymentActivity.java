@@ -78,6 +78,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         binding = DataBindingUtil.setContentView(act, R.layout.activity_payment);
         makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
         ((ViewGroup) findViewById(R.id.bottomSlider)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        binding.shippingLabelHint.setSelected(true);
+
         binding.boottomFooter.setOnClickListener(v -> {
             //generateRazorpayOrderId();
             if (binding.acceptTerms.isChecked()) {
@@ -510,7 +512,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                         isMinMaxAvailable=true;
                     }
 
-
                     if (canApplyMore) {
                         totalPrice = 0;
 
@@ -630,7 +631,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             String shippingChargesStr = (ResponseHandler.getString(orderCreated, "shipping_total").isEmpty() ? "0" : ResponseHandler.getString(orderCreated, "shipping_total"));
             shippingCharges = Double.parseDouble(shippingChargesStr);
             finalAmount = finalAmount + shippingCharges;
-            binding.shippingChargeAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(shippingCharges));
+            binding.shippingChargeAmount.setText("+"+act.getString(R.string.Rs) + HELPER.format.format(shippingCharges));
             binding.shippingLayout.setVisibility(View.VISIBLE);
             double afterRoundOff = Double.parseDouble(HELPER.format.format(Math.round(finalAmount)));
             roundedOffValue = afterRoundOff - finalAmount;

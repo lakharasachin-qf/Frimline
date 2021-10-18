@@ -89,22 +89,30 @@
                                 android:text="Total: ₹398 "
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sdp" />
+
                             <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
                                 android:layout_below="@id/totalTopMRP"
                                 android:layout_marginTop="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
-                                android:background="#D1D1D1"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"/>
+                                android:background="#D1D1D1" />
+
                             <TextView
-                                android:layout_alignParentEnd="true"
-                                android:layout_below="@id/totalTopMRP"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/shippingLabelHint"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_15sdp"
+                                android:layout_below="@id/totalTopMRP"
+                                android:layout_alignParentEnd="true"
                                 android:layout_marginTop="@dimen/_7sdp"
+                                android:ellipsize="marquee"
+                                android:fadingEdge="horizontal"
                                 android:fontFamily="@font/proxima_nova_bold"
-                                android:text="Shipping free above ₹499 on Cart"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true"
+                                android:text="             Shipping free above ₹499 on Cart                            "
+                                android:textAlignment="textEnd"
                                 android:textColor="@color/colorToolbarHeader"
                                 android:textSize="@dimen/_10sdp" />
                         </RelativeLayout>
@@ -202,7 +210,6 @@
                             </LinearLayout>
 
 
-
                         </LinearLayout>
 
 
@@ -276,11 +283,11 @@
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:visibility="gone"
                                 android:id="@+id/couponLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_5sdp">
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/couponHeading"

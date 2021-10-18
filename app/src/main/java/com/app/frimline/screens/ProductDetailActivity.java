@@ -89,6 +89,8 @@ public class ProductDetailActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        productModel = gson.fromJson(getIntent().getStringExtra("model"), ProductModel.class);
+        loadProductDetails();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_product_detail);
         defaultColor = "#EF7F1A";
         cartRoomDatabase = CartRoomDatabase.getAppDatabase(act);
@@ -204,6 +206,7 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setItemPosition(getIntent().getStringExtra("itemPosition"));
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
+                        HELPER.print("Obserable- "+observableId,gson.toJson(model)+"d");
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
                         if (getIntent().hasExtra("fragment")) {
                             if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")) {
@@ -230,6 +233,8 @@ public class ProductDetailActivity extends BaseActivity {
                         model.setItemPosition(getIntent().getStringExtra("itemPosition"));
                         model.setProductPosition(getIntent().getStringExtra("productPosition"));
                         model.setLayoutType(getIntent().getStringExtra("layoutType"));
+                        HELPER.print("Obserable- "+observableId,gson.toJson(model)+"d");
+
                         FRIMLINE.getInstance().getObserver().setValue(observableId, model);
                         if (getIntent().hasExtra("fragment")) {
                             if (getIntent().getStringExtra("fragment").equalsIgnoreCase("wishlist")) {
@@ -237,7 +242,6 @@ public class ProductDetailActivity extends BaseActivity {
                             }
                         }
                         HELPER.changeCartCounterToolbar(act);
-
                     }
                 }
 
@@ -601,5 +605,42 @@ public class ProductDetailActivity extends BaseActivity {
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+    }
+
+
+
+
+    private void loadProductDetails() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.PRODUCT_DETAILS + productModel.getId(), response -> {
+            isLoading = false;
+
+            JSONObject object = ResponseHandler.createJsonObject(response);
+            ProductModel productModel = ResponseHandler.getProductDetails(object);
+            this.productModel.setSubCategoryId(productModel.getSubCategoryId());
+            this.productModel.setCategoryId(productModel.getCategoryId());
+
+
+        },
+                error -> {
+                    error.printStackTrace();
+
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+
+                return getHeader();
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 }

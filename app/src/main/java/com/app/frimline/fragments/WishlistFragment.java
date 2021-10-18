@@ -100,6 +100,8 @@ public class WishlistFragment extends BaseFragment {
         public void onDelete(int position, WishlistEntity entity) {
             selectedEntity = entity;
             selectedPosition = position;
+
+            //HELPER.print("WISHLIST-", selectedEntity.getProductName() + " -- " + selectedPosition);
             dialogDisplay("Wishlist", getString(R.string.are_you_sure_remove_product_from_wishlist), "confirm");
         }
 
@@ -222,13 +224,21 @@ public class WishlistFragment extends BaseFragment {
             HELPER.dismissLoadingTran();
             JSONObject repo = ResponseHandler.createJsonObject(response);
             if (repo != null)
-                dialogDisplay("Wishlist", ResponseHandler.getString(repo, "msg"), "success");
+                //dialogDisplay("Wishlist", ResponseHandler.getString(repo, "msg"), "success");
+                Toast.makeText(act, "Product removed", Toast.LENGTH_SHORT).show();
 
             if (selectedPosition != -1) {
                 db.wishlistEntityDao().deleteWishlistItem(selectedEntity.getProductId());
-                arrayList.remove(selectedEntity);
+                for (int i = 0; i < arrayList.size(); i++) {
+                    if (selectedEntity.getProductId().equals(arrayList.get(i).getProductId())) {
+                        arrayList.remove(i);
+                        selectedPosition = i;
+                        break;
+                    }
+                }
                 wishlistAdapter.notifyItemRemoved(selectedPosition);
             }
+
             if (arrayList.size() == 0) {
                 binding.button.setVisibility(View.GONE);
                 binding.errorText.setText(R.string.no_product_added_to_wishlist);
@@ -247,7 +257,7 @@ public class WishlistFragment extends BaseFragment {
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
-                            dialogDisplay("Error", ResponseHandler.getString(jsonObject, "msg"), "error");
+                            //dialogDisplay("Error", ResponseHandler.getString(jsonObject, "msg"), "error");
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }

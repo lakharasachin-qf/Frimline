@@ -60,9 +60,7 @@
             android:layout_gravity="center"
             android:orientation="vertical"
             shimmer:shimmer_duration="800">
-
             <include layout="@layout/shimmer_home_fragment" />
-
         </com.facebook.shimmer.ShimmerFrameLayout>
 
 

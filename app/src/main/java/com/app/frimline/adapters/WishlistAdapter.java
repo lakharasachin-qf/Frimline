@@ -19,6 +19,7 @@ import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ItemWishlistLayoutBinding;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.models.roomModels.WishlistEntity;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final WishlistEntity model = frameItems.get(position);
         if (CONSTANT.API_MODE) {
-
+            Glide.with(activity)
+                    .load(model.getImage())
+                    .placeholder(R.drawable.ic_square_place_holder)
+                    .error(R.drawable.ic_square_place_holder)
+                    .into(holder.binding.productImage);
             holder.binding.price.setText(activity.getString(R.string.Rs) + model.getPrice());
             holder.binding.productName.setText(model.getProductName());
             holder.binding.qty.setText("Qty : " + model.getQuantity());

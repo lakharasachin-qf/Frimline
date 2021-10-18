@@ -56,7 +56,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ProductModel model = frameItems.get(position);
-        HELPER.print("viewholder",model.getCategoryId()+"-"+model.getCategoryName()+"-"+model.getName());
+        HELPER.print("viewholder",model.getCategoryId()+"-"+model.getCategoryName()+"-"+model.getName()+" - "+model.getId()+"   "+model.getAllCategoryArray().toString() );
         holder.binding.actionDelete.setOnClickListener(v -> actionsListener.onDeleteAction(position, model));
         holder.binding.dateDelivery.setVisibility(View.INVISIBLE);
         holder.binding.counter.setAnimationDuration(150L);
@@ -97,7 +97,6 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             });
 
             holder.binding.decrementAction.setOnClickListener(v -> {
-
                 int currentCounter = Integer.parseInt(holder.binding.counter.getText().toString());
                 if (currentCounter > 1) {
                     currentCounter--;
@@ -116,20 +115,17 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                 }
             });
         } else {
-
             holder.binding.counter.setText("0");
             holder.binding.incrementAction.setOnClickListener(v -> {
                 int currentCounter = Integer.parseInt(holder.binding.counter.getText().toString());
                 currentCounter++;
                 holder.binding.counter.setText(String.valueOf(currentCounter));
-
             });
             holder.binding.decrementAction.setOnClickListener(v -> {
                 int currentCounter = Integer.parseInt(holder.binding.counter.getText().toString());
                 if (currentCounter > 1) {
                     currentCounter--;
                     holder.binding.counter.setText(String.valueOf(currentCounter));
-
                 } else {
                     Toast.makeText(activity, "At least one quantity required", Toast.LENGTH_SHORT).show();
                 }

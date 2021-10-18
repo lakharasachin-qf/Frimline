@@ -50,8 +50,16 @@ public class ProductEntity {
     @ColumnInfo(name = "imageList")
     private ArrayList<String> productImagesList;
 
+    @TypeConverters(StringConverter.class)
+    @ColumnInfo(name = "allCatList")
+    private ArrayList<String> allCatList;
+
     @ColumnInfo(name = "categoryId")
     private String categoryId;
+
+    @ColumnInfo(name = "subCategoryId")
+    private String subCategoryId;
+
 
     @ColumnInfo(name = "categoryName")
     private String categoryName;
@@ -63,13 +71,29 @@ public class ProductEntity {
     @ColumnInfo(name = "qty")
     private String qty;
 
-
     @ColumnInfo(name = "calculatedAmount")
     private String calculatedAmount;
 
     @ColumnInfo(name = "rating")
     private String rating;
     private boolean isAddedToCart = false;
+
+
+    public ArrayList<String> getAllCatList() {
+        return allCatList;
+    }
+
+    public void setAllCatList(ArrayList<String> allCatList) {
+        this.allCatList = allCatList;
+    }
+
+    public String getSubCategoryId() {
+        return subCategoryId;
+    }
+
+    public void setSubCategoryId(String subCategoryId) {
+        this.subCategoryId = subCategoryId;
+    }
 
     public String getRating() {
         return rating;

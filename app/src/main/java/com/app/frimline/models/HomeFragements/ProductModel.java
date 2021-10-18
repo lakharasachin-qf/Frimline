@@ -21,10 +21,29 @@ public class ProductModel {
     private String calculatedAmount;
     private String calculatedWithDiscount;
     private String rating;
+    private String subCategoryId;
     private Attribute attribute;
-    private boolean isReturnAble=false;
+    private ArrayList<String> AllCategoryArray;
+    private boolean isReturnAble = false;
 
-    private boolean isApplicable=false;
+    private boolean isApplicable = false;
+
+
+    public ArrayList<String> getAllCategoryArray() {
+        return AllCategoryArray;
+    }
+
+    public void setAllCategoryArray(ArrayList<String> allCategoryArray) {
+        AllCategoryArray = allCategoryArray;
+    }
+
+    public String getSubCategoryId() {
+        return subCategoryId;
+    }
+
+    public void setSubCategoryId(String subCategoryId) {
+        this.subCategoryId = subCategoryId;
+    }
 
     public boolean isApplicable() {
         return isApplicable;
