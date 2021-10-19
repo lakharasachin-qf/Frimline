@@ -52,12 +52,7 @@ public class EditProfileActivity extends BaseActivity {
 
         makeStatusBarSemiTranspenret(binding.toolbar.toolbar);
         binding.toolbar.title.setText("Edit Profile");
-        binding.toolbar.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ON_BACK_PRESS_ANIM(act);
-            }
-        });
+        binding.toolbar.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
         ((ViewGroup) findViewById(R.id.containerLinear)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         changeTheme();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
