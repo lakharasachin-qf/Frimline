@@ -113,8 +113,8 @@
                                 android:singleLine="true"
                                 android:text="             Shipping free above ₹499 on Cart                            "
                                 android:textAlignment="textEnd"
-                                android:textColor="@color/colorToolbarHeader"
-                                android:textSize="@dimen/_10sdp" />
+                                android:textColor="@color/orange"
+                                android:textSize="@dimen/_12sdp" />
                         </RelativeLayout>
 
                         <androidx.recyclerview.widget.RecyclerView

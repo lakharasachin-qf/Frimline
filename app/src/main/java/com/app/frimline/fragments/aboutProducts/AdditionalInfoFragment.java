@@ -22,7 +22,6 @@ public class AdditionalInfoFragment extends BaseFragment {
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_additional_info, parent, false);
         String data = "<table class=\"woocommerce-product-attributes shop_attributes\">\n" +
                 "\t\t\t<tbody><tr class=\"woocommerce-product-attributes-item woocommerce-product-attributes-item--weight\">\n" +

@@ -56,6 +56,7 @@ public class MyCartActivity extends BaseActivity {
     private String discountType = "";
     private boolean isLoading = false;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,34 +74,20 @@ public class MyCartActivity extends BaseActivity {
                 HELPER.SIMPLE_ROUTE(act, LoginActivity.class);
             }
         });
-        binding.toolbarNavigation.backPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ON_BACK_PRESS_ANIM(act);
-            }
-        });
+        binding.toolbarNavigation.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
 
         binding.toolbarNavigation.title.setText("Cart");
         changeColor();
 
-
-        binding.applyCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
-                    verifyCouponCode();
-                } else {
-                    confirmationDialog("Coupon Code", getString(R.string.please_enter_the_coupon_code_first), CONSTANT.ACTION_3);
-                }
-
+        binding.applyCode.setOnClickListener(v -> {
+            if (!binding.promoCodeEdt.getText().toString().trim().isEmpty()) {
+                verifyCouponCode();
+            } else {
+                confirmationDialog("Coupon Code", getString(R.string.please_enter_the_coupon_code_first), CONSTANT.ACTION_3);
             }
+
         });
-        binding.removePromo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmationDialog("Coupon Code", getString(R.string.are_you_sure_to_remove_promo_code), CONSTANT.ACTION_2);
-            }
-        });
+        binding.removePromo.setOnClickListener(v -> confirmationDialog("Coupon Code", getString(R.string.are_you_sure_to_remove_promo_code), CONSTANT.ACTION_2));
 
         if (CONSTANT.API_MODE) {
             loadData();
@@ -193,7 +180,6 @@ public class MyCartActivity extends BaseActivity {
             binding.cartRecycler.setAdapter(cartAdapter);
             setState();
 
-
             applyCouponCalculation(isCouponCodeApplied);
 
         } else {
@@ -262,7 +248,6 @@ public class MyCartActivity extends BaseActivity {
         binding.boottomFooter.setVisibility(View.GONE);
         binding.scrollView.setVisibility(View.GONE);
         binding.NoDataFound.setVisibility(View.VISIBLE);
-
     }
 
     public void changeColor() {
@@ -284,42 +269,33 @@ public class MyCartActivity extends BaseActivity {
         discardImageBinding.titleTxt.setText(title);
         discardImageBinding.subTitle.setText(msg);
         discardImageBinding.noTxt.setVisibility(View.GONE);
-        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
+        discardImageBinding.noTxt.setOnClickListener(v -> alertDialog.dismiss());
         discardImageBinding.yesTxt.setText("Ok");
-        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+        discardImageBinding.yesTxt.setOnClickListener(v -> {
+            alertDialog.dismiss();
 
 
-                if (action != CONSTANT.NO_ACTION) {
-                    if (action == CONSTANT.ACTION_2) {
-                        HELPER.showLoadingTran(act);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
+            if (action != CONSTANT.NO_ACTION) {
+                if (action == CONSTANT.ACTION_2) {
+                    HELPER.showLoadingTran(act);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-                                HELPER.dismissLoadingTran();
-                                isCouponCodeApplied = false;
-                                applyCouponCalculation(false);
-                                Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
-                                binding.promoCodeContainer.setVisibility(View.VISIBLE);
-                                binding.appliedCodeSuccess.setVisibility(View.GONE);
-                                prefManager.setCouponCode("");
-                            }
-                        }, 1000);
+                            HELPER.dismissLoadingTran();
+                            isCouponCodeApplied = false;
+                            applyCouponCalculation(false);
+                            Toast.makeText(act, "Coupon Code removed.", Toast.LENGTH_SHORT).show();
+                            binding.promoCodeContainer.setVisibility(View.VISIBLE);
+                            binding.appliedCodeSuccess.setVisibility(View.GONE);
+                            prefManager.setCouponCode("");
+                        }
+                    }, 1000);
 
-                    }
                 }
-
-
             }
+
+
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -394,9 +370,6 @@ public class MyCartActivity extends BaseActivity {
                     applyProductDiscount();
 
                     prefManager.setCouponCode(binding.promoCodeEdt.getText().toString().trim());
-
-
-                    //couponCodeModel
 
                     for (String excludedId : couponCodeModel.getExcludeCategoryIds()) {
                         for (Iterator<String> it = couponCodeModel.getCategoryIds().iterator(); it.hasNext(); ) {
@@ -473,9 +446,6 @@ public class MyCartActivity extends BaseActivity {
 
     }
 
-
-    double fromDiscountCalu = 0;
-    ArrayList<ProductModel> tempArray = new ArrayList<>();
 
     @SuppressLint("SetTextI18n")
     public void applyCouponCalculation(boolean apply) {
@@ -556,6 +526,8 @@ public class MyCartActivity extends BaseActivity {
                                 canGoFeather = false;
                             }
                         }
+
+
                         if (canGoFeather) {
                             if (couponCodeModel.getProductIds().size() != 0) {
                                 for (int i = 0; i < duplicateCart.size(); i++) {
@@ -565,17 +537,10 @@ public class MyCartActivity extends BaseActivity {
                                         }
                                     }
                                 }
-//                                for (ProductModel excludedMode : includeList) {
-//                                    for (Iterator<ProductModel> it = duplicateCart.iterator(); it.hasNext(); ) {
-//                                        if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
-//                                            it.remove();
-//                                        }
-//                                    }
-//                                }
                                 isMinMaxAvailable = false;
                             }
-                            if (couponCodeModel.getCategoryIds().size() != 0) {
 
+                            if (couponCodeModel.getCategoryIds().size() != 0) {
                                 for (int i = 0; i < duplicateCart.size(); i++) {
                                     ArrayList<String> productCatList = duplicateCart.get(i).getAllCategoryArray();
                                     for (int k = 0; k < couponCodeModel.getCategoryIds().size(); k++) {
@@ -594,14 +559,8 @@ public class MyCartActivity extends BaseActivity {
                                     }
                                 }
                                 isMinMaxAvailable = false;
-//                                for (ProductModel excludedMode : includeList) {
-//                                    for (Iterator<ProductModel> it = duplicateCart.iterator(); it.hasNext(); ) {
-//                                        if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
-//                                            it.remove();
-//                                        }
-//                                    }
-//                                }
                             }
+
                             if (couponCodeModel.getProductIds().size() == 0 && couponCodeModel.getCategoryIds().size() == 0) {
                                 includeList.addAll(duplicateCart);
                             }
@@ -661,16 +620,15 @@ public class MyCartActivity extends BaseActivity {
                                         if (discountType.contains("fixed_product")) {
                                             totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                             promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
-                                        } else{
+                                        } else {
                                             double totalCouponDiscountToCalculate = Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount;
-                                            double calculateDiscount =(Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) * totalCouponDiscountToCalculate) /100;
+                                            double calculateDiscount = (Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) * totalCouponDiscountToCalculate) / 100;
                                             totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - calculateDiscount;
                                             promoDiscount = promoDiscount + calculateDiscount;
                                         }
                                     } else {
                                         totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
                                     }
-
                                 }
                             }
 

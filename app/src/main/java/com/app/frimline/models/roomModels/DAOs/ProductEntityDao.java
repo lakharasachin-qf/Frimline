@@ -31,20 +31,4 @@ public interface ProductEntityDao {
     @Query("SELECT * FROM cart WHERE id = :productId")
     ProductEntity findProductByProductId(String productId);
 
-
-
-        /*{
-    "code": "200",
-    "data": [
-        {
-            "product_name": "Test Product 5 Dente91 Lactoferrin Mouthwash Pack of 3 (Copy)",
-            "ID": "94",
-            "prod_id": "9905",
-            "quantity": "1",
-            "user_id": "66",
-            "wishlist_id": "33",
-            "original_price": "597.000"
-        }
-    ]
-}*/
 }

@@ -543,13 +543,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                         }
                                     }
                                 }
-//                                for (ProductModel excludedMode : includeList) {
-//                                    for (Iterator<ProductModel> it = duplicateCart.iterator(); it.hasNext(); ) {
-//                                        if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
-//                                            it.remove();
-//                                        }
-//                                    }
-//                                }
                                 isMinMaxAvailable = false;
                             }
                             if (couponCodeModel.getCategoryIds().size() != 0) {
@@ -572,13 +565,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                     }
                                 }
                                 isMinMaxAvailable = false;
-//                                for (ProductModel excludedMode : includeList) {
-//                                    for (Iterator<ProductModel> it = duplicateCart.iterator(); it.hasNext(); ) {
-//                                        if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
-//                                            it.remove();
-//                                        }
-//                                    }
-//                                }
                             }
                             if (couponCodeModel.getProductIds().size() == 0 && couponCodeModel.getCategoryIds().size() == 0) {
                                 includeList.addAll(duplicateCart);
@@ -655,14 +641,9 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                             finalAmount = totalPrice;
                             if (promoDiscount != 0) {
                                 binding.couponLayout.setVisibility(View.VISIBLE);
-                            } else {
-                                //comes here
                             }
-                        } else {
                         }
-                    } else {
                     }
-                } else {
                 }
             }
 
@@ -670,7 +651,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             binding.couponHeading.setText("Coupon Discount (" + ResponseHandler.getString(promoCodeObject, "code") + ")");
 
         } else {
-
             binding.couponHeading.setText("Coupon");
             binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
             binding.couponLayout.setVisibility(View.GONE);
@@ -727,7 +707,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         roundedOFFAmount = String.format("%.2f", roundedOffValue);
         finalAmountAfterRoundOFF = String.format("%.2f", finalAmount);
 
-
     }
 
 
@@ -744,13 +723,10 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             options.put("currency", "INR");
             int finalAmount = (int) (Double.parseDouble(finalAmountAfterRoundOFF) * 100);
             options.put("amount", String.valueOf(finalAmount));
-            // options.put("prefill.email", prefManager.getUser().getEmail());
-            // options.put("prefill.contact", "Enter Mobile Number");
             HELPER.print("Param", options.toString());
             checkout.open(activity, options);
         } catch (Exception e) {
             e.printStackTrace();
-
             HELPER.print("TAG", "Error in starting Razorpay Checkout" + e);
         }
     }
