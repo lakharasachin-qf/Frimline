@@ -1,5 +1,6 @@
 package com.app.frimline;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -39,6 +40,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity implements Observer
     private static final String TAG = BaseNavDrawerActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
     private static Activity actt;
+    @SuppressLint("StaticFieldLeak")
     private static View view;
     public Activity act;
     public PREF pref;

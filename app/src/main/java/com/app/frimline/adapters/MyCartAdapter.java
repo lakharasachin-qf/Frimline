@@ -71,6 +71,13 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             }
         });
         if (CONSTANT.API_MODE) {
+            holder.binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    actionsListener.viewCart(position, model);
+                }
+            });
+
             HELPER.LOAD_HTML(holder.binding.productName, model.getName());
             HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
             HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
@@ -145,8 +152,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
     public interface setActionsListener {
         void onDeleteAction(int position, ProductModel model);
-
         void onCartUpdate(int position, ProductModel model);
+        void viewCart(int position,ProductModel model);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

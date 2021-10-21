@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ import com.app.frimline.fragments.ChooseListBottomFragment;
 import com.app.frimline.intefaces.OnItemSelectListener;
 import com.app.frimline.models.Billing;
 import com.app.frimline.models.CountryModel;
-import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.StateModel;
 
 import org.json.JSONException;
@@ -365,7 +363,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                 });
             }
         }
-        bottomSheetFragment.dismiss();
+        if (bottomSheetFragment != null && bottomSheetFragment.isVisible())
+            bottomSheetFragment.dismiss();
     }
 
     @Override
@@ -373,7 +372,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
         if (flag == CONSTANT.STATE) {
             binding.stateEdt.setText(model.getStateName());
         }
-        bottomSheetFragment.dismiss();
+        if (bottomSheetFragment != null && bottomSheetFragment.isVisible())
+            bottomSheetFragment.dismiss();
     }
 
     private void update(String url) {
@@ -412,8 +412,8 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                       // Log.e("Error", gson.toJson(response.headers));
-                      //  Log.e("allHeaders", gson.toJson(response.allHeaders));
+                        // Log.e("Error", gson.toJson(response.headers));
+                        //  Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
                 }
         ) {
@@ -536,6 +536,28 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
             HELPER.dismissLoadingTran();
             countryList = ResponseHandler.parseCountryState(response);
 
+
+        //    if (getIntent().hasExtra("isBilling")) {
+            //    if (getIntent().getBooleanExtra("isBilling", false)) {
+                    if (countryList != null && binding.countryEdt.getText().length() != 0) {
+                        for (int i = 0; i < countryList.size(); i++) {
+                            CountryModel model = countryList.get(i);
+                            if (model.getName().equalsIgnoreCase(prefManager.getUser().getBillingAddress().getCountry())) {
+                                ((OnItemSelectListener) act).onItemSelect(model, i, CONSTANT.COUNTRY);
+                                if (binding.stateEdt.getText().length() != 0) {
+                                    for (int k = 0; k < model.getModels().size(); k++) {
+                                        if (model.getModels().get(k).getStateName().equalsIgnoreCase(prefManager.getUser().getBillingAddress().getState())) {
+                                            ((OnItemSelectListener) act).onItemSelect(model.getModels().get(k), k, CONSTANT.STATE);
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+               // }
+            //}
         }, error -> {
             error.printStackTrace();
             HELPER.dismissLoadingTran();

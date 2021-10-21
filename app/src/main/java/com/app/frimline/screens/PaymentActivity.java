@@ -1,6 +1,7 @@
 package com.app.frimline.screens;
 
 import android.animation.LayoutTransition;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -48,6 +50,7 @@ import com.app.frimline.models.HomeFragements.CouponCodeModel;
 import com.app.frimline.models.HomeFragements.ProductModel;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
+import com.google.gson.Gson;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
@@ -79,7 +82,21 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         makeStatusBarSemiTranspenret(binding.toolbarNavigation.toolbar);
         ((ViewGroup) findViewById(R.id.bottomSlider)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         binding.shippingLabelHint.setSelected(true);
-
+        final ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0.0f);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(5000L);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                final float progress = (float) animation.getAnimatedValue();
+                final float width = binding.first.getWidth();
+                final float translationX = width * progress;
+                binding.first.setTranslationX(translationX);
+                binding.second.setTranslationX(translationX - width);
+            }
+        });
+        animator.start();
         binding.boottomFooter.setOnClickListener(v -> {
             //generateRazorpayOrderId();
             if (binding.acceptTerms.isChecked()) {
@@ -132,6 +149,30 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
         if (count != 0) {
             cartItemList = HELPER.getCartList(db.productEntityDao().getAll());
             cartAdapter = new MyCartAdapter(cartItemList, act, "payment");
+            cartAdapter.setActionsListener(new MyCartAdapter.setActionsListener() {
+                @Override
+                public void viewCart(int position, ProductModel model) {
+                    Intent i = new Intent(act, ProductDetailActivity.class);
+                    i.putExtra("fragment", "wishlist");
+                    i.putExtra("qty", model.getQty());
+                    i.putExtra("productPosition", "0");
+                    i.putExtra("layoutType", String.valueOf(-1));
+                    i.putExtra("itemPosition", String.valueOf(-1));
+                    i.putExtra("adapterPosition", String.valueOf(-1));
+                    i.putExtra("model", new Gson().toJson(model));
+                    i.putExtra("addToCartID", String.valueOf(-1));
+                    i.putExtra("removeCartID", String.valueOf(-1));
+                    act.startActivity(i);
+                    act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
+                }
+
+                @Override
+                public void onDeleteAction(int position, ProductModel model) { }
+
+                @Override
+                public void onCartUpdate(int position, ProductModel model) { }
+            });
+
             binding.cartRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false));
             binding.cartRecycler.setNestedScrollingEnabled(false);
             binding.cartRecycler.setAdapter(cartAdapter);
@@ -222,6 +263,11 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             public void onCartUpdate(int position, ProductModel model) {
 
             }
+
+            @Override
+            public void viewCart(int position, ProductModel model) {
+
+            }
         });
 
         binding.cartRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false));
@@ -239,6 +285,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
     }
 
     public void changeColor() {
+        binding.first.setTextColor((Color.parseColor(new PREF(act).getThemeColor())));
+        binding.second.setTextColor((Color.parseColor(new PREF(act).getThemeColor())));
         binding.boottomText.setTextColor((Color.parseColor(new PREF(act).getThemeColor())));
         binding.payCodRadioBtn.setButtonTintList(ColorStateList.valueOf((Color.parseColor(new PREF(act).getThemeColor()))));
         binding.payOnlineRadioBtn.setButtonTintList(ColorStateList.valueOf((Color.parseColor(new PREF(act).getThemeColor()))));
@@ -626,9 +674,8 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                             totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                             promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                         } else {
-                                            double totalCouponDiscountToCalculate = Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount;
-                                            double calculateDiscount = (Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) * totalCouponDiscountToCalculate) / 100;
-                                            totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - calculateDiscount;
+                                            double calculateDiscount = (Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) * couponDiscount) / 100;
+                                            totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) -  calculateDiscount;
                                             promoDiscount = promoDiscount + calculateDiscount;
                                         }
                                     } else {
@@ -636,9 +683,24 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                     }
 
                                 }
+                                if (ResponseHandler.getString(promoCodeObject, "discountType").contains("fixed_cart")) {
+
+                                    promoDiscount = couponDiscount;
+                                    binding.couponLayout.setVisibility(View.VISIBLE);
+                                }
                             }
 
                             finalAmount = totalPrice;
+
+                            if (ResponseHandler.getString(promoCodeObject, "discountType").contains("fixed_cart")) {
+                                totalPrice = 0;
+                                for (ProductModel productModel : cartItemList) {
+                                    totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+                                }
+                                promoDiscount = couponDiscount;
+                                finalAmount = totalPrice - promoDiscount;
+
+                            }
                             if (promoDiscount != 0) {
                                 binding.couponLayout.setVisibility(View.VISIBLE);
                             }

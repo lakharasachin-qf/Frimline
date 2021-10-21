@@ -475,6 +475,24 @@ public class CheckoutAddressActivity extends BaseActivity implements OnItemSelec
             HELPER.dismissLoadingTran();
             countryList = ResponseHandler.parseCountryState(response);
 
+            if (binding.countryEdt.getText().length() != 0) {
+                for (int i = 0; i < countryList.size(); i++) {
+                    CountryModel model = countryList.get(i);
+                    if (model.getName().equalsIgnoreCase(prefManager.getUser().getBillingAddress().getCountry())) {
+                        ((OnItemSelectListener) act).onItemSelect(model, i, CONSTANT.COUNTRY);
+                        if (binding.stateEdt.getText().length() != 0) {
+                            for (int k = 0; k < model.getModels().size(); k++) {
+                                if (model.getModels().get(k).getStateName().equalsIgnoreCase(prefManager.getUser().getBillingAddress().getState())) {
+                                    ((OnItemSelectListener) act).onItemSelect(model.getModels().get(k), k, CONSTANT.STATE);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
         },
                 error -> {
                     error.printStackTrace();

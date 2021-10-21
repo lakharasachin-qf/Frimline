@@ -98,6 +98,35 @@
                                 android:layout_marginEnd="@dimen/_2sdp"
                                 android:background="#D1D1D1" />
 
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/totalTopMRP"
+                                android:layout_marginTop="@dimen/_7sdp">
+
+                                <TextView
+                                    android:id="@+id/first"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/proxima_nova_bold"
+                                    android:text="Shipping free above ₹499 on Cart"
+                                    android:textColor="@color/orange"
+                                    android:textSize="@dimen/_13sdp" />
+
+                                <TextView
+                                    android:id="@+id/second"
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/proxima_nova_bold"
+                                    android:text="Shipping free above ₹499 on Cart"
+                                    android:textColor="@color/orange"
+                                    android:textSize="@dimen/_13sdp" />
+
+                            </FrameLayout>
+
                             <TextView
                                 android:id="@+id/shippingLabelHint"
                                 android:layout_width="match_parent"
@@ -114,7 +143,8 @@
                                 android:text="             Shipping free above ₹499 on Cart                            "
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/orange"
-                                android:textSize="@dimen/_12sdp" />
+                                android:textSize="@dimen/_13sdp"
+                                android:visibility="gone" />
                         </RelativeLayout>
 
                         <androidx.recyclerview.widget.RecyclerView

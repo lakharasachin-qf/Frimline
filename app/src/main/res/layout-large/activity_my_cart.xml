@@ -91,6 +91,7 @@
                                 android:text="Total: ₹398 "
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sdp" />
+
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
@@ -99,9 +100,37 @@
                                 android:layout_marginEnd="@dimen/_2sdp"
                                 android:background="#D1D1D1" />
 
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/totalTopMRP"
+                                android:layout_marginTop="@dimen/_7sdp">
+
+                                <TextView
+                                    android:id="@+id/first"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/proxima_nova_bold"
+                                    android:text="Shipping free above ₹499 on Cart"
+                                    android:textColor="@color/orange"
+                                    android:textSize="@dimen/_13sdp" />
+
+                                <TextView
+                                    android:id="@+id/second"
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/proxima_nova_bold"
+                                    android:text="Shipping free above ₹499 on Cart"
+                                    android:textColor="@color/orange"
+                                    android:textSize="@dimen/_13sdp" />
+
+                            </FrameLayout>
+
                             <TextView
                                 android:id="@+id/shippingLabelHint"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/totalTopMRP"
@@ -109,14 +138,15 @@
                                 android:layout_marginTop="@dimen/_7sdp"
                                 android:ellipsize="marquee"
                                 android:fadingEdge="horizontal"
-                                android:textAlignment="textEnd"
                                 android:fontFamily="@font/proxima_nova_bold"
                                 android:marqueeRepeatLimit="marquee_forever"
                                 android:scrollHorizontally="true"
                                 android:singleLine="true"
                                 android:text="             Shipping free above ₹499 on Cart                            "
-                                android:textColor="@color/colorToolbarHeader"
-                                android:textSize="@dimen/_10sdp" />
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/orange"
+                                android:textSize="@dimen/_13sdp"
+                                android:visibility="gone" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -164,11 +194,11 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginStart="@dimen/_20sdp"
                                     android:layout_marginEnd="@dimen/_10sdp"
-                                    android:fontFamily="@font/proxima_nova_bold"
-                                    android:includeFontPadding="false"
                                     android:background="@null"
                                     android:ellipsize="marquee"
-                                    android:fadingEdge = "horizontal"
+                                    android:fadingEdge="horizontal"
+                                    android:fontFamily="@font/proxima_nova_bold"
+                                    android:includeFontPadding="false"
                                     android:singleLine="true"
                                     android:text="#FGSDH Code has Applied."
                                     android:textSize="@dimen/_10sdp" />

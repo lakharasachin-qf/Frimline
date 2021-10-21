@@ -392,7 +392,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 downloadPDF();
-
             }
         });
         DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);

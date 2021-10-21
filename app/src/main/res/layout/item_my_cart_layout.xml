@@ -8,6 +8,8 @@
         android:layout_height="@dimen/_100sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:orientation="vertical"
         app:cardCornerRadius="@dimen/_7sdp"
         app:cardElevation="@dimen/_3sdp"
@@ -62,8 +64,8 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/proxima_nova_bold"
                         android:includeFontPadding="false"
-                        android:singleLine="true"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:text="Dente91 Lactoferrin Mouthwash"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp" />

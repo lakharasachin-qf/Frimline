@@ -13,7 +13,15 @@ public class CouponCodeModel {
         this.url = url;
     }
 
+    private String couponCode;
 
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
 
     private ArrayList<String> productIds = new ArrayList<>();
     private ArrayList<String> excludeProductIds = new ArrayList<>();
