@@ -575,6 +575,7 @@ public class MyCartActivity extends BaseActivity {
         binding.totalPrice.setText(act.getString(R.string.Rs) + HELPER.format.format(finalAmount));
 
         if (apply) {
+            //when coupon code applied go for check condition
             double promoDiscount = 0;
             if (couponCodeModel != null) {
                 String msg = "Coupon code not applicable.";
@@ -586,15 +587,12 @@ public class MyCartActivity extends BaseActivity {
                 if (Double.parseDouble(couponCodeModel.getMaxAmount()) < finalAmount && Double.parseDouble(couponCodeModel.getMaxAmount()) != 0) {
                     msg = "The maximum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMaxAmount();
                     canApplyMore = false;
-                } else if (Double.parseDouble(couponCodeModel.getMaxAmount()) != 0 && Double.parseDouble(couponCodeModel.getMaxAmount()) >= finalAmount) {
                 }
 
                 if (Double.parseDouble(couponCodeModel.getMinAmount()) > finalAmount && Double.parseDouble(couponCodeModel.getMinAmount()) != 0) {
                     msg = "The minimum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMinAmount();
                     canApplyMore = false;
-                } else if (Double.parseDouble(couponCodeModel.getMinAmount()) != 0 && Double.parseDouble(couponCodeModel.getMinAmount()) <= finalAmount) {
                 }
-
 
                 if (couponCodeModel.isPerUserLimitExist()) {
                     msg = "Coupon usage limit has been reached.";
@@ -647,7 +645,6 @@ public class MyCartActivity extends BaseActivity {
                                     }
                                 }
                             }
-
                         }
 
                         if (couponCodeModel.getCategoryIds().size() != 0) {
@@ -668,7 +665,6 @@ public class MyCartActivity extends BaseActivity {
                                     }
                                 }
                             }
-
                         }
 
                         if (couponCodeModel.getProductIds().size() == 0 && couponCodeModel.getCategoryIds().size() == 0) {
@@ -768,53 +764,14 @@ public class MyCartActivity extends BaseActivity {
                             binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
                         } else {
                             showError = true;
-//                            confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
-//                            binding.promoCodeContainer.setVisibility(View.VISIBLE);
-//                            binding.appliedCodeSuccess.setVisibility(View.GONE);
-//                            binding.promoCodeEdt.setText("");
-//                            binding.couponHeading.setText("Coupon");
-//                            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
-//                            binding.couponAmountLayer.setVisibility(View.GONE);
-//                            discount = "0";
-//                            couponCodeModel = null;
-//                            promoCode = "";
-//                            discountType = "";
-//                            isCouponCodeApplied = false;
-//                            prefManager.setCouponCode("");
                         }
 
                     } else {
                         showError = true;
-//                        confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
-//                        binding.promoCodeContainer.setVisibility(View.VISIBLE);
-//                        binding.appliedCodeSuccess.setVisibility(View.GONE);
-//                        binding.promoCodeEdt.setText("");
-//                        binding.couponHeading.setText("Coupon");
-//                        binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
-//                        binding.couponAmountLayer.setVisibility(View.GONE);
-//                        discount = "0";
-//                        couponCodeModel = null;
-//                        promoCode = "";
-//                        discountType = "";
-//                        isCouponCodeApplied = false;
-//                        prefManager.setCouponCode("");
                     }
 
                 } else {
                     showError = true;
-//                    confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
-//                    binding.promoCodeContainer.setVisibility(View.VISIBLE);
-//                    binding.appliedCodeSuccess.setVisibility(View.GONE);
-//                    binding.promoCodeEdt.setText("");
-//                    binding.couponHeading.setText("Coupon");
-//                    binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
-//                    binding.couponAmountLayer.setVisibility(View.GONE);
-//                    discount = "0";
-//                    couponCodeModel = null;
-//                    promoCode = "";
-//                    discountType = "";
-//                    isCouponCodeApplied = false;
-//                    prefManager.setCouponCode("");
                 }
                 if (showError) {
                     confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
@@ -838,7 +795,6 @@ public class MyCartActivity extends BaseActivity {
             HELPER.LOAD_HTML(binding.successAppliedCode, "<font color = '" + prefManager.getThemeColor() + "'><b>" + binding.promoCodeEdt.getText().toString() + "</b></font> code applied successfully");
             HELPER.LOAD_HTML(binding.couponHeading, "Coupon Discount <b>(" + binding.promoCodeEdt.getText().toString() + ")<b>");
         } else {
-            //show coupon input box and hide success message
             binding.promoCodeContainer.setVisibility(View.VISIBLE);
             binding.appliedCodeSuccess.setVisibility(View.GONE);
             binding.promoCodeEdt.setText("");
