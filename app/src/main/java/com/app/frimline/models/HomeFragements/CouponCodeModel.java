@@ -87,4 +87,33 @@ public class CouponCodeModel {
     public void setEmailIds(ArrayList<String> emailIds) {
         this.emailIds = emailIds;
     }
+
+
+    private boolean isCodeIsAlreadyUser = false;
+    private boolean isLimitExist = false;
+    private boolean isPerUserLimitExist = false;
+
+    public boolean isPerUserLimitExist() {
+        return isPerUserLimitExist;
+    }
+
+    public void setPerUserLimitExist(boolean perUserLimitExist) {
+        isPerUserLimitExist = perUserLimitExist;
+    }
+
+    public boolean isLimitExist() {
+        return isLimitExist;
+    }
+
+    public void setLimitExist(boolean limitExist) {
+        isLimitExist = limitExist;
+    }
+
+    public boolean isCodeIsAlreadyUser() {
+        return isCodeIsAlreadyUser;
+    }
+
+    public void setCodeIsAlreadyUser(boolean codeIsAlreadyUser) {
+        isCodeIsAlreadyUser = codeIsAlreadyUser;
+    }
 }

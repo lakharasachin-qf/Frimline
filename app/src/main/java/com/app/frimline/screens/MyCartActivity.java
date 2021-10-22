@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Observable;
 
 public class MyCartActivity extends BaseActivity {
     MyCartAdapter cartAdapter;
@@ -71,15 +72,12 @@ public class MyCartActivity extends BaseActivity {
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setInterpolator(new LinearInterpolator());
         animator.setDuration(5000L);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                final float progress = (float) animation.getAnimatedValue();
-                final float width = binding.first.getWidth();
-                final float translationX = width * progress;
-                binding.first.setTranslationX(translationX);
-                binding.second.setTranslationX(translationX - width);
-            }
+        animator.addUpdateListener(animation -> {
+            final float progress = (float) animation.getAnimatedValue();
+            final float width = binding.first.getWidth();
+            final float translationX = width * progress;
+            binding.first.setTranslationX(translationX);
+            binding.second.setTranslationX(translationX - width);
         });
         animator.start();
 
@@ -148,11 +146,14 @@ public class MyCartActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         prefManager = new PREF(act);
+
+
     }
 
 
     public void loadData() {
         int count = db.productEntityDao().getAll().size();
+
         if (count != 0) {
             cartItemList = HELPER.getCartList(db.productEntityDao().getAll());
             cartAdapter = new MyCartAdapter(cartItemList, act, "cart");
@@ -251,7 +252,6 @@ public class MyCartActivity extends BaseActivity {
         homeModel.setName("3");
         arrayList.add(homeModel);
 
-
         MyCartAdapter shopFilterAdapter = new MyCartAdapter(arrayList, act, "cart");
         shopFilterAdapter.setActionsListener(new MyCartAdapter.setActionsListener() {
             @Override
@@ -287,6 +287,23 @@ public class MyCartActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if (frimline.getObserver().getValue() == ObserverActionID.LOGIN) {
+            if (!act.isFinishing() && !act.isDestroyed()) {
+                if (isCouponCodeApplied) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            verifyCouponCode();
+                        }
+                    });
+                }
+            }
+        }
+    }
+
     public void setNoDataFound() {
         binding.boottomFooter.setVisibility(View.GONE);
         binding.scrollView.setVisibility(View.GONE);
@@ -301,7 +318,6 @@ public class MyCartActivity extends BaseActivity {
         HELPER.backgroundTint(act, binding.removePromo, true);
         HELPER.backgroundTint(act, binding.bottomSlider, true);
         HELPER.backgroundTint(act, binding.scrollView, true);
-        //binding.successAppliedCode.setTextColor(Color.parseColor(prefManager.getThemeColor()));
     }
 
     public void confirmationDialog(String title, String msg, int action) {
@@ -410,6 +426,56 @@ public class MyCartActivity extends BaseActivity {
                     }
                     couponCodeModel.setEmailIds(emailId);
 
+
+                    int maxLimit = ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit").isEmpty() ? 0 : Integer.parseInt(ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit"));
+                    int limitPerUser = ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit_per_user").isEmpty() ? 0 : Integer.parseInt(ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit_per_user"));
+
+                    if (prefManager.isLogin()) {
+
+                        boolean isPerUserLimitExist = false;
+                        if (maxLimit != 0 && limitPerUser != 0) {
+                            JSONArray UsedArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "used_by");
+                            int userCount = 0;
+                            for (int k = 0; k < UsedArray.length(); k++) {
+                                if (UsedArray.getString(k).equalsIgnoreCase(prefManager.getUser().getUserId())) {
+                                    userCount++;
+                                }
+                            }
+                            Log.e("PRRR", UsedArray.length() + " - " + maxLimit + " ----" + userCount + "  - " + limitPerUser);
+                            if (UsedArray.length() >= maxLimit || userCount >= limitPerUser) {
+                                couponCodeModel.setPerUserLimitExist(true);
+                            }
+
+                        } else if (maxLimit != 0) {
+                            JSONArray UsedArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "used_by");
+                            int userCount = 0;
+                            for (int k = 0; k < UsedArray.length(); k++) {
+                                if (UsedArray.getString(k).equalsIgnoreCase(prefManager.getUser().getUserId())) {
+                                    userCount++;
+                                }
+                            }
+
+                            if (UsedArray.length() >= maxLimit) {
+                                couponCodeModel.setPerUserLimitExist(true);
+                            }
+                        } else if (limitPerUser != 0) {
+                            JSONArray UsedArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "used_by");
+                            int userCount = 0;
+                            for (int k = 0; k < UsedArray.length(); k++) {
+                                if (UsedArray.getString(k).equalsIgnoreCase(prefManager.getUser().getUserId())) {
+                                    userCount++;
+                                }
+                            }
+
+                            if (userCount >= limitPerUser) {
+                                couponCodeModel.setPerUserLimitExist(true);
+                            }
+                        }
+
+
+                    }
+
+
                     couponCodeModel.setMinAmount(String.format("%.2f", Double.parseDouble(ResponseHandler.getString(jArray.getJSONObject(0), "minimum_amount"))));
                     couponCodeModel.setMaxAmount(String.format("%.2f", Double.parseDouble(ResponseHandler.getString(jArray.getJSONObject(0), "maximum_amount"))));
                     Log.e("couponCodeModel", gson.toJson(couponCodeModel));
@@ -430,12 +496,10 @@ public class MyCartActivity extends BaseActivity {
                         }
                     }
 
-                    String couponCode =  ResponseHandler.getString(jArray.getJSONObject(0), "code");
+                    String couponCode = ResponseHandler.getString(jArray.getJSONObject(0), "code");
                     couponCodeModel.setCouponCode(couponCode);
                     prefManager.setCouponCode(couponCode);
-
                     applyProductDiscount();
-
 
                 } else {
                     JSONObject object = ResponseHandler.createJsonObject(response);
@@ -487,7 +551,6 @@ public class MyCartActivity extends BaseActivity {
             if (isCouponCodeApplied) {
                 productModel.setCalculatedWithDiscount(productModel.getCalculatedAmount());
             }
-
             totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
         }
 
@@ -501,6 +564,7 @@ public class MyCartActivity extends BaseActivity {
         double finalAmount;
         double couponDiscount = Double.parseDouble(discount);
         double totalPrice = 0;
+
         isCouponCodeApplied = apply;
         for (ProductModel productModel : cartItemList) {
             totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
@@ -515,7 +579,6 @@ public class MyCartActivity extends BaseActivity {
             if (couponCodeModel != null) {
                 String msg = "Coupon code not applicable.";
                 boolean canApplyMore = true;
-                boolean isMinMaxAvailable = false;
 
                 ArrayList<ProductModel> excludedList = new ArrayList<>();
                 ArrayList<ProductModel> includeList = new ArrayList<>();
@@ -524,20 +587,27 @@ public class MyCartActivity extends BaseActivity {
                     msg = "The maximum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMaxAmount();
                     canApplyMore = false;
                 } else if (Double.parseDouble(couponCodeModel.getMaxAmount()) != 0 && Double.parseDouble(couponCodeModel.getMaxAmount()) >= finalAmount) {
-                    isMinMaxAvailable = true;
                 }
 
                 if (Double.parseDouble(couponCodeModel.getMinAmount()) > finalAmount && Double.parseDouble(couponCodeModel.getMinAmount()) != 0) {
                     msg = "The minimum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMinAmount();
                     canApplyMore = false;
                 } else if (Double.parseDouble(couponCodeModel.getMinAmount()) != 0 && Double.parseDouble(couponCodeModel.getMinAmount()) <= finalAmount) {
-                    isMinMaxAvailable = true;
                 }
 
+
+                if (couponCodeModel.isPerUserLimitExist()) {
+                    msg = "Coupon usage limit has been reached.";
+                    canApplyMore = false;
+                }
+
+                boolean showError = false;
                 ArrayList<ProductModel> duplicateCart = HELPER.getCartList(db.productEntityDao().getAll());
                 if (canApplyMore) {
+
                     totalPrice = 0;
                     boolean canGoFeather = true;
+
                     if (couponCodeModel.getProductIds().size() != 0) {
                         int productFound = 0;
                         for (int i = 0; i < couponCodeModel.getProductIds().size(); i++) {
@@ -551,6 +621,7 @@ public class MyCartActivity extends BaseActivity {
                             canGoFeather = false;
                         }
                     }
+
                     if (couponCodeModel.getCategoryIds().size() != 0) {
                         int productFound = 0;
                         for (int i = 0; i < couponCodeModel.getCategoryIds().size(); i++) {
@@ -567,7 +638,6 @@ public class MyCartActivity extends BaseActivity {
                         }
                     }
 
-
                     if (canGoFeather) {
                         if (couponCodeModel.getProductIds().size() != 0) {
                             for (int i = 0; i < duplicateCart.size(); i++) {
@@ -577,7 +647,7 @@ public class MyCartActivity extends BaseActivity {
                                     }
                                 }
                             }
-                            isMinMaxAvailable = false;
+
                         }
 
                         if (couponCodeModel.getCategoryIds().size() != 0) {
@@ -598,12 +668,13 @@ public class MyCartActivity extends BaseActivity {
                                     }
                                 }
                             }
-                            isMinMaxAvailable = false;
+
                         }
 
                         if (couponCodeModel.getProductIds().size() == 0 && couponCodeModel.getCategoryIds().size() == 0) {
                             includeList.addAll(duplicateCart);
                         }
+
                         if (couponCodeModel.getExcludeProductIds().size() != 0) {
                             for (int i = 0; i < duplicateCart.size(); i++) {
                                 for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
@@ -612,7 +683,7 @@ public class MyCartActivity extends BaseActivity {
                                     }
                                 }
                             }
-                            isMinMaxAvailable = false;
+
                             for (ProductModel excludedMode : excludedList) {
                                 for (Iterator<ProductModel> it = includeList.iterator(); it.hasNext(); ) {
                                     if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
@@ -621,6 +692,7 @@ public class MyCartActivity extends BaseActivity {
                                 }
                             }
                         }
+
                         if (couponCodeModel.getExcludeCategoryIds().size() != 0) {
                             for (int i = 0; i < duplicateCart.size(); i++) {
                                 for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
@@ -638,7 +710,7 @@ public class MyCartActivity extends BaseActivity {
                                     }
                                 }
                             }
-                            isMinMaxAvailable = false;
+
                             for (ProductModel excludedMode : excludedList) {
                                 for (Iterator<ProductModel> it = includeList.iterator(); it.hasNext(); ) {
                                     if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
@@ -661,18 +733,9 @@ public class MyCartActivity extends BaseActivity {
                                         totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                         promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                     } else {
-
-                                        double totalCouponDiscountToCalculate = Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount;
                                         double calculateDiscount = (Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) * couponDiscount) / 100;
-                                        totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) -  calculateDiscount;
+                                        totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - calculateDiscount;
                                         promoDiscount = promoDiscount + calculateDiscount;
-
-//                                        double totalCouponDiscountToCalculate = Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount;
-//                                        double calculateDiscount = (Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) * totalCouponDiscountToCalculate) / 100;
-//                                        totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - calculateDiscount;
-//                                        promoDiscount = promoDiscount + calculateDiscount;
-
-
                                     }
                                 } else {
                                     totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
@@ -696,6 +759,7 @@ public class MyCartActivity extends BaseActivity {
                             binding.promoCodeContainer.setVisibility(View.GONE);
                             binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
                         }
+
                         if (promoDiscount != 0) {
                             binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
                             binding.couponHeading.setText("Coupon Discount (" + binding.promoCodeEdt.getText().toString() + ")");
@@ -703,36 +767,56 @@ public class MyCartActivity extends BaseActivity {
                             binding.promoCodeContainer.setVisibility(View.GONE);
                             binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
                         } else {
-                            confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
-                            binding.promoCodeContainer.setVisibility(View.VISIBLE);
-                            binding.appliedCodeSuccess.setVisibility(View.GONE);
-                            binding.promoCodeEdt.setText("");
-                            binding.couponHeading.setText("Coupon");
-                            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
-                            binding.couponAmountLayer.setVisibility(View.GONE);
-                            discount = "0";
-                            couponCodeModel = null;
-                            promoCode = "";
-                            discountType = "";
-                            isCouponCodeApplied = false;
-                            prefManager.setCouponCode("");
+                            showError = true;
+//                            confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
+//                            binding.promoCodeContainer.setVisibility(View.VISIBLE);
+//                            binding.appliedCodeSuccess.setVisibility(View.GONE);
+//                            binding.promoCodeEdt.setText("");
+//                            binding.couponHeading.setText("Coupon");
+//                            binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
+//                            binding.couponAmountLayer.setVisibility(View.GONE);
+//                            discount = "0";
+//                            couponCodeModel = null;
+//                            promoCode = "";
+//                            discountType = "";
+//                            isCouponCodeApplied = false;
+//                            prefManager.setCouponCode("");
                         }
+
                     } else {
-                        confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
-                        binding.promoCodeContainer.setVisibility(View.VISIBLE);
-                        binding.appliedCodeSuccess.setVisibility(View.GONE);
-                        binding.promoCodeEdt.setText("");
-                        binding.couponHeading.setText("Coupon");
-                        binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
-                        binding.couponAmountLayer.setVisibility(View.GONE);
-                        discount = "0";
-                        couponCodeModel = null;
-                        promoCode = "";
-                        discountType = "";
-                        isCouponCodeApplied = false;
-                        prefManager.setCouponCode("");
+                        showError = true;
+//                        confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
+//                        binding.promoCodeContainer.setVisibility(View.VISIBLE);
+//                        binding.appliedCodeSuccess.setVisibility(View.GONE);
+//                        binding.promoCodeEdt.setText("");
+//                        binding.couponHeading.setText("Coupon");
+//                        binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
+//                        binding.couponAmountLayer.setVisibility(View.GONE);
+//                        discount = "0";
+//                        couponCodeModel = null;
+//                        promoCode = "";
+//                        discountType = "";
+//                        isCouponCodeApplied = false;
+//                        prefManager.setCouponCode("");
                     }
+
                 } else {
+                    showError = true;
+//                    confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
+//                    binding.promoCodeContainer.setVisibility(View.VISIBLE);
+//                    binding.appliedCodeSuccess.setVisibility(View.GONE);
+//                    binding.promoCodeEdt.setText("");
+//                    binding.couponHeading.setText("Coupon");
+//                    binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
+//                    binding.couponAmountLayer.setVisibility(View.GONE);
+//                    discount = "0";
+//                    couponCodeModel = null;
+//                    promoCode = "";
+//                    discountType = "";
+//                    isCouponCodeApplied = false;
+//                    prefManager.setCouponCode("");
+                }
+                if (showError) {
                     confirmationDialog("Coupon Code", msg, CONSTANT.NO_ACTION);
                     binding.promoCodeContainer.setVisibility(View.VISIBLE);
                     binding.appliedCodeSuccess.setVisibility(View.GONE);
@@ -747,24 +831,20 @@ public class MyCartActivity extends BaseActivity {
                     isCouponCodeApplied = false;
                     prefManager.setCouponCode("");
                 }
+
             }
-            //  }
+
             binding.successAppliedCode.setSelected(true);
             HELPER.LOAD_HTML(binding.successAppliedCode, "<font color = '" + prefManager.getThemeColor() + "'><b>" + binding.promoCodeEdt.getText().toString() + "</b></font> code applied successfully");
             HELPER.LOAD_HTML(binding.couponHeading, "Coupon Discount <b>(" + binding.promoCodeEdt.getText().toString() + ")<b>");
         } else {
+            //show coupon input box and hide success message
             binding.promoCodeContainer.setVisibility(View.VISIBLE);
             binding.appliedCodeSuccess.setVisibility(View.GONE);
             binding.promoCodeEdt.setText("");
             binding.couponHeading.setText("Coupon");
             binding.couponAmoutTxt.setText(act.getString(R.string.Rs) + "0.00");
             binding.couponAmountLayer.setVisibility(View.GONE);
-//            discount = "0";
-//            couponCodeModel = null;
-//            promoCode = "";
-//            discountType = "";
-//            prefManager.setCouponCode("");
-//            isCouponCodeApplied = false;
         }
 
         binding.totalTopMRP.setText("Total : " + act.getString(R.string.Rs) + HELPER.format.format(finalAmount));

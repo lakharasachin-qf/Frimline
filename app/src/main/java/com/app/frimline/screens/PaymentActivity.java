@@ -167,10 +167,12 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 }
 
                 @Override
-                public void onDeleteAction(int position, ProductModel model) { }
+                public void onDeleteAction(int position, ProductModel model) {
+                }
 
                 @Override
-                public void onCartUpdate(int position, ProductModel model) { }
+                public void onCartUpdate(int position, ProductModel model) {
+                }
             });
 
             binding.cartRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false));
@@ -531,23 +533,31 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
 
                     String msg = "Coupon code not applicable.";
                     boolean canApplyMore = true;
-                    boolean isMinMaxAvailable = false;
+
 
                     ArrayList<ProductModel> excludedList = new ArrayList<>();
                     ArrayList<ProductModel> includeList = new ArrayList<>();
 
-                    if (Double.parseDouble(couponCodeModel.getMaxAmount()) < finalAmount && Double.parseDouble(couponCodeModel.getMaxAmount()) != 0) {
+                    double maxAmount = Double.parseDouble(couponCodeModel.getMaxAmount());
+                    double minAmount = Double.parseDouble(couponCodeModel.getMinAmount());
+
+                    if (maxAmount < finalAmount && maxAmount != 0) {
                         msg = "The maximum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMaxAmount();
                         canApplyMore = false;
-                    } else if (Double.parseDouble(couponCodeModel.getMaxAmount()) != 0 && Double.parseDouble(couponCodeModel.getMaxAmount()) >= finalAmount) {
-                        isMinMaxAvailable = true;
+                    } else if (maxAmount != 0 && maxAmount >= finalAmount) {
+
                     }
 
-                    if (Double.parseDouble(couponCodeModel.getMinAmount()) > finalAmount && Double.parseDouble(couponCodeModel.getMinAmount()) != 0) {
+                    if (minAmount > finalAmount && minAmount != 0) {
                         msg = "The minimum spend for this coupon is " + act.getString(R.string.Rs) + couponCodeModel.getMinAmount();
                         canApplyMore = false;
-                    } else if (Double.parseDouble(couponCodeModel.getMinAmount()) != 0 && Double.parseDouble(couponCodeModel.getMinAmount()) <= finalAmount) {
-                        isMinMaxAvailable = true;
+                    } else if (minAmount != 0 && minAmount <= finalAmount) {
+
+                    }
+
+                    if (couponCodeModel.isPerUserLimitExist()) {
+                        msg = "Coupon usage limit has been reached.";
+                        canApplyMore = false;
                     }
 
                     ArrayList<ProductModel> duplicateCart = HELPER.getCartList(db.productEntityDao().getAll());
@@ -591,7 +601,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                         }
                                     }
                                 }
-                                isMinMaxAvailable = false;
+
                             }
                             if (couponCodeModel.getCategoryIds().size() != 0) {
 
@@ -612,7 +622,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                         }
                                     }
                                 }
-                                isMinMaxAvailable = false;
+
                             }
                             if (couponCodeModel.getProductIds().size() == 0 && couponCodeModel.getCategoryIds().size() == 0) {
                                 includeList.addAll(duplicateCart);
@@ -625,7 +635,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                         }
                                     }
                                 }
-                                isMinMaxAvailable = false;
+
                                 for (ProductModel excludedMode : excludedList) {
                                     for (Iterator<ProductModel> it = includeList.iterator(); it.hasNext(); ) {
                                         if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
@@ -651,7 +661,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                         }
                                     }
                                 }
-                                isMinMaxAvailable = false;
+
                                 for (ProductModel excludedMode : excludedList) {
                                     for (Iterator<ProductModel> it = includeList.iterator(); it.hasNext(); ) {
                                         if (it.next().getId().equalsIgnoreCase(excludedMode.getId())) {
@@ -675,7 +685,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                                             promoDiscount = promoDiscount + (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
                                         } else {
                                             double calculateDiscount = (Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) * couponDiscount) / 100;
-                                            totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) -  calculateDiscount;
+                                            totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - calculateDiscount;
                                             promoDiscount = promoDiscount + calculateDiscount;
                                         }
                                     } else {
