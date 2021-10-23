@@ -40,4 +40,5 @@ public class ObserverActionID {
     public static final int LOAD_PRIVACY_POLICY = 27;
     public static final int LOAD_SHIPPING_POLICY = 28;
     public static final int LOAD_CONTACT_US = 29;
+    public static final int GLOBAL_CART_REFRESH = 31;
 }

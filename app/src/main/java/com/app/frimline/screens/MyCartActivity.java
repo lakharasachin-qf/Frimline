@@ -161,16 +161,22 @@ public class MyCartActivity extends BaseActivity {
                 @Override
                 public void viewCart(int position, ProductModel model) {
                     //  loadProductDetails();
+
                     Intent i = new Intent(act, ProductDetailActivity.class);
-                    i.putExtra("fragment", "wishlist");
                     i.putExtra("qty", model.getQty());
+                    i.putExtra("cartScreen", "yes");
+                    i.putExtra("cartIncrement", "123");
+                    i.putExtra("cartDecrement", "124");
+
                     i.putExtra("productPosition", "0");
                     i.putExtra("layoutType", String.valueOf(-1));
+                    i.putExtra("productId", String.valueOf(model.getId()));
                     i.putExtra("itemPosition", String.valueOf(-1));
                     i.putExtra("adapterPosition", String.valueOf(-1));
                     i.putExtra("model", new Gson().toJson(model));
-                    i.putExtra("addToCartID", String.valueOf(-1));
-                    i.putExtra("removeCartID", String.valueOf(-1));
+                    i.putExtra("addToCartID", String.valueOf(122));
+                    i.putExtra("removeCartID", String.valueOf(121));
+
                     act.startActivity(i);
                     act.overridePendingTransition(R.anim.right_enter_second, R.anim.left_out_second);
                 }
@@ -183,6 +189,7 @@ public class MyCartActivity extends BaseActivity {
                             cartItemList.remove(i);
 
                             FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CART_COUNTER_UPDATE);
+                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.GLOBAL_CART_REFRESH);
                             cartAdapter.notifyItemRemoved(position);
                             cartAdapter.notifyItemRangeChanged(position, cartItemList.size());
 
@@ -197,12 +204,13 @@ public class MyCartActivity extends BaseActivity {
                                 return;
                             }
 
-
                             applyCouponCalculation(isCouponCodeApplied);
                             setState();
                             break;
                         }
                     }
+
+
                 }
 
                 @Override
@@ -302,6 +310,82 @@ public class MyCartActivity extends BaseActivity {
                 }
             }
         }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (frimline.getObserver().getValue() == 121) {
+                    String productId = frimline.getObserver().getModel().getProductId();
+                    //remove
+                    for (int i = 0; i < cartItemList.size(); i++) {
+                        if (productId.equalsIgnoreCase(cartItemList.get(i).getId())) {
+                            db.productEntityDao().deleteProduct(productId);
+                            cartItemList.remove(i);
+
+                            FRIMLINE.getInstance().getObserver().setValue(ObserverActionID.CART_COUNTER_UPDATE);
+                            cartAdapter.notifyItemRemoved(i);
+                            cartAdapter.notifyItemRangeChanged(i, cartItemList.size());
+
+                            if (getIntent().hasExtra("dataModel")) {
+                                DataTransferModel dataTransferModel = gson.fromJson(getIntent().getStringExtra("dataModel"), DataTransferModel.class);
+                                FRIMLINE.getInstance().getObserver().setValue(Integer.parseInt(dataTransferModel.getCartRemovedId()), dataTransferModel);
+                            }
+                            if (cartItemList.size() == 0) {
+                                prefManager.setCouponCode("");
+                                setNoDataFound();
+                                return;
+                            }
+                            applyCouponCalculation(isCouponCodeApplied);
+                            setState();
+                            break;
+                        }
+                    }
+                }
+                if (frimline.getObserver().getValue() == 122) {
+                    //added to cart
+
+                    ArrayList<ProductModel> temp = HELPER.getCartList(db.productEntityDao().getAll());
+                    cartItemList.clear();
+                    cartItemList.addAll(temp);
+                    cartAdapter.notifyItemChanged(0, cartItemList.size());
+                    binding.boottomFooter.setVisibility(View.VISIBLE);
+                    binding.cartRecycler.setVisibility(View.VISIBLE);
+                    binding.scrollView.setVisibility(View.VISIBLE);
+                    binding.NoDataFound.setVisibility(View.GONE);
+                    applyCouponCalculation(isCouponCodeApplied);
+                    setState();
+
+                }
+
+                if (frimline.getObserver().getValue() == 123) {//increment
+                    String productId = frimline.getObserver().getModel().getProductId();
+                    for (int i = 0; i < cartItemList.size(); i++) {
+                        if (cartItemList.get(i).getId().equalsIgnoreCase(productId)) {
+                            ProductModel model = HELPER.convertFromCartObject(db.productEntityDao().findProductByProductId(productId));
+                            cartItemList.set(i, model);
+                            cartAdapter.notifyItemChanged(i);
+                            applyCouponCalculation(isCouponCodeApplied);
+                            setState();
+                            break;
+                        }
+                    }
+                }
+                if (frimline.getObserver().getValue() == 124) { // descrement
+                    String productId = frimline.getObserver().getModel().getProductId();
+                    for (int i = 0; i < cartItemList.size(); i++) {
+                        if (cartItemList.get(i).getId().equalsIgnoreCase(productId)) {
+                            ProductModel model = HELPER.convertFromCartObject(db.productEntityDao().findProductByProductId(productId));
+                            cartItemList.set(i, model);
+                            cartAdapter.notifyItemChanged(i);
+                            applyCouponCalculation(isCouponCodeApplied);
+                            setState();
+                            break;
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public void setNoDataFound() {
@@ -737,7 +821,6 @@ public class MyCartActivity extends BaseActivity {
                                     totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount());
                                 }
                             }
-
                         }
 
                         finalAmount = totalPrice;
@@ -788,7 +871,6 @@ public class MyCartActivity extends BaseActivity {
                     isCouponCodeApplied = false;
                     prefManager.setCouponCode("");
                 }
-
             }
 
             binding.successAppliedCode.setSelected(true);

@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.Common.APIs;
 import com.app.frimline.Common.CONSTANT;
 import com.app.frimline.Common.FRIMLINE;
+import com.app.frimline.Common.HELPER;
 import com.app.frimline.Common.MySingleton;
 import com.app.frimline.Common.ObserverActionID;
 import com.app.frimline.Common.PREF;
@@ -492,6 +494,14 @@ public class ShopFragment extends BaseFragment {
                     loadShopData();
                 }
             }
+
+            if (frimline.getObserver().getValue() == ObserverActionID.GLOBAL_CART_REFRESH) {
+                if (shopAdapter != null) {
+                    shopAdapter.notifyItemChanged(0);
+                }
+            }
+
+
         });
 
     }

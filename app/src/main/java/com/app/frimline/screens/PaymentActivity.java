@@ -153,7 +153,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 @Override
                 public void viewCart(int position, ProductModel model) {
                     Intent i = new Intent(act, ProductDetailActivity.class);
-                    i.putExtra("fragment", "wishlist");
+                    i.putExtra("paymentScreen","yes");
                     i.putExtra("qty", model.getQty());
                     i.putExtra("productPosition", "0");
                     i.putExtra("layoutType", String.valueOf(-1));
@@ -209,8 +209,6 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
                 }
             }
             createOrder();
-
-
             setState();
         } else {
             setNoDataFound();
