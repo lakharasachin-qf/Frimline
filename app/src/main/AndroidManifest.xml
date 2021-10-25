@@ -146,8 +146,7 @@
             android:name="com.razorpay.ApiKey"
             android:value="@string/razorpay_key_id" />
 
-        <receiver
-            android:name=".Common.SMSListener">
+        <receiver android:name=".Common.SMSListener">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
