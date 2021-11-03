@@ -732,6 +732,9 @@ public class PaymentActivity extends BaseActivity implements PaymentResultWithDa
             finalAmount = finalAmount + codCharges;
             binding.CODAmount.setText(act.getString(R.string.Rs) + HELPER.format.format(codCharges));
             binding.codLayout.setVisibility(View.VISIBLE);
+
+
+
         } else {
             binding.codLayout.setVisibility(View.GONE);
         }

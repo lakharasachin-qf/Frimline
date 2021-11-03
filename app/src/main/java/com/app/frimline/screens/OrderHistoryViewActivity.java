@@ -376,9 +376,9 @@ public class OrderHistoryViewActivity extends BaseActivity {
             double codAmount = Double.parseDouble(model.getCodCharges());
             TextView codChargePrice = findViewById(R.id.codChargePrice);
             codChargePrice.setText(act.getString(R.string.Rs) + String.format("%.2f", codAmount));
-            if (codAmount == 0) {
-                codChargePrice.setText("FREE");
-            }
+//            if (codAmount == 0) {
+//                codChargePrice.setText("FREE");
+//            }
         }
 
     }
@@ -587,6 +587,7 @@ public class OrderHistoryViewActivity extends BaseActivity {
                     }
                     outputFile = desDirectory + File.separator + filename;
                     values.put(MediaStore.MediaColumns.RELATIVE_PATH, desDirectory);
+
                     Uri uri = act.getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
                     if (uri != null) {
                         OutputStream outputStream = act.getContentResolver().openOutputStream(uri);

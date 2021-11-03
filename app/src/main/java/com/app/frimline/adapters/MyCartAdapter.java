@@ -56,7 +56,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ProductModel model = frameItems.get(position);
-        HELPER.print("viewholder",model.getCategoryId()+"-"+model.getCategoryName()+"-"+model.getName()+" - "+model.getId()+"   "+model.getAllCategoryArray().toString() );
+        HELPER.print("viewholder", model.getCategoryId() + "-" + model.getCategoryName() + "-" + model.getName() + " - " + model.getId() + "   " + model.getAllCategoryArray().toString());
         holder.binding.actionDelete.setOnClickListener(v -> actionsListener.onDeleteAction(position, model));
         holder.binding.dateDelivery.setVisibility(View.INVISIBLE);
         holder.binding.counter.setAnimationDuration(150L);
@@ -71,15 +71,9 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             }
         });
         if (CONSTANT.API_MODE) {
-            holder.binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    actionsListener.viewCart(position, model);
-                }
-            });
-
+            holder.binding.itemLayout.setOnClickListener(v -> actionsListener.viewCart(position, model));
             HELPER.LOAD_HTML(holder.binding.productName, model.getName());
-            HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
+            HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getPrice());
             HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
             HELPER.LOAD_HTML(holder.binding.dateDelivery, "Delivery By <b>4 Jun 2021</b>");
             Glide.with(activity).load(model.getProductImagesList().get(0))
@@ -98,7 +92,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                 entity.setCalculatedAmount(HELPER.incrementAction(model));
                 model.setCalculatedAmount(entity.getCalculatedAmount());
                 db.productEntityDao().updateSpecificProduct((entity));
-                HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
+                HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getPrice());
                 actionsListener.onCartUpdate(position, model);
                 HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
             });
@@ -114,7 +108,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                     entity.setCalculatedAmount(HELPER.incrementAction(model));
                     model.setCalculatedAmount(entity.getCalculatedAmount());
                     db.productEntityDao().updateSpecificProduct((entity));
-                    HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getCalculatedAmount());
+                    HELPER.LOAD_HTML(holder.binding.price, activity.getString(R.string.Rs) + model.getPrice());
                     HELPER.LOAD_HTML(holder.binding.productQTY, "Quantity : " + model.getQty());
                     actionsListener.onCartUpdate(position, model);
                 } else {
@@ -152,8 +146,10 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
     public interface setActionsListener {
         void onDeleteAction(int position, ProductModel model);
+
         void onCartUpdate(int position, ProductModel model);
-        void viewCart(int position,ProductModel model);
+
+        void viewCart(int position, ProductModel model);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -164,6 +160,5 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             binding = itemMyCartLayoutBinding;
         }
     }
-
 
 }
