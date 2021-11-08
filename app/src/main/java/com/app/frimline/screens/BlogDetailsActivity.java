@@ -8,18 +8,15 @@ import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.PREF;
-import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.PREF;
+import com.app.frimline.common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.RecentBlogViewAdapter;
 import com.app.frimline.databinding.ActivityBlogDetailsBinding;
@@ -43,9 +40,9 @@ public class BlogDetailsActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_blog_details);
-        makeStatusBarSemiTranspenret(binding.toolbar.toolbar);
-        binding.toolbar.title.setText("Blog");
-        binding.toolbar.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
+        makeStatusBarSemiTranspenret(binding.toolbar1.toolbar);
+        binding.toolbar1.title.setText("Blog");
+        binding.toolbar1.backPress.setOnClickListener(v -> HELPER.ON_BACK_PRESS_ANIM(act));
 
 
         changeTheme();
@@ -84,11 +81,6 @@ public class BlogDetailsActivity extends BaseActivity {
     public void changeTheme() {
         binding.view1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.view2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
-        binding.view3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
-        binding.view4.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
-
-        binding.chip1.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
-        binding.chip1.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(new PREF(act).getThemeColor())));
         binding.dotsIndicator.setSelectedDotColor(Color.parseColor(new PREF(act).getThemeColor()));
         int code = ColorUtils.setAlphaComponent(Color.parseColor(new PREF(act).getThemeColor()), 100);
         binding.dotsIndicator.setDotsColor(code);
@@ -130,16 +122,7 @@ public class BlogDetailsActivity extends BaseActivity {
                     binding.recentContainer.setVisibility(View.GONE);
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
-         /*   @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
-            }*/
-
-            @Override
+                     @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 return params;

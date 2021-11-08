@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.common.CONSTANT;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemSearchFirstContainerLayoutBinding;
 import com.app.frimline.databinding.ItemShopFilterChipContainerLayoutBinding;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.models.OutCategoryModel;
@@ -134,11 +134,11 @@ public class SearchAdapter extends RecyclerView.Adapter {
                         ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                         ((HotProductHolder) holder).binding.productRecycler.setAdapter(shopHotProductAdapter);
                     } else {
-                        ArrayList<com.app.frimline.models.HomeFragements.ProductModel> hitModels = new ArrayList<>();
-                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
-                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
-                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
-                        hitModels.add(new com.app.frimline.models.HomeFragements.ProductModel());
+                        ArrayList<com.app.frimline.models.homeFragments.ProductModel> hitModels = new ArrayList<>();
+                        hitModels.add(new com.app.frimline.models.homeFragments.ProductModel());
+                        hitModels.add(new com.app.frimline.models.homeFragments.ProductModel());
+                        hitModels.add(new com.app.frimline.models.homeFragments.ProductModel());
+                        hitModels.add(new com.app.frimline.models.homeFragments.ProductModel());
 
                         SearchHotAdapter shopHotProductAdapter = new SearchHotAdapter(hitModels, activity);
                         ((HotProductHolder) holder).binding.productRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));

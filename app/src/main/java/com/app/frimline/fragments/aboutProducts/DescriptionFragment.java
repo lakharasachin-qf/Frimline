@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentDescriptionBinding;
 import com.app.frimline.fragments.BaseFragment;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 
 public class DescriptionFragment extends BaseFragment {
 

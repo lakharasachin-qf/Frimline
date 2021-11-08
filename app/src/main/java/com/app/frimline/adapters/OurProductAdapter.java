@@ -1,5 +1,6 @@
 package com.app.frimline.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,10 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 import com.app.frimline.screens.CategoryLandingActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -42,7 +43,7 @@ public class OurProductAdapter extends RecyclerView.Adapter<OurProductAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final CategorySingleModel model = frameItems.get(position);
         if (CONSTANT.API_MODE) {
             holder.textView.setText(model.getCategoryName());

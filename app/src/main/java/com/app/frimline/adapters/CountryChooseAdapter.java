@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.intefaces.OnItemSelectListener;
 import com.app.frimline.models.CountryModel;
@@ -58,7 +58,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
         holder.radioButton.setOnClickListener(v -> holder.itemView.performClick());
         holder.itemView.setOnClickListener(view -> {
             holder.radioButton.setChecked(true);
-            checkedPosition = position;
+            // checkedPosition = position;
             ((OnItemSelectListener) act).onItemSelect(listModel, position, calledFlag);
             notifyDataSetChanged();
         });

@@ -1,6 +1,6 @@
 package com.app.frimline.models;
 
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 
 public class SortModel {
     public static final String ASC = "asc";

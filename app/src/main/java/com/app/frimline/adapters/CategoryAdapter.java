@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 import com.app.frimline.screens.CategoryLandingActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;

@@ -11,9 +11,9 @@ import android.widget.RelativeLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
-import com.app.frimline.Common.Validators;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
+import com.app.frimline.common.Validators;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityResetPasswordBinding;
 import com.devs.vectorchildfinder.VectorChildFinder;

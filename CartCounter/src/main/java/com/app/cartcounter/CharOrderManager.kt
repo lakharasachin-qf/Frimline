@@ -19,7 +19,7 @@ internal class CharOrderManager {
     fun addCharOrder(orderList: Iterable<Char>) {
         val list = mutableListOf(TextManager.EMPTY)
         list.addAll(orderList)
-        val set = LinkedHashSet<Char>(list)
+        val set = LinkedHashSet(list)
         charOrderList.add(set)
     }
 

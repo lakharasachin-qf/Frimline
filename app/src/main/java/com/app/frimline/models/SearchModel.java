@@ -1,7 +1,7 @@
 package com.app.frimline.models;
 
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 
 import java.util.ArrayList;
 

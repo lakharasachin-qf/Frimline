@@ -34,3 +34,4 @@
 -keepclasseswithmembers class * {
   public void onPayment*(...);
 }
+

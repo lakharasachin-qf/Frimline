@@ -321,7 +321,6 @@ class RollingTextView : View {
      * [Strategy.SameDirectionAnimation]
      *
      * 进位滚动
-     * [Strategy.NonZeroFirstCarryBitAnimation]
      */
     var charStrategy: CharOrderStrategy
         set(value) {

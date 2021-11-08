@@ -29,13 +29,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.app.cartcounter.CharOrder;
 import com.app.cartcounter.strategy.Strategy;
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.adapters.ProductImageSliderAdpater;
@@ -49,7 +49,7 @@ import com.app.frimline.fragments.aboutProducts.IngredientsFragment;
 import com.app.frimline.fragments.aboutProducts.QnAFragment;
 import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
 import com.app.frimline.models.DataTransferModel;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.models.roomModels.WishlistEntity;
 import com.app.frimline.views.WrapContentHeightViewPager;
@@ -149,8 +149,6 @@ public class ProductDetailActivity extends BaseActivity {
                         productModel.setCalculatedAmount(entity.getCalculatedAmount());
                         db.productEntityDao().updateSpecificProduct((entity));
                         if (getIntent().hasExtra("cartScreen")){
-//                            i.putExtra("cartIncrement", "123");
-//                    i.putExtra("cartDecrement", "124");
 
                             observableId = Integer.parseInt(getIntent().getStringExtra("cartIncrement"));
                             DataTransferModel model = new DataTransferModel();

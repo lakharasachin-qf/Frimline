@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCategoryProfileLayoutBinding;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 

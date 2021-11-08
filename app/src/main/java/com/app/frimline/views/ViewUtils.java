@@ -45,8 +45,6 @@ class ViewUtils {
         backgroundPaint.setShadowLayer(0, 0, 0, 0);
 
         Rect shapeDrawablePadding = new Rect();
-        // shapeDrawablePadding.left = elevationValue;
-        //shapeDrawablePadding.right = elevationValue;
 
         int DY;
         switch (shadowGravity) {

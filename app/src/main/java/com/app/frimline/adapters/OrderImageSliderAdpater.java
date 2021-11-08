@@ -13,8 +13,8 @@ import android.widget.TextView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.models.OrderedProductModel;
 import com.app.frimline.screens.OrderProductDetailActivity;

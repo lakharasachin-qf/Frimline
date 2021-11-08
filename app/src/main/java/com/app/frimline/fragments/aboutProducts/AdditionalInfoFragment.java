@@ -1,19 +1,18 @@
 package com.app.frimline.fragments.aboutProducts;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentAdditionalInfoBinding;
 import com.app.frimline.fragments.BaseFragment;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 
 public class AdditionalInfoFragment extends BaseFragment {
 
@@ -49,7 +48,6 @@ public class AdditionalInfoFragment extends BaseFragment {
 
     public void loadData() {
         productModel = gson.fromJson(act.getIntent().getStringExtra("model"), ProductModel.class);
-        Log.e("attribute",gson.toJson(productModel.getAttribute()));
         if (productModel != null && productModel.getAttribute()!=null) {
             boolean noData=true;
             if (!productModel.getAttribute().getDimWeight().isEmpty()) {
@@ -105,7 +103,6 @@ public class AdditionalInfoFragment extends BaseFragment {
     public void setProductModel(ProductModel productModel) {
         this.productModel = productModel;
         if (productModel != null) {
-            Log.e("attribute",gson.toJson(productModel.getAttribute()));
             if (!productModel.getAttribute().getDimWeight().isEmpty()) {
                 HELPER.LOAD_HTML(binding.weightTxt, productModel.getAttribute().getDimWeight());
                 binding.weightLayout.setVisibility(View.VISIBLE);

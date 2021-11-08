@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.app.frimline.models.roomModels.DAOs.ProductEntityDao;
-import com.app.frimline.models.roomModels.DAOs.WishlistEntityDao;
+import com.app.frimline.models.roomModels.daos.ProductEntityDao;
+import com.app.frimline.models.roomModels.daos.WishlistEntityDao;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.models.roomModels.WishlistEntity;
 

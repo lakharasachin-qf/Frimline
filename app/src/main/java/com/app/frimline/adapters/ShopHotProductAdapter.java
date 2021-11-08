@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,14 +14,14 @@ import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ItemShopHotProductLayoutBinding;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;

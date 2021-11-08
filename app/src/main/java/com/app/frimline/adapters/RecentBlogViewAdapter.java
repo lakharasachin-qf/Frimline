@@ -15,9 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.models.BlogModel;
 import com.app.frimline.models.LAYOUT_TYPE;

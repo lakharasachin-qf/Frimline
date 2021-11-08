@@ -1,5 +1,6 @@
 package com.app.frimline.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -13,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemTopRattesProductLayoutBinding;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.app.frimline.screens.ProductDetailActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -45,7 +46,7 @@ public class TopRattedProductAdapter extends RecyclerView.Adapter<TopRattedProdu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final ProductModel model = frameItems.get(position);
         if (CONSTANT.API_MODE) {
             String imageUrl = "";

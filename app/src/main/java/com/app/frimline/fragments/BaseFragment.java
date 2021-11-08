@@ -2,17 +2,16 @@ package com.app.frimline.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.gson.Gson;
 
@@ -28,8 +27,8 @@ public abstract class BaseFragment extends Fragment implements Observer {
     public PREF pref;
     public Activity act;
     public Gson gson;
-    public boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
-    public boolean API_MODE = CONSTANT.API_MODE;
+    public final boolean PROTOTYPE_MODE = CONSTANT.PROTOTYPING_MODE;
+    public final boolean API_MODE = CONSTANT.API_MODE;
     public CartRoomDatabase db;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

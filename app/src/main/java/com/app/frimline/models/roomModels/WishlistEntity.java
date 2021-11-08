@@ -3,12 +3,6 @@ package com.app.frimline.models.roomModels;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.app.frimline.models.HomeFragements.Attribute;
-import com.app.frimline.models.HomeFragements.Tags;
-
-import java.util.ArrayList;
 
 @Entity(tableName = "wishlist")
 public class WishlistEntity {

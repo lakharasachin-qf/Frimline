@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,15 +28,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseNavDrawerActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ObserverActionID;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.ObserverActionID;
 import com.app.frimline.R;
 import com.app.frimline.databinding.CustomNavigationBinding;
 import com.app.frimline.views.navigationDrawer.DrawerMenu;
@@ -151,12 +149,9 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
-                          //  Log.e("jsobObject", jsonString);
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                       // Log.e("Error", gson.toJson(response.headers));
-                        //Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
 
                 }
@@ -295,7 +290,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.THEME_COLOR, response -> {
             try {
                 JSONObject object = new JSONObject(response);
-                Log.e("THEME",response);
                 nav_host_fragment.setVisibility(View.VISIBLE);
                 screenLoader.setVisibility(View.GONE);
                 pref.setConfiguration(object.getString("theme_color"), "#EF7F1A");
@@ -333,7 +327,6 @@ public class CategoryRootActivity extends BaseNavDrawerActivity {
                         message = "Connection TimeOut! Please check your internet connection.";
                     }
 
-                  //  Log.e("message", message);
                 }
         ) {
             /**

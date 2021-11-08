@@ -17,11 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.NetworkChangeReceiver;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.NetworkChangeReceiver;
+import com.app.frimline.common.PREF;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.gson.Gson;
 

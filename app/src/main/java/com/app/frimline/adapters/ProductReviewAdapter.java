@@ -8,11 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemReviewLayoutBinding;
-import com.app.frimline.models.CategoryRootFragments.ReviewRootModel;
+import com.app.frimline.models.categoryRootFragments.ReviewRootModel;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;

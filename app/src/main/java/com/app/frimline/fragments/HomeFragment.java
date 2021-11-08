@@ -3,7 +3,6 @@ package com.app.frimline.fragments;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ParentHomeAdapter;
 import com.app.frimline.databinding.FragmentHomeBinding;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.DataTransferModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
@@ -373,7 +372,6 @@ public class HomeFragment extends BaseFragment {
             if (parentHomeAdapter != null) {
                 if (frimline.getObserver().getValue() == ObserverActionID.HOME_ADDED_TO_CART) {
                     if (parentHomeAdapter != null) {
-                        Log.e("obj-dat",gson.toJson(frimline.getObserver().getModel())+"d");
                         reloadData(frimline.getObserver().getModel(), true);
                         HELPER.changeCartCounter(act);
                     }
@@ -400,15 +398,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void reloadData(DataTransferModel dataTransferModel, boolean addOrNot) {
-//        int productPosition = Integer.parseInt(dataTransferModel.getProductPosition()); // position from 3 layout product t item
-//        //item layout 3 product or 2 product or 1 product
-//        int itemPosition = Integer.parseInt(dataTransferModel.getItemPosition()); // item layout position
-//        int adapterPosition = Integer.parseInt(dataTransferModel.getAdapterPosition()); // item layout position
-//
-//        HomeModel model = rootModel.get(itemPosition);
-//        HomeModel dashBoardItemList = model.getCategoryProduct().get(adapterPosition);
-//        com.app.frimline.models.HomeFragements.ProductModel productModel = dashBoardItemList.getApiProductModel().get(productPosition);
-//        productModel.setAddedToCart(addOrNot);
 
         int refreshingPost = 0;
         for (int i = 0; i < rootModel.size(); i++) {

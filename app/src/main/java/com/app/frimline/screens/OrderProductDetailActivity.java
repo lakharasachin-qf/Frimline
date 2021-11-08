@@ -16,11 +16,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.adapters.ProductImageSliderAdpater;
@@ -32,12 +32,10 @@ import com.app.frimline.fragments.aboutProducts.HowToUseFragment;
 import com.app.frimline.fragments.aboutProducts.IngredientsFragment;
 import com.app.frimline.fragments.aboutProducts.QnAFragment;
 import com.app.frimline.fragments.aboutProducts.ReviewsFragment;
-import com.app.frimline.models.HomeFragements.ProductModel;
-import com.app.frimline.models.OrderedProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.app.frimline.views.WrapContentHeightViewPager;
 import com.devs.vectorchildfinder.VectorChildFinder;
 import com.devs.vectorchildfinder.VectorDrawableCompat;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -112,8 +110,6 @@ public class OrderProductDetailActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //loadData();
-        //HELPER.changeCartCounterToolbar(act);
     }
 
     public void setImageSlide() {

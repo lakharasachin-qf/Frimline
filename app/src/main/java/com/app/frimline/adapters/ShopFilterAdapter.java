@@ -11,12 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 

@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -28,25 +27,23 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.PREF;
-import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.PREF;
+import com.app.frimline.common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.SearchAdapter;
 import com.app.frimline.adapters.SortingAdapter;
 import com.app.frimline.databinding.ActivitySearchBinding;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
 import com.app.frimline.models.DataTransferModel;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.app.frimline.models.ListModel;
@@ -68,6 +65,7 @@ public class SearchActivity extends BaseActivity {
     private String jsonStr;
     private boolean isLoading = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -596,7 +594,7 @@ public class SearchActivity extends BaseActivity {
 
         SearchModel model = searchResult.get(0);
         HomeModel dashBoardItemList = model.getTopProduct().get(adapterPosition);
-        com.app.frimline.models.HomeFragements.ProductModel productModel = dashBoardItemList.getApiProductModel().get(productPosition);
+        com.app.frimline.models.homeFragments.ProductModel productModel = dashBoardItemList.getApiProductModel().get(productPosition);
         productModel.setAddedToCart(addOrNot);
 
         searchAdapter.notifyItemChanged(0);

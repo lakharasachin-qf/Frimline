@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 
 public class RightFragment extends Fragment {

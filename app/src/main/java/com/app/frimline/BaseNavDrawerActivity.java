@@ -22,11 +22,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.NetworkChangeReceiver2;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.NetworkChangeReceiver2;
+import com.app.frimline.common.PREF;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;

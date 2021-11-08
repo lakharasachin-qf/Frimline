@@ -3,7 +3,7 @@ package com.app.frimline.models.roomModels;
 
 import androidx.room.TypeConverter;
 
-import com.app.frimline.models.HomeFragements.Tags;
+import com.app.frimline.models.homeFragments.Tags;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

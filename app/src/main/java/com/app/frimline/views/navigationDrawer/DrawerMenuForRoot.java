@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.fragments.BlogsFragment;
 import com.app.frimline.fragments.CategoryProfileFragment;
@@ -93,43 +93,6 @@ public class DrawerMenuForRoot {
         }
     }
 
-    //    private void collapseAppBar() {
-//        // Collapse the AppBarLayout with animation
-//        mAppBarLayout.setExpanded(false, true);
-//    }
-//
-//    private void lockAppBar() {
-//    /* Disable the nestedScrolling to disable expanding the
-//     appBar with dragging the nestedScrollView below it */
-//        ViewCompat.setNestedScrollingEnabled(nestedScrollView, false);
-//
-//    /* But still appBar is expandable with dragging the appBar itself
-//    and below code disables that too
-//     */
-//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
-//        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-//        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
-//            @Override
-//            public boolean canDrag(AppBarLayout appBarLayout) {
-//                return false;
-//            }
-//        });
-//    }
-//
-//    private void unLockAppBar() {
-//        ViewCompat.setNestedScrollingEnabled(nestedScrollView, true);
-//
-//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
-//        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-//        if (behavior != null) {
-//            behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
-//                @Override
-//                public boolean canDrag(AppBarLayout appBarLayout) {
-//                    return true;
-//                }
-//            });
-//        }
-//    }
     public void prepareMenuData() {
         //first menu
         MenuModel menuModel = new MenuModel("Dashboard", true, false, "", ContextCompat.getDrawable(activity, R.drawable.ic_dashboard_icon)); //Menu of Android Tutorial. No sub menus
@@ -320,13 +283,6 @@ public class DrawerMenuForRoot {
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
                 HELPER.SIMPLE_ROUTE(activity, LoginActivity.class);
-//                HomePageLayout.setVisibility(View.GONE);
-//                titleTxt.setVisibility(View.VISIBLE);
-//                titleTxt.setText("My Account");
-//                currentMenuItem = "Account";
-//                Fragment fragmentSelected = myAccountFragment;
-//                replaceFragment(fragmentSelected);
-//                drawer.closeDrawer(GravityCompat.START);
             }
         });
 

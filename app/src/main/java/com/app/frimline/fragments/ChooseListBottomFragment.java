@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CountryChooseAdapter;
 import com.app.frimline.adapters.StateChooseAdapter;
@@ -108,7 +107,6 @@ public class ChooseListBottomFragment extends BottomSheetDialogFragment {
         binding.titleText.setText(title);
         binding.closeFilterView.setOnClickListener(v -> ChooseListBottomFragment.this.dismiss());
         if (CONSTANT.API_MODE) {
-            Log.e("SSSS", String.valueOf(dataList.size()));
             if (calledFlag == CONSTANT.COUNTRY) {
                 adapter = new CountryChooseAdapter(dataList, act, calledFlag);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);

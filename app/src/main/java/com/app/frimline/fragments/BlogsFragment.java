@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.BlogsAdapter;
 import com.app.frimline.databinding.FragmentBlogsBinding;
@@ -118,10 +118,6 @@ public class BlogsFragment extends BaseFragment {
             /**
              * Passing some request headers*
              */
-           /* @Override
-            public Map<String, String> getHeaders() {
-                return new HashMap<>();
-            }*/
 
             @Override
             protected Map<String, String> getParams() {

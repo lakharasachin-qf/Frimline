@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.common.CONSTANT;
 import com.app.frimline.R;
-import com.app.frimline.models.HomeFragements.TradingStoriesModel;
+import com.app.frimline.models.homeFragments.TradingStoriesModel;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;

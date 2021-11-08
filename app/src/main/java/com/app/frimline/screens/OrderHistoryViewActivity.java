@@ -27,7 +27,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,14 +46,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.OrderImageSliderAdpater;
 import com.app.frimline.adapters.ProductDetailsTabAdapter;
 import com.app.frimline.databinding.ActivityOrderHistoryViewBinding;
-import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.fragments.aboutProducts.AdditionalInfoFragment;
 import com.app.frimline.fragments.aboutProducts.DescriptionFragment;
 import com.app.frimline.fragments.aboutProducts.HowToUseFragment;
@@ -376,9 +374,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
             double codAmount = Double.parseDouble(model.getCodCharges());
             TextView codChargePrice = findViewById(R.id.codChargePrice);
             codChargePrice.setText(act.getString(R.string.Rs) + String.format("%.2f", codAmount));
-//            if (codAmount == 0) {
-//                codChargePrice.setText("FREE");
-//            }
         }
 
     }
@@ -603,7 +598,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
                     }
                 }
             } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
             }
 
             return null;
@@ -611,7 +605,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
         protected void onProgressUpdate(String... progress) {
             // setting progress percentage
-            //Log.e("d", "s" + (progress[0]));
         }
 
 
@@ -623,7 +616,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
 
                 String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
                 Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
-                Log.e("pdf-stored", "" + FilePath);
 
                 File file = new File(outputFile);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -636,7 +628,6 @@ public class OrderHistoryViewActivity extends BaseActivity {
                 String FilePath = Environment.getExternalStorageDirectory().toString() + "/" + filename;
                 Toast.makeText(act, "Invoice downloaded successfully", Toast.LENGTH_SHORT).show();
 
-               Log.e("pdf-stored", "" + FilePath);
                 File file = new File(Environment.getExternalStorageDirectory() + "/" + outputFile);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri apkURI = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", file);

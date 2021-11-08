@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -21,21 +20,21 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.PREF;
-import com.app.frimline.Common.ResponseHandler;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.PREF;
+import com.app.frimline.common.ResponseHandler;
 import com.app.frimline.R;
 import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityMyCartBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.models.DataTransferModel;
-import com.app.frimline.models.HomeFragements.CouponCodeModel;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.CouponCodeModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -215,7 +214,6 @@ public class MyCartActivity extends BaseActivity {
 
                 @Override
                 public void onCartUpdate(int position, ProductModel model) {
-                    Log.e("isCouponCodeApplied", isCouponCodeApplied + "s");
                     applyCouponCalculation(isCouponCodeApplied);
                     setState();
 
@@ -525,7 +523,6 @@ public class MyCartActivity extends BaseActivity {
                                     userCount++;
                                 }
                             }
-                            Log.e("PRRR", UsedArray.length() + " - " + maxLimit + " ----" + userCount + "  - " + limitPerUser);
                             if (UsedArray.length() >= maxLimit || userCount >= limitPerUser) {
                                 couponCodeModel.setPerUserLimitExist(true);
                             }
@@ -562,7 +559,6 @@ public class MyCartActivity extends BaseActivity {
 
                     couponCodeModel.setMinAmount(String.format("%.2f", Double.parseDouble(ResponseHandler.getString(jArray.getJSONObject(0), "minimum_amount"))));
                     couponCodeModel.setMaxAmount(String.format("%.2f", Double.parseDouble(ResponseHandler.getString(jArray.getJSONObject(0), "maximum_amount"))));
-                    Log.e("couponCodeModel", gson.toJson(couponCodeModel));
                     isCouponCodeApplied = true;
                     for (String excludedId : couponCodeModel.getExcludeCategoryIds()) {
                         for (Iterator<String> it = couponCodeModel.getCategoryIds().iterator(); it.hasNext(); ) {

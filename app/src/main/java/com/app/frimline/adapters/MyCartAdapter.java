@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.cartcounter.CharOrder;
 import com.app.cartcounter.strategy.Strategy;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.ItemMyCartLayoutBinding;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.bumptech.glide.Glide;
 

@@ -11,9 +11,9 @@ import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.models.ListModel;
 import com.google.gson.Gson;

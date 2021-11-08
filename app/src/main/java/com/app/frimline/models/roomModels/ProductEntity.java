@@ -5,8 +5,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.app.frimline.models.HomeFragements.Attribute;
-import com.app.frimline.models.HomeFragements.Tags;
+import com.app.frimline.models.homeFragments.Attribute;
+import com.app.frimline.models.homeFragments.Tags;
 
 import java.util.ArrayList;
 

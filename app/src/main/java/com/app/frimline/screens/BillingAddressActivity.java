@@ -19,13 +19,13 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.MySingleton;
-import com.app.frimline.Common.PREF;
-import com.app.frimline.Common.ResponseHandler;
-import com.app.frimline.Common.Validators;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.MySingleton;
+import com.app.frimline.common.PREF;
+import com.app.frimline.common.ResponseHandler;
+import com.app.frimline.common.Validators;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ActivityBillingAddressBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
@@ -412,8 +412,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
-                        // Log.e("Error", gson.toJson(response.headers));
-                        //  Log.e("allHeaders", gson.toJson(response.allHeaders));
                     }
                 }
         ) {
@@ -632,7 +630,6 @@ public class BillingAddressActivity extends BaseActivity implements OnItemSelect
                         try {
                             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                             JSONObject jsonObject = new JSONObject(jsonString);
-                            //Log.e("jsosnErir", jsonString);
                             infoAlert("Error", ResponseHandler.getString(jsonObject, "message"));
                         } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();

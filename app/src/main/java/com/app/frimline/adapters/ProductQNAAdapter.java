@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemQAALayoutBinding;
 import com.app.frimline.models.QAModel;

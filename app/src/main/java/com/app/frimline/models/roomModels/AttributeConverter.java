@@ -3,7 +3,7 @@ package com.app.frimline.models.roomModels;
 
 import androidx.room.TypeConverter;
 
-import com.app.frimline.models.HomeFragements.Attribute;
+import com.app.frimline.models.homeFragments.Attribute;
 import com.google.gson.Gson;
 
 import java.io.Serializable;

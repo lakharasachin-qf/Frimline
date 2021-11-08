@@ -10,7 +10,7 @@
         android:theme="@style/Theme.Frimline.GREENSHADE">
 
         <include
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar1"
             layout="@layout/include_activity_toolbar_layout" />
 
         <ImageView
@@ -25,7 +25,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/toolbar1"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/_20sdp"
             android:scrollbars="none">
@@ -215,221 +215,221 @@ Overall Health"
                         app:selectedDotColor="@color/orange" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_11sdp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="@dimen/_11sdp"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:visibility="gone">-->
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content">-->
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/blog1"
-                            android:layout_width="@dimen/_145sdp"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="@dimen/_7sdp"
-                            app:cardElevation="@dimen/_3sdp"
-                            app:cardUseCompatPadding="true">
+<!--                        <androidx.cardview.widget.CardView-->
+<!--                            android:id="@+id/blog1"-->
+<!--                            android:layout_width="@dimen/_145sdp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:cardBackgroundColor="@color/white"-->
+<!--                            app:cardCornerRadius="@dimen/_7sdp"-->
+<!--                            app:cardElevation="@dimen/_3sdp"-->
+<!--                            app:cardUseCompatPadding="true">-->
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:orientation="vertical">-->
 
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/productSectionLeft"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_120sdp"
-                                    android:layout_marginStart="@dimen/_5sdp"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:layout_marginEnd="@dimen/_5sdp"
-                                    android:layout_marginBottom="@dimen/_5sdp"
-                                    app:cardCornerRadius="@dimen/_7sdp">
+<!--                                <androidx.cardview.widget.CardView-->
+<!--                                    android:id="@+id/productSectionLeft"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="@dimen/_120sdp"-->
+<!--                                    android:layout_marginStart="@dimen/_5sdp"-->
+<!--                                    android:layout_marginTop="@dimen/_5sdp"-->
+<!--                                    android:layout_marginEnd="@dimen/_5sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                                    app:cardCornerRadius="@dimen/_7sdp">-->
 
-                                    <ImageView
-                                        android:id="@+id/productImage"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:scaleType="fitXY"
-                                        android:src="@drawable/product_place" />
-                                </androidx.cardview.widget.CardView>
-
-
-                                <TextView
-                                    android:id="@+id/productName"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/productSectionLeft"
-                                    android:layout_marginStart="@dimen/_10sdp"
-                                    android:layout_marginTop="@dimen/_3sdp"
-                                    android:layout_marginEnd="@dimen/_10sdp"
-                                    android:ellipsize="end"
-                                    android:fontFamily="@font/proxinova_semi_bold"
-                                    android:includeFontPadding="false"
-                                    android:maxLines="2"
-                                    android:text="Oral Health: An Investment\nIn Your Overall Health"
-                                    android:textColor="@color/colorToolbarHeader"
-                                    android:textSize="@dimen/_11sdp" />
-
-                                <View
-                                    android:id="@+id/view3"
-                                    android:layout_width="@dimen/_30sdp"
-                                    android:layout_height="3dp"
-                                    android:layout_marginStart="@dimen/_10sdp"
-                                    android:layout_marginTop="@dimen/_7sdp"
-                                    android:layout_marginBottom="@dimen/_7sdp"
-                                    android:background="@drawable/shape_underline"
-                                    android:backgroundTint="@color/orange" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/_10sdp"
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/productImage"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="match_parent"-->
+<!--                                        android:scaleType="fitXY"-->
+<!--                                        android:src="@drawable/product_place" />-->
+<!--                                </androidx.cardview.widget.CardView>-->
 
 
-                                    android:layout_marginEnd="@dimen/_10sdp"
-                                    android:layout_marginBottom="@dimen/_30sdp"
-                                    android:fontFamily="@font/proxima_nova_regular"
-                                    android:text="Your oral health is more important
-than you might realize! It impacts
-various aspects of your lives..."
-                                    android:textColor="@color/colorToolbarHeader"
-                                    android:textSize="@dimen/_10sdp" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
+<!--                                <TextView-->
+<!--                                    android:id="@+id/productName"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_below="@+id/productSectionLeft"-->
+<!--                                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                                    android:layout_marginTop="@dimen/_3sdp"-->
+<!--                                    android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                                    android:ellipsize="end"-->
+<!--                                    android:fontFamily="@font/proxinova_semi_bold"-->
+<!--                                    android:includeFontPadding="false"-->
+<!--                                    android:maxLines="2"-->
+<!--                                    android:text="Oral Health: An Investment\nIn Your Overall Health"-->
+<!--                                    android:textColor="@color/colorToolbarHeader"-->
+<!--                                    android:textSize="@dimen/_11sdp" />-->
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip1"
-                            style="@style/ChipStyleForTab"
-                            android:layout_height="@dimen/_35sdp"
-                            android:layout_below="@id/blog1"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="-45dp"
-                            android:layout_marginBottom="0dp"
-                            android:elevation="@dimen/_3sdp"
-                            android:fontFamily="@font/proxima_nova_bold"
-                            android:shadowColor="@color/orange"
-                            android:text="Explore More"
-                            android:textAppearance="@style/ChipFontStyle"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_11sdp"
-                            android:textStyle="bold"
-                            app:chipBackgroundColor="@color/orange"
-                            app:chipEndPadding="@dimen/_10sdp"
-                            app:chipStartPadding="@dimen/_10sdp"
-                            app:chipStrokeColor="@color/orange" />
-                    </RelativeLayout>
+<!--                                <View-->
+<!--                                    android:id="@+id/view3"-->
+<!--                                    android:layout_width="@dimen/_30sdp"-->
+<!--                                    android:layout_height="3dp"-->
+<!--                                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                                    android:layout_marginTop="@dimen/_7sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_7sdp"-->
+<!--                                    android:background="@drawable/shape_underline"-->
+<!--                                    android:backgroundTint="@color/orange" />-->
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/blog2"
-                            android:layout_width="@dimen/_145sdp"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="@dimen/_7sdp"
-                            app:cardElevation="@dimen/_3sdp"
-                            app:cardUseCompatPadding="true">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/productSectionLeft1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_120sdp"
-                                    android:layout_marginStart="@dimen/_5sdp"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:layout_marginEnd="@dimen/_5sdp"
-                                    android:layout_marginBottom="@dimen/_5sdp"
-                                    app:cardCornerRadius="@dimen/_7sdp">
-
-                                    <ImageView
-                                        android:id="@+id/productImage1"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:scaleType="fitXY"
-                                        android:src="@drawable/product_place" />
-                                </androidx.cardview.widget.CardView>
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/_10sdp"-->
 
 
-                                <TextView
-                                    android:id="@+id/productName1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/productSectionLeft"
-                                    android:layout_marginStart="@dimen/_10sdp"
-                                    android:layout_marginTop="@dimen/_3sdp"
-                                    android:layout_marginEnd="@dimen/_10sdp"
-                                    android:ellipsize="end"
-                                    android:fontFamily="@font/proxinova_semi_bold"
-                                    android:includeFontPadding="false"
-                                    android:maxLines="2"
-                                    android:text="Oral Health: An Investment\nIn Your Overall Health"
-                                    android:textColor="@color/colorToolbarHeader"
-                                    android:textSize="@dimen/_11sdp" />
+<!--                                    android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_30sdp"-->
+<!--                                    android:fontFamily="@font/proxima_nova_regular"-->
+<!--                                    android:text="Your oral health is more important-->
+<!--than you might realize! It impacts-->
+<!--various aspects of your lives..."-->
+<!--                                    android:textColor="@color/colorToolbarHeader"-->
+<!--                                    android:textSize="@dimen/_10sdp" />-->
+<!--                            </LinearLayout>-->
+<!--                        </androidx.cardview.widget.CardView>-->
 
-                                <View
-                                    android:id="@+id/view4"
-                                    android:layout_width="@dimen/_30sdp"
-                                    android:layout_height="3dp"
-                                    android:layout_marginStart="@dimen/_10sdp"
-                                    android:layout_marginTop="@dimen/_7sdp"
-                                    android:layout_marginBottom="@dimen/_7sdp"
-                                    android:background="@drawable/shape_underline"
-                                    android:backgroundTint="@color/orange" />
+<!--                        <com.google.android.material.chip.Chip-->
+<!--                            android:id="@+id/chip1"-->
+<!--                            style="@style/ChipStyleForTab"-->
+<!--                            android:layout_height="@dimen/_35sdp"-->
+<!--                            android:layout_below="@id/blog1"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="-45dp"-->
+<!--                            android:layout_marginBottom="0dp"-->
+<!--                            android:elevation="@dimen/_3sdp"-->
+<!--                            android:fontFamily="@font/proxima_nova_bold"-->
+<!--                            android:shadowColor="@color/orange"-->
+<!--                            android:text="Explore More"-->
+<!--                            android:textAppearance="@style/ChipFontStyle"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="@dimen/_11sdp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:chipBackgroundColor="@color/orange"-->
+<!--                            app:chipEndPadding="@dimen/_10sdp"-->
+<!--                            app:chipStartPadding="@dimen/_10sdp"-->
+<!--                            app:chipStrokeColor="@color/orange" />-->
+<!--                    </RelativeLayout>-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content">-->
 
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/_10sdp"
+<!--                        <androidx.cardview.widget.CardView-->
+<!--                            android:id="@+id/blog2"-->
+<!--                            android:layout_width="@dimen/_145sdp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:cardBackgroundColor="@color/white"-->
+<!--                            app:cardCornerRadius="@dimen/_7sdp"-->
+<!--                            app:cardElevation="@dimen/_3sdp"-->
+<!--                            app:cardUseCompatPadding="true">-->
 
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:orientation="vertical">-->
 
-                                    android:layout_marginEnd="@dimen/_10sdp"
-                                    android:layout_marginBottom="@dimen/_30sdp"
-                                    android:fontFamily="@font/proxima_nova_regular"
-                                    android:text="Your oral health is more important
-than you might realize! It impacts
-various aspects of your lives..."
-                                    android:textColor="@color/colorToolbarHeader"
-                                    android:textSize="@dimen/_10sdp" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
+<!--                                <androidx.cardview.widget.CardView-->
+<!--                                    android:id="@+id/productSectionLeft1"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="@dimen/_120sdp"-->
+<!--                                    android:layout_marginStart="@dimen/_5sdp"-->
+<!--                                    android:layout_marginTop="@dimen/_5sdp"-->
+<!--                                    android:layout_marginEnd="@dimen/_5sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                                    app:cardCornerRadius="@dimen/_7sdp">-->
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipC"
-                            style="@style/ChipStyleForTab"
-                            android:layout_height="@dimen/_35sdp"
-                            android:layout_below="@id/blog2"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="-45dp"
-                            android:layout_marginBottom="0dp"
-                            android:elevation="@dimen/_3sdp"
-                            android:fontFamily="@font/proxima_nova_bold"
-                            android:shadowColor="@color/orange"
-                            android:text="Explore More"
-                            android:textAppearance="@style/ChipFontStyle"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_11sdp"
-                            android:textStyle="bold"
-                            app:chipBackgroundColor="@color/orange"
-                            app:chipEndPadding="@dimen/_10sdp"
-                            app:chipStartPadding="@dimen/_10sdp"
-                            app:chipStrokeColor="@color/orange" />
-                    </RelativeLayout>
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/productImage1"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="match_parent"-->
+<!--                                        android:scaleType="fitXY"-->
+<!--                                        android:src="@drawable/product_place" />-->
+<!--                                </androidx.cardview.widget.CardView>-->
 
 
-                </LinearLayout>
+<!--                                <TextView-->
+<!--                                    android:id="@+id/productName1"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_below="@+id/productSectionLeft"-->
+<!--                                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                                    android:layout_marginTop="@dimen/_3sdp"-->
+<!--                                    android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                                    android:ellipsize="end"-->
+<!--                                    android:fontFamily="@font/proxinova_semi_bold"-->
+<!--                                    android:includeFontPadding="false"-->
+<!--                                    android:maxLines="2"-->
+<!--                                    android:text="Oral Health: An Investment\nIn Your Overall Health"-->
+<!--                                    android:textColor="@color/colorToolbarHeader"-->
+<!--                                    android:textSize="@dimen/_11sdp" />-->
+
+<!--                                <View-->
+<!--                                    android:id="@+id/view4"-->
+<!--                                    android:layout_width="@dimen/_30sdp"-->
+<!--                                    android:layout_height="3dp"-->
+<!--                                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                                    android:layout_marginTop="@dimen/_7sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_7sdp"-->
+<!--                                    android:background="@drawable/shape_underline"-->
+<!--                                    android:backgroundTint="@color/orange" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/_10sdp"-->
+
+
+<!--                                    android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                                    android:layout_marginBottom="@dimen/_30sdp"-->
+<!--                                    android:fontFamily="@font/proxima_nova_regular"-->
+<!--                                    android:text="Your oral health is more important-->
+<!--than you might realize! It impacts-->
+<!--various aspects of your lives..."-->
+<!--                                    android:textColor="@color/colorToolbarHeader"-->
+<!--                                    android:textSize="@dimen/_10sdp" />-->
+<!--                            </LinearLayout>-->
+<!--                        </androidx.cardview.widget.CardView>-->
+
+<!--                        <com.google.android.material.chip.Chip-->
+<!--                            android:id="@+id/chipC"-->
+<!--                            style="@style/ChipStyleForTab"-->
+<!--                            android:layout_height="@dimen/_35sdp"-->
+<!--                            android:layout_below="@id/blog2"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="-45dp"-->
+<!--                            android:layout_marginBottom="0dp"-->
+<!--                            android:elevation="@dimen/_3sdp"-->
+<!--                            android:fontFamily="@font/proxima_nova_bold"-->
+<!--                            android:shadowColor="@color/orange"-->
+<!--                            android:text="Explore More"-->
+<!--                            android:textAppearance="@style/ChipFontStyle"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="@dimen/_11sdp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:chipBackgroundColor="@color/orange"-->
+<!--                            app:chipEndPadding="@dimen/_10sdp"-->
+<!--                            app:chipStartPadding="@dimen/_10sdp"-->
+<!--                            app:chipStrokeColor="@color/orange" />-->
+<!--                    </RelativeLayout>-->
+
+
+<!--                </LinearLayout>-->
 
             </LinearLayout>
 

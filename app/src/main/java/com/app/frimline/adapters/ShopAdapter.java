@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.CONSTANT;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.CONSTANT;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemShopFilterChipContainerLayoutBinding;
 import com.app.frimline.databinding.ItemShopHotProductContainerLayoutBinding;
 import com.app.frimline.databinding.ItemShopTopProductContainerLayoutBinding;
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
-import com.app.frimline.models.HomeFragements.ProductModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.homeFragments.ProductModel;
 import com.app.frimline.models.HomeModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.google.gson.Gson;

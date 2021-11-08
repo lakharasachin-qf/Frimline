@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import com.app.frimline.Common.PREF
+import com.app.frimline.common.PREF
 import com.app.frimline.R
 import top.defaults.drawabletoolbox.DrawableBuilder
 

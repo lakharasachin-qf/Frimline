@@ -1,0 +1,102 @@
+package com.app.frimline.common;
+
+import android.annotation.SuppressLint;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.text.TextUtils;
+
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class FRIMLINE extends MultiDexApplication {
+    private static FRIMLINE sInstance;
+    private AppObserver observer;
+    private RequestQueue mRequestQueue;
+    public static final String TAG = FRIMLINE.class
+            .getSimpleName();
+
+
+    public static FRIMLINE getsInstance() {
+        return sInstance;
+    }
+
+
+    public synchronized static FRIMLINE getInstance() {
+        return sInstance;
+    }
+
+    @SuppressLint("HardwareIds")
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        sInstance = this;
+        overrideDefaultTypefaces();
+
+        MultiDex.install(this);
+
+        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+        ApplicationLifeCycle.init(sInstance);
+
+        observer = new AppObserver(getApplicationContext());
+
+
+        printHashKey();
+    }
+
+    /**
+     * Method used to override the default typefaces with the custom fonts
+     * for the application.
+     */
+    private void overrideDefaultTypefaces() {
+        FontChanger.overrideDefaultFont(this, "DEFAULT", "fonts/proxima_nova_light.otf");
+        FontChanger.overrideDefaultFont(this, "MONOSPACE", "fonts/proxima_nova_bold.otf");
+        FontChanger.overrideDefaultFont(this, "SERIF", "fonts/proxima_nova_regular.otf");
+        FontChanger.overrideDefaultFont(this, "SANS_SERIF", "fonts/proxima_nova_regular.otf");
+    }
+
+    private void printHashKey() {
+        // Add code to print out the key hash
+        try {
+            @SuppressLint("PackageManagerGetSignatures")
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+            }
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {
+
+        }
+    }
+
+
+    public AppObserver getObserver() {
+        return observer;
+    }
+
+    public RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+
+        return mRequestQueue;
+    }
+
+    public <T> void addToRequestQueue(com.android.volley.Request<T> req, String tag) {
+        // set the default tag if tag is empty
+        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+        getRequestQueue().add(req);
+    }
+
+
+}

@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 
 

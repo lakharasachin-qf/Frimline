@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,11 +27,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseNavDrawerActivity;
-import com.app.frimline.Common.APIs;
-import com.app.frimline.Common.FRIMLINE;
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.ObserverActionID;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.APIs;
+import com.app.frimline.common.FRIMLINE;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.ObserverActionID;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.adapters.CategoryNavViewPager;
 import com.app.frimline.views.CustomViewPager;
@@ -342,7 +340,6 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                     "&subscribed=notification" +
                     "&api_secret_key=KUbPbwoKYw)(AHg(93o!RRw%";
             //{{site_url}}/wp-json/pd/fcm/subscribe?user_email=sunnypatel4773@gmail.com&device_token=12345852&subscribed=notification&api_secret_key=KUbPbwoKYw)(AHg(93o!RRw%
-            Log.e("API", api);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, api, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -360,12 +357,9 @@ public class CategoryLandingActivity extends BaseNavDrawerActivity {
                                 try {
                                     String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                                     JSONObject jsonObject = new JSONObject(jsonString);
-                                    //Log.e("jsobObject", jsonString);
                                 } catch (UnsupportedEncodingException | JSONException e) {
                                     e.printStackTrace();
                                 }
-                                //Log.e("Error", gson.toJson(response.headers));
-                                //Log.e("allHeaders", gson.toJson(response.allHeaders));
                             }
 
                         }

@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.app.frimline.Common.CONSTANT;
+import com.app.frimline.common.CONSTANT;
 import com.app.frimline.R;
 import com.app.frimline.databinding.FragmentCommonBinding;
 

@@ -24,8 +24,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 
-import com.app.frimline.Common.HELPER;
-import com.app.frimline.Common.PREF;
+import com.app.frimline.common.HELPER;
+import com.app.frimline.common.PREF;
 import com.app.frimline.R;
 import com.app.frimline.databaseHelper.CartRoomDatabase;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
@@ -364,14 +364,6 @@ public class DrawerMenu {
 
 
         orderHistoryTab.setOnClickListener(v -> {
-//                HomePageLayout.setVisibility(View.GONE);
-//                OtherScreenLayout.setVisibility(View.VISIBLE);
-//                searchAction2.setVisibility(View.GONE);
-//                titleTxt.setText("Orders");
-//                currentMenuItem = "Order History";
-//                Fragment fragmentSelected = orderHistoryFragment;
-//                replaceFragment(fragmentSelected);
-//                drawer.closeDrawer(GravityCompat.START);
 
             Toolbar toolbar_Navigation = activity.findViewById(R.id.toolbar_Navigation);
             toolbar_Navigation.setVisibility(View.VISIBLE);

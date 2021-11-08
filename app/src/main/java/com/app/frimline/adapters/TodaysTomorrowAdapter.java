@@ -8,11 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.frimline.Common.HELPER;
+import com.app.frimline.common.HELPER;
 import com.app.frimline.R;
 import com.app.frimline.databinding.ItemCatRootTodaysLeftLayoutBinding;
 import com.app.frimline.databinding.ItemCatRootTodaysRightLayoutBinding;
-import com.app.frimline.models.CategoryRootFragments.TodaysModel;
+import com.app.frimline.models.categoryRootFragments.TodaysModel;
 import com.app.frimline.models.LAYOUT_TYPE;
 import com.google.gson.Gson;
 

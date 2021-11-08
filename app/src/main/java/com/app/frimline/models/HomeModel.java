@@ -1,9 +1,9 @@
 package com.app.frimline.models;
 
-import com.app.frimline.models.CategoryRootFragments.CategorySingleModel;
-import com.app.frimline.models.HomeFragements.BannerModel;
-import com.app.frimline.models.HomeFragements.CouponCodeModel;
-import com.app.frimline.models.HomeFragements.TradingStoriesModel;
+import com.app.frimline.models.categoryRootFragments.CategorySingleModel;
+import com.app.frimline.models.homeFragments.BannerModel;
+import com.app.frimline.models.homeFragments.CouponCodeModel;
+import com.app.frimline.models.homeFragments.TradingStoriesModel;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class HomeModel {
     /**
      * API MODE VARIABLES
      */
-    private ArrayList<com.app.frimline.models.HomeFragements.ProductModel> apiProductModel;
+    private ArrayList<com.app.frimline.models.homeFragments.ProductModel> apiProductModel;
     private ArrayList<TradingStoriesModel> tradingStoriesList;
     private ArrayList<BannerModel> bannerList;
     private ArrayList<CouponCodeModel> couponCodeBannerList;
@@ -106,11 +106,11 @@ public class HomeModel {
         this.categoryArrayList = categoryArrayList;
     }
 
-    public ArrayList<com.app.frimline.models.HomeFragements.ProductModel> getApiProductModel() {
+    public ArrayList<com.app.frimline.models.homeFragments.ProductModel> getApiProductModel() {
         return apiProductModel;
     }
 
-    public void setApiProductModel(ArrayList<com.app.frimline.models.HomeFragements.ProductModel> apiProductModel) {
+    public void setApiProductModel(ArrayList<com.app.frimline.models.homeFragments.ProductModel> apiProductModel) {
         this.apiProductModel = apiProductModel;
     }
 
