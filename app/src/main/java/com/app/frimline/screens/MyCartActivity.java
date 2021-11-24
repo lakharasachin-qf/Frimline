@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -718,6 +717,48 @@ public class MyCartActivity extends BaseActivity {
                         }
                     }
 
+                    if (discountType.contains("fixed_cart")) {
+                        if (couponCodeModel.isExcludeOnSaleItems()) {
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                if (cartItemList.get(i).isOnSale()) {
+                                    canGoFeather = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (couponCodeModel.getExcludeProductIds().size() != 0) {
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                for (int k = 0; k < couponCodeModel.getExcludeProductIds().size(); k++) {
+                                    if (cartItemList.get(i).getId().equalsIgnoreCase(couponCodeModel.getExcludeProductIds().get(k))) {
+                                        canGoFeather = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (couponCodeModel.getExcludeCategoryIds().size() != 0) {
+                            for (int i = 0; i < cartItemList.size(); i++) {
+                                for (int k = 0; k < couponCodeModel.getExcludeCategoryIds().size(); k++) {
+                                    String couponCatId = couponCodeModel.getExcludeCategoryIds().get(k);
+                                    boolean isExist = false;
+                                    for (int n = 0; n < cartItemList.get(i).getAllCategoryArray().size(); n++) {
+                                        String catId = cartItemList.get(i).getAllCategoryArray().get(n);
+                                        if (catId.equalsIgnoreCase(couponCatId)) {
+                                            isExist = true;
+                                            break;
+                                        }
+                                    }
+                                    if (isExist) {
+                                        canGoFeather = false;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
                     if (canGoFeather) {
                         if (couponCodeModel.getProductIds().size() != 0) {
                             for (int i = 0; i < duplicateCart.size(); i++) {
@@ -799,10 +840,7 @@ public class MyCartActivity extends BaseActivity {
                         }
 
                         if (includeList.size() != 0) {
-                            for (int k = 0; k < includeList.size(); k++) {
-                                Log.e("ProductName ", includeList.get(k).getName());
-                                Log.e("OnSale ", includeList.get(k).isOnSale() + "--");
-                            }
+
                             for (int i = 0; i < cartItemList.size(); i++) {
                                 boolean isIncluded = false;
                                 for (int k = 0; k < includeList.size(); k++) {
@@ -837,15 +875,29 @@ public class MyCartActivity extends BaseActivity {
                         if (discountType.contains("fixed_cart")) {
                             totalPrice = 0;
                             for (ProductModel productModel : cartItemList) {
-                                totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+                                boolean isIncluded = true;
+                                if (couponCodeModel.isExcludeOnSaleItems()) {
+                                    if (productModel.isOnSale()) {
+                                        isIncluded = false;
+                                    }
+                                }
+
+                                if (isIncluded) {
+                                    totalPrice = totalPrice + Double.parseDouble(productModel.getCalculatedAmount());
+                                }
+
                             }
-                            promoDiscount = couponDiscount;
-                            finalAmount = totalPrice - promoDiscount;
-                            binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
-                            binding.couponHeading.setText("Coupon Discount (" + binding.promoCodeEdt.getText().toString() + ")");
-                            binding.couponAmountLayer.setVisibility(View.VISIBLE);
-                            binding.promoCodeContainer.setVisibility(View.GONE);
-                            binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
+                            if (totalPrice != 0) {
+                                promoDiscount = couponDiscount;
+                                finalAmount = totalPrice - promoDiscount;
+                                binding.couponAmoutTxt.setText("- " + act.getString(R.string.Rs) + HELPER.format.format(promoDiscount));
+                                binding.couponHeading.setText("Coupon Discount (" + binding.promoCodeEdt.getText().toString() + ")");
+                                binding.couponAmountLayer.setVisibility(View.VISIBLE);
+                                binding.promoCodeContainer.setVisibility(View.GONE);
+                                binding.appliedCodeSuccess.setVisibility(View.VISIBLE);
+                            } else {
+                                showError = true;
+                            }
                         }
 
                         if (promoDiscount != 0) {
