@@ -31,7 +31,6 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemReviewLayoutBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_review_layout, parent, false);
-
         return new ViewHolder(binding);
     }
 
@@ -46,7 +45,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
             HELPER.LOAD_HTML(holder.binding.reviewTxt, model.getReview());
             HELPER.LOAD_HTML(holder.binding.userNameTxt, model.getReviewerName());
 
-            holder.binding.reviewAddedData.setText("- " + HELPER.convertDate(model.getDate()));
+            holder.binding.reviewAddedData.setText("" + HELPER.convertDate(model.getDate()));
             if (model.getRating().isEmpty()) {
                 holder.binding.rate.setRating(0);
             } else {

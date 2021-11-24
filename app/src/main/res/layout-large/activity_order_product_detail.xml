@@ -512,7 +512,7 @@
                     android:layout_toEndOf="@+id/cartIcon"
                     android:fontFamily="@font/proxima_nova_regular"
                     android:includeFontPadding="false"
-                    android:text="Add to Cart"
+                    android:text="Add to cart"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_9sdp" />
             </RelativeLayout>

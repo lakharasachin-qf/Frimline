@@ -321,6 +321,7 @@ public class HELPER {
         entity.setShortDescription(model.getShortDescription());
         entity.setRegularPrice(model.getRegularPrice());
         entity.setPrice(model.getPrice());
+        entity.setOnSale(model.isOnSale());
 
         entity.setPriceHtml(model.getPriceHtml());
         entity.setCategoryId(model.getCategoryId());
@@ -337,6 +338,7 @@ public class HELPER {
     public static ProductModel convertFromCartObject(ProductEntity model) {
         ProductModel cartProduct = new ProductModel();
         cartProduct.setId(model.getId());
+        cartProduct.setOnSale(model.isOnSale());
         cartProduct.setCartId(model.getCartId());
         cartProduct.setCalculatedAmount(model.getCalculatedAmount());
         cartProduct.setRating(model.getRating());
@@ -506,7 +508,8 @@ public class HELPER {
             try {
                 result = df.parse(dateStr);
                 System.out.println("date:" + result);
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+                //@SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
                 // sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
                 System.out.println(sdf.format(result)); // prints date in the format sdf
                 convertedDate = sdf.format(result);

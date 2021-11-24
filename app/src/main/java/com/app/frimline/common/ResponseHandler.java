@@ -150,11 +150,16 @@ public class ResponseHandler {
                 model.setCalculatedAmount(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
                 model.setRegularPrice(getString(productObj, "regular_price"));
                 model.setPriceHtml(getString(productObj, "price_html"));
+                if (!getString(productObj, "sale_price").isEmpty())
+                    model.setOnSale(true);
+
                 HELPER.print("REs-Parse", productObj.getJSONArray("categories").toString());
                 model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
 
                 model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
                 model.setStockStatus(getString(productObj, "stock_status"));
+
+
 
                 ArrayList<String> allCatArray = new ArrayList<>();
                 if (productObj.has("categories")) {
@@ -1023,6 +1028,9 @@ public class ResponseHandler {
             model.setCalculatedAmount(HELPER.format.format(Integer.parseInt(getString(productObj, "price"))));
             model.setRegularPrice(getString(productObj, "regular_price"));
             model.setPriceHtml(getString(productObj, "price_html"));
+            if (!getString(productObj, "sale_price").isEmpty())
+                model.setOnSale(true);
+
             model.setCategoryId(productObj.getJSONArray("categories").getJSONObject(0).getString("id"));
             model.setCategoryName(productObj.getJSONArray("categories").getJSONObject(0).getString("name"));
             ArrayList<String> allCatArray = new ArrayList<>();

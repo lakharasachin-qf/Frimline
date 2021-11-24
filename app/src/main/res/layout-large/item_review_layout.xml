@@ -42,7 +42,7 @@
                     android:progressTint="#FFDF3E"
                     android:rating="3" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -61,12 +61,13 @@
                         android:id="@+id/reviewAddedData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginStart="@dimen/_4sdp"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:includeFontPadding="false"
                         android:text="- April 9, 2021"
                         android:textSize="@dimen/_8sdp" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/reviewTxt"

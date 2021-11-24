@@ -25,9 +25,16 @@ public class ProductModel {
     private Attribute attribute;
     private ArrayList<String> AllCategoryArray;
     private boolean isReturnAble = false;
-
     private boolean isApplicable = false;
+    private boolean isOnSale = false;
 
+    public boolean isOnSale() {
+        return isOnSale;
+    }
+
+    public void setOnSale(boolean onSale) {
+        isOnSale = onSale;
+    }
 
     public ArrayList<String> getAllCategoryArray() {
         return AllCategoryArray;

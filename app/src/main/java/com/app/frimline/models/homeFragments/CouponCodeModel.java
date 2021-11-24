@@ -31,6 +31,15 @@ public class CouponCodeModel {
     private String minAmount;
     private String maxAmount;
     private ArrayList<String> emailIds = new ArrayList<>();
+    private boolean excludeOnSaleItems=false;
+
+    public boolean isExcludeOnSaleItems() {
+        return excludeOnSaleItems;
+    }
+
+    public void setExcludeOnSaleItems(boolean excludeOnSaleItems) {
+        this.excludeOnSaleItems = excludeOnSaleItems;
+    }
 
     public ArrayList<String> getProductIds() {
         return productIds;

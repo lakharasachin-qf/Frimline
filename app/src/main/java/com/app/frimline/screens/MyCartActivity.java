@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -20,6 +21,8 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.app.frimline.BaseActivity;
+import com.app.frimline.R;
+import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.common.APIs;
 import com.app.frimline.common.CONSTANT;
 import com.app.frimline.common.FRIMLINE;
@@ -28,8 +31,6 @@ import com.app.frimline.common.MySingleton;
 import com.app.frimline.common.ObserverActionID;
 import com.app.frimline.common.PREF;
 import com.app.frimline.common.ResponseHandler;
-import com.app.frimline.R;
-import com.app.frimline.adapters.MyCartAdapter;
 import com.app.frimline.databinding.ActivityMyCartBinding;
 import com.app.frimline.databinding.DialogDiscardImageBinding;
 import com.app.frimline.models.DataTransferModel;
@@ -468,6 +469,7 @@ public class MyCartActivity extends BaseActivity {
                     promoCode = ResponseHandler.getString(jArray.getJSONObject(0), "code");
                     discountType = ResponseHandler.getString(jArray.getJSONObject(0), "discount_type");
 
+
                     couponCodeModel = new CouponCodeModel();
                     JSONArray productArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "product_ids");
                     ArrayList<String> productId = new ArrayList<>();
@@ -508,13 +510,13 @@ public class MyCartActivity extends BaseActivity {
                     }
                     couponCodeModel.setEmailIds(emailId);
 
+                    couponCodeModel.setExcludeOnSaleItems(ResponseHandler.getBool(jArray.getJSONObject(0), "exclude_sale_items"));
 
                     int maxLimit = ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit").isEmpty() ? 0 : Integer.parseInt(ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit"));
                     int limitPerUser = ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit_per_user").isEmpty() ? 0 : Integer.parseInt(ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit_per_user"));
 
                     if (prefManager.isLogin()) {
 
-                        boolean isPerUserLimitExist = false;
                         if (maxLimit != 0 && limitPerUser != 0) {
                             JSONArray UsedArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "used_by");
                             int userCount = 0;
@@ -797,6 +799,10 @@ public class MyCartActivity extends BaseActivity {
                         }
 
                         if (includeList.size() != 0) {
+                            for (int k = 0; k < includeList.size(); k++) {
+                                Log.e("ProductName ", includeList.get(k).getName());
+                                Log.e("OnSale ", includeList.get(k).isOnSale() + "--");
+                            }
                             for (int i = 0; i < cartItemList.size(); i++) {
                                 boolean isIncluded = false;
                                 for (int k = 0; k < includeList.size(); k++) {
@@ -804,6 +810,13 @@ public class MyCartActivity extends BaseActivity {
                                         isIncluded = true;
                                     }
                                 }
+
+                                if (couponCodeModel.isExcludeOnSaleItems()) {
+                                    if (cartItemList.get(i).isOnSale()) {
+                                        isIncluded = false;
+                                    }
+                                }
+
                                 if (isIncluded) {
                                     if (discountType.contains("fixed_product")) {
                                         totalPrice = totalPrice + Double.parseDouble(cartItemList.get(i).getCalculatedAmount()) - (Integer.parseInt(cartItemList.get(i).getQty()) * couponDiscount);
@@ -894,3 +907,49 @@ public class MyCartActivity extends BaseActivity {
     }
 
 }
+
+
+/*                 int maxLimit = ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit"));
+                    int limitPerUser = ResponseHandler.getString(jArray.getJSONObject(0), "usage_limit_per_user"));
+                    if (prefManager.isLogin()) {
+
+                        if (maxLimit != 0 && limitPerUser != 0) {
+                            JSONArray UsedArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "used_by");
+                            int userCount = 0;
+                            for (int k = 0; k < UsedArray.length(); k++) {
+                                if (UsedArray.getString(k).equalsIgnoreCase(prefManager.getUser().getUserId())) {
+                                    userCount++;
+                                }
+                            }
+                            if (UsedArray.length() >= maxLimit || userCount >= limitPerUser) {
+                                couponCodeModel.setPerUserLimitExist(true);
+                            }
+
+                        } else if (maxLimit != 0) {
+                            JSONArray UsedArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "used_by");
+                            int userCount = 0;
+                            for (int k = 0; k < UsedArray.length(); k++) {
+                                if (UsedArray.getString(k).equalsIgnoreCase(prefManager.getUser().getUserId())) {
+                                    userCount++;
+                                }
+                            }
+
+                            if (UsedArray.length() >= maxLimit) {
+                                couponCodeModel.setPerUserLimitExist(true);
+                            }
+                        } else if (limitPerUser != 0) {
+                            JSONArray UsedArray = ResponseHandler.getJSONArray(jArray.getJSONObject(0), "used_by");
+                            int userCount = 0;
+                            for (int k = 0; k < UsedArray.length(); k++) {
+                                if (UsedArray.getString(k).equalsIgnoreCase(prefManager.getUser().getUserId())) {
+                                    userCount++;
+                                }
+                            }
+
+                            if (userCount >= limitPerUser) {
+                                couponCodeModel.setPerUserLimitExist(true);
+                            }
+                        }
+
+
+                    }*/

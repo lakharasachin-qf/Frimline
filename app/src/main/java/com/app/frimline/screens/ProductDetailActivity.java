@@ -164,7 +164,7 @@ public class ProductDetailActivity extends BaseActivity {
                         productModel.setQty(binding.counter.getText().toString());
                         productModel.setCalculatedAmount(HELPER.incrementAction(productModel));
                     }
-                    HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+                    //HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
                 }
             }
         });
@@ -185,7 +185,7 @@ public class ProductDetailActivity extends BaseActivity {
                             entity.setCalculatedAmount(HELPER.incrementAction(productModel));
                             productModel.setCalculatedAmount(entity.getCalculatedAmount());
                             db.productEntityDao().updateSpecificProduct((entity));
-                            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+                           // HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
 
                             if (getIntent().hasExtra("cartScreen")){
                                 observableId = Integer.parseInt(getIntent().getStringExtra("cartDecrement"));
@@ -440,7 +440,8 @@ public class ProductDetailActivity extends BaseActivity {
             binding.addTextTxt.setTextColor(Color.WHITE);
             binding.counter.setText(productModel.getQty());
             productModel.setCalculatedAmount(entity.getCalculatedAmount());
-            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+            //HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getCalculatedAmount());
+            HELPER.LOAD_HTML(binding.price, act.getString(R.string.Rs) + productModel.getPrice());
         } else {
 
             binding.addTextTxt.setText("Add to cart");

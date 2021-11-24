@@ -17,6 +17,8 @@ public class ProductEntity {
 
     @ColumnInfo(name = "id")
     private String id;
+    @ColumnInfo(name = "onSale")
+    private boolean onSale;
 
     @ColumnInfo(name = "name")
     private String name;
@@ -78,6 +80,14 @@ public class ProductEntity {
     private String rating;
     private boolean isAddedToCart = false;
 
+
+    public boolean isOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(boolean onSale) {
+        this.onSale = onSale;
+    }
 
     public ArrayList<String> getAllCatList() {
         return allCatList;

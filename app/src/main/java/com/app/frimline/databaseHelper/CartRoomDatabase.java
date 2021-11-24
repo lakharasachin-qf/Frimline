@@ -11,7 +11,7 @@ import com.app.frimline.models.roomModels.daos.WishlistEntityDao;
 import com.app.frimline.models.roomModels.ProductEntity;
 import com.app.frimline.models.roomModels.WishlistEntity;
 
-@Database(entities = {ProductEntity.class, WishlistEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {ProductEntity.class, WishlistEntity.class}, version = 2, exportSchema = false)
 public abstract class CartRoomDatabase extends RoomDatabase {
 
 
@@ -25,6 +25,7 @@ public abstract class CartRoomDatabase extends RoomDatabase {
             mINSTANCE =
                     Room.databaseBuilder(context.getApplicationContext(), CartRoomDatabase.class, "frimline")
                             .allowMainThreadQueries()
+                            .fallbackToDestructiveMigration()
                             .build();
         }
         return mINSTANCE;

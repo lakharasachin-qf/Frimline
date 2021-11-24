@@ -38,6 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         animatorSet1.setDuration(3000);
 
 
+
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(act, CategoryRootActivity.class);
             intent.addCategory(Intent.CATEGORY_HOME);
